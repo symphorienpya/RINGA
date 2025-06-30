@@ -374,5 +374,67 @@ footer {
   background-color: var(--primary-dark);
 }
 
+/* Skills Section Styles */
+#skills {
+  padding: 4rem 1rem;
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 12px;
+  animation: fadeIn 1s ease forwards;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#skills h2 {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.skill h3 {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.skill h3 i {
+  margin-right: 10px;
+  color: var(--accent-color);
+}
+
+.percentage {
+  color: var(--primary-dark);
+  font-weight: bold;
+}
+
+.progress {
+  background: #ddd;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  border-radius: 30px;
+  animation: none;
+}
+
+@keyframes growBar {
+  from { width: 0; }
+  to { width: var(--target-width); }
+}
 
 
