@@ -1,5 +1,35 @@
 // main.js
+let animated = false;
 
+  window.addEventListener("scroll", () => {
+    const section = document.getElementById("skills");
+    const sectionTop = section.getBoundingClientRect().top;
+    const triggerPoint = window.innerHeight - 100;
+
+    if (!animated && sectionTop < triggerPoint) {
+      document.querySelectorAll(".progress-bar").forEach(bar => {
+        const width = bar.getAttribute("data-width");
+        bar.style.setProperty('--target-width', width);
+        bar.style.animation = `growBar 2s ease forwards`;
+      });
+
+      document.querySelectorAll(".percentage").forEach(el => {
+        let count = 0;
+        const target = +el.getAttribute("data-target");
+
+        const interval = setInterval(() => {
+          if (count < target) {
+            count++;
+            el.innerText = `${count}%`;
+          } else {
+            clearInterval(interval);
+          }
+        }, 20);
+      });
+
+      animated = true;
+    }
+  });
 
   document.getElementById("googleFormBtn").addEventListener("click", function () {
     window.open("https://forms.gle/ZyHXr7nrmBu63GGaA", "_blank");
