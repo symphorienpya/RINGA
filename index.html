@@ -249,28 +249,39 @@ const mdaiMessages = document.getElementById("mdai-messages");
 mdaiButton.onclick = () => mdaiChatbox.classList.toggle("hidden");
 mdaiClose.onclick = () => mdaiChatbox.classList.add("hidden");
 
-// Send on Enter
 mdaiInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") sendMessage();
 });
-
-// Send on button click
 mdaiSend.onclick = sendMessage;
 
 function sendMessage() {
   const userInput = mdaiInput.value.trim();
   if (userInput) {
     addMessage("You", userInput);
-    respond(userInput);
+    simulateTyping(userInput);
     mdaiInput.value = "";
   }
 }
 
 function addMessage(sender, text) {
   const msg = document.createElement("div");
+  msg.classList.add("mdai-msg");
   msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
   mdaiMessages.appendChild(msg);
   mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
+}
+
+function simulateTyping(userInput) {
+  const typingMsg = document.createElement("div");
+  typingMsg.classList.add("mdai-typing");
+  typingMsg.innerHTML = `<strong>MDai:</strong> <span class="typing-dots">replying</span>`;
+  mdaiMessages.appendChild(typingMsg);
+  mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
+
+  setTimeout(() => {
+    typingMsg.remove();
+    respond(userInput);
+  }, 5000); // 5 seconds delay
 }
 
 function respond(input) {
@@ -286,8 +297,8 @@ function respond(input) {
   if (isFrench) {
     if (lower.includes("bonjour")) response = "Bonjour! Comment puis-je vous aider ?";
     else if (lower.includes("projets")) response = "Vous pouvez voir mes projets dans la section 'Projets'.";
-    else if (lower.includes("numéro")) response = "Mon développeur peut être contacté au +91 983 629 2481";
-    else if (lower.includes("email")) response = "L'email du développeur est: symphorienpyana065@gmail.com";
+    else if (lower.includes("numéro")) response = "Mon développeur peut être contacté au +91 983 629 2481.";
+    else if (lower.includes("email")) response = "L'email du développeur est : symphorienpyana065@gmail.com.";
     else if (lower.includes("heure") || lower.includes("temps")) response = `Il est actuellement ${timeStr}.`;
     else if (lower.includes("date")) response = `Nous sommes le ${dateStr}.`;
     else if (lower.includes("nom") || lower.includes("êtes-vous")) response = "Je suis MADO, votre assistant intelligent.";
@@ -296,8 +307,8 @@ function respond(input) {
   } else {
     if (lower.includes("hello")) response = "Hello! How can I help you today?";
     else if (lower.includes("project")) response = "You can check my projects in the 'Projects' section.";
-    else if (lower.includes("number") || lower.includes("contact")) response = "You can contact my developer at +91 983 629 2481";
-    else if (lower.includes("email")) response = "My developer's email is: symphorienpyana065@gmail.com";
+    else if (lower.includes("number") || lower.includes("contact")) response = "You can contact my developer at +91 983 629 2481.";
+    else if (lower.includes("email")) response = "My developer's email is: symphorienpyana065@gmail.com.";
     else if (lower.includes("time")) response = `The current time is ${timeStr}.`;
     else if (lower.includes("date")) response = `Today's date is ${dateStr}.`;
     else if (lower.includes("who are you") || lower.includes("your name")) response = "I'm MADO, your AI assistant.";
@@ -305,7 +316,7 @@ function respond(input) {
     else response = "Sorry, I didn’t understand. Try using another keyword.";
   }
 
-  setTimeout(() => addMessage("MDai", response), 600);
+  addMessage("MDai", response);
 }
 
   </script>
