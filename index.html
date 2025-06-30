@@ -190,19 +190,24 @@
 
 
   <!-- MDai Assistant Button -->
-<div id="mdai-chat-button">
-  <img src="images/MD_icon.ico" alt="MDai Icon" class="mdai-icon" />
+<!-- MDai Icon Button -->
+<div id="mdai-wrapper">
+  <button id="mdai-chat-button" title="My name is MD, ask me?">
+    <img src="MD_icon.ico" alt="MDai Icon" width="60" />
+    <div class="mdai-label">MDai</div>
+  </button>
+  
+  <!-- Chatbox -->
+  <div id="mdai-chatbox" class="hidden">
+    <div class="mdai-header">
+      <span>👋 I'm MDai</span>
+      <button id="mdai-close">✖</button>
+    </div>
+    <div id="mdai-messages" class="mdai-messages"></div>
+    <input id="mdai-input" type="text" placeholder="Ask me something..." />
+  </div>
 </div>
 
-<!-- MDai Chatbox -->
-<div id="mdai-chatbox" class="hidden">
-  <div class="mdai-header">
-    <strong>MDai</strong>
-    <button id="mdai-close">×</button>
-  </div>
-  <div id="mdai-messages" class="mdai-messages"></div>
-  <input type="text" id="mdai-input" placeholder="Type your question..." />
-</div>
 
   <!-- Footer -->
   <footer>
@@ -260,7 +265,6 @@ function respond(input) {
   const lower = input.toLowerCase();
   let response = "";
 
-  // Language detection (simple)
   const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous/.test(lower);
 
   if (isFrench) {
