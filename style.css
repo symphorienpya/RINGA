@@ -514,3 +514,69 @@ footer {
 }
 
 
+#mdai-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
+  z-index: 9999;
+}
+
+#mdai-chat-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mdai-label {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+}
+
+#mdai-chatbox {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 280px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+#mdai-chatbox.hidden {
+  display: none;
+}
+
+.mdai-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#mdai-messages {
+  flex-grow: 1;
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+#mdai-input {
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+
+
