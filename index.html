@@ -196,7 +196,7 @@
     <img src="images/MD_icon.ico" alt="MDai Icon" width="60" />
     <div class="mdai-label">MDai</div>
   </button>
-  
+
   <!-- Chatbox -->
   <div id="mdai-chatbox" class="hidden">
     <div class="mdai-header">
@@ -204,7 +204,12 @@
       <button id="mdai-close">✖</button>
     </div>
     <div id="mdai-messages" class="mdai-messages"></div>
-    <input id="mdai-input" type="text" placeholder="Ask me something..." />
+
+    <!-- Input + Send -->
+    <div class="mdai-input-container">
+      <input id="mdai-input" type="text" placeholder="Ask me something..." />
+      <button id="mdai-send" title="Send">📤</button>
+    </div>
   </div>
 </div>
 
@@ -234,14 +239,46 @@
     });
 
 
+const mdaiButton = document.getElementById("mdai-chat-button");
+const mdaiChatbox = document.getElementById("mdai-chatbox");
+const mdaiClose = document.getElementById("mdai-close");
+const mdaiInput = document.getElementById("mdai-input");
+const mdaiSend = document.getElementById("mdai-send");
+const mdaiMessages = document.getElementById("mdai-messages");
+
+mdaiButton.onclick = () => mdaiChatbox.classList.toggle("hidden");
+mdaiClose.onclick = () => mdaiChatbox.classList.add("hidden");
+
+// Send on Enter
+mdaiInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") sendMessage();
+});
+
+// Send on button click
+mdaiSend.onclick = sendMessage;
+
+function sendMessage() {
+  const userInput = mdaiInput.value.trim();
+  if (userInput) {
+    addMessage("You", userInput);
+    respond(userInput);
+    mdaiInput.value = "";
+  }
+}
+
+function addMessage(sender, text) {
+  const msg = document.createElement("div");
+  msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  mdaiMessages.appendChild(msg);
+  mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
+}
+
 function respond(input) {
   const lower = input.toLowerCase();
   let response = "";
 
-  // Language detection (basic)
   const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous|numéro|email|heure|nom|êtes-vous/.test(lower);
 
-  // Date and time
   const now = new Date();
   const dateStr = now.toLocaleDateString();
   const timeStr = now.toLocaleTimeString();
@@ -253,7 +290,7 @@ function respond(input) {
     else if (lower.includes("email")) response = "L'email du développeur est: symphorienpyana065@gmail.com";
     else if (lower.includes("heure") || lower.includes("temps")) response = `Il est actuellement ${timeStr}.`;
     else if (lower.includes("date")) response = `Nous sommes le ${dateStr}.`;
-    else if (lower.includes("nom") || lower.includes("êtes-vous")) response = "Je suis MD, votre assistant intelligent.";
+    else if (lower.includes("nom") || lower.includes("êtes-vous")) response = "Je suis MADO, votre assistant intelligent.";
     else if (lower.includes("plateforme")) response = "Cette plateforme est conçue pour vous aider à explorer les projets et services du développeur.";
     else response = "Je suis désolé, je n'ai pas compris. Essayez avec une autre question.";
   } else {
@@ -263,7 +300,7 @@ function respond(input) {
     else if (lower.includes("email")) response = "My developer's email is: symphorienpyana065@gmail.com";
     else if (lower.includes("time")) response = `The current time is ${timeStr}.`;
     else if (lower.includes("date")) response = `Today's date is ${dateStr}.`;
-    else if (lower.includes("who are you") || lower.includes("your name")) response = "I'm MD, your AI assistant.";
+    else if (lower.includes("who are you") || lower.includes("your name")) response = "I'm MADO, your AI assistant.";
     else if (lower.includes("platform")) response = "This platform helps you discover projects and get assistance from the developer.";
     else response = "Sorry, I didn’t understand. Try using another keyword.";
   }
