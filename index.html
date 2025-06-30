@@ -284,6 +284,19 @@ function simulateTyping(userInput) {
   }, 5000); // 5 seconds delay
 }
 
+
+    function addMessage(sender, text) {
+  const msg = document.createElement("div");
+  msg.classList.add("mdai-msg");
+
+  if (sender === "You") msg.classList.add("user");
+  else msg.classList.add("bot");
+
+  msg.innerHTML = `<strong>${sender}</strong>${text}`;
+  mdaiMessages.appendChild(msg);
+  mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
+}
+
 function respond(input) {
   const lower = input.toLowerCase();
   let response = "";
