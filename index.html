@@ -239,69 +239,11 @@
     });
 
 
-const mdaiButton = document.getElementById("mdai-chat-button");
-const mdaiChatbox = document.getElementById("mdai-chatbox");
-const mdaiClose = document.getElementById("mdai-close");
-const mdaiInput = document.getElementById("mdai-input");
-const mdaiSend = document.getElementById("mdai-send");
-const mdaiMessages = document.getElementById("mdai-messages");
-
-mdaiButton.onclick = () => mdaiChatbox.classList.toggle("hidden");
-mdaiClose.onclick = () => mdaiChatbox.classList.add("hidden");
-
-mdaiInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") sendMessage();
-});
-mdaiSend.onclick = sendMessage;
-
-function sendMessage() {
-  const userInput = mdaiInput.value.trim();
-  if (userInput) {
-    addMessage("You", userInput);
-    simulateTyping(userInput);
-    mdaiInput.value = "";
-  }
-}
-
-function addMessage(sender, text) {
-  const msg = document.createElement("div");
-  msg.classList.add("mdai-msg");
-  msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  mdaiMessages.appendChild(msg);
-  mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
-}
-
-function simulateTyping(userInput) {
-  const typingMsg = document.createElement("div");
-  typingMsg.classList.add("mdai-typing");
-  typingMsg.innerHTML = `<strong>MDai:</strong> <span class="typing-dots">replying</span>`;
-  mdaiMessages.appendChild(typingMsg);
-  mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
-
-  setTimeout(() => {
-    typingMsg.remove();
-    respond(userInput);
-  }, 5000); // 5 seconds delay
-}
-
-
-    function addMessage(sender, text) {
-  const msg = document.createElement("div");
-  msg.classList.add("mdai-msg");
-
-  if (sender === "You") msg.classList.add("user");
-  else msg.classList.add("bot");
-
-  msg.innerHTML = `<strong>${sender}</strong>${text}`;
-  mdaiMessages.appendChild(msg);
-  mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
-}
-
 function respond(input) {
   const lower = input.toLowerCase();
   let response = "";
 
-  const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous|numéro|email|heure|nom|êtes-vous/.test(lower);
+  const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous|numéro|email|heure|nom|êtes-vous|linkedin|github|langues|localisation|où|services|technologies|outils/.test(lower);
 
   const now = new Date();
   const dateStr = now.toLocaleDateString();
@@ -316,6 +258,12 @@ function respond(input) {
     else if (lower.includes("date")) response = `Nous sommes le ${dateStr}.`;
     else if (lower.includes("nom") || lower.includes("êtes-vous")) response = "Je suis MADO, votre assistant intelligent.";
     else if (lower.includes("plateforme")) response = "Cette plateforme est conçue pour vous aider à explorer les projets et services du développeur.";
+    else if (lower.includes("linkedin")) response = "Voici le LinkedIn du développeur : https://www.linkedin.com/in/symphorienpyana";
+    else if (lower.includes("github")) response = "Vous pouvez explorer son GitHub ici : https://github.com/symphorienpyana";
+    else if (lower.includes("localisation") || lower.includes("où")) response = "Le développeur est basé à kolkata, inde.";
+    else if (lower.includes("langues")) response = "Le développeur parle principalement le français et l’anglais.";
+    else if (lower.includes("services")) response = "Il offre des services en développement web, design UI/UX, et assistants IA.";
+    else if (lower.includes("technologies") || lower.includes("outils")) response = "Il utilise JavaScript, React, Node.js, Tailwind CSS, Python, et d’autres.";
     else response = "Je suis désolé, je n'ai pas compris. Essayez avec une autre question.";
   } else {
     if (lower.includes("hello")) response = "Hello! How can I help you today?";
@@ -326,11 +274,18 @@ function respond(input) {
     else if (lower.includes("date")) response = `Today's date is ${dateStr}.`;
     else if (lower.includes("who are you") || lower.includes("your name")) response = "I'm MADO, your AI assistant.";
     else if (lower.includes("platform")) response = "This platform helps you discover projects and get assistance from the developer.";
+    else if (lower.includes("linkedin")) response = "Here is my developer’s LinkedIn: https://www.linkedin.com/in/symphorienpyana";
+    else if (lower.includes("github")) response = "Explore the GitHub profile here: https://github.com/symphorienpyana";
+    else if (lower.includes("location") || lower.includes("where")) response = "My developer is based in kolkata, India.";
+    else if (lower.includes("language") || lower.includes("speak")) response = "My developer speaks both French and English.";
+    else if (lower.includes("services")) response = "He offers web development, UI/UX design, and AI assistant solutions.";
+    else if (lower.includes("technology") || lower.includes("tools")) response = "He works with JavaScript, React, Node.js, Python, Tailwind CSS, and more.";
     else response = "Sorry, I didn’t understand. Try using another keyword.";
   }
 
   addMessage("MDai", response);
 }
+
 
   </script>
 </body>
