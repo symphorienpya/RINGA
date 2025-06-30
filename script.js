@@ -1,5 +1,9 @@
 // main.js
 
+
+  document.getElementById("googleFormBtn").addEventListener("click", function () {
+    window.open("https://forms.gle/ZyHXr7nrmBu63GGaA", "_blank");
+  });
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
