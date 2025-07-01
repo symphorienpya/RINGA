@@ -243,86 +243,129 @@ function respond(input) {
   const lower = input.toLowerCase();
   let response = "";
 
-  // Updated keyword list to include all needed French words
-  const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous|numéro|email|heure|temps|date|nom|êtes-vous|plateforme|linkedin|github|langues|localisation|où|services|technologies|outils|projets/.test(lower);
+ const mdaiButton = document.getElementById("mdai-chat-button");
+  const mdaiChatbox = document.getElementById("mdai-chatbox");
+  const mdaiClose = document.getElementById("mdai-close");
+  const mdaiSend = document.getElementById("mdai-send");
+  const mdaiInput = document.getElementById("mdai-input");
+  const mdaiMessages = document.getElementById("mdai-messages");
 
-  const now = new Date();
-  const dateStr = now.toLocaleDateString();
-  const timeStr = now.toLocaleTimeString();
+  // Show chatbox
+  mdaiButton.addEventListener("click", () => {
+    mdaiChatbox.classList.remove("hidden");
+  });
 
-  if (isFrench) {
-    if (lower.includes("bonjour") || lower.includes("salut")) {
-      response = "Bonjour! Comment puis-je vous aider ?";
-    } else if (lower.includes("projets")) {
-      response = "Vous pouvez voir mes projets dans la section 'Projets'.";
-    } else if (lower.includes("numéro") || lower.includes("contact")) {
-      response = "Mon développeur peut être contacté au +91 983 629 2481.";
-    } else if (lower.includes("email")) {
-      response = "L'email du développeur est : symphorienpyana065@gmail.com.";
-    } else if (lower.includes("heure") || lower.includes("temps")) {
-      response = `Il est actuellement ${timeStr}.`;
-    } else if (lower.includes("date")) {
-      response = `Nous sommes le ${dateStr}.`;
-    } else if (lower.includes("nom") || lower.includes("êtes-vous")) {
-      response = "Je suis MADO, votre assistant intelligent.";
-    } else if (lower.includes("plateforme")) {
-      response = "Cette plateforme est conçue pour vous aider à explorer les projets et services du développeur.";
-    } else if (lower.includes("linkedin")) {
-      response = "Voici le LinkedIn du développeur : https://www.linkedin.com/in/symphorienpyana";
-    } else if (lower.includes("github")) {
-      response = "Vous pouvez explorer son GitHub ici : https://github.com/symphorienpyana";
-    } else if (lower.includes("localisation") || lower.includes("où")) {
-      response = "Le développeur est basé à Kolkata, Inde.";
-    } else if (lower.includes("langues") || lower.includes("parle")) {
-      response = "Le développeur parle principalement le français et l’anglais.";
-    } else if (lower.includes("services")) {
-      response = "Il offre des services en développement web, design UI/UX, et assistants IA.";
-    } else if (lower.includes("technologies") || lower.includes("outils")) {
-      response = "Il utilise JavaScript, React, Node.js, Tailwind CSS, Python, et d’autres.";
-    } else {
-      response = "Je suis désolé, je n'ai pas compris. Essayez avec une autre question.";
+  // Hide chatbox
+  mdaiClose.addEventListener("click", () => {
+    mdaiChatbox.classList.add("hidden");
+  });
+
+  // Send on button click
+  mdaiSend.addEventListener("click", () => {
+    const input = mdaiInput.value.trim();
+    if (input !== "") {
+      addMessage("You", input);
+      respond(input);
+      mdaiInput.value = "";
     }
-  } else {
-    if (lower.includes("hello") || lower.includes("hi")) {
-      response = "Hello! How can I help you today?";
-    } else if (lower.includes("project")) {
-      response = "You can check my projects in the 'Projects' section.";
-    } else if (lower.includes("number") || lower.includes("contact")) {
-      response = "You can contact my developer at +91 983 629 2481.";
-    } else if (lower.includes("email")) {
-      response = "My developer's email is: symphorienpyana065@gmail.com.";
-    } else if (lower.includes("time")) {
-      response = `The current time is ${timeStr}.`;
-    } else if (lower.includes("date")) {
-      response = `Today's date is ${dateStr}.`;
-    } else if (lower.includes("who are you") || lower.includes("your name")) {
-      response = "I'm MADO, your AI assistant.";
-    } else if (lower.includes("platform")) {
-      response = "This platform helps you discover projects and get assistance from the developer.";
-    } else if (lower.includes("linkedin")) {
-      response = "Here is my developer’s LinkedIn: https://www.linkedin.com/in/symphorienpyana";
-    } else if (lower.includes("github")) {
-      response = "Explore the GitHub profile here: https://github.com/symphorienpyana";
-    } else if (lower.includes("location") || lower.includes("where")) {
-      response = "My developer is based in Kolkata, India.";
-    } else if (lower.includes("language") || lower.includes("speak")) {
-      response = "My developer speaks both French and English.";
-    } else if (lower.includes("services")) {
-      response = "He offers web development, UI/UX design, and AI assistant solutions.";
-    } else if (lower.includes("technology") || lower.includes("tools")) {
-      response = "He works with JavaScript, React, Node.js, Python, Tailwind CSS, and more.";
-    } else {
-      response = "Sorry, I didn’t understand. Try using another keyword.";
+  });
+
+  // Send on Enter key
+  mdaiInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      mdaiSend.click();
     }
+  });
+
+  // Add message to chat
+  function addMessage(sender, text) {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = "mdai-message";
+    msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    mdaiMessages.appendChild(msgDiv);
+    mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
   }
 
-  // Log for testing or debugging
-  console.log("MDai response:", response);
+  // Respond function with your logic
+  function respond(input) {
+    const lower = input.toLowerCase();
+    let response = "";
 
-  // Append message to the chat
-  addMessage("MDai", response);
-}
+    const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous|numéro|email|heure|temps|date|nom|êtes-vous|plateforme|linkedin|github|langues|localisation|où|services|technologies|outils|projets/.test(lower);
 
+    const now = new Date();
+    const dateStr = now.toLocaleDateString();
+    const timeStr = now.toLocaleTimeString();
+
+    if (isFrench) {
+      if (lower.includes("bonjour") || lower.includes("salut")) {
+        response = "Bonjour! Comment puis-je vous aider ?";
+      } else if (lower.includes("projets")) {
+        response = "Vous pouvez voir mes projets dans la section 'Projets'.";
+      } else if (lower.includes("numéro") || lower.includes("contact")) {
+        response = "Mon développeur peut être contacté au +91 983 629 2481.";
+      } else if (lower.includes("email")) {
+        response = "L'email du développeur est : symphorienpyana065@gmail.com.";
+      } else if (lower.includes("heure") || lower.includes("temps")) {
+        response = `Il est actuellement ${timeStr}.`;
+      } else if (lower.includes("date")) {
+        response = `Nous sommes le ${dateStr}.`;
+      } else if (lower.includes("nom") || lower.includes("êtes-vous")) {
+        response = "Je suis MADO, votre assistant intelligent.";
+      } else if (lower.includes("plateforme")) {
+        response = "Cette plateforme est conçue pour vous aider à explorer les projets et services du développeur.";
+      } else if (lower.includes("linkedin")) {
+        response = "Voici le LinkedIn du développeur : https://www.linkedin.com/in/symphorienpyana";
+      } else if (lower.includes("github")) {
+        response = "Vous pouvez explorer son GitHub ici : https://github.com/symphorienpyana";
+      } else if (lower.includes("localisation") || lower.includes("où")) {
+        response = "Le développeur est basé à Kolkata, Inde.";
+      } else if (lower.includes("langues") || lower.includes("parle")) {
+        response = "Le développeur parle principalement le français et l’anglais.";
+      } else if (lower.includes("services")) {
+        response = "Il offre des services en développement web, design UI/UX, et assistants IA.";
+      } else if (lower.includes("technologies") || lower.includes("outils")) {
+        response = "Il utilise JavaScript, React, Node.js, Tailwind CSS, Python, et d’autres.";
+      } else {
+        response = "Je suis désolé, je n'ai pas compris. Essayez avec une autre question.";
+      }
+    } else {
+      if (lower.includes("hello") || lower.includes("hi")) {
+        response = "Hello! How can I help you today?";
+      } else if (lower.includes("project")) {
+        response = "You can check my projects in the 'Projects' section.";
+      } else if (lower.includes("number") || lower.includes("contact")) {
+        response = "You can contact my developer at +91 983 629 2481.";
+      } else if (lower.includes("email")) {
+        response = "My developer's email is: symphorienpyana065@gmail.com.";
+      } else if (lower.includes("time")) {
+        response = `The current time is ${timeStr}.`;
+      } else if (lower.includes("date")) {
+        response = `Today's date is ${dateStr}.`;
+      } else if (lower.includes("who are you") || lower.includes("your name")) {
+        response = "I'm MADO, your AI assistant.";
+      } else if (lower.includes("platform")) {
+        response = "This platform helps you discover projects and get assistance from the developer.";
+      } else if (lower.includes("linkedin")) {
+        response = "Here is my developer’s LinkedIn: https://www.linkedin.com/in/symphorienpyana";
+      } else if (lower.includes("github")) {
+        response = "Explore the GitHub profile here: https://github.com/symphorienpyana";
+      } else if (lower.includes("location") || lower.includes("where")) {
+        response = "My developer is based in Kolkata, India.";
+      } else if (lower.includes("language") || lower.includes("speak")) {
+        response = "My developer speaks both French and English.";
+      } else if (lower.includes("services")) {
+        response = "He offers web development, UI/UX design, and AI assistant solutions.";
+      } else if (lower.includes("technology") || lower.includes("tools")) {
+        response = "He works with JavaScript, React, Node.js, Python, Tailwind CSS, and more.";
+      } else {
+        response = "Sorry, I didn’t understand. Try using another keyword.";
+      }
+    }
+
+    console.log("MDai response:", response);
+    addMessage("MDai", response);
+  }
   </script>
 </body>
 </html>
