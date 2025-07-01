@@ -239,54 +239,51 @@
     });
 
 
-function respond(input) {
-  const lower = input.toLowerCase();
-  let response = "";
 
- const mdaiButton = document.getElementById("mdai-chat-button");
+  // Get DOM elements
+  const mdaiButton = document.getElementById("mdai-chat-button");
   const mdaiChatbox = document.getElementById("mdai-chatbox");
   const mdaiClose = document.getElementById("mdai-close");
   const mdaiSend = document.getElementById("mdai-send");
   const mdaiInput = document.getElementById("mdai-input");
   const mdaiMessages = document.getElementById("mdai-messages");
 
-  // Show chatbox
+  // Toggle chatbox visibility
   mdaiButton.addEventListener("click", () => {
     mdaiChatbox.classList.remove("hidden");
   });
 
-  // Hide chatbox
   mdaiClose.addEventListener("click", () => {
     mdaiChatbox.classList.add("hidden");
   });
 
-  // Send on button click
+  // Send message
   mdaiSend.addEventListener("click", () => {
     const input = mdaiInput.value.trim();
     if (input !== "") {
-      addMessage("You", input);
+      addMessage("You", input, "user");
       respond(input);
       mdaiInput.value = "";
     }
   });
 
-  // Send on Enter key
+  // Enter key submits
   mdaiInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       mdaiSend.click();
     }
   });
 
-  // Add message to chat
-  function addMessage(sender, text) {
+  // Add message to chat UI
+  function addMessage(sender, text, type = "bot") {
     const msgDiv = document.createElement("div");
-    msgDiv.className = "mdai-message";
+    msgDiv.className = `mdai-msg ${type}`;
     msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
     mdaiMessages.appendChild(msgDiv);
     mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
   }
 
-  // Respond function with your logic
+  // Respond based on language and keyword
   function respond(input) {
     const lower = input.toLowerCase();
     let response = "";
@@ -364,8 +361,11 @@ function respond(input) {
     }
 
     console.log("MDai response:", response);
-    addMessage("MDai", response);
+    addMessage("MDai", response, "bot");
   }
+
+
+
   </script>
 </body>
 </html>
