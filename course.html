@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Courses</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #eef2f3, #ffffff);
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #2a2a2a;
+    }
+
+    .info-banner {
+      background-color: #0077cc;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      text-align: center;
+      animation: slideIn 1s ease;
+    }
+
+    @keyframes slideIn {
+      0% { transform: translateX(-100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .course-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #0077cc;
+    }
+
+    .course-title i {
+      color: #005fa3;
+    }
+
+    .course-info {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .enroll-btn {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .enroll-btn i {
+      font-size: 1rem;
+    }
+
+    .enroll-btn:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .course-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2><i class="fas fa-graduation-cap"></i> Available Courses</h2>
+
+  <div class="info-banner">
+    <i class="fas fa-info-circle"></i> For any course, you must pay <strong>5000 FC</strong> for registration.
+  </div>
+
+  <div class="course-list">
+    <div class="course-card">
+      <div class="course-title"><i class="fas fa-code"></i> WEB DEVELOPMENT</div>
+      <div class="course-info">Duration: 10 weeks <br> Price: $45 (or equivalent in FC)</div>
+      <button class="enroll-btn" onclick="location.href='payment.html'"><i class="fas fa-sign-in-alt"></i> Enroll Now</button>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title"><i class="fas fa-paint-brush"></i> PHOTOSHOP</div>
+      <div class="course-info">Duration: 4 weeks <br> Price: 45,000 FC</div>
+      <button class="enroll-btn" onclick="location.href='payment.html'"><i class="fas fa-sign-in-alt"></i> Enroll Now</button>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title"><i class="fas fa-table"></i> EXCEL</div>
+      <div class="course-info">Duration: 5 weeks <br> Price: 40,000 FC</div>
+      <button class="enroll-btn" onclick="location.href='payment.html'"><i class="fas fa-sign-in-alt"></i> Enroll Now</button>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title"><i class="fas fa-language"></i> ENGLISH 1</div>
+      <div class="course-info">Duration: 4 weeks <br> Price: 20,000 FC</div>
+      <button class="enroll-btn" onclick="location.href='payment.html'"><i class="fas fa-sign-in-alt"></i> Enroll Now</button>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title"><i class="fas fa-language"></i> ENGLISH 2</div>
+      <div class="course-info">Duration: 4 weeks <br> Price: 30,000 FC</div>
+      <button class="enroll-btn" onclick="location.href='payment.html'"><i class="fas fa-sign-in-alt"></i> Enroll Now</button>
+    </div>
+
+    <div class="course-card">
+      <div class="course-title"><i class="fas fa-language"></i> ENGLISH 3</div>
+      <div class="course-info">Duration: 4 weeks <br> Price: 30,000 FC</div>
+      <button class="enroll-btn" onclick="location.href='payment.html'"><i class="fas fa-sign-in-alt"></i> Enroll Now</button>
+    </div>
+  </div>
+
+
+
+  <!-- SweetAlert2 CDN (only once in your HTML file) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Structured course data (optional for future use)
+  const courses = [
+    { title: "WEB DEVELOPMENT", duration: "10 weeks", price: "45 USD" },
+    { title: "PHOTOSHOP", duration: "4 weeks", price: "45,000 FC" },
+    { title: "EXCEL", duration: "5 weeks", price: "40,000 FC" },
+    { title: "ENGLISH 1", duration: "4 weeks", price: "20,000 FC" },
+    { title: "ENGLISH 2", duration: "4 weeks", price: "30,000 FC" },
+    { title: "ENGLISH 3", duration: "4 weeks", price: "30,000 FC" }
+  ];
+
+  // Add event listener to each "Enroll" button
+  document.querySelectorAll('.enroll-btn').forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const courseCard = button.closest('.course-card');
+      const title = courseCard.querySelector('.course-title').innerText.trim();
+      const info = courseCard.querySelector('.course-info').innerText.trim();
+
+      // Extract price from info
+      const priceMatch = info.match(/([\d,.]+)\s?(FC|USD)?/i);
+      let totalAmount = 0;
+      let currency = 'FC';
+
+      if (priceMatch) {
+        let base = priceMatch[1].replace(',', '');
+        totalAmount = parseFloat(base);
+        currency = priceMatch[2]?.toUpperCase() || 'FC';
+
+        // Add 500 FC or $1 registration fee
+        if (currency === 'FC') {
+          totalAmount += 500;
+        } else if (currency === 'USD') {
+          totalAmount += 1;
+        }
+      }
+
+      // Show confirmation modal
+      Swal.fire({
+        title: 'Confirm Enrollment',
+        html: `
+          <strong>${title}</strong><br>
+          <small>${info}</small><br><br>
+          + <strong>Registration Fee: 500 FC</strong><br>
+          <strong>Total: ${totalAmount} ${currency}</strong>
+        `,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Enroll Me!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#d33',
+        backdrop: true,
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Save selected course data to localStorage
+          localStorage.setItem('selectedCourseTitle', title);
+          localStorage.setItem('selectedCourseInfo', info);
+          localStorage.setItem('selectedCourseTotal', `${totalAmount} ${currency}`);
+
+          // Redirect notice
+          Swal.fire({
+            icon: 'success',
+            title: 'Redirecting...',
+            text: 'You will be redirected to the payment page.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
+          setTimeout(() => {
+            window.location.href = 'payment.html';
+          }, 1600);
+        }
+      });
+    });
+  });
+
+  console.log('✅ Course interaction script loaded successfully');
+</script>
+
+</body>
+</html>
