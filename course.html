@@ -175,17 +175,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  // Structured course data (optional for future use)
-  const courses = [
-    { title: "WEB DEVELOPMENT", duration: "10 weeks", price: "45 USD" },
-    { title: "PHOTOSHOP", duration: "4 weeks", price: "45,000 FC" },
-    { title: "EXCEL", duration: "5 weeks", price: "40,000 FC" },
-    { title: "ENGLISH 1", duration: "4 weeks", price: "20,000 FC" },
-    { title: "ENGLISH 2", duration: "4 weeks", price: "30,000 FC" },
-    { title: "ENGLISH 3", duration: "4 weeks", price: "30,000 FC" }
-  ];
-
-  // Add event listener to each "Enroll" button
   document.querySelectorAll('.enroll-btn').forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
@@ -194,31 +183,42 @@
       const title = courseCard.querySelector('.course-title').innerText.trim();
       const info = courseCard.querySelector('.course-info').innerText.trim();
 
-      // Extract price from info
-      const priceMatch = info.match(/([\d,.]+)\s?(FC|USD)?/i);
-      let totalAmount = 0;
-      let currency = 'FC';
-
-      if (priceMatch) {
-        let base = priceMatch[1].replace(',', '');
-        totalAmount = parseFloat(base);
-        currency = priceMatch[2]?.toUpperCase() || 'FC';
-
-        // Add 500 FC or $1 registration fee
-        if (currency === 'FC') {
-          totalAmount += 500;
-        } else if (currency === 'USD') {
-          totalAmount += 1;
-        }
+      // Match the line containing price
+      const priceLineMatch = info.match(/Price:\s*([$FC]*[\d,.]+)/i);
+      let rawPrice = "0";
+      if (priceLineMatch) {
+        rawPrice = priceLineMatch[1].trim(); // e.g., "$45" or "45,000 FC"
       }
 
-      // Show confirmation modal
+      let baseAmount = 0;
+      let currency = "FC";
+
+      // Detect currency
+      if (rawPrice.includes("$") || rawPrice.toUpperCase().includes("USD")) {
+        baseAmount = parseFloat(rawPrice.replace(/[^0-9.]/g, ""));
+        currency = "USD";
+      } else {
+        baseAmount = parseFloat(rawPrice.replace(/[^0-9]/g, ""));
+        currency = "FC";
+      }
+
+      const registrationFee = currency === "USD" ? 1 : 5000;
+      const totalAmount = baseAmount + registrationFee;
+
+      // Save all values to localStorage
+      localStorage.setItem("selectedCourseTitle", title);
+      localStorage.setItem("selectedCourseInfo", info);
+      localStorage.setItem("coursePrice", `${baseAmount} ${currency}`);
+      localStorage.setItem("registrationFee", `${registrationFee} ${currency}`);
+      localStorage.setItem("selectedCourseTotal", `${totalAmount} ${currency}`);
+
+      // SweetAlert confirmation
       Swal.fire({
         title: 'Confirm Enrollment',
         html: `
           <strong>${title}</strong><br>
           <small>${info}</small><br><br>
-          + <strong>Registration Fee: 500 FC</strong><br>
+          + Registration Fee: <strong>${registrationFee} ${currency}</strong><br>
           <strong>Total: ${totalAmount} ${currency}</strong>
         `,
         icon: 'question',
@@ -226,17 +226,9 @@
         confirmButtonText: 'Yes, Enroll Me!',
         cancelButtonText: 'Cancel',
         confirmButtonColor: '#28a745',
-        cancelButtonColor: '#d33',
-        backdrop: true,
-        allowOutsideClick: false
+        cancelButtonColor: '#d33'
       }).then((result) => {
         if (result.isConfirmed) {
-          // Save selected course data to localStorage
-          localStorage.setItem('selectedCourseTitle', title);
-          localStorage.setItem('selectedCourseInfo', info);
-          localStorage.setItem('selectedCourseTotal', `${totalAmount} ${currency}`);
-
-          // Redirect notice
           Swal.fire({
             icon: 'success',
             title: 'Redirecting...',
@@ -252,8 +244,6 @@
       });
     });
   });
-
-  console.log('✅ Course interaction script loaded successfully');
 </script>
 
 </body>
