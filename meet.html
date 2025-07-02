@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join Our Live Session</title>
+  <style>
+    /* Reset + Background */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1a73e8, #4285f4);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Floating Card */
+    .card {
+      background: #fff;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: floatIn 0.8s ease-out;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    @keyframes floatIn {
+      0% {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    input[type="password"] {
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      width: 100%;
+      outline: none;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    input[type="password"]:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #1a73e8, #155ab6);
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #0f59b2, #0b3c8c);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #link-container {
+      margin-top: 25px;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🔐 Enter Access Code</h1>
+    <input type="password" id="access-code" placeholder="Enter secret code" />
+    <button class="btn" onclick="verifyCode()">Submit</button>
+
+    <div id="link-container" class="hidden">
+      <a id="join-link" class="btn" href="#" target="_blank">🎥 Join Google Meet</a>
+    </div>
+  </div>
+
+  <script>
+    const ACCESS_CODE = "openMDai2024"; // 🔐 Your access code
+    const MEET_URL = "https://meet.google.com/abc-defg-hij"; // 🔗 Your real Meet link
+
+   function verifyCode() {
+  const input = document.getElementById("access-code").value.trim();
+  const linkContainer = document.getElementById("link-container");
+  const joinLink = document.getElementById("join-link");
+
+  if (input === ACCESS_CODE) {
+    joinLink.href = MEET_URL;
+    linkContainer.classList.remove("hidden");
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Access Granted!',
+      html: '<strong>You may now join the session 🎥</strong><br>Click the button below.',
+      showConfirmButton: false,
+      timer: 3000,
+      background: '#eaf6ff',
+      color: '#1a73e8',
+      toast: false,
+      position: 'center',
+    });
+
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Incorrect Code ❌',
+      text: 'Please double-check and try again.',
+      confirmButtonColor: '#d33',
+      background: '#fff0f0',
+      color: '#cc0000'
+    });
+  }
+}
+
+  </script>
+</body>
+</html>
