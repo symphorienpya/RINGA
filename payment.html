@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Payment | MDai</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #eef2f3, #ffffff);
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    .payment-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .payment-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.7rem;
+      color: #0077cc;
+    }
+
+    .payment-container .form-group {
+      margin-bottom: 15px;
+    }
+
+    .payment-container input,
+    .payment-container select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fdfdfd;
+      transition: border-color 0.3s ease;
+    }
+
+    .payment-container input:focus,
+    .payment-container select:focus {
+      border-color: #0077cc;
+      outline: none;
+    }
+
+    .payment-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-container button:hover {
+      background-color: #218838;
+    }
+
+    .payment-container button i {
+      font-size: 1rem;
+    }
+
+    .info-banner {
+      background-color: #0077cc;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      text-align: center;
+      animation: slideIn 1s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .payment-container {
+        padding: 25px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="info-banner">
+    <i class="fas fa-info-circle"></i> Registration fee of <strong>5000 FC</strong> is required before payment.
+  </div>
+
+  <div class="payment-container">
+    <h2><i class="fas fa-credit-card"></i> Course Payment</h2>
+    <form id="paymentForm">
+      <div class="form-group">
+        <input type="text" placeholder="Full Name" required />
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email Address" required />
+      </div>
+      <div class="form-group">
+        <input type="number" placeholder="Amount (USD or FC)" required />
+      </div>
+      <div class="form-group">
+        <select required>
+          <option value="">Select Payment Method</option>
+          <option value="card">💳 Credit/Debit Card</option>
+          <option value="mobile">📱 M-PESA</option>
+        </select>
+      </div>
+      <button type="submit"><i class="fas fa-paper-plane"></i> Pay Now</button>
+    </form>
+  </div>
+
+
+<!-- EmailJS & SweetAlert2 -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Initialize EmailJS FIRST
+  document.addEventListener("DOMContentLoaded", function () {
+    emailjs.init("tL8fd3zBZVEinrC9b"); // Your EmailJS public key
+
+    const form = document.getElementById("paymentForm");
+
+    if (!form) {
+      console.error("Form with ID 'paymentForm' not found.");
+      return;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const inputs = this.querySelectorAll('input, select');
+      let isValid = true;
+      const formData = {};
+
+      inputs.forEach(input => {
+        const value = input.value.trim();
+        if (!value) isValid = false;
+        formData[input.placeholder || input.name || 'field'] = value;
+      });
+
+      if (!isValid) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Missing Fields',
+          text: 'Please complete all fields before submitting.',
+          confirmButtonColor: '#d33'
+        });
+        return;
+      }
+
+      const to_name = formData["Full Name"];
+      const course_title = localStorage.getItem("selectedCourseTitle") || "Unknown Course";
+      const course_info = localStorage.getItem("selectedCourseInfo") || "No info";
+      const total_amount = localStorage.getItem("selectedCourseTotal") || formData["Amount (USD or FC)"];
+
+      const message_html = `
+        <div style="font-family: 'Segoe UI', Tahoma, sans-serif; padding: 20px;">
+          <div style="text-align: center;">
+            <img src="https://yourdomain.com/path-to-your-logo.png" alt="MDai Logo" width="80">
+            <h2 style="margin: 0; color: #333;">MDai Courses</h2>
+          </div>
+          <p>Hello <strong>${to_name}</strong>,</p>
+          <p>Thank you for enrolling in <strong>${course_title}</strong>!</p>
+          <div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+            <p><strong>Course Details:</strong><br>
+            ${course_info}<br>
+            + Registration Fee: <strong>500 FC</strong><br>
+            Total Paid: <strong>${total_amount}</strong></p>
+          </div>
+          <p>We have received your registration and payment request. Our team will contact you soon with the next steps.</p>
+          <p>— MDai Courses Team</p>
+        </div>
+      `;
+
+      emailjs.send("service_osvola7", "template_12nvate", {
+        to_name,
+        course_title,
+        course_info,
+        total_amount,
+        message_html
+      })
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Payment Submitted',
+          text: 'Thank you for your payment. A confirmation email has been sent.',
+          confirmButtonColor: '#28a745'
+        });
+        form.reset();
+        localStorage.clear();
+      })
+      .catch(error => {
+        console.error("EmailJS Error:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Email Failed',
+          text: 'Something went wrong while sending the email.',
+          confirmButtonColor: '#d33'
+        });
+      });
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
