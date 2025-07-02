@@ -121,23 +121,29 @@
   <div class="payment-container">
     <h2><i class="fas fa-credit-card"></i> Course Payment</h2>
     <form id="paymentForm">
-      <div class="form-group">
-        <input type="text" placeholder="Full Name" required />
-      </div>
-      <div class="form-group">
-        <input type="email" placeholder="Email Address" required />
-      </div>
-      <div class="form-group">
-        <input type="number" placeholder="Amount (USD or FC)" required />
-      </div>
-      <div class="form-group">
-        <select required>
-          <option value="">Select Payment Method</option>
-          <option value="card">💳 Credit/Debit Card</option>
-          <option value="mobile">📱 M-PESA</option>
-        </select>
-      </div>
-      <button type="submit"><i class="fas fa-paper-plane"></i> Pay Now</button>
+  <!-- Add this inside <form id="paymentForm"> -->
+<!-- Existing visible fields -->
+ <label for="to_name">Name:</label>
+<input type="text" name="to_name" placeholder="Full Name" required /><br>
+<label for="email">Email:</label>
+<input type="email" name="email" placeholder="Email Address" required /><br>
+<label for="amount">Price:</label>
+<input type="number" id="amount" name="amount" placeholder="Amount (USD or FC)" required  disabled/>
+<label for="payment_method">Payment Method:</label>
+<select name="payment_method" required>
+  <option value="">Select Payment Method</option>
+  <option value="card">💳 Credit/Debit Card</option>
+  <option value="mobile">📱 M-PESA</option>
+</select>
+
+<!-- ✅ Hidden autofilled fields -->
+<input type="hidden" id="course_title" name="course_title">
+<input type="hidden" id="course_info" name="course_info">
+<input type="hidden" id="course_price" name="course_price">
+<input type="hidden" id="registration_fee" name="registration_fee">
+<input type="hidden" id="total_price" name="total_price">
+      
+<button type="submit"><i class="fas fa-paper-plane"></i> Pay Now</button>
     </form>
   </div>
 
@@ -147,93 +153,112 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  // Initialize EmailJS FIRST
-  document.addEventListener("DOMContentLoaded", function () {
-    emailjs.init("tL8fd3zBZVEinrC9b"); // Your EmailJS public key
+document.addEventListener("DOMContentLoaded", function () {
+  emailjs.init("tL8fd3zBZVEinrC9b"); // Replace with your actual public key
 
-    const form = document.getElementById("paymentForm");
+  const courseTitle = localStorage.getItem("selectedCourseTitle") || "";
+  const courseInfo = localStorage.getItem("selectedCourseInfo") || "";
+  const coursePriceRaw = localStorage.getItem("coursePrice") || "";
+  const registrationFeeRaw = localStorage.getItem("registrationFee") || "";
+  const totalRaw = localStorage.getItem("selectedCourseTotal") || "";
 
-    if (!form) {
-      console.error("Form with ID 'paymentForm' not found.");
+  // Extract base value and currency
+  const match = coursePriceRaw.match(/([\d,.]+)\s?(FC|USD)?/i);
+  let baseAmount = 0;
+  let currency = "FC";
+  if (match) {
+    baseAmount = parseFloat(match[1].replace(/,/g, ""));
+    currency = match[2]?.toUpperCase() || "FC";
+  }
+
+  // Determine registration fee and total
+  const regFee = currency === "USD" ? 1 : 5000;
+  const totalAmount = baseAmount + regFee;
+
+  // Fill visible amount input
+  document.getElementById("amount").value = totalAmount;
+
+  // Fill hidden fields
+  document.getElementById("course_title").value = courseTitle;
+  document.getElementById("course_info").value = courseInfo;
+  document.getElementById("course_price").value = `${baseAmount} ${currency}`;
+  document.getElementById("registration_fee").value = `${regFee} ${currency}`;
+  document.getElementById("total_price").value = `${totalAmount} ${currency}`;
+
+  // Update info banner
+  const banner = document.querySelector(".info-banner");
+  banner.innerHTML = `
+    <i class="fas fa-info-circle"></i> You selected <strong>${courseTitle}</strong><br>
+    Course Price: <strong>${baseAmount} ${currency}</strong><br>
+    Registration Fee: <strong>${regFee} ${currency}</strong><br>
+    <strong>Total to Pay: ${totalAmount} ${currency}</strong>
+  `;
+
+  // Handle form submission
+  const form = document.getElementById("paymentForm");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const payload = {};
+    for (let [key, value] of formData.entries()) {
+      payload[key] = value.trim();
+    }
+
+    if (!payload.to_name || !payload.email || !payload.amount || !payload.payment_method) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Fields',
+        text: 'Please complete all fields before submitting.',
+        confirmButtonColor: '#d33'
+      });
       return;
     }
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const inputs = this.querySelectorAll('input, select');
-      let isValid = true;
-      const formData = {};
-
-      inputs.forEach(input => {
-        const value = input.value.trim();
-        if (!value) isValid = false;
-        formData[input.placeholder || input.name || 'field'] = value;
-      });
-
-      if (!isValid) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Missing Fields',
-          text: 'Please complete all fields before submitting.',
-          confirmButtonColor: '#d33'
-        });
-        return;
-      }
-
-      const to_name = formData["Full Name"];
-      const course_title = localStorage.getItem("selectedCourseTitle") || "Unknown Course";
-      const course_info = localStorage.getItem("selectedCourseInfo") || "No info";
-      const total_amount = localStorage.getItem("selectedCourseTotal") || formData["Amount (USD or FC)"];
-
-      const message_html = `
-        <div style="font-family: 'Segoe UI', Tahoma, sans-serif; padding: 20px;">
-          <div style="text-align: center;">
-            <img src="https://yourdomain.com/path-to-your-logo.png" alt="MDai Logo" width="80">
-            <h2 style="margin: 0; color: #333;">MDai Courses</h2>
-          </div>
-          <p>Hello <strong>${to_name}</strong>,</p>
-          <p>Thank you for enrolling in <strong>${course_title}</strong>!</p>
-          <div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
-            <p><strong>Course Details:</strong><br>
-            ${course_info}<br>
-            + Registration Fee: <strong>500 FC</strong><br>
-            Total Paid: <strong>${total_amount}</strong></p>
-          </div>
-          <p>We have received your registration and payment request. Our team will contact you soon with the next steps.</p>
-          <p>— MDai Courses Team</p>
+    const message_html = `
+      <div style="font-family: 'Segoe UI', sans-serif;">
+        <h2 style="color:#0077cc;">MDai Courses</h2>
+        <p>Hello <strong>${payload.to_name}</strong>,</p>
+        <p>Thank you for enrolling in <strong>${payload.course_title}</strong>!</p>
+        <div style="background:#f0f0f0;padding:10px;border-radius:5px;">
+          <p><strong>Course Info:</strong><br>${payload.course_info}</p>
+          <p>Course Price: ${payload.course_price}<br>
+          Registration Fee: ${payload.registration_fee}<br>
+          Total Paid: <strong>${payload.total_price}</strong></p>
         </div>
-      `;
+        <p>We'll contact you soon with the next steps.<br>— MDai Team</p>
+      </div>
+    `;
 
-      emailjs.send("service_osvola7", "template_12nvate", {
-        to_name,
-        course_title,
-        course_info,
-        total_amount,
-        message_html
-      })
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Payment Submitted',
-          text: 'Thank you for your payment. A confirmation email has been sent.',
-          confirmButtonColor: '#28a745'
-        });
-        form.reset();
-        localStorage.clear();
-      })
-      .catch(error => {
-        console.error("EmailJS Error:", error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Email Failed',
-          text: 'Something went wrong while sending the email.',
-          confirmButtonColor: '#d33'
-        });
+    emailjs.send("service_osvola7", "template_12nvate", {
+      ...payload,
+      message_html
+    })
+    .then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Payment Submitted',
+        text: 'Thank you! A confirmation email has been sent.',
+        confirmButtonColor: '#28a745'
+      });
+      form.reset();
+      localStorage.clear();
+    })
+    .catch(err => {
+      console.error("EmailJS Error:", err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Email Failed',
+        text: 'Something went wrong while sending the email.',
+        confirmButtonColor: '#d33'
       });
     });
   });
+});
 </script>
+
+
+
 
 
 
