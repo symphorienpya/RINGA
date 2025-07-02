@@ -8,19 +8,13 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom right, #eef2f3, #ffffff);
       padding: 40px 20px;
       color: #333;
     }
-
     .payment-container {
       max-width: 500px;
       margin: 0 auto;
@@ -30,23 +24,19 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       animation: fadeIn 1s ease;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .payment-container h2 {
       text-align: center;
       margin-bottom: 25px;
       font-size: 1.7rem;
       color: #0077cc;
     }
-
     .payment-container .form-group {
       margin-bottom: 15px;
     }
-
     .payment-container input,
     .payment-container select {
       width: 100%;
@@ -57,13 +47,11 @@
       background: #fdfdfd;
       transition: border-color 0.3s ease;
     }
-
     .payment-container input:focus,
     .payment-container select:focus {
       border-color: #0077cc;
       outline: none;
     }
-
     .payment-container button {
       width: 100%;
       padding: 12px;
@@ -80,15 +68,12 @@
       gap: 8px;
       transition: background-color 0.3s ease;
     }
-
     .payment-container button:hover {
       background-color: #218838;
     }
-
     .payment-container button i {
       font-size: 1rem;
     }
-
     .info-banner {
       background-color: #0077cc;
       color: #fff;
@@ -99,16 +84,12 @@
       text-align: center;
       animation: slideIn 1s ease;
     }
-
     @keyframes slideIn {
       from { transform: translateX(-100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
-
     @media (max-width: 600px) {
-      .payment-container {
-        padding: 25px 15px;
-      }
+      .payment-container { padding: 25px 15px; }
     }
   </style>
 </head>
@@ -121,48 +102,46 @@
   <div class="payment-container">
     <h2><i class="fas fa-credit-card"></i> Course Payment</h2>
     <form id="paymentForm">
-  <!-- Add this inside <form id="paymentForm"> -->
-<!-- Existing visible fields -->
- <label for="to_name">Name:</label>
-<input type="text" name="to_name" placeholder="Full Name" required /><br>
-<label for="email">Email:</label>
-<input type="email" name="email" placeholder="Email Address" required /><br>
-<label for="amount">Price:</label>
-<input type="number" id="amount" name="amount" placeholder="Amount (USD or FC)" required/>
-<label for="payment_method">Payment Method:</label>
-<select name="payment_method" required>
-  <option value="">Select Payment Method</option>
-  <option value="card">💳 Credit/Debit Card</option>
-  <option value="mobile">📱 M-PESA</option>
-</select>
-
-<!-- ✅ Hidden autofilled fields -->
-<input type="hidden" id="course_title" name="course_title">
-<input type="hidden" id="course_info" name="course_info">
-<input type="hidden" id="course_price" name="course_price">
-<input type="hidden" id="registration_fee" name="registration_fee">
-<input type="hidden" id="total_price" name="total_price">
+      <label for="to_name">Name:</label>
+      <input type="text" name="to_name" placeholder="Full Name" required /><br>
       
-<button type="submit"><i class="fas fa-paper-plane"></i> Pay Now</button>
+      <label for="email">Email:</label>
+      <input type="email" name="email" placeholder="Email Address" required /><br>
+      
+      <label for="amount">Price:</label>
+      <input type="number" id="amount" name="amount" placeholder="Amount (USD or FC)" required />
+      
+      <label for="payment_method">Payment Method:</label>
+      <select name="payment_method" required>
+        <option value="">Select Payment Method</option>
+        <option value="card">💳 Credit/Debit Card</option>
+        <option value="mobile">📱 M-PESA</option>
+      </select>
+
+      <!-- ✅ Hidden autofilled fields -->
+      <input type="hidden" id="course_title" name="course_title">
+      <input type="hidden" id="course_info" name="course_info">
+      <input type="hidden" id="course_price" name="course_price">
+      <input type="hidden" id="registration_fee" name="registration_fee">
+      <input type="hidden" id="total_amount" name="total_amount"><br><br>
+
+      <button type="submit"><i class="fas fa-paper-plane"></i> Pay Now</button>
     </form>
   </div>
 
+  <!-- EmailJS & SweetAlert2 -->
+ <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- EmailJS & SweetAlert2 -->
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
+  <script>
 document.addEventListener("DOMContentLoaded", function () {
-  emailjs.init("tL8fd3zBZVEinrC9b"); // Replace with your actual public key
+  emailjs.init("tL8fd3zBZVEinrC9b"); // Your EmailJS public key
 
+  // Load course data from localStorage
   const courseTitle = localStorage.getItem("selectedCourseTitle") || "";
   const courseInfo = localStorage.getItem("selectedCourseInfo") || "";
   const coursePriceRaw = localStorage.getItem("coursePrice") || "";
-  const registrationFeeRaw = localStorage.getItem("registrationFee") || "";
-  const totalRaw = localStorage.getItem("selectedCourseTotal") || "";
 
-  // Extract base value and currency
   const match = coursePriceRaw.match(/([\d,.]+)\s?(FC|USD)?/i);
   let baseAmount = 0;
   let currency = "FC";
@@ -171,28 +150,25 @@ document.addEventListener("DOMContentLoaded", function () {
     currency = match[2]?.toUpperCase() || "FC";
   }
 
-  // Determine registration fee and total
   const regFee = currency === "USD" ? 1 : 5000;
   const totalAmount = baseAmount + regFee;
 
-  // Fill visible amount input
+  // Fill form fields
   document.getElementById("amount").value = totalAmount;
-
-  // Fill hidden fields
   document.getElementById("course_title").value = courseTitle;
   document.getElementById("course_info").value = courseInfo;
-  document.getElementById("course_price").value = `${baseAmount} ${currency}`;
-  document.getElementById("registration_fee").value = `${regFee} ${currency}`;
-  document.getElementById("total_price").value = `${totalAmount} ${currency}`;
+  document.getElementById("total_amount").value = `${totalAmount} ${currency}`;
 
   // Update info banner
   const banner = document.querySelector(".info-banner");
-  banner.innerHTML = `
-    <i class="fas fa-info-circle"></i> You selected <strong>${courseTitle}</strong><br>
-    Course Price: <strong>${baseAmount} ${currency}</strong><br>
-    Registration Fee: <strong>${regFee} ${currency}</strong><br>
-    <strong>Total to Pay: ${totalAmount} ${currency}</strong>
-  `;
+  if (banner) {
+    banner.innerHTML = `
+      <i class="fas fa-info-circle"></i> You selected <strong>${courseTitle}</strong><br>
+      Course Price: <strong>${baseAmount} ${currency}</strong><br>
+      Registration Fee: <strong>${regFee} ${currency}</strong><br>
+      <strong>Total to Pay: ${totalAmount} ${currency}</strong>
+    `;
+  }
 
   // Handle form submission
   const form = document.getElementById("paymentForm");
@@ -205,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
       payload[key] = value.trim();
     }
 
+    // Check required fields
     if (!payload.to_name || !payload.email || !payload.amount || !payload.payment_method) {
       Swal.fire({
         icon: 'warning',
@@ -215,24 +192,13 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const message_html = `
-      <div style="font-family: 'Segoe UI', sans-serif;">
-        <h2 style="color:#0077cc;">MDai Courses</h2>
-        <p>Hello <strong>${payload.to_name}</strong>,</p>
-        <p>Thank you for enrolling in <strong>${payload.course_title}</strong>!</p>
-        <div style="background:#f0f0f0;padding:10px;border-radius:5px;">
-          <p><strong>Course Info:</strong><br>${payload.course_info}</p>
-          <p>Course Price: ${payload.course_price}<br>
-          Registration Fee: ${payload.registration_fee}<br>
-          Total Paid: <strong>${payload.total_price}</strong></p>
-        </div>
-        <p>We'll contact you soon with the next steps.<br>— MDai Team</p>
-      </div>
-    `;
-
+    // Final payload for EmailJS
     emailjs.send("service_osvola7", "template_12nvate", {
-      ...payload,
-      message_html
+      to_name: payload.to_name,
+      email: payload.email,
+      course_title: courseTitle,
+      course_info: courseInfo,
+      total_amount: `${totalAmount} ${currency}`
     })
     .then(() => {
       Swal.fire({
@@ -246,21 +212,20 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(err => {
       console.error("EmailJS Error:", err);
+
       Swal.fire({
         icon: 'error',
         title: 'Email Failed',
-        text: 'Something went wrong while sending the email.',
+        html: `
+          <p>Something went wrong while sending the email.</p>
+          <p style="font-size: 0.85rem; color: #999;"><strong>Error:</strong> ${err?.text || JSON.stringify(err)}</p>
+        `,
         confirmButtonColor: '#d33'
       });
     });
   });
 });
 </script>
-
-
-
-
-
 
 </body>
 </html>
