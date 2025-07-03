@@ -197,6 +197,209 @@ h1 > div {
   border-radius: 50%;
   object-fit: cover;
 }
+
+
+     body {
+      font-family: 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #007BFF, #00C6FF);
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .section-title {
+      margin-top: 60px;
+      margin-bottom: 30px;
+    }
+
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    .chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .navbar-brand img {
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      font-size: 1rem;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    @media (max-width: 576px) {
+      .navbar-nav .nav-link {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #007BFF;
+    }
+
+    .navbar-brand strong {
+      font-weight: bold;
+      color: #1a1a1a;
+    }
+
+    .stage {
+      font-family: "Bebas Neue", sans-serif;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      background: #262626;
+      line-height: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: clamp(2rem, 9vw + 1rem, 12rem);
+    }
+
+    h1 {
+      letter-spacing: 0.03em;
+      text-transform: initial;
+    }
+
+    h1 > div {
+      overflow: hidden;
+    }
+
+    .cloneText {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .navbar-brand img:hover {
+      transform: scale(1.1);
+      transition: transform 0.3s ease;
+    }
+
+    .mdai-logo {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 992px) {
+      .mdai-logo {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .mdai-logo {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .hero .btn {
+      margin: 5px;
+      min-width: 140px;
+    }
+
+    .about-section p,
+    .card-text {
+      word-wrap: break-word;
+      font-size: 1rem;
+    }
+
+    /* for AI */
+    .chatbot-launcher {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1050;
+    }
+
+    .chatbot-box {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      max-height: 500px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      resize: both;
+      min-width: 250px;
+      min-height: 300px;
+      max-width: 90vw;
+      max-height: 90vh;
+      z-index: 1051;
+    }
+
+    @media (max-width: 576px) {
+      .chatbot-box {
+        width: 90vw !important;
+        height: 70vh !important;
+      }
+    }
+
+    .chatbot-messages {
+      height: 300px;
+      overflow-y: auto;
+      background: #f7f7f7;
+    }
+
+    .chatbot-input input {
+      flex-grow: 1;
+    }
+
+    .message {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .message.bot .bubble {
+      background: #dceeff;
+      color: #003366;
+    }
+
+    .message.user .bubble {
+      background: #e2e2e2;
+    }
+
+    .bubble {
+      padding: 8px 12px;
+      border-radius: 18px;
+      max-width: 80%;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      margin-right: 8px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
   </style>
 </head>
 <body>
