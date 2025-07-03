@@ -1,374 +1,730 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ringa-tc</title>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>MDai</title>
 
+  <!-- Bootstrap + Font Awesome -->
+   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #007BFF, #00C6FF);
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .section-title {
+      margin-top: 60px;
+      margin-bottom: 30px;
+    }
+
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    .chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .navbar-brand img {
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .navbar-nav .nav-link {
+      font-weight: 500;
+    }
+
+
+
+
+
+
+  .stage{
+  font-family: "Bebas Neue", sans-serif;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  background: #262626;
+  line-height: 1;
+}
+.stage {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: clamp(2rem, 9vw + 1rem, 12rem);
+}
+
+h1 {
+  letter-spacing: 0.03em;
+  text-transform: initial;
+}
+
+h1 > div {
+  overflow: hidden;
+}
+
+.cloneText {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+.mdai-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    .mdai-logo {
+      width: 45px;
+      height: 45px;
+    }
+  }
+
+  .navbar-nav .nav-link {
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #007BFF;
+  }
+
+  .navbar-brand strong {
+    font-weight: bold;
+    color: #1a1a1a;
+  }
+
+
+
+
+
+
+
+
+
+/* for AI */
+.chatbot-launcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1050;
+}
+
+.chatbot-box {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  max-height: 500px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  resize: both;
+  min-width: 250px;
+  min-height: 300px;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 1051;
+}
+
+.chatbot-messages {
+  height: 300px;
+  overflow-y: auto;
+  background: #f7f7f7;
+}
+
+.chatbot-input input {
+  flex-grow: 1;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.message.bot .bubble {
+  background: #dceeff;
+  color: #003366;
+}
+
+.message.user .bubble {
+  background: #e2e2e2;
+}
+
+.bubble {
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 80%;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+  </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="nav-container">
-      <div class="logo">
-        <img src="images/Ringa.png" class="logo-img" alt="Ringa Logo" />
-      </div>
-      <div class="menu-icon" id="menuToggle">
-        <i class="fas fa-bars"></i>
-      </div>
-      <nav id="mobileMenu">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#my_posters">My Posters</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#partners">Partners</a></li>
-          <li><a href="#future">Future Plans</a></li>
-          <li><a href="#contact">Contact</a></li>
-         
-        </ul>
-      </nav>
-    </div>
-    <div class="header-content">
-      <h1 data-aos="fade-down">Symphorien Pyana</h1>
-      <p data-aos="fade-up">Web Developer | Educator | Creator | <strong>Software Developer</strong></p>
-      <a href="https://forms.gle/s5vTdVfLHz8qKtRy6" target="_blank" class="btn-link">Submit Details</a>
-      <a href="course.html" target="_blank" class="btn-link">Courses</a>
-      <a href="meet.html" target="_blank" class="btn-link">Live</a>
- </div>
-  </header>
+<!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 py-2 sticky-top">
+  <div class="container-fluid">
+    <!-- Brand with logo and name -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="images/MDai-removebg-preview.png" 
+           alt="MDai Logo" 
+           class="me-2 mdai-logo">
+    </a>
 
-  <!-- Marquee -->
-  <marquee behavior="scroll" direction="left" scrollamount="5" class="marquee">
-    I own a training center named RINGA, where we help students build practical, in-demand skills for today’s digital world. We offer hands-on courses in Web Development, English Communication, Adobe Photoshop, and Microsoft Excel. With real-world projects and a supportive environment, RINGA empowers learners to grow and succeed in tech, design, and communication.
-  </marquee>
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="#courses">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="#projects">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="#contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<section class="stage position-relative overflow-hidden text-white"
+         style="background-image: url('images/your-image.jpg'); background-size: cover; background-position: center; height: 100vh;">
+
+  <!-- Overlay -->
+  <div class="position-absolute top-0 start-0 w-100 h-100"
+       style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); z-index: -1;"></div>
+
+  <!-- Content -->
+  <div class="container d-flex flex-column justify-content-center align-items-center text-center py-5"
+       style="min-height: 100vh; position: relative; z-index: 1;">
+
+    <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">
+      Welcome to <span class="text-success">M</span><span class="text-warning">D</span>ai
+    </h1>
+
+    <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-2s">
+      Transforming lives through tech education, real-world skills, and AI innovation.
+    </p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3 animate__animated animate__zoomIn animate__delay-3s">
+      <a href="#courses" class="btn btn-outline-light btn-lg px-4 rounded-pill shadow">View Courses</a>
+      <a href="#projects" class="btn btn-success btn-lg px-4 rounded-pill shadow">submit details</a>
+      <a href="meet.html" class="btn btn-success btn-lg px-4 rounded-pill shadow">live</a>
+    </div>
+
+  </div>
+</section>
+
 
   <!-- About Section -->
-  <section id="about" data-aos="fade-up">
-    <h2>About Me</h2>
-    <div class="about-container">
-      <div class="about-text">
-        <p>I’m a BCA student with a strong passion for building impactful and intuitive digital experiences. As an aspiring software developer, I enjoy turning ideas into functional applications that solve real-world problems. My current focus is on web development and intelligent systems like voice assistants, such as my Python-based desktop AI project, MDai. I'm especially driven by the opportunity to help fellow students grow—whether by creating educational tools, sharing knowledge, or collaborating on meaningful tech projects. I believe in using technology not just to innovate, but to empower others.</p>
+<section id="about" class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      
+      <!-- Logo and Title -->
+      <div class="col-md-5 text-center" data-aos="zoom-in">
+        <img src="images/MDai-removebg-preview.png" alt="MDai Logo" class="img-fluid mb-3" style="max-width: 150px;">
+        <h3 class="fw-bold text-primary">We Are <span class="text-success">MDai</span></h3>
+        <p class="text-muted">Empowering Through AI & Tech</p>
       </div>
-      <div class="about-image">
-        <img src="images/p.jpg" alt="My Picture" />
+
+      <!-- Text Content -->
+      <div class="col-md-7" data-aos="fade-left">
+        <h2 class="section-title mb-4">About Us</h2>
+        <p class="fs-5 text-dark">
+          <strong>MDai</strong> is a dynamic digital education and innovation platform created by 
+          <strong>Symphorien Pyana</strong>. We specialize in real-world training across 
+          <span class="text-primary fw-semibold">web development, Python, AI, design tools</span>, 
+          and much more.
+        </p>
+        <p class="text-muted">
+          Our mission is to democratize tech education, spark creativity, and equip the next generation of digital leaders across the globe. Whether you're a beginner or a creator, MDai is where learning meets transformation.
+        </p>
+        <a href="#courses" class="btn btn-outline-success mt-3 px-4 rounded-pill">Discover Our Courses</a>
       </div>
-    </div>
-  </section>
-
-
-
-  <section id="skills">
-  <h2>My Skills</h2>
-  <div class="skills-container">
-    <div class="skill">
-      <h3><i class="fas fa-code"></i> Web Development <span class="percentage" data-target="90">80%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="90%"></div></div>
-    </div>
-    <div class="skill">
-      <h3><i class="fas fa-code"></i> Python <span class="percentage" data-target="90">45%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="90%"></div></div>
-    </div>
-    <div class="skill">
-      <h3><i class="fas fa-code"></i> C Programming <span class="percentage" data-target="90">60%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="90%"></div></div>
-    </div>
-    <div class="skill">
-      <h3><i class="fas fa-language"></i> Node.js <span class="percentage" data-target="85">55%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="85%"></div></div>
-    </div>
-       <div class="skill">
-      <h3><i class="fas fa-language"></i> mysquel <span class="percentage" data-target="85">60%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="85%"></div></div>
-    </div>
-    <div class="skill">
-      <h3><i class="fas fa-paint-brush"></i> Photoshop <span class="percentage" data-target="75">088%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="75%"></div></div>
-    </div>
-    <div class="skill">
-      <h3><i class="fas fa-table"></i> Excel <span class="percentage" data-target="80">90%</span></h3>
-      <div class="progress"><div class="progress-bar" data-width="80%"></div></div>
     </div>
   </div>
 </section>
 
- <!-- My Posters Section -->
-  <section id="my_posters" data-aos="fade-up">
-    <h2>My Posters</h2>
-    <div class="poster-gallery">
-      <img src="images/ringa (2).png" alt="Poster 1" data-aos="zoom-in" />
-      <img src="images/photoshop.jpg" alt="Poster 2" data-aos="zoom-in" />
-      <img src="images/wanted-group.png" alt="Poster 3" data-aos="zoom-in" />
+
+<!-- Courses Section -->
+<section id="courses" class="bg-light py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-5" data-aos="zoom-in">Our Core Courses</h2>
+    <div class="row g-4">
+
+      <!-- Web Development -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-primary fs-1"><i class="fas fa-code"></i></div>
+          <h5 class="card-title fw-bold">Web Development</h5>
+          <p class="card-text text-muted">Learn HTML, CSS, JavaScript, and frameworks to create modern responsive websites and web apps.</p>
+          <a href="#contact" class="btn btn-outline-primary btn-sm mt-3 rounded-pill px-4">Get Started</a>
+        </div>
+      </div>
+
+      <!-- Python Programming -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-success fs-1"><i class="fab fa-python"></i></div>
+          <h5 class="card-title fw-bold">Python Programming</h5>
+          <p class="card-text text-muted">Master Python for AI, automation, data science, and backend systems with hands-on learning.</p>
+          <a href="#contact" class="btn btn-outline-success btn-sm mt-3 rounded-pill px-4">Start Coding</a>
+        </div>
+      </div>
+
+      <!-- Graphic Design -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-danger fs-1"><i class="fas fa-paint-brush"></i></div>
+          <h5 class="card-title fw-bold">Graphic Design</h5>
+          <p class="card-text text-muted">Create stunning visuals using Canva, Photoshop, and storytelling for branding and marketing.</p>
+          <a href="#contact" class="btn btn-outline-danger btn-sm mt-3 rounded-pill px-4">Design with Us</a>
+        </div>
+      </div>
+
+      <!-- C Programming -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-info fs-1"><i class="fas fa-cogs"></i></div>
+          <h5 class="card-title fw-bold">C Programming</h5>
+          <p class="card-text text-muted">Understand memory, performance, and system-level programming using the C language.</p>
+          <a href="#contact" class="btn btn-outline-info btn-sm mt-3 rounded-pill px-4">Dive In</a>
+        </div>
+      </div>
+
+      <!-- Microsoft Excel -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-warning fs-1"><i class="fas fa-table"></i></div>
+          <h5 class="card-title fw-bold">Microsoft Excel</h5>
+          <p class="card-text text-muted">Learn data entry, analysis, pivot tables, charts, and automation using Excel tools.</p>
+          <a href="#contact" class="btn btn-outline-warning btn-sm mt-3 rounded-pill px-4">Analyze Now</a>
+        </div>
+      </div>
+
+      <!-- English 1 -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-secondary fs-1"><i class="fas fa-language"></i></div>
+          <h5 class="card-title fw-bold">English 1</h5>
+          <p class="card-text text-muted">Build basic vocabulary and grammar for everyday communication and learning.</p>
+          <a href="#contact" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill px-4">Begin English</a>
+        </div>
+      </div>
+
+      <!-- English 2 -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-secondary fs-1"><i class="fas fa-comment-alt"></i></div>
+          <h5 class="card-title fw-bold">English 2</h5>
+          <p class="card-text text-muted">Enhance your grammar, writing, and conversation skills for academic and professional settings.</p>
+          <a href="#contact" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill px-4">Level Up</a>
+        </div>
+      </div>
+
+      <!-- English 3 -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="800">
+        <div class="card h-100 text-center shadow border-0 p-4">
+          <div class="mb-3 text-secondary fs-1"><i class="fas fa-chalkboard-teacher"></i></div>
+          <h5 class="card-title fw-bold">English 3</h5>
+          <p class="card-text text-muted">Advance your fluency, presentation skills, and comprehension for global success.</p>
+          <a href="#contact" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill px-4">Master English</a>
+        </div>
+      </div>
+
     </div>
-  </section>
-  
+  </div>
+</section>
 
 
   <!-- Projects Section -->
-  <section id="projects" data-aos="fade-up">
-    <h2>Projects</h2>
+<section id="projects" class="py-5 bg-white">
+  <div class="container">
+    <h2 class="section-title text-center mb-5" data-aos="flip-left">
+      <i class="fas fa-project-diagram text-primary me-2"></i>Our Projects
+    </h2>
 
-    <div class="project">
-      <img src="images/MD.jpg" alt="MDai Project" />
-      <div class="project-info">
-        <h3>Project Title: MDai</h3>
-        <p>MDai (My Digital AI) is an intelligent and lightweight desktop voice assistant built using Python. Designed for productivity and ease of use, MDai listens, understands, and responds to natural language commands—bringing hands-free convenience to your everyday computing tasks.</p>
-        <p><strong>More Info:</strong> <a href="https://github.com/symphorienpya">Link to project</a></p>
+    <div class="row g-4">
+
+      <!-- MDai Assistant -->
+      <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="100">
+        <div class="card h-100 shadow border-0 p-4 text-center">
+          <div class="text-info fs-1 mb-3">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h5 class="fw-bold">MDai Assistant</h5>
+          <p class="text-muted">A multilingual voice assistant powered by Python, designed for offline desktop interaction and automation.</p>
+        </div>
       </div>
-    </div>
 
-    <hr>
-
-    <div class="project">
-      <img src="images/AMT Logo.jpg" alt="HUR Project" />
-      <div class="project-info">
-        <h3>Project Title: HUR</h3>
-        <p>HUR is a dynamic and scalable virtual classroom platform developed using Node.js, designed to simplify online learning for both teachers and students. It bridges the gap between educators and learners by providing a centralized, interactive digital environment for classes, assignments, and academic communication.</p>
-        <p><strong>More Info:</strong> <a href="https://github.com/symphorienpya">Link to project</a></p>
+      <!-- HUR Virtual Classroom -->
+      <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
+        <div class="card h-100 shadow border-0 p-4 text-center">
+          <div class="text-warning fs-1 mb-3">
+            <i class="fas fa-chalkboard"></i>
+          </div>
+          <h5 class="fw-bold">HUR Virtual Classroom</h5>
+          <p class="text-muted">An interactive learning platform built using Node.js, designed for real-time teaching and collaboration.</p>
+        </div>
       </div>
-    </div>
-    <hr>
-     <div class="project">
-      <img src="images/adama.jpeg" alt="HUR Project" />
-      <div class="project-info">
-        <h3>Project Title: AI Video Assistant</h3>
-        <p>This project is an intelligent video assistant system developed using Python, which leverages face recognition technology to detect, identify, and respond to known users in real-time via a webcam or video input.</p>
-        <p><strong>More Info:</strong> <a href="https://github.com/symphorienpya">Link to project</a></p>
+
+      <!-- AI Video Recognition -->
+      <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="300">
+        <div class="card h-100 shadow border-0 p-4 text-center">
+          <div class="text-danger fs-1 mb-3">
+            <i class="fas fa-video"></i>
+          </div>
+          <h5 class="fw-bold">AI Video Recognition</h5>
+          <p class="text-muted">A real-time facial recognition system using OpenCV and computer vision technologies for smart surveillance.</p>
+        </div>
       </div>
-    </div>
-  </section>
- <!-- Partners Section -->
-  <section id="partners" data-aos="fade-up">
-    <h2>Partners</h2>
 
-    <div class="partner">
-      <img src="images/mm.jpg" alt="Partner Image" />
-      <div class="partner-info">
-        <h3>Partner Name: Prithwiraj Mazumdar</h3>
-        <p>Collaboration Description: I collaborated with my batch mate Prithwiraj Mazumdar on an exciting game development project using Pygame. Together, we designed and built a 2D game from the ground up, focusing on smooth gameplay mechanics, engaging visuals, and responsive controls. While I contributed to core functionality, event handling, and UI elements, Prithwiraj worked on game logic, animations, and level design. Our teamwork allowed us to combine creativity with technical skills, resulting in a fun and interactive gaming experience that strengthened our collaboration and coding abilities.</p>
-        <p>Date: 2025-04-01</p>
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="partner">
-      <img src="images/mussa.png" alt="Wanted Group" />
-      <div class="partner-info">
-        <h3>Partner Name: Wanted Group</h3>
-        <p>Collaboration Description: I collaborated with Wanted Group, an event planning company based in Kindu, DRC, to organize a birthday party. As part of the event, I was responsible for all media coverage, including photography, video, and sound, as well as a live performance during the celebration.</p>
-        <p>Date: 2025-06-01</p>
-      </div>
-    </div>
-
-<hr>
-     <div class="partner">
-      <img src="images/sayam.jpg" alt="Wanted Group" />
-      <div class="partner-info">
-        <h3>Partner Name: Sayam Das</h3>
-        <p>Sayam Das is my full-time coding partner — always available, reliable, and deeply committed to collaborative problem-solving. With a strong grasp of programming concepts and hands-on experience across various tech stacks, Sayam consistently contributes to efficient, clean, and scalable code. His dedication makes him an essential part of every project we build together.</p>
-        <p>Date: 2023-07-30</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Future Plans Section -->
-  <section id="future" data-aos="fade-up">
-    <h2>Future Plans</h2>
-    <p>As I continue my journey in tech, my future plans as a web and software developer focus on building scalable, user-centric applications that make a real impact. I aim to deepen my expertise in full-stack development, mastering technologies like React, Node.js, and cloud platforms to create seamless web experiences. Alongside this, I’m also passionate about software development, with plans to contribute to open-source projects, explore AI integration, and eventually build tools that support education, productivity, and innovation. I aspire to work in collaborative environments where I can grow as a developer while solving meaningful problems and mentoring others along the way.</p>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" data-aos="fade-up">
-    <h2>Contact Me</h2>
-    <p>Email: <a href="mailto:symphorienpyana065@gmail.com">symphorienpyana065@gmail.com</a></p>
-    <p>Chat now: <a href="https://wa.me/9836292481"><i class="fab fa-whatsapp"></i></a></p>
-  </section>
-
-
-
-  <!-- MDai Assistant Button -->
-<!-- MDai Icon Button -->
-<div id="mdai-wrapper">
-  <button id="mdai-chat-button" title="My name is MD, ask me?">
-    <img src="images/MD_icon.ico" alt="MDai Icon" width="60" />
-    <div class="mdai-label">MDai</div>
-  </button>
-
-  <!-- Chatbox -->
-  <div id="mdai-chatbox" class="hidden">
-    <div class="mdai-header">
-      <span>👋 I'm MDai</span>
-      <button id="mdai-close">✖</button>
-    </div>
-    <div id="mdai-messages" class="mdai-messages"></div>
-
-    <!-- Input + Send -->
-    <div class="mdai-input-container">
-      <input id="mdai-input" type="text" placeholder="Ask me something..." />
-      <button id="mdai-send" title="Send">📤</button>
     </div>
   </div>
-</div>
+</section>
+
+
+  <!-- Contact Section -->
+<section id="contact" class="bg-light py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-5" data-aos="fade-right">
+      <i class="fas fa-envelope-open-text text-primary me-2"></i>Contact Us
+    </h2>
+
+    <div class="row g-4">
+
+      <!-- Email -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card h-100 shadow-sm border-0 p-4 text-center">
+          <div class="text-primary fs-1 mb-3"><i class="fas fa-envelope"></i></div>
+          <h5 class="fw-bold">Email</h5>
+          <p class="text-muted mb-1">Send us a message anytime</p>
+          <a href="mailto:symphorienpyana065@gmail.com" class="text-decoration-none fw-medium">symphorienpyana065@gmail.com</a>
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="card h-100 shadow-sm border-0 p-4 text-center">
+          <div class="text-success fs-1 mb-3"><i class="fab fa-whatsapp"></i></div>
+          <h5 class="fw-bold">WhatsApp</h5>
+          <p class="text-muted mb-1">Chat with us directly</p>
+          <a href="https://wa.me/9836292481" class="text-decoration-none fw-medium">+91 98362 92481</a>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card h-100 shadow-sm border-0 p-4 text-center">
+          <div class="text-info fs-1 mb-3"><i class="fas fa-phone-alt"></i></div>
+          <h5 class="fw-bold">Call Us</h5>
+          <p class="text-muted mb-1">We're happy to assist you</p>
+          <a href="tel:+919836292481" class="text-decoration-none fw-medium">+91 98362 92481</a>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="card h-100 shadow-sm border-0 p-4 text-center">
+          <div class="text-danger fs-1 mb-3"><i class="fas fa-map-marker-alt"></i></div>
+          <h5 class="fw-bold">Address</h5>
+          <p class="text-muted">kolkata, West bengal, India</p>
+        </div>
+      </div>
+
+      <!-- Working Hours -->
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
+        <div class="card h-100 shadow-sm border-0 p-4 text-center">
+          <div class="text-warning fs-1 mb-3"><i class="fas fa-clock"></i></div>
+          <h5 class="fw-bold">Working Hours</h5>
+          <p class="text-muted">Mon - Sat: 9:00 AM – 6:00 PM <br> Sunday: Closed</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 
   <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 MDai team. All Rights Reserved.</p>
-    <div class="footer-social">
-      <a href="https://github.com/symphorienpya"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/symphorien-pyana-jr"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/symphorien_pyana_jr"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@SymphorienPyana-q7x"><i class="fab fa-youtube"></i></a>
-    </div>
-  </footer>
+<!-- Advanced Footer -->
+<footer class="footer bg-dark text-white py-4 mt-5">
+  <div class="container">
+    <div class="row align-items-center text-center text-md-start">
 
-  <!-- Back to Top Button -->
-  <button id="backToTop" title="Back to Top">⬆️</button>
+      <!-- Logo and Description -->
+      <div class="col-md-6 mb-3 mb-md-0 d-flex align-items-center">
+        <img src="images/MDai-removebg-preview.png" alt="MDai Logo" width="40" height="40" class="me-2">
+        <span class="fw-bold fs-5">MDai</span>
+        <span class="text-muted ms-2">— Empowering Through Tech & AI</span>
+      </div>
+
+      <!-- Social Links -->
+      <div class="col-md-6 text-md-end">
+        <span class="me-2">Follow us:</span>
+        <a href="https://github.com/symphorienpya" class="text-white me-3" target="_blank"><i class="fab fa-github fs-5"></i></a>
+        <a href="https://linkedin.com/in/symphorienpyana" class="text-white me-3" target="_blank"><i class="fab fa-linkedin fs-5"></i></a>
+        <a href="https://instagram.com/symphorien_pyana_jr" class="text-white me-3" target="_blank"><i class="fab fa-instagram fs-5"></i></a>
+      </div>
+
+    </div>
+
+    <div class="text-center small" style="color: #ccc;">
+  &copy; 2025 <strong>MDai</strong>. All rights reserved. | Designed by Symphorien Pyana
+</div>
+
+</footer>
+
+
+ <!-- Chatbot Trigger Button -->
+<div class="chatbot-launcher">
+  <button class="btn btn-primary rounded-circle shadow" title="Chat with MADO">
+    <i class="fas fa-robot"></i>
+  </button>
+</div>
+
+<!-- Chatbot Window -->
+<div id="mdai-chatbox" class="chatbot-box shadow" style="display: none;">
+  <div class="chatbot-header d-flex justify-content-between align-items-center px-3 py-2 bg-primary text-white">
+    <div>
+      <span class="fw-bold">MDai</span> <span id="status-indicator" class="text-success">● Online</span>
+    </div>
+    <button id="mdai-close" class="btn btn-sm btn-light rounded-circle">&times;</button>
+  </div>
+  <div id="mdai-messages" class="chatbot-messages p-3"></div>
+  <div class="chatbot-input d-flex p-2">
+    <input id="mdai-input" class="form-control me-2" type="text" placeholder="Type a message..." />
+    <button id="mdai-send" class="btn btn-primary">Send</button>
+  </div>
+</div>
 
   <!-- Scripts -->
-  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init();
-
-    document.getElementById("menuToggle").addEventListener("click", () => {
-      document.getElementById("mobileMenu").classList.toggle("active");
-    });
-
-
-
-  // Get DOM elements
-  const mdaiButton = document.getElementById("mdai-chat-button");
-  const mdaiChatbox = document.getElementById("mdai-chatbox");
-  const mdaiClose = document.getElementById("mdai-close");
-  const mdaiSend = document.getElementById("mdai-send");
-  const mdaiInput = document.getElementById("mdai-input");
-  const mdaiMessages = document.getElementById("mdai-messages");
-
-  // Toggle chatbox visibility
-  mdaiButton.addEventListener("click", () => {
-    mdaiChatbox.classList.remove("hidden");
-  });
-
-  mdaiClose.addEventListener("click", () => {
-    mdaiChatbox.classList.add("hidden");
-  });
-
-  // Send message
-  mdaiSend.addEventListener("click", () => {
-    const input = mdaiInput.value.trim();
-    if (input !== "") {
-      addMessage("You", input, "user");
-      respond(input);
-      mdaiInput.value = "";
-    }
-  });
-
-  // Enter key submits
-  mdaiInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      mdaiSend.click();
-    }
-  });
-
-  // Add message to chat UI
-  function addMessage(sender, text, type = "bot") {
-    const msgDiv = document.createElement("div");
-    msgDiv.className = `mdai-msg ${type}`;
-    msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-    mdaiMessages.appendChild(msgDiv);
-    mdaiMessages.scrollTop = mdaiMessages.scrollHeight;
-  }
-
-  // Respond based on language and keyword
-  function respond(input) {
-    const lower = input.toLowerCase();
-    let response = "";
-
-    const isFrench = /bonjour|salut|comment|aide|merci|pouvez-vous|numéro|email|heure|temps|date|nom|êtes-vous|plateforme|linkedin|github|langues|localisation|où|services|technologies|outils|projets/.test(lower);
-
-    const now = new Date();
-    const dateStr = now.toLocaleDateString();
-    const timeStr = now.toLocaleTimeString();
-
-    if (isFrench) {
-      if (lower.includes("bonjour") || lower.includes("salut")) {
-        response = "Bonjour! Comment puis-je vous aider ?";
-      } else if (lower.includes("projets")) {
-        response = "Vous pouvez voir mes projets dans la section 'Projets'.";
-      } else if (lower.includes("numéro") || lower.includes("contact")) {
-        response = "Mon développeur peut être contacté au +91 983 629 2481.";
-      } else if (lower.includes("email")) {
-        response = "L'email du développeur est : symphorienpyana065@gmail.com.";
-      } else if (lower.includes("heure") || lower.includes("temps")) {
-        response = `Il est actuellement ${timeStr}.`;
-      } else if (lower.includes("date")) {
-        response = `Nous sommes le ${dateStr}.`;
-      } else if (lower.includes("nom") || lower.includes("êtes-vous")) {
-        response = "Je suis MADO, votre assistant intelligent.";
-      } else if (lower.includes("plateforme")) {
-        response = "Cette plateforme est conçue pour vous aider à explorer les projets et services du développeur.";
-      } else if (lower.includes("linkedin")) {
-        response = "Voici le LinkedIn du développeur : https://www.linkedin.com/in/symphorienpyana";
-      } else if (lower.includes("github")) {
-        response = "Vous pouvez explorer son GitHub ici : https://github.com/symphorienpyana";
-      } else if (lower.includes("localisation") || lower.includes("où")) {
-        response = "Le développeur est basé à Kolkata, Inde.";
-      } else if (lower.includes("langues") || lower.includes("parle")) {
-        response = "Le développeur parle principalement le français et l’anglais.";
-      } else if (lower.includes("services")) {
-        response = "Il offre des services en développement web, design UI/UX, et assistants IA.";
-      } else if (lower.includes("technologies") || lower.includes("outils")) {
-        response = "Il utilise JavaScript, React, Node.js, Tailwind CSS, Python, et d’autres.";
-      } else {
-        response = "Je suis désolé, je n'ai pas compris. Essayez avec une autre question.";
-      }
-    } else {
-      if (lower.includes("hello") || lower.includes("hi")) {
-        response = "Hello! How can I help you today?";
-      } else if (lower.includes("project")) {
-        response = "You can check my projects in the 'Projects' section.";
-      } else if (lower.includes("number") || lower.includes("contact")) {
-        response = "You can contact my developer at +91 983 629 2481.";
-      } else if (lower.includes("email")) {
-        response = "My developer's email is: symphorienpyana065@gmail.com.";
-      } else if (lower.includes("time")) {
-        response = `The current time is ${timeStr}.`;
-      } else if (lower.includes("date")) {
-        response = `Today's date is ${dateStr}.`;
-      } else if (lower.includes("who are you") || lower.includes("your name")) {
-        response = "I'm MADO, your AI assistant.";
-      } else if (lower.includes("platform")) {
-        response = "This platform helps you discover projects and get assistance from the developer.";
-      } else if (lower.includes("linkedin")) {
-        response = "Here is my developer’s LinkedIn: https://www.linkedin.com/in/symphorienpyana";
-      } else if (lower.includes("github")) {
-        response = "Explore the GitHub profile here: https://github.com/symphorienpyana";
-      } else if (lower.includes("location") || lower.includes("where")) {
-        response = "My developer is based in Kolkata, India.";
-      } else if (lower.includes("language") || lower.includes("speak")) {
-        response = "My developer speaks both French and English.";
-      } else if (lower.includes("services")) {
-        response = "He offers web development, UI/UX design, and AI assistant solutions.";
-      } else if (lower.includes("technology") || lower.includes("tools")) {
-        response = "He works with JavaScript, React, Node.js, Python, Tailwind CSS, and more.";
-      } else {
-        response = "Sorry, I didn’t understand. Try using another keyword.";
-      }
-    }
-
-    console.log("MDai response:", response);
-    addMessage("MDai", response, "bot");
-  }
-
-
-
   </script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+gsap.config({ trialWarn: false });
+console.clear();
+
+const repeatCount = 8;
+const tl = gsap.timeline({ paused: true });
+const split = new SplitText("h1", { type: "chars" });
+
+split.chars.forEach((obj, i) => {
+  let txt = obj.innerText;
+  let clone = `<div class="cloneText"> ${txt} </div>`;
+  let newHTML = `<div class="originalText"> ${txt} </div>${clone}`;
+  obj.innerHTML = newHTML;
+  gsap.set(obj.childNodes[1], {
+    yPercent: 100
+  });
+  console.log(obj.childNodes);
+  let tween = gsap.to(obj.childNodes, {
+    repeat: repeatCount,
+    ease: "none",
+    yPercent: "-=100",
+    delay: 0.05 * i
+  });
+  tl.add(tween, 0);
+});
+gsap.to(tl, { progress: 1, duration: 4, ease: "power4.inOut" });
+
+GSDevTools.create();
+  </script>
+
+
+<!-- for AI -->
+<script>
+const chatBtn = document.querySelector(".chatbot-launcher button");
+const chatBox = document.getElementById("mdai-chatbox");
+const closeBtn = document.getElementById("mdai-close");
+const input = document.getElementById("mdai-input");
+const sendBtn = document.getElementById("mdai-send");
+const messages = document.getElementById("mdai-messages");
+const statusIndicator = document.getElementById("status-indicator");
+
+const username = localStorage.getItem("mdaiUserName") || prompt("Hi! What's your name?");
+if (username) localStorage.setItem("mdaiUserName", username);
+
+const history = JSON.parse(localStorage.getItem("mdaiHistory") || "[]");
+
+const respond = (text) => {
+  const lower = text.toLowerCase();
+  let response = "";
+
+  const english = {
+    greeting: `Hi ${username}! I'm MADO, your assistant. How can I help today?`,
+    about: "MDai is a digital platform offering web dev, Python, design, AI and more.",
+    name: "My name is MADO – I'm your assistant here at MDai.",
+    contact: "You can reach us at symphorienpyana065@gmail.com or WhatsApp +2439836292481.",
+    default: "Sorry, I didn’t understand. Ask me anything about MDai!"
+  };
+
+  const french = {
+    greeting: `Salut ${username} ! Je suis MADO. Comment puis-je vous aider ?`,
+    about: "MDai est une plateforme numérique qui propose des formations en développement web, Python, design, IA et plus.",
+    name: "Je m'appelle MADO, votre assistante ici chez MDai.",
+    contact: "Contactez-nous par email à symphorienpyana065@gmail.com ou WhatsApp +2439836292481.",
+    default: "Désolé, je n'ai pas compris. Posez-moi une question sur MDai."
+  };
+
+  const isFrench = /bonjour|comment|aide|merci|nom|êtes-vous|cours|formation|contact/.test(lower);
+
+  if (/hello|hi|salut|bonjour/.test(lower)) response = isFrench ? french.greeting : english.greeting;
+  else if (/about|platform|mdai|ringa|service/.test(lower)) response = isFrench ? french.about : english.about;
+  else if (/name|who are you|your name|comment tu t'appelles|nom/.test(lower)) response = isFrench ? french.name : english.name;
+  else if (/contact|email|whatsapp|reach|message/.test(lower)) response = isFrench ? french.contact : english.contact;
+  else response = isFrench ? french.default : english.default;
+
+  return response;
+};
+
+const addMessage = (text, from = "user") => {
+  const wrapper = document.createElement("div");
+  wrapper.className = `message ${from}`;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
+
+  const avatar = document.createElement("img");
+  avatar.src = from === "bot" ? "images/MDai.png" : "https://i.pravatar.cc/150?u=" + username;
+  avatar.alt = "avatar";
+  avatar.className = "avatar";
+
+  wrapper.appendChild(avatar);
+  wrapper.appendChild(bubble);
+  messages.appendChild(wrapper);
+  messages.scrollTop = messages.scrollHeight;
+};
+
+sendBtn.addEventListener("click", () => {
+  const question = input.value.trim();
+  if (!question) return;
+  addMessage(question, "user");
+  history.push({ question });
+  localStorage.setItem("mdaiHistory", JSON.stringify(history));
+
+  const thinking = document.createElement("div");
+  thinking.className = "message bot";
+  thinking.innerHTML = `<img src="images/MDai.png" class="avatar" alt="bot"/><div class="bubble">Thinking...</div>`;
+  messages.appendChild(thinking);
+  messages.scrollTop = messages.scrollHeight;
+
+  const reply = respond(question);
+  setTimeout(() => {
+    thinking.remove();
+    addMessage(reply, "bot");
+  }, 5000);
+
+  input.value = "";
+});
+
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendBtn.click();
+});
+
+chatBtn.addEventListener("click", () => {
+  chatBox.style.display = "block";
+});
+
+closeBtn.addEventListener("click", () => {
+  chatBox.style.display = "none";
+});
+
+// Draggable functionality
+chatBox.addEventListener("mousedown", function (e) {
+  if (!e.target.closest(".chatbot-header")) return;
+  const box = chatBox;
+  let offsetX = e.clientX - box.getBoundingClientRect().left;
+  let offsetY = e.clientY - box.getBoundingClientRect().top;
+
+  const move = (e) => {
+    box.style.left = `${e.clientX - offsetX}px`;
+    box.style.top = `${e.clientY - offsetY}px`;
+    box.style.right = "auto";
+    box.style.bottom = "auto";
+    box.style.position = "fixed";
+  };
+
+  const up = () => {
+    window.removeEventListener("mousemove", move);
+    window.removeEventListener("mouseup", up);
+  };
+
+  window.addEventListener("mousemove", move);
+  window.addEventListener("mouseup", up);
+});
+
+// Online/offline status
+const updateStatus = () => {
+  statusIndicator.textContent = navigator.onLine ? "● Online" : "● Offline";
+  statusIndicator.classList.toggle("text-success", navigator.onLine);
+  statusIndicator.classList.toggle("text-danger", !navigator.onLine);
+};
+
+window.addEventListener("online", updateStatus);
+window.addEventListener("offline", updateStatus);
+updateStatus();
+</script>
+
+
 </body>
 </html>
