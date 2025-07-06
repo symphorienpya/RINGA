@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Timetable</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f0f4f8;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+    }
+
+    .program {
+      background: #fff;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .program-header {
+      background: #004d99;
+      color: white;
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .program-content {
+      display: none;
+      padding: 20px;
+    }
+
+    .responsive-table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      min-width: 300px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background: #e0e0e0;
+    }
+
+    .course-process {
+      margin-top: 15px;
+      color: #444;
+    }
+
+    .course-process ol {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .course-process li {
+      margin-bottom: 5px;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .program-header {
+        font-size: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+
+      th, td {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .course-process ol {
+        padding-left: 15px;
+      }
+
+      .course-process li {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Weekly Timetable</h1>
+
+  <div id="timetable"></div>
+
+  <script>
+    const programs = [
+      {
+        name: "English 1",
+        schedule: [
+          { day: "Monday", time: "10:00 - 11:30 AM" },
+          { day: "Wednesday", time: "10:00 - 11:30 AM" }
+        ],
+        progression: [
+          "Introduction to basic grammar",
+          "Daily conversations and vocabulary",
+          "Listening and pronunciation practice",
+          "Short reading comprehension exercises"
+        ]
+      },
+      {
+        name: "English 2",
+        schedule: [
+          { day: "Tuesday", time: "11:00 - 12:30 PM" },
+          { day: "Thursday", time: "11:00 - 12:30 PM" }
+        ],
+        progression: [
+          "Intermediate grammar and sentence structure",
+          "Essay writing and editing",
+          "Reading news articles and stories",
+          "Group speaking and debate practice"
+        ]
+      },
+      {
+        name: "English 3",
+        schedule: [
+          { day: "Thursday", time: "06:00 - 08:30 PM" },
+          { day: "Saturday", time: "06:00 - 08:30 PM" },
+          { day: "Sunday", time: "06:00 - 08:30 PM" }
+        ],
+        progression: [
+          "Advanced vocabulary and idioms",
+          "Formal writing: reports and proposals",
+          "Public speaking and presentations",
+          "Mock tests and assessments"
+        ]
+      },
+      {
+        name: "Web Development",
+        schedule: [
+          { day: "Monday", time: "2:00 - 4:00 PM" },
+          { day: "Wednesday", time: "2:00 - 4:00 PM" }
+        ],
+        progression: [
+          "HTML structure and tags",
+          "CSS styling and layouts",
+          "JavaScript programming",
+          "Responsive design with Flexbox/Grid",
+          "Mini project: Build a website",
+          "backen using expres",
+          "DataBase"
+        ]
+      },
+      {
+        name: "Excel",
+        schedule: [
+          { day: "Tuesday", time: "1:00 - 2:30 PM" },
+          { day: "Thursday", time: "1:00 - 2:30 PM" }
+        ],
+        progression: [
+          "Excel basics and formulas",
+          "Data sorting and filtering",
+          "Charts and graphs",
+          "Advanced functions and pivot tables"
+        ]
+      },
+      {
+        name: "Photoshop",
+        schedule: [
+          { day: "Tuesday", time: "1:00 - 2:30 PM" },
+          { day: "Thursday", time: "1:00 - 2:30 PM" }
+        ],
+        progression: [
+          "Introduction to Photoshop interface",
+          "Layers, masks and selection tools",
+          "Image retouching and enhancements",
+          "Text effects and graphic design",
+          "Final project: Poster or Banner"
+        ]
+      },
+      {
+        name: "Python",
+        schedule: [
+          { day: "Friday", time: "2:00 - 4:00 PM" },
+          { day: "Saturday", time: "2:00 - 4:00 PM" }
+        ],
+        progression: [
+          "Introduction to Python syntax",
+          "Variables, data types, and operators",
+          "Control flow and loops",
+          "Functions and modules",
+          "Mini project: Simple calculator or game"
+        ]
+      },
+      {
+        name: "C Programming",
+        schedule: [
+          { day: "Monday", time: "5:00 - 6:30 PM" },
+          { day: "Wednesday", time: "5:00 - 6:30 PM" }
+        ],
+        progression: [
+          "Introduction to C language",
+          "Data types and variables",
+          "Loops and conditionals",
+          "Functions and arrays",
+          "Build a basic C console app"
+        ]
+      }
+    ];
+
+    const container = document.getElementById("timetable");
+
+    programs.forEach(program => {
+      const div = document.createElement("div");
+      div.classList.add("program");
+
+      div.innerHTML = `
+        <div class="program-header">
+          <span>${program.name}</span>
+          <span>➕</span>
+        </div>
+        <div class="program-content">
+          <div class="responsive-table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Day</th><th>Time</th></tr>
+              </thead>
+              <tbody>
+                ${program.schedule.map(s => `<tr><td>${s.day}</td><td>${s.time}</td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+          <div class="course-process">
+            <strong>Course Progression:</strong>
+            <ol>
+              ${program.progression.map(step => `<li>${step}</li>`).join("")}
+            </ol>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(div);
+    });
+
+    // Toggle logic
+    document.querySelectorAll(".program-header").forEach(header => {
+      header.addEventListener("click", () => {
+        const content = header.nextElementSibling;
+        const symbol = header.querySelector("span:last-child");
+        const isVisible = content.style.display === "block";
+
+        document.querySelectorAll(".program-content").forEach(c => c.style.display = "none");
+        document.querySelectorAll(".program-header span:last-child").forEach(s => s.textContent = "➕");
+
+        if (!isVisible) {
+          content.style.display = "block";
+          symbol.textContent = "➖";
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
