@@ -1,90 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Join Our Live Session</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    /* Reset + Background */
+    /* Global Reset */
     * {
       box-sizing: border-box;
-    }
-    body {
       margin: 0;
       padding: 0;
+    }
+
+    body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #1a73e8, #4285f4);
+      background: linear-gradient(-45deg, #1a73e8, #34a853, #fbbc05, #ea4335);
+      background-size: 400% 400%;
+      animation: gradientMove 10s ease infinite;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
       overflow: hidden;
     }
 
-    /* Floating Card */
-    .card {
-      background: #fff;
-      padding: 40px 50px;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      text-align: center;
-      animation: floatIn 0.8s ease-out;
-      max-width: 400px;
-      width: 90%;
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    @keyframes floatIn {
-      0% {
-        transform: translateY(50px);
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px 35px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      animation: fadeSlideIn 1s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes fadeSlideIn {
+      from {
         opacity: 0;
+        transform: translateY(60px);
       }
-      100% {
-        transform: translateY(0);
+      to {
         opacity: 1;
+        transform: translateY(0);
       }
     }
 
     h1 {
-      color: #333;
-      font-size: 28px;
-      margin-bottom: 30px;
+      font-size: 26px;
+      color: #fff;
+      margin-bottom: 25px;
     }
 
     input[type="password"] {
-      padding: 12px 15px;
+      padding: 14px 16px;
       font-size: 16px;
-      border: 2px solid #ccc;
-      border-radius: 10px;
+      border-radius: 12px;
+      border: none;
       width: 100%;
       outline: none;
-      transition: all 0.3s ease;
       margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      transition: 0.3s ease;
     }
 
     input[type="password"]:focus {
-      border-color: #1a73e8;
-      box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+      box-shadow: 0 0 8px rgba(26, 115, 232, 0.6);
+      background: white;
     }
 
     .btn {
-      display: inline-block;
-      background: linear-gradient(to right, #1a73e8, #155ab6);
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: bold;
       color: white;
-      padding: 12px 30px;
+      background: linear-gradient(to right, #1a73e8, #0b47a1);
       border: none;
-      border-radius: 12px;
-      font-size: 17px;
+      border-radius: 10px;
       cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      transition: 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
     }
 
     .btn:hover {
       transform: scale(1.05);
-      background: linear-gradient(to right, #0f59b2, #0b3c8c);
+      background: linear-gradient(to right, #0b47a1, #1a73e8);
     }
 
     .hidden {
@@ -106,6 +119,27 @@
         transform: translateY(0);
       }
     }
+
+    a.btn {
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 25px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -120,42 +154,40 @@
   </div>
 
   <script>
-    const ACCESS_CODE = "openMDai2024"; // 🔐 Your access code
-    const MEET_URL = "https://meet.google.com/tdq-mkfj-rfh?authuser=0"; 
+    const ACCESS_CODE = "openMDai2024";
+    const MEET_URL = "https://meet.google.com/abc-defg-hij";
 
-   function verifyCode() {
-  const input = document.getElementById("access-code").value.trim();
-  const linkContainer = document.getElementById("link-container");
-  const joinLink = document.getElementById("join-link");
+    function verifyCode() {
+      const input = document.getElementById("access-code").value.trim();
+      const linkContainer = document.getElementById("link-container");
+      const joinLink = document.getElementById("join-link");
 
-  if (input === ACCESS_CODE) {
-    joinLink.href = MEET_URL;
-    linkContainer.classList.remove("hidden");
+      if (input === ACCESS_CODE) {
+        joinLink.href = MEET_URL;
+        linkContainer.classList.remove("hidden");
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Access Granted!',
-      html: '<strong>You may now join the session 🎥</strong><br>Click the button below.',
-      showConfirmButton: false,
-      timer: 3000,
-      background: '#eaf6ff',
-      color: '#1a73e8',
-      toast: false,
-      position: 'center',
-    });
+        Swal.fire({
+          icon: 'success',
+          title: 'Access Granted!',
+          html: '<strong>You may now join the session 🎥</strong><br>Click the button below.',
+          showConfirmButton: false,
+          timer: 3000,
+          background: '#eaf6ff',
+          color: '#1a73e8',
+          position: 'center'
+        });
 
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Incorrect Code ❌',
-      text: 'Please double-check and try again.',
-      confirmButtonColor: '#d33',
-      background: '#fff0f0',
-      color: '#cc0000'
-    });
-  }
-}
-
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Incorrect Code ❌',
+          text: 'Please double-check and try again.',
+          confirmButtonColor: '#d33',
+          background: '#fff0f0',
+          color: '#cc0000'
+        });
+      }
+    }
   </script>
 </body>
 </html>
