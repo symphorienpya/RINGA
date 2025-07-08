@@ -1,1003 +1,451 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" data-theme="dark">
 <head>
-  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDai</title>
 
-  <!-- Bootstrap + Font Awesome -->
-   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+  <title>MDai - Plateforme d'apprentissage en ligne</title>
 
-  <!-- AOS (Animate On Scroll) -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      scroll-behavior: smooth;
-    }
 
-    .hero {
-      background: linear-gradient(to right, #007BFF, #00C6FF);
-      color: white;
-      padding: 100px 0;
-      text-align: center;
-    }
-
-    .section-title {
-      margin-top: 60px;
-      margin-bottom: 30px;
-    }
-
-    .footer {
-      background-color: #343a40;
-      color: white;
-      padding: 30px 0;
-      text-align: center;
-    }
-
-    .chatbot {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .navbar-brand img {
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .navbar-nav .nav-link {
-      font-weight: 500;
-    }
-
-
-
-
-
-
-  .stage{
-  font-family: "Bebas Neue", sans-serif;
-  padding: 0;
-  margin: 0;
-  min-height: 100vh;
-  background: #262626;
-  line-height: 1;
-}
-.stage {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: clamp(2rem, 9vw + 1rem, 12rem);
-}
-
-h1 {
-  letter-spacing: 0.03em;
-  text-transform: initial;
-}
-
-h1 > div {
-  overflow: hidden;
-}
-
-.cloneText {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.navbar-brand img:hover {
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-}
-.mdai-logo {
-    width: 200px;
-    height: 100px;
-    object-fit: contain;
-  }
-
-  @media (max-width: 768px) {
-    .mdai-logo {
-      width: 55px;
-      height: 45px;
-    }
-  }
-
-  .navbar-nav .nav-link {
-    color: #333;
-    transition: color 0.3s ease;
-  }
-
-  .navbar-nav .nav-link:hover {
-    color: #007BFF;
-  }
-
-  .navbar-brand strong {
-    font-weight: bold;
-    color: #1a1a1a;
-  }
-
-
-
-
-
-
-
-
-
-/* for AI */
-.chatbot-launcher {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1050;
-}
-
-.chatbot-box {
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 300px;
-  max-height: 500px;
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  resize: both;
-  min-width: 250px;
-  min-height: 300px;
-  max-width: 90vw;
-  max-height: 90vh;
-  z-index: 1051;
-}
-
-.chatbot-messages {
-  height: 300px;
-  overflow-y: auto;
-  background: #f7f7f7;
-}
-
-.chatbot-input input {
-  flex-grow: 1;
-}
-
-.message {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-
-.message.bot .bubble {
-  background: #dceeff;
-  color: #003366;
-}
-
-.message.user .bubble {
-  background: #e2e2e2;
-}
-
-.bubble {
-  padding: 8px 12px;
-  border-radius: 18px;
-  max-width: 80%;
-}
-
-.avatar {
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-
-     body {
-      font-family: 'Segoe UI', sans-serif;
-      scroll-behavior: smooth;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .hero {
-      background: linear-gradient(to right, #007BFF, #00C6FF);
-      color: white;
-      padding: 100px 0;
-      text-align: center;
-    }
-
-    .section-title {
-      margin-top: 60px;
-      margin-bottom: 30px;
-    }
-
-    .footer {
-      background-color: #343a40;
-      color: white;
-      padding: 30px 0;
-      text-align: center;
-    }
-
-    .chatbot {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .navbar-brand img {
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .navbar-nav .nav-link {
-      font-weight: 500;
-      font-size: 1rem;
-      color: #333;
-      transition: color 0.3s ease;
-    }
-
-    @media (max-width: 576px) {
-      .navbar-nav .nav-link {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-      }
-    }
-
-    .navbar-nav .nav-link:hover {
-      color: #007BFF;
-    }
-
-    .navbar-brand strong {
-      font-weight: bold;
-      color: #1a1a1a;
-    }
-
-    .stage {
-      font-family: "Bebas Neue", sans-serif;
-      padding: 0;
-      margin: 0;
-      min-height: 100vh;
-      background: #262626;
-      line-height: 1;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: clamp(2rem, 9vw + 1rem, 12rem);
-    }
-
-    h1 {
-      letter-spacing: 0.03em;
-      text-transform: initial;
-    }
-
-    h1 > div {
-      overflow: hidden;
-    }
-
-    .cloneText {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
-    .navbar-brand img:hover {
-      transform: scale(1.1);
-      transition: transform 0.3s ease;
-    }
-
-    .mdai-logo {
-      width: 70px;
-      height: 70px;
-      object-fit: contain;
-    }
-
-    @media (max-width: 992px) {
-      .mdai-logo {
-        width: 50px;
-        height: 50px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .mdai-logo {
-        width: 40px;
-        height: 40px;
-      }
-    }
-
-    .hero .btn {
-      margin: 5px;
-      min-width: 140px;
-    }
-
-    .about-section p,
-    .card-text {
-      word-wrap: break-word;
-      font-size: 1rem;
-    }
-
-    /* for AI */
-    .chatbot-launcher {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1050;
-    }
-
-    .chatbot-box {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 300px;
-      max-height: 500px;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      resize: both;
-      min-width: 250px;
-      min-height: 300px;
-      max-width: 90vw;
-      max-height: 90vh;
-      z-index: 1051;
-    }
-
-    @media (max-width: 576px) {
-      .chatbot-box {
-        width: 90vw !important;
-        height: 70vh !important;
-      }
-    }
-
-    .chatbot-messages {
-      height: 300px;
-      overflow-y: auto;
-      background: #f7f7f7;
-    }
-
-    .chatbot-input input {
-      flex-grow: 1;
-    }
-
-    .message {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-
-    .message.bot .bubble {
-      background: #dceeff;
-      color: #003366;
-    }
-
-    .message.user .bubble {
-      background: #e2e2e2;
-    }
-
-    .bubble {
-      padding: 8px 12px;
-      border-radius: 18px;
-      max-width: 80%;
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      margin-right: 8px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
- .me-2.mdai-logo {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-}
-
-@media (max-width: 768px) {
-  .me-2.mdai-logo {
-    max-width: 150px;
-  }
-}
-
-@media (max-width: 480px) {
-  .me-2.mdai-logo {
-    max-width: 120px;
-  }
-}
-
+   
   </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 py-2 sticky-top">
-  <div class="container-fluid">
-    <!-- Brand with logo and name -->
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="images/MDai-removebg-preview.png" 
-           alt="MDai Logo" 
-           class="me-2 mdai-logo" style="width: 200px">
+  <nav role="navigation" aria-label="Primary navigation">
+    <a href="#" class="logo" aria-label="Accueil MDai">
+      <div class="logo-circle" aria-hidden="true">
+        <img src="images/MDai.png" alt="" width="50" height="50" />
+      </div>
+      MDai
     </a>
 
-    <!-- Toggler for mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
+    <button class="hamburger" aria-label="Afficher/masquer le menu" aria-expanded="false" aria-controls="primary-navigation" id="hamburgerBtn">
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
 
-    <!-- Navigation Links -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="#about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="#courses">Courses</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="#projects">Projects</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link fw-semibold" href="#contact">Contact</a>
-        </li>
-      </ul>
-    </div>
+    <ul class="nav-links" id="primary-navigation" role="menu" tabindex="-1">
+      <li role="none"><a href="index.html" role="menuitem" tabindex="-1">Inscrivez-vous</a></li>
+      <li role="none"><a href="exercise.html" role="menuitem" tabindex="-1">EXERCICES</a></li>
+      <li role="none"><a href="timetable.html" role="menuitem" tabindex="-1">Horaire</a></li>
+      <li role="none"><a href="course.html" role="menuitem" tabindex="-1">Explorer les cours</a></li>
+      <li role="none"><a href="meet.html" role="menuitem" tabindex="-1">Cours en direct</a></li>
+    </ul>
+
+    <button class="theme-toggle" aria-pressed="true" aria-label="Basculer le thème clair/sombre" id="themeToggleBtn">Mode clair</button>
+    <div class="user-profile" tabindex="0" aria-label="Profil utilisateur, non connecté">U</div>
+  </nav>
+
+  <main class="container" id="main-content">
+
+    <header>
+      <h1>Maîtrisez l'IA avec MDai</h1>
+      <p>Votre plateforme d'apprentissage en ligne tout-en-un pour l'intelligence artificielle.</p>
+      <input
+        type="search"
+        id="searchInput"
+        aria-label="Rechercher des fonctionnalités"
+        placeholder="Rechercher des fonctionnalités"
+        autocomplete="off"
+      />
+    </header>
+
+    <section class="filters" role="region" aria-label="Filtres de catégorie" id="filters">
+      <button class="filter-btn active" aria-pressed="true" data-category="all" role="button" tabindex="0">Tout</button>
+      <button class="filter-btn" aria-pressed="false" data-category="beginner" role="button" tabindex="0">Débutant</button>
+      <button class="filter-btn" aria-pressed="false" data-category="intermediate" role="button" tabindex="0">Intermédiaire</button>
+      <button class="filter-btn" aria-pressed="false" data-category="advanced" role="button" tabindex="0">Avancé</button>
+    </section>
+
+    <section class="features" id="features" aria-live="polite" aria-label="Liste des fonctionnalités">
+      <article class="feature-card" data-category="beginner" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/1822/1822899.png" alt="" aria-hidden="true" />
+        <h3>Python pour Débutants</h3>
+        <p>Apprenez les bases de la programmation avec Python.</p>
+      </article>
+
+      <article class="feature-card" data-category="beginner" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="" aria-hidden="true" />
+        <h3>Anglais 1</h3>
+        <p>Commencez à parler et comprendre l'anglais de base.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png" alt="" aria-hidden="true" />
+        <h3>Anglais 2</h3>
+        <p>Améliorez votre grammaire et vocabulaire anglais.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135775.png" alt="" aria-hidden="true" />
+        <h3>Anglais 3</h3>
+        <p>Perfectionnez votre expression écrite et orale en anglais.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/906/906343.png" alt="" aria-hidden="true" />
+        <h3>Photoshop</h3>
+        <p>Découvrez les fondamentaux du design graphique avec Photoshop.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="" aria-hidden="true" />
+        <h3>Excel</h3>
+        <p>Maîtrisez les feuilles de calcul et les fonctions essentielles d'Excel.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/919/919827.png" alt="" aria-hidden="true" />
+        <h3>Développement Web</h3>
+        <p>Apprenez à créer des sites web interactifs avec HTML, CSS et JavaScript.</p>
+      </article>
+
+      <article class="feature-card" data-category="advanced" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/2721/2721296.png" alt="" aria-hidden="true" />
+        <h3>Introduction au Langage C</h3>
+        <p>Familiarisez-vous avec la programmation bas niveau en C.</p>
+      </article>
+    </section>
+
+    <section class="newsletter" id="newsletter" aria-labelledby="newsletterTitle">
+      <h2 id="newsletterTitle">Rejoignez notre bulletin</h2>
+      <p>Abonnez-vous pour recevoir les dernières actualités IA et les mises à jour de nos cours.</p>
+      <form id="newsletterForm" novalidate>
+        <label for="emailInput" class="visually-hidden">Adresse e-mail</label>
+        <input
+          type="email"
+          id="emailInput"
+          name="email"
+          placeholder="Entrez votre adresse e-mail"
+          aria-describedby="emailHelp"
+          required
+          autocomplete="email"
+          aria-invalid="false"
+        />
+        <button type="submit" aria-live="polite">S'abonner</button>
+      </form>
+      <div id="newsletterMessage" class="newsletter-message" role="alert" aria-live="assertive"></div>
+    </section>
+  </main>
+
+  <button id="backToTopBtn" aria-label="Retour en haut" title="Retour en haut">↑</button>
+
+  <footer id="footer" role="contentinfo">
+    &copy; 2025 MDai. Tous droits réservés.
+  </footer>
+
+
+
+
+<!-- MADO Chat Button -->
+<button id="mado-btn" aria-label="Chat avec MADO">🤖</button>
+
+<!-- MADO Chat Window -->
+<div id="mado-chat">
+  <div id="mado-header">
+    <img src="images/MDai.png" alt="MADO" class="mado-avatar">
+    <span>MADO - Assistant IA</span>
   </div>
-</nav>
-
-
-
-<section class="stage position-relative overflow-hidden text-white"
-         style="background-image: url('images/your-image.jpg'); background-size: cover; background-position: center; height: 100vh;">
-
-  <!-- Overlay -->
-  <div class="position-absolute top-0 start-0 w-100 h-100"
-       style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); z-index: -1;"></div>
-
-  <!-- Content -->
-  <div class="container d-flex flex-column justify-content-center align-items-center text-center py-5"
-       style="min-height: 100vh; position: relative; z-index: 1;">
-
-    <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">
-      Welcome to <span class="text-success">M</span><span class="text-warning">D</span>ai
-    </h1>
-
-    <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-2s">
-      Transforming lives through tech education, real-world skills, and AI innovation.
-    </p>
-
-    <div class="d-flex flex-wrap justify-content-center gap-3 animate__animated animate__zoomIn animate__delay-3s">
-      <a href="course.html" class="btn btn-outline-light btn-lg px-4 rounded-pill shadow">View Courses</a>
-      <a href="https://forms.gle/Xpz8aY4bKTCvjedD7" class="btn btn-success btn-lg px-4 rounded-pill shadow">submit details</a>
-      <a href="meet.html" class="btn btn-success btn-lg px-4 rounded-pill shadow">live</a>
-      <a href="timetable.html" class="btn btn-outline-light btn-lg px-4 rounded-pill shadow">TimeTable</a>
-    </div>
-
-  </div>
-</section>
-
-
-  <!-- About Section -->
-<section id="about" class="py-5 bg-light">
-  <div class="container">
-    <div class="row align-items-center gy-4">
-      
-      <!-- Logo and Title -->
-      <div class="col-md-5 text-center" data-aos="zoom-in">
-        <img src="images/MDai-removebg-preview.png" alt="MDai Logo" class="img-fluid mb-3" style="max-width: 150px;">
-        <h3 class="fw-bold text-primary">We Are <span class="text-success">MDai</span></h3>
-        <p class="text-muted">Empowering Through AI & Tech</p>
-      </div>
-
-      <!-- Text Content -->
-      <div class="col-md-7" data-aos="fade-left">
-        <h2 class="section-title mb-4">About Us</h2>
-        <p class="fs-5 text-dark">
-          <strong>MDai</strong> is a dynamic digital education and innovation platform created by 
-          <strong>Symphorien Pyana</strong>. We specialize in real-world training across 
-          <span class="text-primary fw-semibold">web development, Python, AI, design tools</span>, 
-          and much more.
-        </p>
-        <p class="text-muted">
-          Our mission is to democratize tech education, spark creativity, and equip the next generation of digital leaders across the globe. Whether you're a beginner or a creator, MDai is where learning meets transformation.
-        </p>
-        <a href="#courses" class="btn btn-outline-success mt-3 px-4 rounded-pill">Discover Our Courses</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- Courses Section -->
-<section id="courses" class="bg-light py-5">
-  <div class="container">
-    <h2 class="section-title text-center mb-5" data-aos="zoom-in">Our Core Courses</h2>
-    <div class="row g-4">
-
-      <!-- Web Development -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-primary fs-1"><i class="fas fa-code"></i></div>
-          <h5 class="card-title fw-bold">Web Development</h5>
-          <p class="card-text text-muted">Learn HTML, CSS, JavaScript, and frameworks to create modern responsive websites and web apps.</p>
-          <a href="#contact" class="btn btn-outline-primary btn-sm mt-3 rounded-pill px-4">Get Started</a>
-        </div>
-      </div>
-
-      <!-- Python Programming -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-success fs-1"><i class="fab fa-python"></i></div>
-          <h5 class="card-title fw-bold">Python Programming</h5>
-          <p class="card-text text-muted">Master Python for AI, automation, data science, and backend systems with hands-on learning.</p>
-          <a href="#contact" class="btn btn-outline-success btn-sm mt-3 rounded-pill px-4">Start Coding</a>
-        </div>
-      </div>
-
-      <!-- Graphic Design -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-danger fs-1"><i class="fas fa-paint-brush"></i></div>
-          <h5 class="card-title fw-bold">Graphic Design</h5>
-          <p class="card-text text-muted">Create stunning visuals using Canva, Photoshop, and storytelling for branding and marketing.</p>
-          <a href="#contact" class="btn btn-outline-danger btn-sm mt-3 rounded-pill px-4">Design with Us</a>
-        </div>
-      </div>
-
-      <!-- C Programming -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-info fs-1"><i class="fas fa-cogs"></i></div>
-          <h5 class="card-title fw-bold">C Programming</h5>
-          <p class="card-text text-muted">Understand memory, performance, and system-level programming using the C language.</p>
-          <a href="#contact" class="btn btn-outline-info btn-sm mt-3 rounded-pill px-4">Dive In</a>
-        </div>
-      </div>
-
-      <!-- Microsoft Excel -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-warning fs-1"><i class="fas fa-table"></i></div>
-          <h5 class="card-title fw-bold">Microsoft Excel</h5>
-          <p class="card-text text-muted">Learn data entry, analysis, pivot tables, charts, and automation using Excel tools.</p>
-          <a href="#contact" class="btn btn-outline-warning btn-sm mt-3 rounded-pill px-4">Analyze Now</a>
-        </div>
-      </div>
-
-      <!-- English 1 -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-secondary fs-1"><i class="fas fa-language"></i></div>
-          <h5 class="card-title fw-bold">English 1</h5>
-          <p class="card-text text-muted">Build basic vocabulary and grammar for everyday communication and learning.</p>
-          <a href="#contact" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill px-4">Begin English</a>
-        </div>
-      </div>
-
-      <!-- English 2 -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-secondary fs-1"><i class="fas fa-comment-alt"></i></div>
-          <h5 class="card-title fw-bold">English 2</h5>
-          <p class="card-text text-muted">Enhance your grammar, writing, and conversation skills for academic and professional settings.</p>
-          <a href="#contact" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill px-4">Level Up</a>
-        </div>
-      </div>
-
-      <!-- English 3 -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="800">
-        <div class="card h-100 text-center shadow border-0 p-4">
-          <div class="mb-3 text-secondary fs-1"><i class="fas fa-chalkboard-teacher"></i></div>
-          <h5 class="card-title fw-bold">English 3</h5>
-          <p class="card-text text-muted">Advance your fluency, presentation skills, and comprehension for global success.</p>
-          <a href="#contact" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill px-4">Master English</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-  <!-- Projects Section -->
-<section id="projects" class="py-5 bg-white">
-  <div class="container">
-    <h2 class="section-title text-center mb-5" data-aos="flip-left">
-      <i class="fas fa-project-diagram text-primary me-2"></i>Our Projects
-    </h2>
-
-    <div class="row g-4">
-
-      <!-- MDai Assistant -->
-      <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="100">
-        <div class="card h-100 shadow border-0 p-4 text-center">
-          <div class="text-info fs-1 mb-3">
-            <i class="fas fa-robot"></i>
-          </div>
-          <h5 class="fw-bold">MDai Assistant</h5>
-          <p class="text-muted">A multilingual voice assistant powered by Python, designed for offline desktop interaction and automation.</p>
-        </div>
-      </div>
-
-      <!-- HUR Virtual Classroom -->
-      <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
-        <div class="card h-100 shadow border-0 p-4 text-center">
-          <div class="text-warning fs-1 mb-3">
-            <i class="fas fa-chalkboard"></i>
-          </div>
-          <h5 class="fw-bold">HUR Virtual Classroom</h5>
-          <p class="text-muted">An interactive learning platform built using Node.js, designed for real-time teaching and collaboration.</p>
-        </div>
-      </div>
-
-      <!-- AI Video Recognition -->
-      <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="300">
-        <div class="card h-100 shadow border-0 p-4 text-center">
-          <div class="text-danger fs-1 mb-3">
-            <i class="fas fa-video"></i>
-          </div>
-          <h5 class="fw-bold">AI Video Recognition</h5>
-          <p class="text-muted">A real-time facial recognition system using OpenCV and computer vision technologies for smart surveillance.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-  <!-- Contact Section -->
-<section id="contact" class="bg-light py-5">
-  <div class="container">
-    <h2 class="section-title text-center mb-5" data-aos="fade-right">
-      <i class="fas fa-envelope-open-text text-primary me-2"></i>Contact Us
-    </h2>
-
-    <div class="row g-4">
-
-      <!-- Email -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="card h-100 shadow-sm border-0 p-4 text-center">
-          <div class="text-primary fs-1 mb-3"><i class="fas fa-envelope"></i></div>
-          <h5 class="fw-bold">Email</h5>
-          <p class="text-muted mb-1">Send us a message anytime</p>
-          <a href="mailto:symphorienpyana065@gmail.com" class="text-decoration-none fw-medium">symphorienpyana065@gmail.com</a>
-        </div>
-      </div>
-
-      <!-- WhatsApp -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="card h-100 shadow-sm border-0 p-4 text-center">
-          <div class="text-success fs-1 mb-3"><i class="fab fa-whatsapp"></i></div>
-          <h5 class="fw-bold">WhatsApp</h5>
-          <p class="text-muted mb-1">Chat with us directly</p>
-          <a href="https://wa.me/9836292481" class="text-decoration-none fw-medium">+91 98362 92481</a>
-        </div>
-      </div>
-
-      <!-- Phone -->
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-        <div class="card h-100 shadow-sm border-0 p-4 text-center">
-          <div class="text-info fs-1 mb-3"><i class="fas fa-phone-alt"></i></div>
-          <h5 class="fw-bold">Call Us</h5>
-          <p class="text-muted mb-1">We're happy to assist you</p>
-          <a href="tel:+919836292481" class="text-decoration-none fw-medium">+91 98362 92481</a>
-        </div>
-      </div>
-
-      <!-- Location -->
-      <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
-        <div class="card h-100 shadow-sm border-0 p-4 text-center">
-          <div class="text-danger fs-1 mb-3"><i class="fas fa-map-marker-alt"></i></div>
-          <h5 class="fw-bold">Address</h5>
-          <p class="text-muted">kolkata, West bengal, India</p>
-        </div>
-      </div>
-
-      <!-- Working Hours -->
-      <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
-        <div class="card h-100 shadow-sm border-0 p-4 text-center">
-          <div class="text-warning fs-1 mb-3"><i class="fas fa-clock"></i></div>
-          <h5 class="fw-bold">Working Hours</h5>
-          <p class="text-muted">Mon - Sat: 9:00 AM – 6:00 PM <br> Sunday: Closed</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-  <!-- Footer -->
-<!-- Advanced Footer -->
-<footer class="footer bg-dark text-white py-4 mt-5">
-  <div class="container">
-    <div class="row align-items-center text-center text-md-start">
-
-      <!-- Logo and Description -->
-      <div class="col-md-6 mb-3 mb-md-0 d-flex align-items-center">
-        <img src="images/MDai-removebg-preview.png" alt="MDai Logo" width="40" height="40" class="me-2">
-        <span class="fw-bold fs-5">MDai</span>
-        <span class="text-muted ms-2">— Empowering Through Tech & AI</span>
-      </div>
-
-      <!-- Social Links -->
-      <div class="col-md-6 text-md-end">
-        <span class="me-2">Follow us:</span>
-        <a href="https://github.com/symphorienpya" class="text-white me-3" target="_blank"><i class="fab fa-github fs-5"></i></a>
-        <a href="https://linkedin.com/in/symphorienpyana" class="text-white me-3" target="_blank"><i class="fab fa-linkedin fs-5"></i></a>
-        <a href="https://instagram.com/symphorien_pyana_jr" class="text-white me-3" target="_blank"><i class="fab fa-instagram fs-5"></i></a>
-      </div>
-
-    </div>
-
-    <div class="text-center small" style="color: #ccc;">
-  &copy; 2025 <strong>MDai</strong>. All rights reserved. | Designed by Symphorien Pyana
+  <div id="mado-messages" class="scroll-area"></div>
+  <form id="mado-input">
+    <input type="text" id="mado-user-input" placeholder="Posez votre question..." required />
+    <button type="submit">➤</button>
+  </form>
 </div>
 
-</footer>
-
-
- <!-- Chatbot Trigger Button -->
-<div class="chatbot-launcher">
-  <button class="btn btn-primary rounded-circle shadow" title="Chat with MADO">
-    <i class="fas fa-robot"></i>
-  </button>
-</div>
-
-<!-- Chatbot Window -->
-<div id="mdai-chatbox" class="chatbot-box shadow" style="display: none;">
-  <div class="chatbot-header d-flex justify-content-between align-items-center px-3 py-2 bg-primary text-white">
-    <div>
-      <span class="fw-bold">MDai</span> <span id="status-indicator" class="text-success">● Online</span>
-    </div>
-    <button id="mdai-close" class="btn btn-sm btn-light rounded-circle">&times;</button>
-  </div>
-  <div id="mdai-messages" class="chatbot-messages p-3"></div>
-  <div class="chatbot-input d-flex p-2">
-    <input id="mdai-input" class="form-control me-2" type="text" placeholder="Type a message..." />
-    <button id="mdai-send" class="btn btn-primary">Send</button>
-    <button id="clear-chat" style="background: none; border: none; color: red; cursor: pointer; font-size: 14px;">🗑️</button>
-  </div>
-</div>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <!-- JS preserved as-is from previous version -->
   <script>
-    AOS.init();
-  </script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    // (script unchanged)
+      // Theme toggle logic
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+const htmlEl = document.documentElement;
 
-  <script>
-    gsap.registerPlugin(SplitText);
-gsap.config({ trialWarn: false });
-console.clear();
+function updateThemeToggle() {
+  const theme = htmlEl.getAttribute("data-theme");
+  if (theme === "dark") {
+    themeToggleBtn.textContent = "Light Mode";
+    themeToggleBtn.setAttribute("aria-pressed", "true");
+  } else {
+    themeToggleBtn.textContent = "Dark Mode";
+    themeToggleBtn.setAttribute("aria-pressed", "false");
+  }
+}
 
-const repeatCount = 8;
-const tl = gsap.timeline({ paused: true });
-const split = new SplitText("h1", { type: "chars" });
-
-split.chars.forEach((obj, i) => {
-  let txt = obj.innerText;
-  let clone = `<div class="cloneText"> ${txt} </div>`;
-  let newHTML = `<div class="originalText"> ${txt} </div>${clone}`;
-  obj.innerHTML = newHTML;
-  gsap.set(obj.childNodes[1], {
-    yPercent: 100
-  });
-  console.log(obj.childNodes);
-  let tween = gsap.to(obj.childNodes, {
-    repeat: repeatCount,
-    ease: "none",
-    yPercent: "-=100",
-    delay: 0.05 * i
-  });
-  tl.add(tween, 0);
-});
-gsap.to(tl, { progress: 1, duration: 4, ease: "power4.inOut" });
-
-GSDevTools.create();
-  </script>
-
-
-<!-- for AI -->
-<script>
-const chatBtn = document.querySelector(".chatbot-launcher button");
-const chatBox = document.getElementById("mdai-chatbox");
-const closeBtn = document.getElementById("mdai-close");
-const input = document.getElementById("mdai-input");
-const sendBtn = document.getElementById("mdai-send");
-const messages = document.getElementById("mdai-messages");
-const statusIndicator = document.getElementById("status-indicator");
-const clearChatBtn = document.getElementById("clear-chat");
-
-const username = localStorage.getItem("mdaiUserName") || prompt("Hi! What's your name?");
-if (username) localStorage.setItem("mdaiUserName", username);
-
-let history = JSON.parse(localStorage.getItem("mdaiHistory") || "[]");
-
-// Load persisted messages
-history.forEach(item => {
-  addMessage(item.text, item.from);
+themeToggleBtn.addEventListener("click", () => {
+  if (htmlEl.getAttribute("data-theme") === "dark") {
+    htmlEl.setAttribute("data-theme", "light");
+  } else {
+    htmlEl.setAttribute("data-theme", "dark");
+  }
+  updateThemeToggle();
 });
 
-function respond(text) {
-  const lower = text.toLowerCase();
-  let response = "";
-  let matched = true;
+updateThemeToggle();
 
-  const english = {
-    greeting: `Hi ${username}! I'm MADO, your assistant. How can I help today?`,
-    about: "MDai is a digital platform offering web development, Python, design, AI courses, and more.",
-    name: "My name is MADO – I'm your assistant here at MDai.",
-    contact: "You can reach us at symphorienpyana065@gmail.com or WhatsApp +2439836292481.",
-    register: "To register, click on the 'Submit Details' button and follow the instructions.",
-    live: "To join a live class, click on the 'Live' button, enter the code you received via email from the MDai team. Once approved, press 'Join', and you're live!",
-    time: `The current time is ${new Date().toLocaleTimeString()}.`,
-    date: `Today's date is ${new Date().toLocaleDateString()}.`,
-    courses: "We offer courses in HTML, CSS, JavaScript, Python, AI, design, and more. Visit the 'Courses' section to see all available programs.",
-    language: "MDai supports English and French. You can ask questions in either language.",
-    support: "If you need help, feel free to contact our team anytime via email or WhatsApp. We're here for you!",
-    tools: "We teach tools like VS Code, Figma, Canva, GitHub, and more in our classes.",
-    availability: "You can access the platform 24/7. Live classes happen at scheduled times, but course materials are available anytime.",
-    default: "Sorry, I didn’t understand. Ask me anything about MDai!"
-  };
+// Hamburger menu toggle for small screens
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const navLinks = document.getElementById("primary-navigation");
 
-  const french = {
-    greeting: `Salut ${username} ! Je suis MADO, votre assistante. Comment puis-je vous aider  ?`,
-    about: "MDai est une plateforme numérique qui propose des formations en développement web, Python, design, IA, et plus encore.",
-    name: "Je m'appelle MADO, votre assistante ici chez MDai.",
-    contact: "Contactez-nous à symphorienpyana065@gmail.com ou sur WhatsApp +2439836292481.",
-    register: "Pour vous inscrire, cliquez sur le bouton 'Soumettre les détails' et suivez les instructions.",
-    live: "Pour rejoindre une session en direct, cliquez sur le bouton 'Live', entrez le code reçu par email de l’équipe MDai. Une fois approuvé, cliquez sur 'Rejoindre' et vous êtes en direct !",
-    time: `L'heure actuelle est ${new Date().toLocaleTimeString('fr-FR')}.`,
-    date: `Nous sommes le ${new Date().toLocaleDateString('fr-FR')}.`,
-    courses: "Nous proposons des cours en HTML, CSS, JavaScript, Python, intelligence artificielle, design, et bien plus. Consultez la section 'Cours'.",
-    language: "MDai prend en charge le français et l'anglais. Vous pouvez poser vos questions dans l'une ou l'autre langue.",
-    support: "Si vous avez besoin d'aide, contactez-nous par email ou WhatsApp. Nous sommes là pour vous aider.",
-    tools: "Nous utilisons des outils comme VS Code, Figma, Canva, GitHub, et d'autres durant nos formations.",
-    availability: "Vous pouvez accéder à la plateforme 24h/24. Les sessions en direct ont des horaires spécifiques, mais les contenus sont disponibles à tout moment.",
-    default: "Désolé, je n'ai pas compris. Posez-moi une question sur MDai."
-  };
+hamburgerBtn.addEventListener("click", () => {
+  const expanded =
+    hamburgerBtn.getAttribute("aria-expanded") === "true" || false;
+  hamburgerBtn.setAttribute("aria-expanded", String(!expanded));
+  navLinks.classList.toggle("open");
 
-  const isFrench = /bonjour|comment|aide|merci|nom|êtes[-\s]?vous|cours|formation|contact|heure|date|langue|outil/.test(lower);
+  // Manage focus trap for menu when open
+  if (!expanded) {
+    navLinks.querySelector("a").focus();
+    navLinks.setAttribute("tabindex", "0");
+  } else {
+    hamburgerBtn.focus();
+    navLinks.setAttribute("tabindex", "-1");
+  }
+});
 
-  if (/(hello|hi|salut|bonjour)/.test(lower)) response = isFrench ? french.greeting : english.greeting;
-  else if (/(about|platform|mdai|ringa|service)/.test(lower)) response = isFrench ? french.about : english.about;
-  else if (/(name|who (are|is) you|your name|comment tu t'appelles|nom)/.test(lower)) response = isFrench ? french.name : english.name;
-  else if (/(contact|email|whatsapp|reach|message)/.test(lower)) response = isFrench ? french.contact : english.contact;
-  else if (/(register|enroll|submit.*details|inscrire|soumettre les détails)/.test(lower)) response = isFrench ? french.register : english.register;
-  else if (/(live|join.*live|code.*email|rejoindre.*live|session en direct)/.test(lower)) response = isFrench ? french.live : english.live;
-  else if (/(time|heure)/.test(lower)) response = isFrench ? french.time : english.time;
-  else if (/(date|quel jour)/.test(lower)) response = isFrench ? french.date : english.date;
-  else if (/(courses?|formations?)/.test(lower)) response = isFrench ? french.courses : english.courses;
-  else if (/(language|langue)/.test(lower)) response = isFrench ? french.language : english.language;
-  else if (/(support|aide|besoin)/.test(lower)) response = isFrench ? french.support : english.support;
-  else if (/(tools?|outils?)/.test(lower)) response = isFrench ? french.tools : english.tools;
-  else if (/(availability|access|disponible|horaire)/.test(lower)) response = isFrench ? french.availability : english.availability;
-  else {
-    matched = false;
-    response = isFrench ? french.default : english.default;
+// Keyboard navigation for menu links
+navLinks.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    hamburgerBtn.click();
+    hamburgerBtn.focus();
+  }
+});
 
-    const missed = JSON.parse(localStorage.getItem("mdaiMissed") || "[]");
-    missed.push({ question: lower, date: new Date().toISOString() });
-    localStorage.setItem("mdaiMissed", JSON.stringify(missed));
+// Search filtering logic
+const searchInput = document.getElementById("searchInput");
+const featureCards = document.querySelectorAll(".feature-card");
+const filterButtons = document.querySelectorAll(".filter-btn");
+
+let activeCategory = "all";
+
+function filterFeatures() {
+  const searchTerm = searchInput.value.toLowerCase();
+
+  featureCards.forEach((card) => {
+    const title = card.querySelector("h3").textContent.toLowerCase();
+    const desc = card.querySelector("p").textContent.toLowerCase();
+    const category = card.getAttribute("data-category");
+
+    const matchesSearch =
+      title.includes(searchTerm) || desc.includes(searchTerm);
+    const matchesCategory =
+      activeCategory === "all" || category === activeCategory;
+
+    if (matchesSearch && matchesCategory) {
+      card.style.display = "";
+      card.setAttribute("aria-hidden", "false");
+    } else {
+      card.style.display = "none";
+      card.setAttribute("aria-hidden", "true");
+    }
+  });
+}
+
+searchInput.addEventListener("input", () => {
+  filterFeatures();
+});
+
+filterButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    filterButtons.forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
+    });
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
+
+    activeCategory = btn.getAttribute("data-category");
+    filterFeatures();
+  });
+
+  // Support keyboard with Enter and Space keys
+  btn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      btn.click();
+    }
+  });
+});
+
+// Newsletter form validation & submission simulation
+const newsletterForm = document.getElementById("newsletterForm");
+const emailInput = document.getElementById("emailInput");
+const newsletterMessage = document.getElementById("newsletterMessage");
+
+newsletterForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  newsletterMessage.textContent = "";
+  emailInput.setAttribute("aria-invalid", "false");
+
+  const emailValue = emailInput.value.trim();
+
+  // Simple email regex for validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailValue) {
+    newsletterMessage.textContent = "Please enter your email address.";
+    emailInput.setAttribute("aria-invalid", "true");
+    emailInput.focus();
+    return;
+  } else if (!emailRegex.test(emailValue)) {
+    newsletterMessage.textContent = "Please enter a valid email address.";
+    emailInput.setAttribute("aria-invalid", "true");
+    emailInput.focus();
+    return;
   }
 
-  return response;
-}
-
-function addMessage(text, from = "user") {
-  const wrapper = document.createElement("div");
-  wrapper.className = `message ${from}`;
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.textContent = text;
-
-  const avatar = document.createElement("img");
-  avatar.src = from === "bot" ? "images/MDai.png" : `https://i.pravatar.cc/150?u=${username}`;
-  avatar.alt = "avatar";
-  avatar.className = "avatar";
-
-  wrapper.appendChild(avatar);
-  wrapper.appendChild(bubble);
-  messages.appendChild(wrapper);
-  messages.scrollTop = messages.scrollHeight;
-
-  // Save message to history
-  history.push({ text, from });
-  localStorage.setItem("mdaiHistory", JSON.stringify(history));
-}
-
-sendBtn.addEventListener("click", () => {
-  const question = input.value.trim();
-  if (!question) return;
-
-  addMessage(question, "user");
-
-  const thinking = document.createElement("div");
-  thinking.className = "message bot";
-  thinking.innerHTML = `<img src="images/MDai.png" class="avatar" alt="bot"/><div class="bubble">Thinking...</div>`;
-  messages.appendChild(thinking);
-  messages.scrollTop = messages.scrollHeight;
-
-  const reply = respond(question);
-  setTimeout(() => {
-    thinking.remove();
-    addMessage(reply, "bot");
-  }, 1500);
-
-  input.value = "";
+  newsletterMessage.style.color = "var(--accent-color)";
+  newsletterMessage.textContent = "Thank you for subscribing!";
+  emailInput.value = "";
 });
 
-input.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendBtn.click();
+// Back to top button
+const backToTopBtn = document.getElementById("backToTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    backToTopBtn.style.display = "block";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
 });
 
-chatBtn.addEventListener("click", () => {
-  chatBox.style.display = "block";
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  backToTopBtn.blur();
 });
 
-closeBtn.addEventListener("click", () => {
-  chatBox.style.display = "none";
-});
+// Accessibility: visually-hidden class for labels if needed
+const style = document.createElement("style");
+style.textContent = `
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0 0 0 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  `;
+document.head.appendChild(style);
 
-clearChatBtn.addEventListener("click", () => {
-  localStorage.removeItem("mdaiHistory");
-  history = [];
-  messages.innerHTML = "";
-});
+// Initial filter on page load
+filterFeatures();
+  </script>
 
-// Draggable
-chatBox.addEventListener("mousedown", function (e) {
-  if (!e.target.closest(".chatbot-header")) return;
-  const box = chatBox;
-  let offsetX = e.clientX - box.getBoundingClientRect().left;
-  let offsetY = e.clientY - box.getBoundingClientRect().top;
 
-  const move = (e) => {
-    box.style.left = `${e.clientX - offsetX}px`;
-    box.style.top = `${e.clientY - offsetY}px`;
-    box.style.right = "auto";
-    box.style.bottom = "auto";
-    box.style.position = "fixed";
+
+<!-- MDai -->
+<script>
+  const madoBtn = document.getElementById("mado-btn");
+  const madoChat = document.getElementById("mado-chat");
+  const madoForm = document.getElementById("mado-input");
+  const userInput = document.getElementById("mado-user-input");
+  const messages = document.getElementById("mado-messages");
+
+  madoBtn.addEventListener("click", () => {
+    madoChat.style.display = madoChat.style.display === "flex" ? "none" : "flex";
+    madoChat.style.flexDirection = "column";
+  });
+
+  const responses = {
+    "bonjour": "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
+    "salut": "Salut ! Que voulez-vous savoir ?",
+    "comment tu vas": "Je suis une IA, toujours prêt(e) à aider !",
+    "mdai": "MDai est une plateforme d'apprentissage en ligne pour l'intelligence artificielle.",
+    "cours": "Vous pouvez explorer nos cours via la section 'Explorer les cours'.",
+    "python": "Le cours Python pour Débutants vous aide à apprendre à coder facilement.",
+    "c": "Le cours 'Langage C' vous initie à la programmation bas niveau.",
+    "html": "HTML est un langage de balisage utilisé pour structurer une page web.",
+    "css": "CSS est utilisé pour styliser votre site web : couleurs, polices, mises en page.",
+    "javascript": "JavaScript permet de rendre les sites interactifs (boutons, animations, formulaires...).",
+    "hello world python": "print('Hello, world!') est la syntaxe pour afficher en Python.",
+    "variable python": "En Python : nom = 'Mado'.",
+    "if python": "if age >= 18:\n    print('Majeur')",
+    "boucle for": "for i in range(5):\n    print(i)",
+    "fonction python": "def saluer(nom):\n    print(f'Bonjour {nom}')",
+    "liste python": "ma_liste = [1, 2, 3]",
+    "objet javascript": "let utilisateur = { nom: 'Mado', age: 2 };",
+    "fonction javascript": "function direBonjour(nom) {\n  alert('Bonjour ' + nom);\n}",
+    "sélecteur css": "Pour sélectionner une classe : .ma-classe { color: red; }",
+    "margin css": "margin: 10px; ajoute de l’espace autour d’un élément.",
+    "erreur courante": "Vérifiez la syntaxe, les accolades et les noms de variables !",
+    "comment s'inscrire": "Cliquez sur un cours et appuyez sur le bouton 'S'inscrire'.",
+    "gratuit": "Certains cours sont gratuits, d'autres nécessitent un abonnement.",
+    "abonnement": "Nos abonnements mensuels permettent l'accès à tous les cours.",
+    "live": "Les sessions LIVE sont disponibles dans le menu 'LIVE'.",
+    "horaire": "Consultez la page 'Time Table' pour connaître les horaires.",
+    "certificat": "Oui ! Vous recevez un certificat après avoir terminé un cours.",
+    "contact": "Vous pouvez nous contacter via la section Contact ou par email.",
+    "intelligence artificielle": "L'IA est la capacité des machines à simuler l'intelligence humaine.",
+    "machine learning": "Le machine learning est une branche de l’IA qui apprend à partir des données.",
+    "data science": "La science des données combine programmation, statistiques et IA.",
+    "deep learning": "C'est une méthode avancée d'apprentissage automatique utilisant les réseaux de neurones.",
+    "projets": "Visitez notre page Projets pour voir ce que les étudiants ont créé.",
+    "professeurs": "Nos cours sont conçus par des experts de l'industrie et de l'enseignement.",
+    "application": "Bientôt disponible sur Android et iOS !",
+    "mot de passe": "Vous pouvez réinitialiser votre mot de passe sur la page de connexion.",
+    "langue": "La plateforme est disponible en français et en anglais.",
+    "offline": "Certains contenus peuvent être téléchargés pour une lecture hors ligne.",
+    "enfant": "Oui, certains cours conviennent aux jeunes apprenants.",
+    "avancé": "Les cours avancés incluent l'IA, le C, et le développement web complexe.",
+    "débutant": "Commencez par Python ou Anglais 1 si vous êtes nouveau.",
+    "support": "Notre équipe support est disponible 24/7.",
+    "chatbot": "Je suis MADO, votre assistant IA personnel 😄",
+    "merci": "Avec plaisir ! N'hésitez pas à poser une autre question.",
+    "au revoir": "Au revoir ! À très bientôt sur MDai.",
+    "qui es-tu": "Je suis MADO, un assistant IA intégré à la plateforme MDai.",
+    "tu parles anglais": "Oui, je comprends l'anglais aussi ! But let’s keep it in French 😉",
+    "erreur": "Pouvez-vous reformuler votre question ?",
   };
 
-  const up = () => {
-    window.removeEventListener("mousemove", move);
-    window.removeEventListener("mouseup", up);
-  };
+  function getResponse(input) {
+    input = input.toLowerCase();
+    for (let key in responses) {
+      if (input.includes(key)) return responses[key];
+    }
+    return "Je suis désolé, je ne comprends pas encore cette question.";
+  }
 
-  window.addEventListener("mousemove", move);
-  window.addEventListener("mouseup", up);
-});
+  madoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userMsg = userInput.value.trim();
+    if (!userMsg) return;
 
-// Online/offline status
-const updateStatus = () => {
-  statusIndicator.textContent = navigator.onLine ? "● Online" : "● Offline";
-  statusIndicator.classList.toggle("text-success", navigator.onLine);
-  statusIndicator.classList.toggle("text-danger", !navigator.onLine);
-};
-window.addEventListener("online", updateStatus);
-window.addEventListener("offline", updateStatus);
-updateStatus();
+    const userBubble = document.createElement("div");
+    userBubble.className = "mado-message user-msg";
+    userBubble.textContent = userMsg;
+    messages.appendChild(userBubble);
+    messages.scrollTop = messages.scrollHeight;
+
+    // MADO "typing..." animation
+    const typingBubble = document.createElement("div");
+    typingBubble.className = "mado-message mado-msg typing";
+    typingBubble.textContent = "MADO écrit...";
+    messages.appendChild(typingBubble);
+    messages.scrollTop = messages.scrollHeight;
+
+    // Wait 3 seconds then replace with actual response
+    setTimeout(() => {
+      const response = getResponse(userMsg);
+      typingBubble.classList.remove("typing");
+      typingBubble.textContent = response;
+      messages.scrollTop = messages.scrollHeight;
+    }, 3000);
+
+    userInput.value = "";
+  });
 </script>
-
+</body>
 
 </body>
 </html>
