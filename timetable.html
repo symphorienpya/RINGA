@@ -1,166 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Course Timetable</title>
+  <title>MDai Course Timetable</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f0f4f8;
+      background: linear-gradient(to right, #e3f2fd, #e0f7fa);
+      min-height: 100vh;
+      padding: 5vw 3vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
     h1 {
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 2rem;
-    }
-
-    .program {
-      background: #fff;
-      border-radius: 12px;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: #0d47a1;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      transition: all 0.3s ease;
+      text-align: center;
+      animation: fadeIn 1s ease;
     }
-
-    .program-header {
-      background: #004d99;
-      color: white;
-      padding: 15px 20px;
-      font-size: 1.2rem;
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      justify-content: center;
+    }
+    input[type="text"], button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
       cursor: pointer;
+      background: #1565c0;
+      color: white;
+      border: none;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0d47a1;
+    }
+    .program {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .program:hover { transform: translateY(-5px); }
+    .program-header {
+      background: #1565c0;
+      color: white;
+      padding: 1em 1.5em;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      cursor: pointer;
       flex-wrap: wrap;
     }
-
     .program-content {
-      display: none;
-      padding: 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.4s ease;
+      background: #fff;
+      padding: 0 1.2em;
     }
-
-    .responsive-table-wrapper {
-      overflow-x: auto;
+    .program-content.open {
+      padding: 1.2em;
+      max-height: 1000px;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      min-width: 300px;
     }
-
     th, td {
-      padding: 10px;
+      padding: 0.75em;
       border: 1px solid #ccc;
       text-align: left;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
     }
-
-    th {
-      background: #e0e0e0;
-    }
-
+    th { background: #e3f2fd; }
     .course-process {
-      margin-top: 15px;
-      color: #444;
+      margin-top: 20px;
+      color: #333;
     }
-
     .course-process ol {
-      margin-top: 10px;
       padding-left: 20px;
+      margin-top: 10px;
     }
-
     .course-process li {
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
     }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 1.6rem;
-      }
-
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
       .program-header {
-        font-size: 1rem;
         flex-direction: column;
         align-items: flex-start;
-        gap: 5px;
       }
-
-      th, td {
-        font-size: 0.9rem;
-        padding: 8px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .course-process ol {
-        padding-left: 15px;
-      }
-
-      .course-process li {
-        font-size: 0.95rem;
-      }
+      th, td { white-space: nowrap; }
     }
   </style>
 </head>
 <body>
-
-  <h1>Weekly Timetable</h1>
-
+  <h1>MDai Weekly Timetable</h1>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search course...">
+    <button onclick="exportPDF()">Download PDF</button>
+  </div>
   <div id="timetable"></div>
 
   <script>
     const programs = [
-      {
-        name: "English 1",
-        schedule: [
-          { day: "Monday", time: "10:00 - 11:30 AM" },
-          { day: "Wednesday", time: "10:00 - 11:30 AM" }
-        ],
-        progression: [
-          "Introduction to basic grammar",
-          "Daily conversations and vocabulary",
-          "Listening and pronunciation practice",
-          "Short reading comprehension exercises"
-        ]
-      },
-      {
-        name: "English 2",
-        schedule: [
-          { day: "Tuesday", time: "11:00 - 12:30 PM" },
-          { day: "Thursday", time: "11:00 - 12:30 PM" }
-        ],
-        progression: [
-          "Intermediate grammar and sentence structure",
-          "Essay writing and editing",
-          "Reading news articles and stories",
-          "Group speaking and debate practice"
-        ]
-      },
-      {
-        name: "English 3",
-        schedule: [
-          { day: "Thursday", time: "06:00 - 08:30 PM" },
-          { day: "Saturday", time: "06:00 - 08:30 PM" },
-          { day: "Sunday", time: "06:00 - 08:30 PM" }
-        ],
-        progression: [
-          "Advanced vocabulary and idioms",
-          "Formal writing: reports and proposals",
-          "Public speaking and presentations",
-          "Mock tests and assessments"
-        ]
-      },
       {
         name: "Web Development",
         schedule: [
@@ -171,51 +138,45 @@
           "HTML structure and tags",
           "CSS styling and layouts",
           "JavaScript programming",
-          "Responsive design with Flexbox/Grid",
-          "Mini project: Build a website",
-          "backen using expres",
-          "DataBase"
+          "Responsive design",
+          "Mini project: Build a website"
         ]
       },
       {
-        name: "Excel",
+        name: "English 1",
         schedule: [
-          { day: "Tuesday", time: "1:00 - 2:30 PM" },
-          { day: "Thursday", time: "1:00 - 2:30 PM" }
+          { day: "Monday", time: "10:00 - 11:30 AM" },
+          { day: "Wednesday", time: "10:00 - 11:30 AM" }
         ],
         progression: [
-          "Excel basics and formulas",
-          "Data sorting and filtering",
-          "Charts and graphs",
-          "Advanced functions and pivot tables"
+          "Grammar basics",
+          "Listening and speaking",
+          "Reading exercises"
         ]
       },
       {
-        name: "Photoshop",
+        name: "English 2",
         schedule: [
-          { day: "Tuesday", time: "1:00 - 2:30 PM" },
-          { day: "Thursday", time: "1:00 - 2:30 PM" }
+          { day: "Tuesday", time: "10:00 - 11:30 AM" },
+          { day: "Thursday", time: "10:00 - 11:30 AM" }
         ],
         progression: [
-          "Introduction to Photoshop interface",
-          "Layers, masks and selection tools",
-          "Image retouching and enhancements",
-          "Text effects and graphic design",
-          "Final project: Poster or Banner"
+          "Tenses and sentence structure",
+          "Writing paragraphs",
+          "Vocabulary expansion"
         ]
       },
       {
-        name: "Python",
+        name: "English 3",
         schedule: [
-          { day: "Friday", time: "2:00 - 4:00 PM" },
-          { day: "Saturday", time: "2:00 - 4:00 PM" }
+          { day: "Thursday", time: "06:00 - 08:30 PM" },
+          { day: "Saturday", time: "06:00 - 08:30 PM" },
+          { day: "Sunday", time: "06:00 - 08:30 PM" }
         ],
         progression: [
-          "Introduction to Python syntax",
-          "Variables, data types, and operators",
-          "Control flow and loops",
-          "Functions and modules",
-          "Mini project: Simple calculator or game"
+          "Essay writing",
+          "Advanced reading",
+          "Listening comprehension"
         ]
       },
       {
@@ -225,66 +186,156 @@
           { day: "Wednesday", time: "5:00 - 6:30 PM" }
         ],
         progression: [
-          "Introduction to C language",
-          "Data types and variables",
-          "Loops and conditionals",
-          "Functions and arrays",
-          "Build a basic C console app"
+          "Syntax and variables",
+          "Loops and conditions",
+          "Functions",
+          "Memory and pointers"
+        ]
+      },
+      {
+        name: "Python for Beginners",
+        schedule: [
+          { day: "Friday", time: "2:00 - 4:00 PM" },
+          { day: "Saturday", time: "2:00 - 4:00 PM" }
+        ],
+        progression: [
+          "Python basics",
+          "Variables and data types",
+          "Control structures",
+          "Projects: Calculator/Game"
+        ]
+      },
+      {
+        name: "Photoshop",
+        schedule: [
+          { day: "Tuesday", time: "2:00 - 3:30 PM" },
+          { day: "Thursday", time: "2:00 - 3:30 PM" }
+        ],
+        progression: [
+          "Interface and tools",
+          "Layers and masks",
+          "Photo editing techniques"
+        ]
+      },
+      {
+        name: "Excel",
+        schedule: [
+          { day: "Saturday", time: "5:00 - 6:30 PM" }
+        ],
+        progression: [
+          "Basic formulas",
+          "Charts and graphs",
+          "Data filtering"
         ]
       }
     ];
 
     const container = document.getElementById("timetable");
 
-    programs.forEach(program => {
-      const div = document.createElement("div");
-      div.classList.add("program");
-
-      div.innerHTML = `
-        <div class="program-header">
-          <span>${program.name}</span>
-          <span>➕</span>
-        </div>
-        <div class="program-content">
-          <div class="responsive-table-wrapper">
+    function renderTimetable(filter = "") {
+      container.innerHTML = "";
+      programs.forEach(program => {
+        if (!program.name.toLowerCase().includes(filter.toLowerCase())) return;
+        const div = document.createElement("div");
+        div.classList.add("program");
+        div.innerHTML = `
+          <div class="program-header">
+            <span>${program.name}</span>
+          </div>
+          <div class="program-content">
             <table>
-              <thead>
-                <tr><th>Day</th><th>Time</th></tr>
-              </thead>
+              <thead><tr><th>Day</th><th>Time</th></tr></thead>
               <tbody>
                 ${program.schedule.map(s => `<tr><td>${s.day}</td><td>${s.time}</td></tr>`).join("")}
               </tbody>
             </table>
+            <div class="course-process">
+              <strong>Course Progression:</strong>
+              <ol>${program.progression.map(step => `<li>${step}</li>`).join("")}</ol>
+            </div>
           </div>
-          <div class="course-process">
-            <strong>Course Progression:</strong>
-            <ol>
-              ${program.progression.map(step => `<li>${step}</li>`).join("")}
-            </ol>
-          </div>
-        </div>
-      `;
-
-      container.appendChild(div);
-    });
-
-    // Toggle logic
-    document.querySelectorAll(".program-header").forEach(header => {
-      header.addEventListener("click", () => {
-        const content = header.nextElementSibling;
-        const symbol = header.querySelector("span:last-child");
-        const isVisible = content.style.display === "block";
-
-        document.querySelectorAll(".program-content").forEach(c => c.style.display = "none");
-        document.querySelectorAll(".program-header span:last-child").forEach(s => s.textContent = "➕");
-
-        if (!isVisible) {
-          content.style.display = "block";
-          symbol.textContent = "➖";
-        }
+        `;
+        container.appendChild(div);
       });
-    });
-  </script>
 
+      document.querySelectorAll(".program-header").forEach(header => {
+        header.addEventListener("click", () => {
+          header.nextElementSibling.classList.toggle("open");
+        });
+      });
+    }
+
+    document.getElementById("search").addEventListener("input", e => {
+      renderTimetable(e.target.value);
+    });
+
+    renderTimetable();
+
+    function getNextDateOfWeek(day) {
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const index = days.indexOf(day);
+      const now = new Date();
+      const date = new Date();
+      date.setDate(now.getDate() + ((7 + index - now.getDay()) % 7 || 7));
+      return date.toLocaleDateString();
+    }
+
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF("p", "mm", "a4");
+      const pageWidth = doc.internal.pageSize.getWidth();
+      let y = 20;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.setTextColor(33, 33, 33);
+      doc.text("MDai Course Timetable", pageWidth / 2, y, { align: "center" });
+      y += 10;
+
+      programs.forEach(p => {
+        if (y > 240) {
+          doc.addPage();
+          y = 20;
+        }
+
+        doc.setFontSize(13);
+        doc.setTextColor(25, 118, 210);
+        doc.text(p.name, 10, y);
+        y += 6;
+
+        doc.setFontSize(11);
+        doc.setTextColor(33, 33, 33);
+        p.schedule.forEach(s => {
+          const dateStr = getNextDateOfWeek(s.day);
+          doc.text(`- ${s.day} (${dateStr}): ${s.time}`, 12, y);
+          y += 5;
+        });
+
+        y += 2;
+        doc.text("Course Progression:", 12, y);
+        y += 5;
+        p.progression.forEach(step => {
+          doc.text(`• ${step}`, 16, y);
+          y += 5;
+        });
+        y += 8;
+      });
+
+      doc.setFont("helvetica", "italic");
+      doc.setTextColor(100);
+      doc.text("__________________________", 140, 250);
+      doc.text("Symphorien Pyana", 145, 257);
+      doc.setFont("helvetica", "normal");
+      doc.text("MDai CEO", 155, 263);
+
+      doc.save("MDai_Timetable.pdf");
+    }
+  </script>
 </body>
 </html>
+
+
+
+
+
+
