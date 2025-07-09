@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Langage C | MDai</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(to right, #e0f7fa, #fff3e0);
+    }
+    h1 {
+      color: #00796b;
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #00796b;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #score, #level {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #resetBtn {
+      display: block;
+      margin: 20px auto 0;
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz de Programmation en C</h1>
+  <div class="quiz-container">
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="Votre réponse..." />
+    <button onclick="checkAnswer()">Soumettre</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+    <p id="level"></p>
+    <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
+  </div>
+
+  <script>
+    const cQuestions = [];
+    for (let i = 1; i <= 1000; i++) {
+      if (i <= 250) {
+        const basics = [
+          { q: "Quel est le fichier d'en-tête pour printf ?", a: "stdio.h" },
+          { q: "Quel symbole termine chaque instruction en C ?", a: ";" },
+          { q: "Quel type de données stocke un entier ?", a: "int" },
+          { q: "Quel mot-clé déclare une constante ?", a: "const" }
+        ];
+        const index = i % basics.length;
+        cQuestions.push({ q: `Base : ${basics[index].q} #${i}`, a: basics[index].a });
+      } else if (i <= 500) {
+        const functions = [
+          { q: "Quel mot-clé déclare une fonction en C ?", a: "void" },
+          { q: "Comment définir une fonction qui retourne un int ?", a: "int nom()" },
+          { q: "Comment passer un paramètre à une fonction ?", a: "int nom(int x)" }
+        ];
+        const index = i % functions.length;
+        cQuestions.push({ q: `Fonctions : ${functions[index].q} #${i}`, a: functions[index].a });
+      } else if (i <= 750) {
+        const pointers = [
+          { q: "Quel symbole est utilisé pour un pointeur ?", a: "*" },
+          { q: "Quel opérateur donne l'adresse d'une variable ?", a: "&" },
+          { q: "Comment déclarer un pointeur vers un int ?", a: "int *p" }
+        ];
+        const index = i % pointers.length;
+        cQuestions.push({ q: `Pointeurs : ${pointers[index].q} #${i}`, a: pointers[index].a });
+      } else {
+        const mix = [
+          { q: "Quelle boucle répète tant qu'une condition est vraie ?", a: "while" },
+          { q: "Quelle structure permet des choix multiples ?", a: "switch" },
+          { q: "Quel est le type pour un caractère ?", a: "char" },
+          { q: "Quel opérateur est utilisé pour l'égalité ?", a: "==" }
+        ];
+        const index = i % mix.length;
+        cQuestions.push({ q: `Mixte : ${mix[index].q} #${i}`, a: mix[index].a });
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    shuffle(cQuestions);
+    let currentIndex = 0;
+    let score = 0;
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "fr-FR";
+      speechSynthesis.speak(utterance);
+    }
+
+    function displayQuestion() {
+      const current = cQuestions[currentIndex];
+      document.getElementById("question").innerText = current.q;
+      speak(current.q);
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("score").innerText = `Score : ${score}/${cQuestions.length}`;
+      document.getElementById("level").innerText = `Niveau : ${Math.floor((currentIndex + 124) / 125)}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      const correct = cQuestions[currentIndex].a.toLowerCase();
+      if (userAnswer === correct) {
+        document.getElementById("feedback").innerText = "✅ Correct !";
+        score++;
+      } else {
+        document.getElementById("feedback").innerText = `❌ Incorrect ! Réponse correcte : ${cQuestions[currentIndex].a}`;
+      }
+      currentIndex++;
+      if (currentIndex < cQuestions.length) {
+        setTimeout(displayQuestion, 1200);
+      } else {
+        document.getElementById("question").innerText = "🎉 Vous avez terminé les 1000 questions !";
+        document.getElementById("score").innerText = `Score final : ${score}/1000`;
+        document.getElementById("level").innerText = "Niveaux terminés : 8";
+      }
+    }
+
+    function resetQuiz() {
+      shuffle(cQuestions);
+      currentIndex = 0;
+      score = 0;
+      displayQuestion();
+    }
+
+    window.onload = displayQuestion;
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDai Brain | Plateforme d'Éducation IA</title>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f3f4f6, #e3f2fd);
+      color: #333;
+      overflow-x: hidden;
+    }
+    header {
+      background: url('https://images.unsplash.com/photo-1581091870620-fd1c247f0316') center/cover;
+      height: 80vh;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+    header h1, header span {
+      position: relative;
+      z-index: 1;
+    }
+    header h1 {
+      font-size: 4rem;
+      font-weight: 800;
+    }
+    header span {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      color: #e3f2fd;
+    }
+    nav {
+      background: #1565c0;
+      padding: 10px 0;
+      text-align: center;
+      animation: slideInDown 1.2s ease;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #ffeb3b;
+    }
+    .hero-video {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
+    .hero-video iframe {
+      width: 90%;
+      max-width: 800px;
+      height: 450px;
+      border-radius: 20px;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      padding: 60px 20px;
+      background: #f8f9fa;
+      text-align: center;
+    }
+    .features div {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .features div:hover {
+      transform: translateY(-5px);
+    }
+    .features i {
+      font-size: 40px;
+      color: #1565c0;
+      margin-bottom: 15px;
+    }
+    footer {
+      background: #0d47a1;
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+      margin-top: 40px;
+    }
+    @keyframes slideInDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MDai Brain</h1>
+    <span><i class="fas fa-brain"></i> Apprentissage moderne par l'intelligence artificielle</span>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="web_development.html">Développement Web</a></li>
+      <li><a href="excel.html">Excel</a></li>
+      <li><a href="english.html">Anglais 1–3</a></li>
+      <li><a href="photoshop.html">Photoshop</a></li>
+      <li><a href="python.html">Python</a></li>
+      <li><a href="c_programming.html">Langage C</a></li>
+    </ul>
+  </nav>
+
+  <!-- <div class="hero-video">
+    <iframe src="https://www.youtube.com/embed/Ieb5hYX7wmo" title="AI in Education" frameborder="0" allowfullscreen></iframe>
+  </div> -->
+
+  <section class="features">
+    <div>
+      <i class="fas fa-laptop-code"></i>
+      <h3>Apprentissage Pratique</h3>
+      <p>Interagissez avec des exercices codables et vérifiez vos réponses instantanément.</p>
+    </div>
+    <div>
+      <i class="fas fa-language"></i>
+      <h3>Multilingue</h3>
+      <p>Apprenez en anglais ou en français avec notre chatbot intelligent MADO.</p>
+    </div>
+    <div>
+      <i class="fas fa-robot"></i>
+      <h3>Assistance IA</h3>
+      <p>Posez vos questions et recevez des réponses précises en temps réel.</p>
+    </div>
+    <div>
+      <i class="fas fa-certificate"></i>
+      <h3>Certificats</h3>
+      <p>Recevez des certificats PDF après avoir terminé chaque module.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 MDai Platform. Tous droits réservés.
+  </footer>
+</body>
+</html>

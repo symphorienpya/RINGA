@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Excel | MDai</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(to right, #f1f8e9, #e0f7fa);
+    }
+    h1 {
+      color: #2e7d32;
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #score, #level {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #resetBtn {
+      display: block;
+      margin: 20px auto 0;
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz Excel</h1>
+  <div class="quiz-container">
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="Votre réponse..." />
+    <button onclick="checkAnswer()">Soumettre</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+    <p id="level"></p>
+    <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
+  </div>
+
+  <script>
+    const excelQuestions = [];
+    for (let i = 1; i <= 1000; i++) {
+      if (i <= 250) {
+        const basics = [
+          { q: "Comment débute une formule Excel ?", a: "=" },
+          { q: "Quelle est la fonction pour la somme ?", a: "SOMME" },
+          { q: "Comment ajouter une ligne ?", a: "clic droit > insérer" },
+          { q: "Que signifie la cellule A1 ?", a: "colonne A, ligne 1" }
+        ];
+        const index = i % basics.length;
+        excelQuestions.push({ q: `Base : ${basics[index].q} #${i}`, a: basics[index].a });
+      } else if (i <= 500) {
+        const formulas = [
+          { q: "Quelle fonction retourne la moyenne ?", a: "MOYENNE" },
+          { q: "Fonction pour valeur max ?", a: "MAX" },
+          { q: "Fonction pour valeur min ?", a: "MIN" },
+          { q: "Quelle fonction compte les cellules ?", a: "NB" }
+        ];
+        const index = i % formulas.length;
+        excelQuestions.push({ q: `Formules : ${formulas[index].q} #${i}`, a: formulas[index].a });
+      } else if (i <= 750) {
+        const formatting = [
+          { q: "Comment mettre en gras une cellule ?", a: "Ctrl + B" },
+          { q: "Comment fusionner des cellules ?", a: "Fusionner les cellules" },
+          { q: "Où changer la couleur du texte ?", a: "Barre d'outils" },
+          { q: "Comment ajuster la largeur de colonne ?", a: "Double-clic bord colonne" }
+        ];
+        const index = i % formatting.length;
+        excelQuestions.push({ q: `Mise en forme : ${formatting[index].q} #${i}`, a: formatting[index].a });
+      } else {
+        const advanced = [
+          { q: "Quelle fonction vérifie une condition ?", a: "SI" },
+          { q: "Comment figer une ligne ?", a: "Affichage > Figer les volets" },
+          { q: "Fonction pour rechercher une valeur ?", a: "RECHERCHEV" },
+          { q: "Que fait le raccourci Ctrl + Z ?", a: "Annuler" }
+        ];
+        const index = i % advanced.length;
+        excelQuestions.push({ q: `Avancé : ${advanced[index].q} #${i}`, a: advanced[index].a });
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    shuffle(excelQuestions);
+    let currentIndex = 0;
+    let score = 0;
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "fr-FR";
+      speechSynthesis.speak(utterance);
+    }
+
+    function displayQuestion() {
+      const current = excelQuestions[currentIndex];
+      document.getElementById("question").innerText = current.q;
+      speak(current.q);
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("score").innerText = `Score : ${score}/${excelQuestions.length}`;
+      document.getElementById("level").innerText = `Niveau : ${Math.floor((currentIndex + 124) / 125)}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      const correct = excelQuestions[currentIndex].a.toLowerCase();
+      if (userAnswer === correct) {
+        document.getElementById("feedback").innerText = "✅ Correct !";
+        score++;
+      } else {
+        document.getElementById("feedback").innerText = `❌ Incorrect ! Réponse correcte : ${excelQuestions[currentIndex].a}`;
+      }
+      currentIndex++;
+      if (currentIndex < excelQuestions.length) {
+        setTimeout(displayQuestion, 1200);
+      } else {
+        document.getElementById("question").innerText = "🎉 Vous avez terminé les 1000 questions !";
+        document.getElementById("score").innerText = `Score final : ${score}/1000`;
+        document.getElementById("level").innerText = "Niveaux terminés : 8";
+      }
+    }
+
+    function resetQuiz() {
+      shuffle(excelQuestions);
+      currentIndex = 0;
+      score = 0;
+      displayQuestion();
+    }
+
+    window.onload = displayQuestion;
+  </script>
+</body>
+</html>

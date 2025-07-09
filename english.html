@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt-stdlib.js"></script>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz English | MDai</title>
+
+    <style>
+    *{margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f5f7fa, #e3f2fd);
+      color: #333;
+      overflow-x: hidden;
+    }
+    header {
+      background: linear-gradient(to right, #1565c0, #1e88e5);
+      color: #fff;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      animation: slideDown 1s ease;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    nav {
+      background: #1e1e2f;
+      width: 240px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 4rem;
+      color: #fff;
+      animation: fadeIn 1s ease-in;
+    }
+    nav ul { list-style: none; padding: 0; }
+    nav li a {
+      display: block;
+      padding: 12px 20px;
+      color: #ccc;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    nav li a:hover {
+      background: #1565c0;
+      color: #fff;
+    }
+    main {
+      margin-left: 240px;
+      padding: 2rem;
+      animation: fadeInUp 0.7s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .quiz input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .run-btn {
+      background: #1565c0;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .run-btn:hover { background: #0d47a1; }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #feedback.correct {
+      color: green;
+      animation: pulse 0.6s ease;
+    }
+    #feedback.incorrect {
+      color: red;
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #score {
+      margin-top: 5px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+    .crown {
+      animation: crownGlow 1.5s infinite;
+      font-size: 2rem;
+      color: gold;
+    }
+    @keyframes crownGlow {
+      0%, 100% { text-shadow: 0 0 10px gold; }
+      50% { text-shadow: 0 0 20px orange; }
+    }
+    @media (max-width: 768px) {
+      nav { display: none; }
+      main { margin: 0; padding: 1rem; }
+      header { flex-direction: column; text-align: center; }
+    }
+    </style>
+</head>
+<body>
+    <main>
+    <br><br><br><br>
+    <h2>Challenge what you have learned so far with our modern MDai error-detection brain</h2> <br><br><br><br>
+    <div class="course-grid">
+      <div class="course-card" id="english">
+        <h3>English 1, 2, 3</h3>
+        <p>Answer questions from Beginner to Pro.</p>
+        <div class="quiz">
+          <p id="question"></p>
+          <input type="text" id="answer" placeholder="Your answer..." />
+          <button class="run-btn" onclick="checkAnswer()">Submit</button>
+          <p id="feedback"></p>
+          <p id="score"></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <audio id="correctSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_96b38888ce.mp3"></audio>
+  <audio id="wrongSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_36a1c64c4a.mp3"></audio>
+  <script>
+
+const englishQuestions = [];
+
+for (let i = 1; i <= 1000; i++) {
+  if (i <= 125) {
+    // Level 1: Plural forms
+    const singularNouns = ['baby', 'city', 'story', 'knife', 'box', 'man', 'woman', 'child', 'tooth', 'foot'];
+    const pluralForms = ['babies', 'cities', 'stories', 'knives', 'boxes', 'men', 'women', 'children', 'teeth', 'feet'];
+    const index = i % singularNouns.length;
+    englishQuestions.push({
+      q: `Level 1: What is the plural form of '${singularNouns[index]}'? #${i}`,
+      a: pluralForms[index]
+    });
+  } else if (i <= 250) {
+    // Level 2: Fill in the blanks
+    const sentences = [
+      { q: "He ___ a pen.", a: "has" },
+      { q: "They ___ playing.", a: "are" },
+      { q: "I ___ happy.", a: "am" },
+      { q: "She ___ not coming.", a: "is" },
+      { q: "We ___ a big house.", a: "have" },
+      { q: "You ___ my friend.", a: "are" },
+      { q: "It ___ raining.", a: "is" },
+      { q: "Tom ___ a teacher.", a: "is" },
+      { q: "They ___ gone home.", a: "have" },
+      { q: "He ___ to school every day.", a: "goes" }
+    ];
+    const index = i % sentences.length;
+    englishQuestions.push({
+      q: `Level 2: Fill in the blank: '${sentences[index].q}' #${i}`,
+      a: sentences[index].a
+    });
+  } else if (i <= 375) {
+    // Level 3: Opposites
+    const words = ['cold', 'big', 'happy', 'early', 'strong', 'dark', 'fast', 'cheap', 'easy', 'hard'];
+    const opposites = ['hot', 'small', 'sad', 'late', 'weak', 'bright', 'slow', 'expensive', 'difficult', 'soft'];
+    const index = i % words.length;
+    englishQuestions.push({
+      q: `Level 3: What is the opposite of '${words[index]}'? #${i}`,
+      a: opposites[index]
+    });
+  } else if (i <= 500) {
+    // Level 4: Synonyms
+    const words = ['smart', 'quick', 'beautiful', 'angry', 'start', 'rich', 'big', 'sad', 'funny', 'happy'];
+    const synonyms = ['intelligent', 'fast', 'attractive', 'mad', 'begin', 'wealthy', 'large', 'unhappy', 'humorous', 'joyful'];
+    const index = i % words.length;
+    englishQuestions.push({
+      q: `Level 4: What is a synonym of '${words[index]}'? #${i}`,
+      a: synonyms[index]
+    });
+  } else if (i <= 625) {
+    // Level 5: Sentence correction
+    const incorrectSentences = [
+      { q: "She don't have any idea.", a: "She doesn't have any idea." },
+      { q: "I has two brothers.", a: "I have two brothers." },
+      { q: "They was here.", a: "They were here." },
+      { q: "He go to school every day.", a: "He goes to school every day." },
+      { q: "We is happy.", a: "We are happy." },
+      { q: "It don't matter.", a: "It doesn't matter." },
+      { q: "She have finished her work.", a: "She has finished her work." },
+      { q: "They is coming today.", a: "They are coming today." },
+      { q: "Does he goes to college?", a: "Does he go to college?" },
+      { q: "I am agree with you.", a: "I agree with you." }
+    ];
+    const index = i % incorrectSentences.length;
+    englishQuestions.push({
+      q: `Level 5: Correct this sentence: '${incorrectSentences[index].q}' #${i}`,
+      a: incorrectSentences[index].a
+    });
+  } else if (i <= 750) {
+    // Level 6: Conjugation
+    const conjugations = [
+      { q: "Conjugate 'go' in 3rd person singular present.", a: "goes" },
+      { q: "Past tense of 'eat'?", a: "ate" },
+      { q: "Past participle of 'write'?", a: "written" },
+      { q: "Present continuous of 'run'?", a: "running" },
+      { q: "3rd person singular of 'do'?", a: "does" },
+      { q: "Past tense of 'see'?", a: "saw" },
+      { q: "Present tense of 'was' for plural?", a: "were" },
+      { q: "Past participle of 'begin'?", a: "begun" },
+      { q: "Future form of 'come'?", a: "will come" },
+      { q: "Conjugate 'have' for he/she/it.", a: "has" }
+    ];
+    const index = i % conjugations.length;
+    englishQuestions.push({
+      q: `Level 6: ${conjugations[index].q} #${i}`,
+      a: conjugations[index].a
+    });
+  } else if (i <= 875) {
+    // Level 7: Days of the Week
+    const questions = [
+      { q: "What day comes after Monday?", a: "Tuesday" },
+      { q: "What day comes before Friday?", a: "Thursday" },
+      { q: "What is the first day of the week?", a: "Sunday" },
+      { q: "What is the last day of the week?", a: "Saturday" },
+      { q: "What day is between Tuesday and Thursday?", a: "Wednesday" },
+      { q: "What day comes before Monday?", a: "Sunday" },
+      { q: "What is the day after Friday?", a: "Saturday" }
+    ];
+    const index = i % questions.length;
+    englishQuestions.push({
+      q: `Level 7: ${questions[index].q} #${i}`,
+      a: questions[index].a
+    });
+  } else if (i <= 937) {
+    // Level 8: Telling Time
+    const timeQuestions = [
+      { q: "What time is 'half past three'?", a: "3:30" },
+      { q: "What time is 'quarter to five'?", a: "4:45" },
+      { q: "What time is 'ten past six'?", a: "6:10" },
+      { q: "What time is 'a quarter past two'?", a: "2:15" },
+      { q: "What time is 'twenty to eight'?", a: "7:40" },
+      { q: "What is the 24-hour format of 3 PM?", a: "15:00" },
+      { q: "What is midnight in 24-hour format?", a: "00:00" },
+      { q: "What time is 'noon'?", a: "12:00" }
+    ];
+    const index = i % timeQuestions.length;
+    englishQuestions.push({
+      q: `Level 8: ${timeQuestions[index].q} #${i}`,
+      a: timeQuestions[index].a
+    });
+  } else if (i <= 968) {
+    // Level 9: Advanced Grammar
+    const advancedGrammar = [
+      { q: "Type 1 Conditional: If it rains, I ___ home.", a: "will stay" },
+      { q: "Modal verb: You ___ finish your homework before playing.", a: "must" },
+      { q: "Reported speech: She said, 'I am tired.'", a: "She said she was tired." },
+      { q: "Demonstrative: ___ book is mine. (near)", a: "This" },
+      { q: "Comparative: John is ___ than Mike.", a: "taller" },
+      { q: "Superlative: This is the ___ movie I've ever seen.", a: "best" },
+      { q: "Conditional Type 2: If I were rich, I ___ travel the world.", a: "would" },
+      { q: "Reported speech: He said, 'I will come tomorrow.'", a: "He said he would come the next day." },
+      { q: "Modal verb: You ___ speak quietly in the library.", a: "should" }
+    ];
+    const index = i % advancedGrammar.length;
+    englishQuestions.push({
+      q: `Level 9: ${advancedGrammar[index].q} #${i}`,
+      a: advancedGrammar[index].a
+    });
+  } else {
+    // Level 10: Mixed Advanced Grammar Applications
+    const grammarApps = [
+      { q: "Rewrite in reported speech: Mary said, 'I am watching a movie.'", a: "Mary said she was watching a movie." },
+      { q: "Error: 'If I will see him, I will tell him.' – Correct it.", a: "If I see him, I will tell him." },
+      { q: "Choose correct: This/These is my phone.", a: "This is my phone." },
+      { q: "Transform: 'He is too tired to walk.' → using 'so...that'", a: "He is so tired that he cannot walk." },
+      { q: "Comparative: This book is ___ than the last one.", a: "more interesting" },
+      { q: "Indirect command: She told me, 'Close the door.'", a: "She told me to close the door." }
+    ];
+    const index = i % grammarApps.length;
+    englishQuestions.push({
+      q: `Level 10: ${grammarApps[index].q} #${i}`,
+      a: grammarApps[index].a
+    });
+  }
+}
+
+console.log(englishQuestions);
+
+
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    shuffle(englishQuestions);
+    let currentIndex = 0;
+    let score = 0;
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
+
+    function displayQuestion() {
+      const current = englishQuestions[currentIndex];
+      document.getElementById("question").innerText = current.q;
+      speak(current.q);
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("score").innerText = `Score: ${score}/${englishQuestions.length}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      const correct = englishQuestions[currentIndex].a.toLowerCase();
+      if (userAnswer === correct) {
+        document.getElementById("feedback").innerText = "✅ Correct!";
+        score++;
+      } else {
+        document.getElementById("feedback").innerText = `❌ Incorrect! Correct answer: ${englishQuestions[currentIndex].a}`;
+      }
+      currentIndex++;
+      if (currentIndex < englishQuestions.length) {
+        setTimeout(displayQuestion, 1200);
+      } else {
+        document.getElementById("question").innerText = "🎉 You've completed all 1000 questions!";
+        document.getElementById("score").innerText = `Final Score: ${score}/1000`;
+      }
+    }
+
+    window.onload = displayQuestion;
+  </script>
+
+</body>
+</html>
