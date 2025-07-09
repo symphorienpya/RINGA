@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>MDai - Plateforme d'apprentissage en ligne</title>
+
+
+  <style>
+
+   
+  </style>
+</head>
+<body>
+
+  <nav role="navigation" aria-label="Primary navigation">
+    <a href="#" class="logo" aria-label="Accueil MDai">
+      <div class="logo-circle" aria-hidden="true">
+        <img src="images/MDai.png" alt="" width="50" height="50" />
+      </div>
+      MDai
+    </a>
+
+    <button class="hamburger" aria-label="Afficher/masquer le menu" aria-expanded="false" aria-controls="primary-navigation" id="hamburgerBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links" id="primary-navigation" role="menu" tabindex="-1">
+      <li role="none"><a href="index.html" role="menuitem" tabindex="-1">Inscrivez-vous</a></li>
+      <li role="none"><a href="exercise.html" role="menuitem" tabindex="-1">EXERCICES</a></li>
+      <li role="none"><a href="timetable.html" role="menuitem" tabindex="-1">Horaire</a></li>
+      <li role="none"><a href="course.html" role="menuitem" tabindex="-1">Explorer les cours</a></li>
+      <li role="none"><a href="meet.html" role="menuitem" tabindex="-1">Cours en direct</a></li>
+    </ul>
+
+    <button class="theme-toggle" aria-pressed="true" aria-label="Basculer le thème clair/sombre" id="themeToggleBtn">Mode clair</button>
+    <div class="user-profile" tabindex="0" aria-label="Profil utilisateur, non connecté">U</div>
+  </nav>
+
+  <main class="container" id="main-content">
+
+    <header>
+      <h1>Maîtrisez l'IA avec MDai</h1>
+      <p>Votre plateforme d'apprentissage en ligne tout-en-un pour l'intelligence artificielle.</p>
+      <input
+        type="search"
+        id="searchInput"
+        aria-label="Rechercher des fonctionnalités"
+        placeholder="Rechercher des fonctionnalités"
+        autocomplete="off"
+      />
+    </header>
+
+    <section class="filters" role="region" aria-label="Filtres de catégorie" id="filters">
+      <button class="filter-btn active" aria-pressed="true" data-category="all" role="button" tabindex="0">Tout</button>
+      <button class="filter-btn" aria-pressed="false" data-category="beginner" role="button" tabindex="0">Débutant</button>
+      <button class="filter-btn" aria-pressed="false" data-category="intermediate" role="button" tabindex="0">Intermédiaire</button>
+      <button class="filter-btn" aria-pressed="false" data-category="advanced" role="button" tabindex="0">Avancé</button>
+    </section>
+
+    <section class="features" id="features" aria-live="polite" aria-label="Liste des fonctionnalités">
+      <article class="feature-card" data-category="beginner" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/1822/1822899.png" alt="" aria-hidden="true" />
+        <h3>Python pour Débutants</h3>
+        <p>Apprenez les bases de la programmation avec Python.</p>
+      </article>
+
+      <article class="feature-card" data-category="beginner" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="" aria-hidden="true" />
+        <h3>Anglais 1</h3>
+        <p>Commencez à parler et comprendre l'anglais de base.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png" alt="" aria-hidden="true" />
+        <h3>Anglais 2</h3>
+        <p>Améliorez votre grammaire et vocabulaire anglais.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135775.png" alt="" aria-hidden="true" />
+        <h3>Anglais 3</h3>
+        <p>Perfectionnez votre expression écrite et orale en anglais.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/906/906343.png" alt="" aria-hidden="true" />
+        <h3>Photoshop</h3>
+        <p>Découvrez les fondamentaux du design graphique avec Photoshop.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="" aria-hidden="true" />
+        <h3>Excel</h3>
+        <p>Maîtrisez les feuilles de calcul et les fonctions essentielles d'Excel.</p>
+      </article>
+
+      <article class="feature-card" data-category="intermediate" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/919/919827.png" alt="" aria-hidden="true" />
+        <h3>Développement Web</h3>
+        <p>Apprenez à créer des sites web interactifs avec HTML, CSS et JavaScript.</p>
+      </article>
+
+      <article class="feature-card" data-category="advanced" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/2721/2721296.png" alt="" aria-hidden="true" />
+        <h3>Introduction au Langage C</h3>
+        <p>Familiarisez-vous avec la programmation bas niveau en C.</p>
+      </article>
+    </section>
+
+    <section class="newsletter" id="newsletter" aria-labelledby="newsletterTitle">
+      <h2 id="newsletterTitle">Rejoignez notre bulletin</h2>
+      <p>Abonnez-vous pour recevoir les dernières actualités IA et les mises à jour de nos cours.</p>
+      <form id="newsletterForm" novalidate>
+        <label for="emailInput" class="visually-hidden">Adresse e-mail</label>
+        <input
+          type="email"
+          id="emailInput"
+          name="email"
+          placeholder="Entrez votre adresse e-mail"
+          aria-describedby="emailHelp"
+          required
+          autocomplete="email"
+          aria-invalid="false"
+        />
+        <button type="submit" aria-live="polite">S'abonner</button>
+      </form>
+      <div id="newsletterMessage" class="newsletter-message" role="alert" aria-live="assertive"></div>
+    </section>
+  </main>
+
+  <button id="backToTopBtn" aria-label="Retour en haut" title="Retour en haut">↑</button>
+
+  <footer id="footer" role="contentinfo">
+    &copy; 2025 MDai. Tous droits réservés.
+  </footer>
+
+
+
+
+<!-- MADO Chat Button -->
+<button id="mado-btn" aria-label="Chat avec MADO">🤖</button>
+
+<!-- MADO Chat Window -->
+<div id="mado-chat">
+  <div id="mado-header">
+    <img src="images/MDai.png" alt="MADO" class="mado-avatar">
+    <span>MADO - Assistant IA</span>
+  </div>
+  <div id="mado-messages" class="scroll-area"></div>
+  <form id="mado-input">
+    <input type="text" id="mado-user-input" placeholder="Posez votre question..." required />
+    <button type="submit">➤</button>
+  </form>
+</div>
+
+  <!-- JS preserved as-is from previous version -->
+  <script>
+    // (script unchanged)
+      // Theme toggle logic
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+const htmlEl = document.documentElement;
+
+function updateThemeToggle() {
+  const theme = htmlEl.getAttribute("data-theme");
+  if (theme === "dark") {
+    themeToggleBtn.textContent = "Light Mode";
+    themeToggleBtn.setAttribute("aria-pressed", "true");
+  } else {
+    themeToggleBtn.textContent = "Dark Mode";
+    themeToggleBtn.setAttribute("aria-pressed", "false");
+  }
+}
+
+themeToggleBtn.addEventListener("click", () => {
+  if (htmlEl.getAttribute("data-theme") === "dark") {
+    htmlEl.setAttribute("data-theme", "light");
+  } else {
+    htmlEl.setAttribute("data-theme", "dark");
+  }
+  updateThemeToggle();
+});
+
+updateThemeToggle();
+
+// Hamburger menu toggle for small screens
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const navLinks = document.getElementById("primary-navigation");
+
+hamburgerBtn.addEventListener("click", () => {
+  const expanded =
+    hamburgerBtn.getAttribute("aria-expanded") === "true" || false;
+  hamburgerBtn.setAttribute("aria-expanded", String(!expanded));
+  navLinks.classList.toggle("open");
+
+  // Manage focus trap for menu when open
+  if (!expanded) {
+    navLinks.querySelector("a").focus();
+    navLinks.setAttribute("tabindex", "0");
+  } else {
+    hamburgerBtn.focus();
+    navLinks.setAttribute("tabindex", "-1");
+  }
+});
+
+// Keyboard navigation for menu links
+navLinks.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    hamburgerBtn.click();
+    hamburgerBtn.focus();
+  }
+});
+
+// Search filtering logic
+const searchInput = document.getElementById("searchInput");
+const featureCards = document.querySelectorAll(".feature-card");
+const filterButtons = document.querySelectorAll(".filter-btn");
+
+let activeCategory = "all";
+
+function filterFeatures() {
+  const searchTerm = searchInput.value.toLowerCase();
+
+  featureCards.forEach((card) => {
+    const title = card.querySelector("h3").textContent.toLowerCase();
+    const desc = card.querySelector("p").textContent.toLowerCase();
+    const category = card.getAttribute("data-category");
+
+    const matchesSearch =
+      title.includes(searchTerm) || desc.includes(searchTerm);
+    const matchesCategory =
+      activeCategory === "all" || category === activeCategory;
+
+    if (matchesSearch && matchesCategory) {
+      card.style.display = "";
+      card.setAttribute("aria-hidden", "false");
+    } else {
+      card.style.display = "none";
+      card.setAttribute("aria-hidden", "true");
+    }
+  });
+}
+
+searchInput.addEventListener("input", () => {
+  filterFeatures();
+});
+
+filterButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    filterButtons.forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
+    });
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
+
+    activeCategory = btn.getAttribute("data-category");
+    filterFeatures();
+  });
+
+  // Support keyboard with Enter and Space keys
+  btn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      btn.click();
+    }
+  });
+});
+
+// Newsletter form validation & submission simulation
+const newsletterForm = document.getElementById("newsletterForm");
+const emailInput = document.getElementById("emailInput");
+const newsletterMessage = document.getElementById("newsletterMessage");
+
+newsletterForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  newsletterMessage.textContent = "";
+  emailInput.setAttribute("aria-invalid", "false");
+
+  const emailValue = emailInput.value.trim();
+
+  // Simple email regex for validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailValue) {
+    newsletterMessage.textContent = "Please enter your email address.";
+    emailInput.setAttribute("aria-invalid", "true");
+    emailInput.focus();
+    return;
+  } else if (!emailRegex.test(emailValue)) {
+    newsletterMessage.textContent = "Please enter a valid email address.";
+    emailInput.setAttribute("aria-invalid", "true");
+    emailInput.focus();
+    return;
+  }
+
+  newsletterMessage.style.color = "var(--accent-color)";
+  newsletterMessage.textContent = "Thank you for subscribing!";
+  emailInput.value = "";
+});
+
+// Back to top button
+const backToTopBtn = document.getElementById("backToTopBtn");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    backToTopBtn.style.display = "block";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
+});
+
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  backToTopBtn.blur();
+});
+
+// Accessibility: visually-hidden class for labels if needed
+const style = document.createElement("style");
+style.textContent = `
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0 0 0 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  `;
+document.head.appendChild(style);
+
+// Initial filter on page load
+filterFeatures();
+  </script>
+
+
+
+<!-- MDai -->
+<script>
+  const madoBtn = document.getElementById("mado-btn");
+  const madoChat = document.getElementById("mado-chat");
+  const madoForm = document.getElementById("mado-input");
+  const userInput = document.getElementById("mado-user-input");
+  const messages = document.getElementById("mado-messages");
+
+  madoBtn.addEventListener("click", () => {
+    madoChat.style.display = madoChat.style.display === "flex" ? "none" : "flex";
+    madoChat.style.flexDirection = "column";
+  });
+
+  const responses = {
+    "bonjour": "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
+    "salut": "Salut ! Que voulez-vous savoir ?",
+    "comment tu vas": "Je suis une IA, toujours prêt(e) à aider !",
+    "mdai": "MDai est une plateforme d'apprentissage en ligne pour l'intelligence artificielle.",
+    "cours": "Vous pouvez explorer nos cours via la section 'Explorer les cours'.",
+    "python": "Le cours Python pour Débutants vous aide à apprendre à coder facilement.",
+    "c": "Le cours 'Langage C' vous initie à la programmation bas niveau.",
+    "html": "HTML est un langage de balisage utilisé pour structurer une page web.",
+    "css": "CSS est utilisé pour styliser votre site web : couleurs, polices, mises en page.",
+    "javascript": "JavaScript permet de rendre les sites interactifs (boutons, animations, formulaires...).",
+    "hello world python": "print('Hello, world!') est la syntaxe pour afficher en Python.",
+    "variable python": "En Python : nom = 'Mado'.",
+    "if python": "if age >= 18:\n    print('Majeur')",
+    "boucle for": "for i in range(5):\n    print(i)",
+    "fonction python": "def saluer(nom):\n    print(f'Bonjour {nom}')",
+    "liste python": "ma_liste = [1, 2, 3]",
+    "objet javascript": "let utilisateur = { nom: 'Mado', age: 2 };",
+    "fonction javascript": "function direBonjour(nom) {\n  alert('Bonjour ' + nom);\n}",
+    "sélecteur css": "Pour sélectionner une classe : .ma-classe { color: red; }",
+    "margin css": "margin: 10px; ajoute de l’espace autour d’un élément.",
+    "erreur courante": "Vérifiez la syntaxe, les accolades et les noms de variables !",
+    "comment s'inscrire": "Cliquez sur un cours et appuyez sur le bouton 'S'inscrire'.",
+    "gratuit": "Certains cours sont gratuits, d'autres nécessitent un abonnement.",
+    "abonnement": "Nos abonnements mensuels permettent l'accès à tous les cours.",
+    "live": "Les sessions LIVE sont disponibles dans le menu 'LIVE'.",
+    "horaire": "Consultez la page 'Time Table' pour connaître les horaires.",
+    "certificat": "Oui ! Vous recevez un certificat après avoir terminé un cours.",
+    "contact": "Vous pouvez nous contacter via la section Contact ou par email.",
+    "intelligence artificielle": "L'IA est la capacité des machines à simuler l'intelligence humaine.",
+    "machine learning": "Le machine learning est une branche de l’IA qui apprend à partir des données.",
+    "data science": "La science des données combine programmation, statistiques et IA.",
+    "deep learning": "C'est une méthode avancée d'apprentissage automatique utilisant les réseaux de neurones.",
+    "projets": "Visitez notre page Projets pour voir ce que les étudiants ont créé.",
+    "professeurs": "Nos cours sont conçus par des experts de l'industrie et de l'enseignement.",
+    "application": "Bientôt disponible sur Android et iOS !",
+    "mot de passe": "Vous pouvez réinitialiser votre mot de passe sur la page de connexion.",
+    "langue": "La plateforme est disponible en français et en anglais.",
+    "offline": "Certains contenus peuvent être téléchargés pour une lecture hors ligne.",
+    "enfant": "Oui, certains cours conviennent aux jeunes apprenants.",
+    "avancé": "Les cours avancés incluent l'IA, le C, et le développement web complexe.",
+    "débutant": "Commencez par Python ou Anglais 1 si vous êtes nouveau.",
+    "support": "Notre équipe support est disponible 24/7.",
+    "chatbot": "Je suis MADO, votre assistant IA personnel 😄",
+    "merci": "Avec plaisir ! N'hésitez pas à poser une autre question.",
+    "au revoir": "Au revoir ! À très bientôt sur MDai.",
+    "qui es-tu": "Je suis MADO, un assistant IA intégré à la plateforme MDai.",
+    "tu parles anglais": "Oui, je comprends l'anglais aussi ! But let’s keep it in French 😉",
+    "erreur": "Pouvez-vous reformuler votre question ?",
+  };
+
+  function getResponse(input) {
+    input = input.toLowerCase();
+    for (let key in responses) {
+      if (input.includes(key)) return responses[key];
+    }
+    return "Je suis désolé, je ne comprends pas encore cette question.";
+  }
+
+  madoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userMsg = userInput.value.trim();
+    if (!userMsg) return;
+
+    const userBubble = document.createElement("div");
+    userBubble.className = "mado-message user-msg";
+    userBubble.textContent = userMsg;
+    messages.appendChild(userBubble);
+    messages.scrollTop = messages.scrollHeight;
+
+    // MADO "typing..." animation
+    const typingBubble = document.createElement("div");
+    typingBubble.className = "mado-message mado-msg typing";
+    typingBubble.textContent = "MADO écrit...";
+    messages.appendChild(typingBubble);
+    messages.scrollTop = messages.scrollHeight;
+
+    // Wait 3 seconds then replace with actual response
+    setTimeout(() => {
+      const response = getResponse(userMsg);
+      typingBubble.classList.remove("typing");
+      typingBubble.textContent = response;
+      messages.scrollTop = messages.scrollHeight;
+    }, 3000);
+
+    userInput.value = "";
+  });
+</script>
+
+
+
+<script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html"; // Block access if not logged in
+  }
+</script>
+
+</body>
+
+</body>
+</html>
