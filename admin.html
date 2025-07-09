@@ -5,10 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel | User Profiles</title>
-  <style>
-    /* (Your full CSS remains unchanged here) */
-
-       :root {
+<style>
+    :root {
       --light-bg: linear-gradient(135deg, #f1f1f1, #e6ecf0);
       --light-text: #000;
       --dark-bg: #1a1a1a;
@@ -291,226 +289,205 @@
         font-weight: bold;
       }
     }
-    /* ... CSS omitted for brevity ... */
   </style>
 </head>
 <body>
 
-<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
-<div class="sidebar">
-  <h3>Navigation</h3>
-  <button onclick="alert('Dashboard clicked')">Dashboard</button>
-  <button onclick="alert('Users clicked')">Users</button>
-  <button onclick="alert('Settings clicked')">Settings</button>
-</div>
-<div class="container">
-  <button class="toggle-theme" onclick="toggleTheme()">🌙 Toggle Theme</button>
-  <button onclick="logout()" style="float:right; margin:10px;">🚪 Logout</button>
-  <h2>Admin Panel - User Management</h2>
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <button onclick="alert('Dashboard clicked')">Dashboard</button>
+    <button onclick="alert('Users clicked')">Users</button>
+    <button onclick="alert('Settings clicked')">Settings</button>
+  </div>
+  <div class="container">
+    <button class="toggle-theme" onclick="toggleTheme()">🌙 Toggle Theme</button>
+    <h2>Admin Panel - User Management</h2>
 
-  <form id="userForm">
-    <input type="text" id="regNumber" placeholder="Registration Number" required />
-    <input type="text" id="name" placeholder="Full Name" required />
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="text" id="phone" placeholder="Phone Number" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <select id="role" required>
-      <option value="">Select Role</option>
+
+
+    <form id="userForm">
+      <input type="text" id="regNumber" placeholder="Registration Number" required />
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="text" id="phone" placeholder="Phone Number" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <select id="role" required>
+        <option value="">Select Role</option>
+        <option value="Student">Student</option>
+        <option value="Instructor">Instructor</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <input type="file" id="avatar" accept="image/*" />
+      <button type="submit" id="submitBtn">Create User</button>
+      <p id="errorMessage" class="error-message" style="display: none;">Incorrect email or password. Please try again.</p>
+    </form>
+
+    <input type="text" id="search" class="search-bar" placeholder="Search by Name, Reg. Number, Email or Phone" />
+    <select id="filterRole" class="filter-role">
+      <option value="">Filter by role</option>
       <option value="Student">Student</option>
       <option value="Instructor">Instructor</option>
       <option value="Admin">Admin</option>
     </select>
-    <input type="file" id="avatar" accept="image/*" />
-    <button type="submit" id="submitBtn">Create User</button>
-    <p id="errorMessage" class="error-message" style="display: none;">Incorrect email or password. Please try again.</p>
-  </form>
 
-  <input type="text" id="search" class="search-bar" placeholder="Search by Name, Reg. Number, Email or Phone" />
-  <select id="filterRole" class="filter-role">
-    <option value="">Filter by role</option>
-    <option value="Student">Student</option>
-    <option value="Instructor">Instructor</option>
-    <option value="Admin">Admin</option>
-  </select>
+    <div style="margin-bottom: 10px;">
+      <button onclick="exportCSV()">Export CSV</button>
+      <button onclick="exportPDF()">Export PDF</button>
+    </div>
 
-  <div style="margin-bottom: 10px;">
-    <button onclick="exportCSV()">Export CSV</button>
-    <button onclick="exportPDF()">Export PDF</button>
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Avatar</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Password</th>
+          <th>Reg. Number</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
-  <table id="userTable">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Avatar</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Password</th>
-        <th>Reg. Number</th>
-        <th>Role</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script>
+    const errorMessage = document.getElementById("errorMessage");
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-<script>
-  function hashPassword(password) {
-    return btoa(password);
-  }
+    function hashPassword(password) {
+      return btoa(password);
+    }
 
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+    document.getElementById("userForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const regNumber = document.getElementById("regNumber").value;
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const password = hashPassword(document.getElementById("password").value);
+      const role = document.getElementById("role").value;
+      const avatarInput = document.getElementById("avatar");
+      const reader = new FileReader();
 
-  if (users.length === 0) {
-    users.push({
-      regNumber: "ADM001",
-      name: "Default Admin",
-      email: "admin@mdai.com",
-      phone: "0000000000",
-      password: hashPassword("admin123"),
-      role: "Admin",
-      avatar: ""
+      const userData = (avatarBase64 = "") => {
+        const user = { regNumber, name, email, phone, password, role, avatar: avatarBase64 };
+        users.push(user);
+        localStorage.setItem("users", JSON.stringify(users));
+        renderUsers();
+      };
+
+      if (avatarInput.files[0]) {
+        reader.onload = function (e) {
+          userData(e.target.result);
+        };
+        reader.readAsDataURL(avatarInput.files[0]);
+      } else {
+        userData();
+      }
     });
-    localStorage.setItem("users", JSON.stringify(users));
-  }
 
-  document.getElementById("userForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const regNumber = document.getElementById("regNumber").value;
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const password = hashPassword(document.getElementById("password").value);
-    const role = document.getElementById("role").value;
-    const avatarInput = document.getElementById("avatar");
-    const reader = new FileReader();
+    function renderUsers(filtered = users) {
+      const tbody = document.querySelector("#userTable tbody");
+      tbody.innerHTML = "";
+      filtered.forEach((user, i) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td><img src="${user.avatar}" class="avatar"/></td>
+            <td contenteditable onblur="updateUser(${i}, 'name', this.textContent)">${user.name}</td>
+            <td contenteditable onblur="updateUser(${i}, 'email', this.textContent)">${user.email}</td>
+            <td contenteditable onblur="updateUser(${i}, 'phone', this.textContent)">${user.phone}</td>
+            <td contenteditable onblur="updateUser(${i}, 'password', hashPassword(this.textContent))">${atob(user.password)}</td>
+            <td contenteditable onblur="updateUser(${i}, 'regNumber', this.textContent)">${user.regNumber}</td>
+            <td contenteditable onblur="updateUser(${i}, 'role', this.textContent)">${user.role}</td>
+            <td>
+              <button class="btn-save" onclick="saveUser(${i})">Save</button>
+              <button class="btn-delete" onclick="deleteUser(${i})">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
 
-    const userData = (avatarBase64 = "") => {
-      const user = { regNumber, name, email, phone, password, role, avatar: avatarBase64 };
-      users.push(user);
+    document.getElementById("search").addEventListener("input", function () {
+      const search = this.value.toLowerCase();
+      const roleFilter = document.getElementById("filterRole").value;
+      const filtered = users.filter(user => {
+        const matchesText =
+          user.name.toLowerCase().includes(search) ||
+          user.regNumber.toLowerCase().includes(search) ||
+          user.email.toLowerCase().includes(search) ||
+          user.phone.toLowerCase().includes(search);
+        const matchesRole = roleFilter ? user.role === roleFilter : true;
+        return matchesText && matchesRole;
+      });
+      renderUsers(filtered);
+    });
+
+    document.getElementById("filterRole").addEventListener("change", function () {
+      const role = this.value;
+      const search = document.getElementById("search").value.toLowerCase();
+      const filtered = users.filter(user => {
+        const matchesText =
+          user.name.toLowerCase().includes(search) ||
+          user.regNumber.toLowerCase().includes(search) ||
+          user.email.toLowerCase().includes(search) ||
+          user.phone.toLowerCase().includes(search);
+        const matchesRole = role ? user.role === role : true;
+        return matchesText && matchesRole;
+      });
+      renderUsers(filtered);
+    });
+
+    function updateUser(index, field, value) {
+      users[index][field] = value;
+    }
+
+    function saveUser(index) {
       localStorage.setItem("users", JSON.stringify(users));
       renderUsers();
-    };
-
-    if (avatarInput.files[0]) {
-      reader.onload = function (e) {
-        userData(e.target.result);
-      };
-      reader.readAsDataURL(avatarInput.files[0]);
-    } else {
-      userData();
     }
-  });
 
-  function renderUsers(filtered = users) {
-    const tbody = document.querySelector("#userTable tbody");
-    tbody.innerHTML = "";
-    filtered.forEach((user, i) => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${i + 1}</td>
-          <td><img src="${user.avatar}" class="avatar"/></td>
-          <td contenteditable onblur="updateUser(${i}, 'name', this.textContent)">${user.name}</td>
-          <td contenteditable onblur="updateUser(${i}, 'email', this.textContent)">${user.email}</td>
-          <td contenteditable onblur="updateUser(${i}, 'phone', this.textContent)">${user.phone}</td>
-          <td contenteditable onblur="updateUser(${i}, 'password', hashPassword(this.textContent))">${atob(user.password)}</td>
-          <td contenteditable onblur="updateUser(${i}, 'regNumber', this.textContent)">${user.regNumber}</td>
-          <td contenteditable onblur="updateUser(${i}, 'role', this.textContent)">${user.role}</td>
-          <td>
-            <button class="btn-save" onclick="saveUser(${i})">Save</button>
-            <button class="btn-delete" onclick="deleteUser(${i})">Delete</button>
-          </td>
-        </tr>
-      `;
-    });
-  }
+    function deleteUser(index) {
+      users.splice(index, 1);
+      localStorage.setItem("users", JSON.stringify(users));
+      renderUsers();
+    }
 
-  document.getElementById("search").addEventListener("input", function () {
-    const search = this.value.toLowerCase();
-    const roleFilter = document.getElementById("filterRole").value;
-    const filtered = users.filter(user => {
-      const matchesText =
-        user.name.toLowerCase().includes(search) ||
-        user.regNumber.toLowerCase().includes(search) ||
-        user.email.toLowerCase().includes(search) ||
-        user.phone.toLowerCase().includes(search);
-      const matchesRole = roleFilter ? user.role === roleFilter : true;
-      return matchesText && matchesRole;
-    });
-    renderUsers(filtered);
-  });
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+    }
 
-  document.getElementById("filterRole").addEventListener("change", function () {
-    const role = this.value;
-    const search = document.getElementById("search").value.toLowerCase();
-    const filtered = users.filter(user => {
-      const matchesText =
-        user.name.toLowerCase().includes(search) ||
-        user.regNumber.toLowerCase().includes(search) ||
-        user.email.toLowerCase().includes(search) ||
-        user.phone.toLowerCase().includes(search);
-      const matchesRole = role ? user.role === role : true;
-      return matchesText && matchesRole;
-    });
-    renderUsers(filtered);
-  });
+    function exportCSV() {
+      let csv = 'RegNumber,Name,Email,Phone,Password,Role\n';
+      users.forEach(u => {
+        csv += `${u.regNumber},${u.name},${u.email},${u.phone},***********,${u.role}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'users.csv';
+      link.click();
+    }
 
-  function updateUser(index, field, value) {
-    users[index][field] = value;
-  }
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.autoTable({
+        head: [['RegNumber', 'Name', 'Email', 'Phone', 'Password', 'Role']],
+        body: users.map(u => [u.regNumber, u.name, u.email, u.phone, '***********', u.role])
+      });
+      doc.save('users.pdf');
+    }
 
-  function saveUser(index) {
-    localStorage.setItem("users", JSON.stringify(users));
     renderUsers();
-  }
-
-  function deleteUser(index) {
-    users.splice(index, 1);
-    localStorage.setItem("users", JSON.stringify(users));
-    renderUsers();
-  }
-
-  function toggleTheme() {
-    document.body.classList.toggle("dark");
-  }
-
-  function exportCSV() {
-    let csv = 'RegNumber,Name,Email,Phone,Password,Role\n';
-    users.forEach(u => {
-      csv += `${u.regNumber},${u.name},${u.email},${u.phone},***********,${u.role}\n`;
-    });
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'users.csv';
-    link.click();
-  }
-
-  function exportPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.autoTable({
-      head: [['RegNumber', 'Name', 'Email', 'Phone', 'Password', 'Role']],
-      body: users.map(u => [u.regNumber, u.name, u.email, u.phone, '***********', u.role])
-    });
-    doc.save('users.pdf');
-  }
-
-  function logout() {
-    localStorage.removeItem("currentUser");
-    window.location.href = "index.html";
-  }
-
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-  if (!user || user.role !== "Admin") {
-    window.location.href = "index.html";
-  }
-
-  renderUsers();
-</script>
+  </script>
+  
 </body>
 </html>
