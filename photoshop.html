@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Photoshop | MDai</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(to right, #fff3e0, #e1f5fe);
+    }
+    h1 {
+      color: #6a1b9a;
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #6a1b9a;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #score, #level {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #resetBtn {
+      display: block;
+      margin: 20px auto 0;
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz Photoshop</h1>
+  <div class="quiz-container">
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="Votre réponse..." />
+    <button onclick="checkAnswer()">Soumettre</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+    <p id="level"></p>
+    <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
+  </div>
+
+  <script>
+    const photoshopQuestions = [];
+    for (let i = 1; i <= 1000; i++) {
+      if (i <= 250) {
+        const basics = [
+          { q: "Quel est le raccourci pour désélectionner dans Photoshop ?", a: "Ctrl+D" },
+          { q: "Quel outil est utilisé pour recadrer une image ?", a: "outil de recadrage" },
+          { q: "Quel est le format natif de Photoshop ?", a: "PSD" },
+          { q: "Quelle extension permet une image transparente ?", a: "PNG" }
+        ];
+        const index = i % basics.length;
+        photoshopQuestions.push({ q: `Niveau 1 : ${basics[index].q} #${i}`, a: basics[index].a });
+      } else if (i <= 500) {
+        const tools = [
+          { q: "Quel outil sert à cloner une zone d'image ?", a: "tampon de duplication" },
+          { q: "Quel outil permet de peindre avec une couleur ?", a: "pinceau" },
+          { q: "Quel outil sert à déplacer une sélection ?", a: "outil de déplacement" },
+          { q: "Quel outil permet de gommer des pixels ?", a: "gomme" }
+        ];
+        const index = i % tools.length;
+        photoshopQuestions.push({ q: `Niveau 2 : ${tools[index].q} #${i}`, a: tools[index].a });
+      } else if (i <= 750) {
+        const concepts = [
+          { q: "Que signifie le mot 'calque' dans Photoshop ?", a: "niveau superposé d'édition" },
+          { q: "Quel panneau gère la hiérarchie des calques ?", a: "panneau Calques" },
+          { q: "Quel est l'effet pour rendre flou ?", a: "flou gaussien" },
+          { q: "Quel est le raccourci pour créer un nouveau calque ?", a: "Ctrl+Shift+N" }
+        ];
+        const index = i % concepts.length;
+        photoshopQuestions.push({ q: `Niveau 3 : ${concepts[index].q} #${i}`, a: concepts[index].a });
+      } else {
+        const mix = [
+          { q: "Quel outil corrige automatiquement les imperfections ?", a: "correcteur localisé" },
+          { q: "Comment convertir une image en noir et blanc ?", a: "réglage noir et blanc" },
+          { q: "Quel est le raccourci pour enregistrer rapidement ?", a: "Ctrl+S" },
+          { q: "Quel mode de fusion obscurcit les calques ?", a: "produit" }
+        ];
+        const index = i % mix.length;
+        photoshopQuestions.push({ q: `Niveau 4 : ${mix[index].q} #${i}`, a: mix[index].a });
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    shuffle(photoshopQuestions);
+    let currentIndex = 0;
+    let score = 0;
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "fr-FR";
+      speechSynthesis.speak(utterance);
+    }
+
+    function displayQuestion() {
+      const current = photoshopQuestions[currentIndex];
+      document.getElementById("question").innerText = current.q;
+      speak(current.q);
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("score").innerText = `Score : ${score}/${photoshopQuestions.length}`;
+      document.getElementById("level").innerText = `Niveau : ${Math.floor((currentIndex + 124) / 125)}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      const correct = photoshopQuestions[currentIndex].a.toLowerCase();
+      if (userAnswer === correct) {
+        document.getElementById("feedback").innerText = "✅ Correct !";
+        score++;
+      } else {
+        document.getElementById("feedback").innerText = `❌ Incorrect ! Réponse correcte : ${photoshopQuestions[currentIndex].a}`;
+      }
+      currentIndex++;
+      if (currentIndex < photoshopQuestions.length) {
+        setTimeout(displayQuestion, 1200);
+      } else {
+        document.getElementById("question").innerText = "🎉 Vous avez terminé les 1000 questions !";
+        document.getElementById("score").innerText = `Score final : ${score}/1000`;
+        document.getElementById("level").innerText = "Niveaux terminés : 8";
+      }
+    }
+
+    function resetQuiz() {
+      shuffle(photoshopQuestions);
+      currentIndex = 0;
+      score = 0;
+      displayQuestion();
+    }
+
+    window.onload = displayQuestion;
+  </script>
+</body>
+</html>

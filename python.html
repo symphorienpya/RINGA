@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Python | MDai</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(to right, #e0f7fa, #f3e5f5);
+    }
+    h1 {
+      color: #2e7d32;
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #score, #level {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #resetBtn {
+      display: block;
+      margin: 20px auto 0;
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz Python</h1>
+  <div class="quiz-container">
+    <p id="question"></p>
+    <input type="text" id="answer" placeholder="Votre réponse..." />
+    <button onclick="checkAnswer()">Soumettre</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+    <p id="level"></p>
+    <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
+  </div>
+
+  <script>
+    const pythonQuestions = [];
+    for (let i = 1; i <= 1000; i++) {
+      if (i <= 250) {
+        const basics = [
+          { q: "Comment déclare-t-on une variable en Python ?", a: "nom = valeur" },
+          { q: "Comment afficher un message ?", a: "print()" },
+          { q: "Quel symbole est utilisé pour les commentaires ?", a: "#" },
+          { q: "Quel type est '42' ?", a: "int" },
+          { q: "Quel mot-clé permet de définir une fonction ?", a: "def" }
+        ];
+        const index = i % basics.length;
+        pythonQuestions.push({ q: `Base : ${basics[index].q} #${i}`, a: basics[index].a });
+      } else if (i <= 500) {
+        const conditions = [
+          { q: "Quelle structure utilise-t-on pour les conditions ?", a: "if...elif...else" },
+          { q: "Comment tester l'égalité ?", a: "==" },
+          { q: "Comment tester l'inégalité ?", a: "!=" },
+          { q: "Quel mot-clé est utilisé pour un bloc alternatif ?", a: "else" }
+        ];
+        const index = i % conditions.length;
+        pythonQuestions.push({ q: `Conditions : ${conditions[index].q} #${i}`, a: conditions[index].a });
+      } else if (i <= 750) {
+        const boucles = [
+          { q: "Quelle boucle est utilisée pour itérer sur une liste ?", a: "for" },
+          { q: "Quel mot-clé interrompt une boucle ?", a: "break" },
+          { q: "Quel mot-clé saute une itération ?", a: "continue" },
+          { q: "Quelle boucle s'utilise tant qu'une condition est vraie ?", a: "while" }
+        ];
+        const index = i % boucles.length;
+        pythonQuestions.push({ q: `Boucles : ${boucles[index].q} #${i}`, a: boucles[index].a });
+      } else {
+        const mix = [
+          { q: "Comment ajouter un élément à une liste ?", a: "append" },
+          { q: "Quel type est [1,2,3] ?", a: "list" },
+          { q: "Comment accéder au 1er élément d'une liste ?", a: "[0]" },
+          { q: "Quel mot-clé pour importer un module ?", a: "import" }
+        ];
+        const index = i % mix.length;
+        pythonQuestions.push({ q: `Mixte : ${mix[index].q} #${i}`, a: mix[index].a });
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    shuffle(pythonQuestions);
+    let currentIndex = 0;
+    let score = 0;
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "fr-FR";
+      speechSynthesis.speak(utterance);
+    }
+
+    function displayQuestion() {
+      const current = pythonQuestions[currentIndex];
+      document.getElementById("question").innerText = current.q;
+      speak(current.q);
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+      document.getElementById("score").innerText = `Score : ${score}/${pythonQuestions.length}`;
+      document.getElementById("level").innerText = `Niveau : ${Math.floor((currentIndex + 124) / 125)}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      const correct = pythonQuestions[currentIndex].a.toLowerCase();
+      if (userAnswer === correct) {
+        document.getElementById("feedback").innerText = "✅ Correct !";
+        score++;
+      } else {
+        document.getElementById("feedback").innerText = `❌ Incorrect ! Réponse correcte : ${pythonQuestions[currentIndex].a}`;
+      }
+      currentIndex++;
+      if (currentIndex < pythonQuestions.length) {
+        setTimeout(displayQuestion, 1200);
+      } else {
+        document.getElementById("question").innerText = "🎉 Vous avez terminé les 1000 questions !";
+        document.getElementById("score").innerText = `Score final : ${score}/1000`;
+        document.getElementById("level").innerText = "Niveaux terminés : 8";
+      }
+    }
+
+    function resetQuiz() {
+      shuffle(pythonQuestions);
+      currentIndex = 0;
+      score = 0;
+      displayQuestion();
+    }
+
+    window.onload = displayQuestion;
+  </script>
+</body>
+</html>
