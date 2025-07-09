@@ -445,7 +445,13 @@ filterFeatures();
     userInput.value = "";
   });
 </script>
-</body>
+
+  <script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html"; // Block access if not logged in
+  }
+</script>
+
 
 </body>
 </html>
