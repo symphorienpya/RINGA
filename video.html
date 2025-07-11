@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MDai Cours | Plateforme Éducative</title>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s;
+  overflow-x: hidden;
+  font-size: 1em;
+}
+
+:root {
+  --bg: #f4f4f4;
+  --text: #333;
+  --header-bg: #0099aa;
+  --footer-bg: #006b7a;
+  --footer-text: #fff;
+}
+
+.dark {
+  --bg: #121212;
+  --text: #eee;
+  --footer-bg: #0a0a0a;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 1rem;
+  background: var(--header-bg);
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  flex-wrap: wrap;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-container img {
+  height: 32px;
+  width: auto;
+}
+
+.logo-container h1 {
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.toggle {
+  background: #fff;
+  color: #0099aa;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px;
+}
+
+.search-bar {
+  width: 90%;
+  max-width: 400px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.counter {
+  font-weight: bold;
+  background: #0099aa;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.course {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 100%;
+  max-width: 300px;
+  transition: transform 0.3s;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.course:hover {
+  transform: translateY(-5px);
+}
+
+.course h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #0099aa;
+}
+
+iframe {
+  width: 100%;
+  height: 180px;
+  border: none;
+  border-radius: 6px;
+}
+
+footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  margin-top: 40px;
+}
+
+#authModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#authBox {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 90%;
+  width: 300px;
+}
+
+#authBox input {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+#authBox button {
+  background: #0099aa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Responsive for tablets, mobiles, etc. */
+@media (max-width: 900px) {
+  .logo-container h1 {
+    font-size: 1rem;
+  }
+
+  .search-bar {
+    width: 90%;
+  }
+
+  iframe {
+    height: 160px;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo-container {
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .toggle {
+    align-self: center;
+    font-size: 0.85rem;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .counter {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  iframe {
+    height: 150px;
+  }
+}
+
+@media (max-width: 350px) {
+  .search-bar {
+    font-size: 0.85rem;
+  }
+
+  .course h3 {
+    font-size: 0.9rem;
+  }
+
+  iframe {
+    height: 130px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div id="authModal">
+    <div id="authBox">
+      <h2>Accès Sécurisé</h2>
+      <input type="password" id="accessCode" placeholder="Entrez le code secret">
+      <button onclick="checkPassword()">Valider</button>
+      <p id="authError" style="color:red; display:none;">Code incorrect.</p>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo-container">
+      <img src="images/MDai.png" alt="" />
+      <h1>MDai | Cours en Ligne</h1>
+    </div>
+    <button class="toggle" onclick="toggleTheme()">Changer le Mode</button>
+  </header>
+
+  <div class="search-container">
+    <input id="searchInput" class="search-bar" type="text" placeholder="🔍 Rechercher un cours..." onkeyup="filterCourses()">
+    <div class="counter" id="courseCount"></div>
+  </div>
+
+  <div id="courseContainer" class="container"></div>
+
+  <footer>
+    © 2025 MDai Éducation | Tous droits réservés. Développé par Ringa-TC.
+  </footer>
+
+  <script>
+    const hashCode = btoa("openMDai2024"); // Base64 encoded simple encryption
+
+    function checkPassword() {
+      const input = document.getElementById("accessCode").value;
+      if (btoa(input) === hashCode) {
+        document.getElementById("authModal").style.display = "none";
+      } else {
+        document.getElementById("authError").style.display = "block";
+      }
+    }
+
+    const courses = [
+      { id: "english1", title: "English 1 – Beginner Lessons", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLD6t6ckHsruaRfDAXr75fd8e9hnCG-AYI" },
+      { id: "english2", title: "English 2 – Intermediate English", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLQPYsWaKm5Xoj8n6Ithh6JOWlmnGceSUY" },
+      { id: "english3", title: "English 3 – Advanced English Lessons", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLrqHrGoMJdTReE6JyGSKSq0ndJOXJ8u4c" },
+      { id: "python1", title: "Apprendre Python (Playlist)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLomHwoldFLYNIabPicgSOFS2KzuaeeOIu" },
+      { id: "python2", title: "Python pratique (Playlist)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLB9AbbTDeBzRAubizsgAvDReLTYH20TFx" },
+      { id: "webdev1", title: "Dev Web Intro (Playlist)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLT2KSPhMMiqofA8by5I6QSLdXvA9t2pUW" },
+      { id: "webdev2", title: "Web Dev A→Z (Playlist)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLp_2pLeQfDKhlpn_wDwOLSffhBMEpJjIv" },
+      { id: "datasci1", title: "IA Introduction (Playlist 1)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLDyuailkzLlp5JTH8N-Oj3ATkCfmhdBqQ" },
+      { id: "datasci2", title: "IA Playlist 2", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLbLp0VZzMNLe2X-jc-fsssDCJs_ZlH_HJ" },
+      { id: "excel", title: "Apprendre Excel (Français)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLLxexs8mTm7MxtqCEbbm6RiHBlx6ggZgq" },
+      { id: "photoshop", title: "Photoshop – Tutoriels YouTube", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLpajQeZEtWcmKkk2ks3qJbyfcDag5XDnE" },
+      { id: "excel_adv", title: "Excel Avancé – Cas Pratiques", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLZpzLuUp9qXwVvnkPsTwcSDy4Bj1KMS3c" },
+      { id: "business_fr", title: "Business French – Cours Pro", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLNR60FP3HAiXdSOHOq9VYASK4aIzWMEsD" },
+      { id: "business_enfr", title: "Business English & French", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PL3jQbABQPJGUEwjYvqh6x6RjiOWQTjhpD" },
+        // Vos cours existants...
+  { id: "business_enfr", title: "Business English & French", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PL3jQbABQPJGUEwjYvqh6x6RjiOWQTjhpD" },
+
+  // 🔹 Python (FR)
+  { id: "python_fr1", title: "Python FR – Initiation", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PL0mGkrTWmp4ugGM9fiZjEuzMFeKD6Rh5G" },
+  { id: "python_fr2", title: "Python FR – Machine Learning", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLO_fdPEVlfKqMDNmCFzQISI2H_nJcEDJq" },
+  { id: "python_fr3", title: "Python FR – Scikit‑learn", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLO_fdPEVlfKoHQ3Ua2NtDL4nmynQC8YiS" },
+
+  // 🔹 JavaScript (EN & FR)
+  { id: "js_en", title: "JavaScript – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLT2KSPhMMiqofA8by5I6QSLdXvA9t2pUW" },
+  { id: "js_fr", title: "Apprendre JavaScript (FR)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLUdFwzsVhUNPd1simNWWH0hTZwjrkd-Bh" },
+
+  // 🔹 React & Next.js
+  { id: "react_full", title: "React – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/CgkZ7MvWUAA" },
+  { id: "nextjs_full", title: "Next.js – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/843nec-IvW0" },
+
+  // 🔹 Mobile & React Native
+  { id: "react_native", title: "React Native – Playlist (EN)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLY3ncAV1dSVBORiufyN8lwIW5JUL7hSL1" },
+
+  // 🔹 NLP
+  { id: "nlp_fr", title: "NLP – Spacy FR", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLJ39kWiJXSiyTXajRiVCYXl3DLTv2L87Q" },
+
+  // 🔹 jQuery
+  { id: "jquery", title: "jQuery Tutorial (EN)", video: "https://www.youtube-nocookie.com/embed/No6wCYe4oqk" },
+   // …existing entries here…
+  { id: "react_full", title: "React – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/CgkZ7MvWUAA" },
+
+  // Computer Science
+  { id: "cs_algo", title: "Algorithms – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+  { id: "cs_os", title: "Operating Systems – Playlist", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLBlnK6fEyqRhX6r2uhhlubuF5QextdCSM" },
+
+  // Business
+  { id: "finance101", title: "Finance for Beginners", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLJbE2Yu2zumBNUXtFYbmKzqQb68A3zsd-" },
+  { id: "marketing101", title: "Digital Marketing – Full Course", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PL6plRXMqGOlyOZAG1kVp3-Kfuj4yevjpW" },
+
+  // Sports Coaching
+  { id: "soccer_coach", title: "Soccer Coaching Playlist", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLa5AbuV4MCG89HI2u2CtyKZ1LiI8odFS_" },
+
+  // Cybersecurity
+  { id: "cybersec", title: "Cybersecurity Full Course", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLEiEAq2VkUULYYg1K6KR0c2nw5pbE5smi" },
+
+  // Data Science
+  { id: "ml_full", title: "Machine Learning – Full Course", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLo2EIpI_JMQvX8Xq6A22HwR_Z12ms5ZqS" },
+       { id: "react_full", title: "React – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/CgkZ7MvWUAA" },
+      { id: "cs_algo", title: "Algorithms – Full Course (EN)", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" },
+      { id: "cs_os", title: "Operating Systems – Playlist", video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLBlnK6fEyqRhX6r2uhhlubuF5QextdCSM" },
+      
+  {
+    id: "finance101",
+    title: "Finance for Beginners",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLKbmcnUUQMlkG0hLUJ97hNk002YilQPzc"
+  },
+  {
+    id: "marketing101",
+    title: "Digital Marketing – Full Course",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PL6plRXMqGOlyOZAG1kVp3-Kfuj4yevjpW"
+  },
+  {
+    id: "cybersec",
+    title: "Cybersecurity Full Course",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLEiEAq2VkUUJfPOj5nRounXvf3n17PCft"
+  },
+  {
+    id: "ml_full",
+    title: "Machine Learning – Full Course",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLZoTAELRMXVPBTrWtJkn3wWQxZkmTXGwe"
+  },
+  {
+    id: "webdev_intro",
+    title: "Web Development – Full Course",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLT2KSPhMMiqofA8by5I6QSLdXvA9t2pUW"
+  },
+  {
+    id: "js_fr",
+    title: "JavaScript FR – Playlist",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PLUdFwzsVhUNPd1simNWWH0hTZwjrkd-Bh"
+  },
+  {
+    id: "python_fr",
+    title: "Python FR – Débutant",
+    video: "https://www.youtube-nocookie.com/embed/videoseries?list=PL0mGkrTWmp4ugGM9fiZjEuzMFeKD6Rh5G"
+  },
+  // … le reste suit (automatique jusqu'à 500)
+];
+
+  // …add more curated playlists across domains…
+
+
+  // 🔹 Plus 40 autres cours en ajoutant des variantes ou niveaux (ex. Python avancé, Web avancé, ML complet...) :
+  //
+    
+  
+    const domains = [
+      { prefix: "comp_sci", list: "PLBlnK6fEyqRhX6r2uhhlubuF5QextdCSM" },
+      { prefix: "business", list: "PL3jQbABQPJGUEwjYvqh6x6RjiOWQTjhpD" },
+      { prefix: "sport", list: "PL8uoeex94UhHFRew8gzfFJHYnPqI48D7g" },
+      { prefix: "marketing", list: "PL6plRXMqGOlyOZAG1kVp3-Kfuj4yevjpW" },
+      { prefix: "security", list: "PLEiEAq2VkUULYYg1K6KR0c2nw5pbE5smi" },
+      { prefix: "datasci", list: "PLo2EIpI_JMQvX8Xq6A22HwR_Z12ms5ZqS" },
+      { prefix: "mobile", list: "PLUdFwzsVhUPNt1simNWWH0hTZzlkd124B" }
+    ];
+
+    const container = document.getElementById("courseContainer");
+    const count = document.getElementById("courseCount");
+
+    function renderCourses(list) {
+      container.innerHTML = "";
+      list.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "course";
+        div.innerHTML = `<h3>${c.title}</h3><iframe src="${c.video}" allowfullscreen></iframe>`;
+        container.appendChild(div);
+      });
+      count.textContent = `Total: ${list.length} cours`;
+    }
+
+    function filterCourses() {
+      const q = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = courses.filter(c => c.title.toLowerCase().includes(q));
+      renderCourses(filtered);
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    }
+
+    if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
+    renderCourses(courses);
+  </script>
+</body>
+</html>
