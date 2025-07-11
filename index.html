@@ -13,7 +13,31 @@
 
 
   <style>
+    .floating-btn {
+    position: fixed;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    padding: 10px 12px;
+    border-radius: 50%;
+    font-size: 18px;
+    text-decoration: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    z-index: 9999;
+  }
 
+  .floating-btn:hover {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (max-width: 600px) {
+    .floating-btn {
+      font-size: 16px;
+      padding: 8px 10px;
+    }
+  }
    
   </style>
 </head>
@@ -58,6 +82,7 @@
         autocomplete="off"
       />
     </header>
+    <a href="video.html" class="floating-btn" title="Go to Top">Voir des vidéos</a>
 
     <section class="filters" role="region" aria-label="Filtres de catégorie" id="filters">
       <button class="filter-btn active" aria-pressed="true" data-category="all" role="button" tabindex="0">Tout</button>
@@ -449,7 +474,29 @@ filterFeatures();
 </script>
 
 
-</body>
+  
+<!-- video button -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.querySelector(".floating-btn");
+
+    function placeButtonRandomly() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const size = 60;
+
+      const x = Math.floor(Math.random() * (vw - size));
+      const y = Math.floor(Math.random() * (vh - size));
+
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
+    }
+
+    placeButtonRandomly();
+    window.addEventListener("resize", placeButtonRandomly);
+  });
+</script>
 
 </body>
+
 </html>
