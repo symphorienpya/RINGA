@@ -1,4 +1,4 @@
-<!-- Updated file with custom font, branding banner, receipt background, and watermark image -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,12 +103,179 @@
     @media (max-width: 600px) {
       .payment-container { padding: 25px 15px; }
     }
+
+
+
+   /* M-pasa button */
+    .view-mpesa-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background: linear-gradient(45deg, #007bff, #00d4ff);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+  transition: transform 0.3s ease, background 0.4s;
+}
+.view-mpesa-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #0056b3, #00b4cc);
+}
+
+.mpesa-box {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+.mpesa-box.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mpesa-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: bounceIn 0.6s ease;
+  max-width: 360px;
+  width: 90%;
+  position: relative;
+}
+
+.mpesa-content h3 {
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+.mpesa-number {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #28a745;
+  cursor: pointer;
+}
+.mpesa-number:hover {
+  text-decoration: underline;
+  color: #1e7e34;
+}
+
+.mpesa-msg {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  padding: 10px 22px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.close-btn:hover {
+  background: #0056b3;
+}
+
+.copied {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  font-size: 0.85rem;
+  color: green;
+  display: none;
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  30% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: #007bff;
+}
+.lds-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -1.1s; }
+.lds-spinner div:nth-child(2) { transform: rotate(30deg); animation-delay: -1s; }
+.lds-spinner div:nth-child(3) { transform: rotate(60deg); animation-delay: -0.9s; }
+.lds-spinner div:nth-child(4) { transform: rotate(90deg); animation-delay: -0.8s; }
+.lds-spinner div:nth-child(5) { transform: rotate(120deg); animation-delay: -0.7s; }
+.lds-spinner div:nth-child(6) { transform: rotate(150deg); animation-delay: -0.6s; }
+.lds-spinner div:nth-child(7) { transform: rotate(180deg); animation-delay: -0.5s; }
+.lds-spinner div:nth-child(8) { transform: rotate(210deg); animation-delay: -0.4s; }
+.lds-spinner div:nth-child(9) { transform: rotate(240deg); animation-delay: -0.3s; }
+.lds-spinner div:nth-child(10) { transform: rotate(270deg); animation-delay: -0.2s; }
+.lds-spinner div:nth-child(11) { transform: rotate(300deg); animation-delay: -0.1s; }
+.lds-spinner div:nth-child(12) { transform: rotate(330deg); animation-delay: 0s; }
+
+@keyframes lds-spinner {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
   </style>
 </head>
 <body>
   <div class="info-banner" id="infoBanner"></div>
   <div class="payment-container">
     <h2><i class="fas fa-credit-card"></i> Course Payment</h2>
+
+
+    <!-- M-PESA Button and Modal -->
+<button class="view-mpesa-btn" onclick="showMpesa()">📱 View M-PESA Number</button>
+
+<div class="mpesa-box" id="mpesaBox">
+  <div class="mpesa-content">
+    <h3>📲 M-PESA Payment</h3>
+    <p class="mpesa-number" onclick="copyMpesa()">+243 816 266 679</p>
+    <p class="mpesa-msg">Payez à ce numéro avant de remplir la section de paiement</p>
+    <span id="copy-feedback" class="copied">📋 Copié !</span>
+    <button onclick="hideMpesa()" class="close-btn">OK</button>
+  </div>
+</div>
+
     <form id="paymentForm">
       <label for="to_name">Name:</label>
       <input type="text" name="to_name" placeholder="Full Name" required />
@@ -136,105 +303,171 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      emailjs.init("tL8fd3zBZVEinrC9b");
-      const title = localStorage.getItem("selectedCourseTitle") || "";
-      const info = localStorage.getItem("selectedCourseInfo") || "";
-      const price = localStorage.getItem("coursePrice") || "";
-      const fee = localStorage.getItem("registrationFee") || "";
-      const total = localStorage.getItem("selectedCourseTotal") || "";
-      const match = total.match(/([\d,.]+)\s?(FC|USD)?/i);
-      let amount = match ? parseFloat(match[1].replace(",", "")) : "";
-      document.getElementById("course_title").value = title;
-      document.getElementById("course_info").value = info;
-      document.getElementById("course_price").value = price;
-      document.getElementById("registration_fee").value = fee;
-      document.getElementById("total_amount").value = total;
-      document.getElementById("amount").value = amount;
-      document.getElementById("infoBanner").innerHTML = `You selected <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
+document.addEventListener("DOMContentLoaded", function () {
+  emailjs.init("tL8fd3zBZVEinrC9b");
 
-      document.getElementById("paymentForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const data = new FormData(this);
-        const payload = {};
-        for (let [k, v] of data.entries()) payload[k] = v.trim();
-        if (!payload.to_name || !payload.email || !payload.amount || !payload.payment_method)
-          return Swal.fire({ icon: 'warning', title: 'Missing Fields', text: 'Please complete all fields.' });
+  const title = localStorage.getItem("selectedCourseTitle") || "";
+  const info = localStorage.getItem("selectedCourseInfo") || "";
+  const price = localStorage.getItem("coursePrice") || "";
+  const fee = localStorage.getItem("registrationFee") || "";
+  const total = localStorage.getItem("selectedCourseTotal") || "";
+  const match = total.match(/([\d,.]+)\s?(FC|USD)?/i);
+  let amount = match ? parseFloat(match[1].replace(",", "")) : "";
 
-        try {
-          const randomId = Math.random().toString().slice(2, 12);
-          const receiptId = `Mdai${randomId}`;
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF();
+  document.getElementById("course_title").value = title;
+  document.getElementById("course_info").value = info;
+  document.getElementById("course_price").value = price;
+  document.getElementById("registration_fee").value = fee;
+  document.getElementById("total_amount").value = total;
+  document.getElementById("amount").value = amount;
 
-          const bg = new Image();
-          bg.src = "images/MDai.png";
-          await new Promise(resolve => bg.onload = resolve);
-          doc.addImage(bg, 'JPEG', 0, 0, 210, 297);
+  document.getElementById("infoBanner").innerHTML = `You selected <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
 
-          const watermark = new Image();
-          watermark.src = "images/MDai.png";
-          await new Promise(resolve => watermark.onload = resolve);
-          doc.addImage(watermark, 'PNG', 60, 100, 90, 90, '', 'FAST');
+  document.getElementById("paymentForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const data = new FormData(this);
+    const payload = {};
+    for (let [k, v] of data.entries()) payload[k] = v.trim();
+    if (!payload.to_name || !payload.email || !payload.amount || !payload.payment_method)
+      return Swal.fire({ icon: 'warning', title: 'Missing Fields', text: 'Please complete all fields.' });
 
-          doc.setTextColor(0, 123, 255);
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(22);
-          doc.text("MDai Receipt", 20, 30);
+    try {
+      const randomId = Math.random().toString().slice(2, 12);
+      const receiptId = `Mdai${randomId}`;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
-          doc.setTextColor(0);
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(12);
-          let y = 50;
-          doc.text(`Receipt No: ${receiptId}`, 20, y);
-          const lines = [
-            `Name: ${payload.to_name}`,
-            `Email: ${payload.email}`,
-            `Course: ${payload.course_title}`,
-            `Details: ${payload.course_info}`,
-            `Course Price: ${payload.course_price}`,
-            `Registration Fee: ${payload.registration_fee}`,
-            `Total Paid: ${payload.total_amount}`,
-            `Payment Method: ${payload.payment_method}`
-          ];
-          lines.forEach(line => doc.text(line, 20, y += 10));
+      const bg = new Image();
+      bg.src = "images/MDai.png";
+      await new Promise(resolve => bg.onload = resolve);
+      doc.addImage(bg, 'JPEG', 0, 0, 210, 297);
 
-          doc.setTextColor(0, 128, 0);
-          doc.setFontSize(13);
-          doc.setFont("helvetica", "bold");
-          doc.text("Thank you for your payment!", 20, y + 10);
+      const watermark = new Image();
+      watermark.src = "images/MDai.png";
+      await new Promise(resolve => watermark.onload = resolve);
+      doc.addImage(watermark, 'PNG', 60, 100, 90, 90, '', 'FAST');
 
-          doc.setTextColor(100);
-          doc.setFontSize(11);
-          doc.setFont("helvetica", "italic");
-          doc.text("_______________________", 20, y + 35);
-          doc.text("Symphorien Pyana", 20, y + 42);
-          doc.text("MDai CEO", 20, y + 48);
+      doc.setTextColor(0, 123, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("MDai Receipt", 20, 30);
 
-          doc.setTextColor(150);
-          doc.setFontSize(10);
-          doc.text("MDai Platform | www.mdai.xyz | info@mdai.xyz", 20, 285);
+      doc.setTextColor(0);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      let y = 50;
+      doc.text(`Receipt No: ${receiptId}`, 20, y);
+      const lines = [
+        `Name: ${payload.to_name}`,
+        `Email: ${payload.email}`,
+        `Course: ${payload.course_title}`,
+        `Details: ${payload.course_info}`,
+        `Course Price: ${payload.course_price}`,
+        `Registration Fee: ${payload.registration_fee}`,
+        `Total Paid: ${payload.total_amount}`,
+        `Payment Method: ${payload.payment_method}`
+      ];
+      lines.forEach(line => doc.text(line, 20, y += 10));
 
-          const qrData = `Receipt: ${receiptId}\nName: ${payload.to_name}\nCourse: ${payload.course_title}\nAmount: ${payload.total_amount}`;
-          const qrImage = await QRCode.toDataURL(qrData);
-          doc.addImage(qrImage, "PNG", 150, y + 15, 40, 40);
+      doc.setTextColor(0, 128, 0);
+      doc.setFontSize(13);
+      doc.setFont("helvetica", "bold");
+      doc.text("Thank you for your payment!", 20, y + 10);
 
-          doc.save(`MDai_Receipt_${receiptId}.pdf`);
+      doc.setTextColor(100);
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "italic");
+      doc.text("_______________________", 20, y + 35);
+      doc.text("Symphorien Pyana", 20, y + 42);
+      doc.text("MDai CEO", 20, y + 48);
 
-          await emailjs.send("service_osvola7", "template_12nvate", {
-            ...payload,
-            receipt_number: receiptId
-          });
+      doc.setTextColor(150);
+      doc.setFontSize(10);
+      doc.text("MDai Platform | www.mdai.xyz | info@mdai.xyz", 20, 285);
 
-          Swal.fire({ icon: 'success', title: 'Payment Submitted', text: 'Receipt downloaded. Check your browser downloads.' });
-          this.reset();
-          localStorage.clear();
-        } catch (err) {
-          console.error("EmailJS error:", err);
-          Swal.fire({ icon: 'error', title: 'Error', text: err?.text || 'Something went wrong.' });
+      const qrData = `Receipt: ${receiptId}\nName: ${payload.to_name}\nCourse: ${payload.course_title}\nAmount: ${payload.total_amount}`;
+      const qrImage = await QRCode.toDataURL(qrData);
+      doc.addImage(qrImage, "PNG", 150, y + 15, 40, 40);
+
+      // SUPER SMART ANIMATION START
+      Swal.fire({
+        title: '🧠 Generating Receipt...',
+        html: `
+          <div style="padding:20px">
+            <div class="lds-spinner">
+              <div></div><div></div><div></div><div></div><div></div><div></div>
+              <div></div><div></div><div></div><div></div><div></div><div></div>
+            </div>
+            <p style="margin-top:15px; font-size:1rem;">Be patient, MDai is generating your receipt...</p>
+          </div>`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          setTimeout(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '🎉 Your receipt is ready!',
+              html: '<p style="font-size:1rem;">Click the button below to download your PDF receipt.</p>',
+              showCancelButton: false,
+              confirmButtonText: '📥 Download Now',
+              confirmButtonColor: '#28a745'
+            }).then(result => {
+              if (result.isConfirmed) {
+                doc.save(`MDai_Receipt_${receiptId}.pdf`);
+                Swal.fire({
+                  icon: 'info',
+                  title: '✅ Receipt Downloaded',
+                  text: 'Thank you for your payment.',
+                  confirmButtonText: 'OK',
+                  confirmButtonColor: '#007bff'
+                }).then(() => {
+                  window.location.href = 'index.html';
+                });
+              }
+            });
+          }, 10000); // 10 seconds
         }
       });
+      // SUPER SMART ANIMATION END
+
+      await emailjs.send("service_osvola7", "template_12nvate", {
+        ...payload,
+        receipt_number: receiptId
+      });
+
+      this.reset();
+      localStorage.clear();
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      Swal.fire({ icon: 'error', title: 'Error', text: err?.text || 'Something went wrong.' });
+    }
+  });
+
+  document.querySelector('select[name="payment_method"]').addEventListener("change", function () {
+    if (this.value.toLowerCase() === "mobile") {
+      showMpesa();
+    }
+  });
+});
+</script>
+
+
+<script>
+  function showMpesa() {
+    document.getElementById("mpesaBox").classList.add("active");
+  }
+  function hideMpesa() {
+    document.getElementById("mpesaBox").classList.remove("active");
+  }
+  function copyMpesa() {
+    const number = document.querySelector(".mpesa-number").textContent;
+    navigator.clipboard.writeText(number).then(() => {
+      const feedback = document.getElementById("copy-feedback");
+      feedback.style.display = 'block';
+      setTimeout(() => feedback.style.display = 'none', 2000);
     });
-  </script>
+  }
+</script>
+
 </body>
 </html>
