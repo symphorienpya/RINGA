@@ -10,7 +10,7 @@ The site is designed to showcase our events, team, photos, and services to the p
 ## 🌐 Live Site
 
 Once GitHub Pages is enabled, the site will be available here:  
-*[https://your-username.github.io/RINGA](https://your-username.github.io/RINGA)  
+*[https://symphorienpya.github.io/RINGA](https://symphorienpya.github.io/RINGA)  
 > _Replace `your-username` and `your-repo-name` with your actual GitHub details._
 
 ---
