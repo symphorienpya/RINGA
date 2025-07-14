@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDai Registration System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+     * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      padding: 20px;
+      overflow-x: hidden;
+      animation: bodyFade 1s ease forwards;
+    }
+    @keyframes bodyFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 1000px;
+      margin: auto;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      animation: zoomIn 1s ease forwards;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      animation: slideInDown 1s ease;
+    }
+    @keyframes slideInDown {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .tabs {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .tabs button {
+      padding: 12px 30px;
+      border: none;
+      margin: 0 10px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 8px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .tabs button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    form input, form select {
+      margin-bottom: 15px;
+      padding: 12px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    form input:focus, form select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 8px rgba(0,123,255,0.2);
+    }
+    .form-section {
+      margin-bottom: 25px;
+    }
+    .phone-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.8s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      overflow-x: auto;
+      display: block;
+    }
+    table thead, table tbody, table th, table td, table tr {
+      display: block;
+    }
+    thead {
+      background: #222;
+      color: white;
+    }
+    table thead tr {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    table tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #ccc;
+      transition: background 0.3s;
+    }
+    table tbody tr:hover {
+      background: #f1f1f1;
+    }
+    table th, table td {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      min-width: 120px;
+    }
+    #regNumber {
+      font-weight: bold;
+      color: green;
+      margin: 10px 0;
+    }
+    button[type="submit"] {
+      background: linear-gradient(to right, #28a745, #218838);
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+    }
+    button[type="submit"]:hover {
+      background: #1e7e34;
+      transform: scale(1.02);
+    }
+    #preview {
+      display: block;
+      margin-bottom: 10px;
+      max-width: 100px;
+      border-radius: 10px;
+    }
+    #searchInput {
+      margin: 10px 0;
+      padding: 12px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    .message-box {
+      text-align: center;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #a1ffce, #faffd1);
+      color: #004085;
+      font-size: 1.2em;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      animation: bounceIn 0.8s ease;
+      display: none;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      60% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @media (min-width: 768px) {
+      table thead, table tbody, table tr {
+        display: table-row-group;
+      }
+      table thead tr, table tbody tr {
+        display: table-row;
+      }
+      table th, table td {
+        display: table-cell;
+        min-width: auto;
+      }
+    }
+
+
+
+    .alert-box {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      z-index: 1000;
+      display: none;
+      animation: slideInRight 0.5s ease forwards;
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MDai Registration System</h1>
+    <div class="tabs">
+      <button onclick="showTab('user')">User</button>
+      <button onclick="loginAdmin()">Admin</button>
+    </div>
+    <div id="user" class="tab-content">
+      <form id="regForm">
+        <div class="form-section">
+          <label>Username:</label>
+          <input type="text" id="username" required>
+          <label>Email:</label>
+          <input type="email" id="email" required>
+          <label>Phone:</label>
+          <div class="phone-group">
+            <select id="countryCode">
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+243">🇨🇩 +243</option>
+              <option value="+254">🇰🇪 +254</option>
+            </select>
+            <input type="tel" id="phone" required>
+          </div>
+          <label>Country:</label>
+          <select id="country">
+            <option value="India">🇮🇳 India</option>
+            <option value="Congo">🇨🇩 Congo</option>
+            <option value="Kenya">🇰🇪 Kenya</option>
+          </select>
+        </div>
+        <div class="form-section">
+          <label>Course:</label>
+          <select id="course" required>
+            <option value="web">Web Development</option>
+            <option value="excel">Excel</option>
+            <option value="python">Python</option>
+            <option value="cprog">C Programming</option>
+            <option value="photoshop">Photoshop</option>
+            <option value="english">English</option>
+          </select>
+          <label>Preferred Language:</label>
+          <select id="language">
+            <option value="English">English</option>
+            <option value="French">French</option>
+          </select>
+          <label>How did you know about MDai?</label>
+          <select id="referrer">
+            <option>Friend</option>
+            <option>Internet</option>
+            <option>I prefer not to say</option>
+          </select>
+          <label>Payment Method:</label>
+          <input type="text" id="payment" placeholder="e.g. M-Pesa, Paytm, Bank Transfer" required>
+        </div>
+        <div class="form-section">
+          <label>Profile Picture:</label>
+          <input type="file" id="photo" accept="image/*">
+          <img id="preview" style="display: none" />
+          <p id="regNumber"></p>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <div id="alert" class="alert-box"></div>
+      <div id="successMessage" class="message-box"></div>
+    </div>
+    <div id="admin" class="tab-content">
+      <h2>Admin Panel</h2>
+      <input type="text" id="searchInput" placeholder="Search...">
+      <button onclick="exportCSV()">Export CSV</button>
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Reg No</th><th>Username</th><th>Email</th><th>Phone</th><th>Country</th>
+            <th>Course</th><th>Language</th><th>Referrer</th><th>Payment</th>
+            <th>Attendance</th><th>%</th><th>Action</th><th>Edit</th><th>Delete</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    function showAlert(message, duration = 3000) {
+      const alertBox = document.getElementById("alert");
+      alertBox.textContent = message;
+      alertBox.style.display = "block";
+      setTimeout(() => {
+        alertBox.style.display = "none";
+      }, duration);
+    }
+
+    function showTab(tab) {
+      document.getElementById("user").style.display = tab === "user" ? "block" : "none";
+      document.getElementById("admin").style.display = tab === "admin" ? "block" : "none";
+    }
+
+    function loginAdmin() {
+      const pass = prompt("Enter Admin Password:");
+      if (pass === "admin123") {
+        showTab("admin");
+        updateTable();
+        showAlert("Admin access granted ✅");
+      } else {
+        showAlert("Access Denied ❌", 4000);
+      }
+    }
+
+    function generateRegNumber(courseCode) {
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      return `MDai${courseCode}${rand}`;
+    }
+
+    document.getElementById("course").addEventListener("change", () => {
+      const courseCode = document.getElementById("course").value;
+      const regNum = generateRegNumber(courseCode);
+      document.getElementById("regNumber").innerText = `Your Reg No: ${regNum}`;
+    });
+
+    document.getElementById("photo").addEventListener("change", function () {
+      const file = this.files[0];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const preview = document.getElementById("preview");
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      if (file) reader.readAsDataURL(file);
+    });
+
+    document.getElementById("regForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const regNumber = generateRegNumber(document.getElementById("course").value);
+      const user = {
+        regNumber,
+        username: username.value,
+        email: email.value,
+        phone: countryCode.value + phone.value,
+        country: country.value,
+        course: course.value,
+        language: language.value,
+        referrer: referrer.value,
+        payment: payment.value,
+        attendance: 0,
+        total: 0,
+        photo: preview.src || ""
+      };
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users));
+      const success = document.getElementById("successMessage");
+      success.innerHTML = `<strong>Welcome to MDai!</strong><br>Your registration is successful.<br>Explore your course and proceed to payment.`;
+      success.style.display = 'block';
+      setTimeout(() => {
+        success.innerHTML = `Go to <strong>Explore Courses</strong> to make payment and start learning now.`;
+      }, 5000);
+      regForm.reset();
+      document.getElementById("regNumber").innerText = "";
+      preview.style.display = "none";
+      showAlert("Registration complete ✅");
+    });
+
+    function updateTable() {
+      const tbody = document.querySelector("#dataTable tbody");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      tbody.innerHTML = "";
+      users.forEach((u, i) => {
+        const percent = u.total > 0 ? ((u.attendance / u.total) * 100).toFixed(1) : "0";
+        const searchString = `${u.regNumber} ${u.username} ${u.email} ${u.course} ${u.phone} ${u.country}`.toLowerCase();
+        if (!search || searchString.includes(search)) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${u.regNumber}</td>
+            <td>${u.username}</td>
+            <td>${u.email}</td>
+            <td>${u.phone}</td>
+            <td>${u.country}</td>
+            <td>${u.course}</td>
+            <td>${u.language}</td>
+            <td>${u.referrer}</td>
+            <td>${u.payment}</td>
+            <td>${u.attendance}</td>
+            <td>${percent}%</td>
+            <td>
+              <button onclick="markAttendance(${i}, true)">+</button>
+              <button onclick="markAttendance(${i}, false)">-</button>
+            </td>
+            <td><button onclick="editUser(${i})">✏️</button></td>
+            <td><button onclick="deleteUser(${i})">🗑️</button></td>
+          `;
+          tbody.appendChild(tr);
+        }
+      });
+    }
+
+    function markAttendance(index, isPresent) {
+      if (isPresent) users[index].attendance++;
+      users[index].total++;
+      localStorage.setItem('users', JSON.stringify(users));
+      updateTable();
+      showAlert("Attendance updated ✅");
+    }
+
+    function deleteUser(index) {
+      const confirmBox = confirm("Are you sure to delete this user?");
+      if (confirmBox) {
+        users.splice(index, 1);
+        localStorage.setItem('users', JSON.stringify(users));
+        updateTable();
+        showAlert("User deleted successfully 🗑️");
+      }
+    }
+
+    function editUser(index) {
+      const u = users[index];
+      const newName = prompt("Edit Username:", u.username);
+      if (newName !== null) {
+        users[index].username = newName;
+        localStorage.setItem('users', JSON.stringify(users));
+        updateTable();
+        showAlert("Username updated ✏️");
+      }
+    }
+
+    function exportCSV() {
+      let csv = "Reg No,Username,Email,Phone,Country,Course,Language,Referrer,Payment,Attendance,Total,%\n";
+      users.forEach(u => {
+        const percent = u.total > 0 ? ((u.attendance / u.total) * 100).toFixed(1) : "0";
+        csv += `${u.regNumber},${u.username},${u.email},${u.phone},${u.country},${u.course},${u.language},${u.referrer},${u.payment},${u.attendance},${u.total},${percent}%\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'mdai_users.csv';
+      link.click();
+      showAlert("CSV exported 📁");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", updateTable);
+    showTab("user");
+  </script>
+</body>
+</html>
+
+
+
+
+
+ 
