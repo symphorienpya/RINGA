@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MDai Registration System</title>
@@ -215,19 +216,19 @@
 </head>
 <body>
   <div class="container">
-    <h1>MDai Registration System</h1>
+    <h1>Système d'inscription MDai</h1>
     <div class="tabs">
-      <button onclick="showTab('user')">User</button>
-      <button onclick="loginAdmin()">Admin</button>
+      <button onclick="showTab('user')">Utilisateur</button>
+      <button onclick="loginAdmin()">Administrateur</button>
     </div>
     <div id="user" class="tab-content">
       <form id="regForm">
         <div class="form-section">
-          <label>Username:</label>
+          <label>Nom d'utilisateur :</label>
           <input type="text" id="username" required>
-          <label>Email:</label>
+          <label>Email :</label>
           <input type="email" id="email" required>
-          <label>Phone:</label>
+          <label>Téléphone :</label>
           <div class="phone-group">
             <select id="countryCode">
               <option value="+91">🇮🇳 +91</option>
@@ -236,64 +237,73 @@
             </select>
             <input type="tel" id="phone" required>
           </div>
-          <label>Country:</label>
+          <label>Pays :</label>
           <select id="country">
-            <option value="India">🇮🇳 India</option>
+            <option value="India">🇮🇳 Inde</option>
             <option value="Congo">🇨🇩 Congo</option>
             <option value="Kenya">🇰🇪 Kenya</option>
           </select>
         </div>
         <div class="form-section">
-          <label>Course:</label>
+          <label>Cours :</label>
           <select id="course" required>
-            <option value="web">Web Development</option>
+            <option value="web">Développement Web</option>
             <option value="excel">Excel</option>
             <option value="python">Python</option>
-            <option value="cprog">C Programming</option>
+            <option value="cprog">Langage C</option>
             <option value="photoshop">Photoshop</option>
-            <option value="english">English</option>
+            <option value="english">Anglais</option>
           </select>
-          <label>Preferred Language:</label>
+          <label>Langue préférée :</label>
           <select id="language">
-            <option value="English">English</option>
-            <option value="French">French</option>
+            <option value="English">Anglais</option>
+            <option value="French">Français</option>
           </select>
-          <label>How did you know about MDai?</label>
+          <label>Comment avez-vous connu MDai ?</label>
           <select id="referrer">
-            <option>Friend</option>
+            <option>Ami</option>
             <option>Internet</option>
-            <option>I prefer not to say</option>
+            <option>Je préfère ne pas le dire</option>
           </select>
-          <label>Payment Method:</label>
-          <input type="text" id="payment" placeholder="e.g. M-Pesa, Paytm, Bank Transfer" required>
+          <label>Méthode de paiement :</label>
+          <select id="payment" required>
+            <option value="M-Pesa">M-Pesa</option>
+            <option value="Paytm">Paytm</option>
+            <option value="Virement Bancaire">Virement Bancaire</option>
+            <option value="Airtel Money">Airtel Money</option>
+            <option value="Orange Money">Orange Money</option>
+            <option value="Carte Bancaire">Carte Bancaire</option>
+          </select>
         </div>
         <div class="form-section">
-          <label>Profile Picture:</label>
+          <label>Photo de profil :</label>
           <input type="file" id="photo" accept="image/*">
           <img id="preview" style="display: none" />
           <p id="regNumber"></p>
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">S'inscrire</button>
       </form>
       <div id="alert" class="alert-box"></div>
       <div id="successMessage" class="message-box"></div>
     </div>
     <div id="admin" class="tab-content">
-      <h2>Admin Panel</h2>
-      <input type="text" id="searchInput" placeholder="Search...">
-      <button onclick="exportCSV()">Export CSV</button>
+      <h2>Panneau Administrateur</h2>
+      <input type="text" id="searchInput" placeholder="Recherche...">
+      <button onclick="exportCSV()">Exporter CSV</button>
       <table id="dataTable">
         <thead>
           <tr>
-            <th>Reg No</th><th>Username</th><th>Email</th><th>Phone</th><th>Country</th>
-            <th>Course</th><th>Language</th><th>Referrer</th><th>Payment</th>
-            <th>Attendance</th><th>%</th><th>Action</th><th>Edit</th><th>Delete</th>
+            <th>N°</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Pays</th>
+            <th>Cours</th><th>Langue</th><th>Source</th><th>Paiement</th>
+            <th>Présence</th><th>%</th><th>Action</th><th>Éditer</th><th>Supprimer</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     </div>
   </div>
+
+
   <script>
         let users = JSON.parse(localStorage.getItem('users')) || [];
 
