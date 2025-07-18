@@ -1,111 +1,204 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Python | MDai</title>
+
+  <!-- Pyodide -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 20px;
-      background: linear-gradient(to right, #e0f7fa, #f3e5f5);
+      background: linear-gradient(120deg, #f0f4c3, #e1bee7);
+      animation: fadeIn 1s ease-in;
     }
-    h1 {
-      color: #2e7d32;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    h1, h2 {
       text-align: center;
+      color: #4a148c;
     }
     .quiz-container {
-      max-width: 600px;
-      margin: auto;
+      max-width: 700px;
+      margin: 20px auto;
       padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.8s ease-in-out;
     }
-    input[type="text"] {
+    input[type="text"], .CodeMirror {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
       font-size: 16px;
+      margin-top: 10px;
+      box-sizing: border-box;
     }
-    button {
+    button, select {
       padding: 10px 20px;
       margin-top: 10px;
-      background: #2e7d32;
-      color: white;
       border: none;
       cursor: pointer;
+      font-size: 14px;
+      border-radius: 6px;
+      transition: background 0.3s;
     }
-    #feedback {
+    #run-btn { background: #3949ab; color: white; }
+    #resetBtn { background: #d84315; color: white; display: block; margin: 20px auto 0; }
+    #submitBtn { background: #2e7d32; color: white; }
+    #output {
+      white-space: pre-wrap;
+      background: #212121;
+      color: #e0f7fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    #feedback, #score, #level, #explanation {
       margin-top: 10px;
       font-weight: bold;
     }
-    #score, #level {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #resetBtn {
-      display: block;
-      margin: 20px auto 0;
-      background: #c62828;
+    #explanation {
+      color: #5d4037;
     }
   </style>
 </head>
 <body>
   <h1>Quiz Python</h1>
+
   <div class="quiz-container">
     <p id="question"></p>
     <input type="text" id="answer" placeholder="Votre réponse..." />
-    <button onclick="checkAnswer()">Soumettre</button>
+    <button id="submitBtn" onclick="checkAnswer()">Soumettre</button>
     <p id="feedback"></p>
+    <p id="explanation"></p>
     <p id="score"></p>
     <p id="level"></p>
     <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
   </div>
 
+  <div class="quiz-container">
+    <h2>💻 Éditeur de Code Python</h2>
+    <select onchange="insertSnippet(this.value)">
+      <option value="">📌 Insérer un snippet</option>
+      <option value="print('Bonjour, monde!')">print()</option>
+      <option value="for i in range(5):\n    print(i)">Boucle for</option>
+      <option value="if x > 0:\n    print('Positif')\nelse:\n    print('Négatif')">Condition if/else</option>
+      <option value="def saluer(nom):\n    print(f'Bonjour {nom}')">Fonction simple</option>
+    </select>
+    <textarea id="code-editor">print("Bonjour, monde!")</textarea>
+    <button id="run-btn" onclick="runPython()">▶️ Exécuter</button>
+    <div id="output">Chargement de Python...</div>
+  </div>
+
   <script>
+    let pyodide;
+    async function loadPyodideAndPackages() {
+      pyodide = await loadPyodide();
+      document.getElementById("output").innerText = "✅ Python prêt à l'emploi !";
+    }
+    loadPyodideAndPackages();
+
+    async function runPython() {
+      const code = editor.getValue();
+      try {
+        const result = await pyodide.runPythonAsync(code);
+        document.getElementById("output").innerText = result ?? "✅ Code exécuté.";
+      } catch (err) {
+        document.getElementById("output").innerText = "❌ Erreur :\n" + err;
+      }
+    }
+
+    function insertSnippet(code) {
+      if (code) editor.setValue(code);
+    }
+
+    let editor;
+    window.onload = function () {
+      editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+        mode: "python",
+        theme: "dracula",
+        lineNumbers: true,
+        tabSize: 4,
+        indentUnit: 4,
+      });
+
+      const introMessage = `Bienvenue Chez nous — votre compagnon intelligent pour l'apprentissage et votre passerelle numérique vers le futur de l'éducation. Ensemble, explorons, apprenons et maîtrisons le Python. Préparez-vous à relever 1000 défis passionnants !`;
+      const introUtterance = new SpeechSynthesisUtterance(introMessage);
+      introUtterance.lang = "fr-FR";
+      introUtterance.rate = 0.7;
+      introUtterance.pitch = 1.2;
+      introUtterance.voice = speechSynthesis.getVoices().find(v => v.lang.includes("fr") && v.name.toLowerCase().includes("f")) || speechSynthesis.getVoices()[0];
+      speechSynthesis.speak(introUtterance);
+
+      displayQuestion();
+    };
+
     const pythonQuestions = [];
+    const explanations = {
+      "nom = valeur": "En Python, on assigne une valeur à une variable avec '='.",
+      "print()": "La fonction print() permet d'afficher un message à l'écran.",
+      "#": "Le symbole '#' permet d'écrire des commentaires.",
+      "int": "'int' est le type entier pour les nombres comme 42.",
+      "def": "Le mot-clé 'def' est utilisé pour définir une fonction.",
+      "==": "'==' teste l'égalité entre deux valeurs.",
+      "!=" : "'!=' teste si deux valeurs sont différentes.",
+      "else": "'else' permet de définir un cas par défaut.",
+      "for": "La boucle 'for' sert à parcourir une séquence.",
+      "break": "'break' interrompt la boucle immédiatement.",
+      "continue": "'continue' saute à l'itération suivante.",
+      "while": "La boucle 'while' continue tant que la condition est vraie.",
+      "append": "La méthode 'append()' ajoute un élément à la fin d'une liste.",
+      "list": "'list' est un type de séquence ordonnée et modifiable.",
+      "[0]": "'[0]' permet d'accéder au premier élément d'une liste.",
+      "import": "'import' sert à charger un module externe."
+    };
+
     for (let i = 1; i <= 1000; i++) {
-      if (i <= 250) {
-        const basics = [
+      const qtype = i <= 250 ? 'Base' : i <= 500 ? 'Conditions' : i <= 750 ? 'Boucles' : 'Mixte';
+      const sets = {
+        Base: [
           { q: "Comment déclare-t-on une variable en Python ?", a: "nom = valeur" },
           { q: "Comment afficher un message ?", a: "print()" },
           { q: "Quel symbole est utilisé pour les commentaires ?", a: "#" },
           { q: "Quel type est '42' ?", a: "int" },
           { q: "Quel mot-clé permet de définir une fonction ?", a: "def" }
-        ];
-        const index = i % basics.length;
-        pythonQuestions.push({ q: `Base : ${basics[index].q} #${i}`, a: basics[index].a });
-      } else if (i <= 500) {
-        const conditions = [
+        ],
+        Conditions: [
           { q: "Quelle structure utilise-t-on pour les conditions ?", a: "if...elif...else" },
           { q: "Comment tester l'égalité ?", a: "==" },
           { q: "Comment tester l'inégalité ?", a: "!=" },
           { q: "Quel mot-clé est utilisé pour un bloc alternatif ?", a: "else" }
-        ];
-        const index = i % conditions.length;
-        pythonQuestions.push({ q: `Conditions : ${conditions[index].q} #${i}`, a: conditions[index].a });
-      } else if (i <= 750) {
-        const boucles = [
+        ],
+        Boucles: [
           { q: "Quelle boucle est utilisée pour itérer sur une liste ?", a: "for" },
           { q: "Quel mot-clé interrompt une boucle ?", a: "break" },
           { q: "Quel mot-clé saute une itération ?", a: "continue" },
           { q: "Quelle boucle s'utilise tant qu'une condition est vraie ?", a: "while" }
-        ];
-        const index = i % boucles.length;
-        pythonQuestions.push({ q: `Boucles : ${boucles[index].q} #${i}`, a: boucles[index].a });
-      } else {
-        const mix = [
+        ],
+        Mixte: [
           { q: "Comment ajouter un élément à une liste ?", a: "append" },
           { q: "Quel type est [1,2,3] ?", a: "list" },
           { q: "Comment accéder au 1er élément d'une liste ?", a: "[0]" },
           { q: "Quel mot-clé pour importer un module ?", a: "import" }
-        ];
-        const index = i % mix.length;
-        pythonQuestions.push({ q: `Mixte : ${mix[index].q} #${i}`, a: mix[index].a });
-      }
+        ]
+      };
+      const group = sets[qtype];
+      pythonQuestions.push({ q: `${qtype} : ${group[i % group.length].q} #${i}`, a: group[i % group.length].a });
     }
 
     function shuffle(array) {
@@ -123,6 +216,9 @@
     function speak(text) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "fr-FR";
+      utterance.rate = 0.7;
+      utterance.pitch = 1;
+      utterance.voice = speechSynthesis.getVoices().find(v => v.lang.includes("fr") && v.name.toLowerCase().includes("f")) || speechSynthesis.getVoices()[0];
       speechSynthesis.speak(utterance);
     }
 
@@ -132,6 +228,7 @@
       speak(current.q);
       document.getElementById("answer").value = "";
       document.getElementById("feedback").innerText = "";
+      document.getElementById("explanation").innerText = "";
       document.getElementById("score").innerText = `Score : ${score}/${pythonQuestions.length}`;
       document.getElementById("level").innerText = `Niveau : ${Math.floor((currentIndex + 124) / 125)}`;
     }
@@ -145,9 +242,11 @@
       } else {
         document.getElementById("feedback").innerText = `❌ Incorrect ! Réponse correcte : ${pythonQuestions[currentIndex].a}`;
       }
+      const exp = explanations[pythonQuestions[currentIndex].a];
+      if (exp) document.getElementById("explanation").innerText = `💡 Explication : ${exp}`;
       currentIndex++;
       if (currentIndex < pythonQuestions.length) {
-        setTimeout(displayQuestion, 1200);
+        setTimeout(displayQuestion, 1500);
       } else {
         document.getElementById("question").innerText = "🎉 Vous avez terminé les 1000 questions !";
         document.getElementById("score").innerText = `Score final : ${score}/1000`;
@@ -161,8 +260,6 @@
       score = 0;
       displayQuestion();
     }
-
-    window.onload = displayQuestion;
   </script>
 </body>
 </html>
