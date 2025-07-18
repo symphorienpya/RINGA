@@ -1,60 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Photoshop | MDai</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(to right, #fff3e0, #e1f5fe);
-    }
-    h1 {
-      color: #6a1b9a;
-      text-align: center;
-    }
-    .quiz-container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      background: #6a1b9a;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    #feedback {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #score, #level {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #resetBtn {
-      display: block;
-      margin: 20px auto 0;
-      background: #c62828;
-    }
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(to right top, #fce4ec, #e3f2fd);
+  min-height: 100vh;
+  padding: 20px;
+  animation: fadeIn 1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  color: #4a148c;
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-container {
+  background: #ffffffcc;
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  max-width: 700px;
+  width: 100%;
+  padding: 30px 25px;
+  transition: all 0.3s ease;
+}
+
+p#question {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s;
+  margin-bottom: 20px;
+}
+
+input[type="text"]:focus {
+  border-color: #ab47bc;
+  box-shadow: 0 0 0 3px #f3e5f5;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(to right, #8e24aa, #5e35b1);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 12px rgba(142, 36, 170, 0.3);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(94, 53, 177, 0.4);
+}
+
+#resetBtn {
+  background: linear-gradient(to right, #ef5350, #d32f2f);
+  margin-top: 25px;
+}
+
+#resetBtn:hover {
+  box-shadow: 0 6px 18px rgba(211, 47, 47, 0.4);
+}
+
+#feedback, #score, #level {
+  margin-top: 15px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+#feedback {
+  background-color: #e8f5e9;
+  color: #388e3c;
+  border-left: 5px solid #66bb6a;
+}
+
+#score {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-left: 5px solid #42a5f5;
+}
+
+#level {
+  background-color: #fff8e1;
+  color: #ef6c00;
+  border-left: 5px solid #ffb74d;
+}
+
+@media (max-width: 600px) {
+  .quiz-container {
+    padding: 20px 15px;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+
+  input[type="text"] {
+    font-size: 0.95rem;
+  }
+
+  #feedback, #score, #level {
+    font-size: 1rem;
+  }
+}
+
   </style>
 </head>
 <body>
-  <h1>Quiz Photoshop</h1>
+ 
   <div class="quiz-container">
     <p id="question"></p>
     <input type="text" id="answer" placeholder="Votre réponse..." />
@@ -122,6 +214,7 @@
     function speak(text) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "fr-FR";
+      utterance.voice = speechSynthesis.getVoices().find(v => v.lang === "fr-FR" && v.name.toLowerCase().includes("female")) || null;
       speechSynthesis.speak(utterance);
     }
 
