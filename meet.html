@@ -8,213 +8,279 @@
   <title>Join Our Live Session</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+      * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(-45deg, #1a73e8, #34a853, #fbbc05, #ea4335);
-      background-size: 400% 400%;
-      animation: gradientMove 10s ease infinite;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      padding: 20px;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-45deg, #1a73e8, #34a853, #fbbc05, #ea4335);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px;
+}
 
-    @keyframes gradientMove {
-      0% {
-        background-position: 0% 50%;
-      }
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
 
-      50% {
-        background-position: 100% 50%;
-      }
+  50% {
+    background-position: 100% 50%;
+  }
 
-      100% {
-        background-position: 0% 50%;
-      }
-    }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
-    .container {
-      display: flex;
-      gap: 40px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      max-width: 900px;
-      width: 100%;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      animation: fadeSlideIn 1.2s ease;
-    }
+.container {
+  display: flex;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  max-width: 900px;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  animation: fadeSlideIn 1.2s ease;
+}
 
-    .logo-box {
-      flex: 1 1 300px;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      justify-content: center;
-      padding: 20px;
-    }
+.logo-box {
+  flex: 1 1 300px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 20px;
+}
 
-    .logo-box img {
-      width: 120px;
-      height: auto;
-      margin-bottom: 20px;
-      animation: bounce 2s infinite;
-    }
+.logo-box img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
 
-    .logo-box h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
-      animation: fadeInText 2s ease-in-out forwards;
-    }
+.logo-box h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  animation: fadeInText 2s ease-in-out forwards;
+}
 
-    .logo-box p,
-    .logo-box #greeting {
-      font-size: 16px;
-      opacity: 0.9;
-      animation: fadeInText 2.5s ease-in-out forwards;
-    }
+.logo-box p,
+.logo-box #greeting {
+  font-size: 16px;
+  opacity: 0.9;
+  animation: fadeInText 2.5s ease-in-out forwards;
+}
 
-    #countdown {
-      margin-top: 20px;
-      font-weight: bold;
-      color: #fff;
-      font-size: 18px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px 12px;
-      border-radius: 10px;
-    }
+#countdown {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #fff;
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
 
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
 
-      50% {
-        transform: translateY(-10px);
-      }
-    }
+  50% {
+    transform: translateY(-10px);
+  }
+}
 
-    @keyframes fadeSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(60px);
-      }
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    @keyframes fadeInText {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .card {
-      flex: 1 1 300px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      text-align: center;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-    }
+.card {
+  flex: 1 1 300px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
 
-    h1 {
-      font-size: 24px;
-      color: #fff;
-      margin-bottom: 20px;
-    }
+h1 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 20px;
+}
 
-    input[type="password"] {
-      padding: 14px 16px;
-      font-size: 16px;
-      border-radius: 12px;
-      border: none;
-      width: 100%;
-      outline: none;
-      margin-bottom: 20px;
-      background: rgba(255, 255, 255, 0.85);
-    }
+input[type="password"] {
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  outline: none;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.85);
+}
 
-    .btn {
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
-      background: linear-gradient(to right, #1a73e8, #0b47a1);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
+.btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(to right, #1a73e8, #0b47a1);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
 
-    .btn:hover {
-      transform: scale(1.05);
-      background: linear-gradient(to right, #0b47a1, #1a73e8);
-    }
+.btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #0b47a1, #1a73e8);
+}
 
-    #link-container {
-      margin-top: 20px;
-      animation: fadeIn 0.5s ease forwards;
-    }
+#link-container {
+  margin-top: 20px;
+  animation: fadeIn 0.5s ease forwards;
+}
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .hidden {
-      display: none;
-    }
+.hidden {
+  display: none;
+}
 
-    a.btn {
-      display: inline-block;
-      text-decoration: none;
-    }
+a.btn {
+  display: inline-block;
+  text-decoration: none;
+}
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
+/* Tablet and medium screen layout */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
 
-      .logo-box,
-      .card {
-        width: 100%;
-      }
-    }
+  .logo-box,
+  .card {
+    width: 100%;
+  }
+}
+
+/* Small screens like phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 30px 15px;
+    gap: 20px;
+  }
+
+  .logo-box img {
+    width: 90px;
+    margin-bottom: 16px;
+  }
+
+  .logo-box h2 {
+    font-size: 22px;
+  }
+
+  .logo-box p,
+  .logo-box #greeting,
+  #countdown {
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  input[type="password"],
+  .btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+/* Extra small screens like 320px */
+@media (max-width: 360px) {
+  .container {
+    padding: 25px 10px;
+  }
+
+  .logo-box h2 {
+    font-size: 20px;
+  }
+
+  .logo-box p,
+  .logo-box #greeting,
+  #countdown {
+    font-size: 13px;
+  }
+
+  input[type="password"],
+  .btn {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+}
+
   </style>
 </head>
 
