@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photoshop for Beginners Curriculum</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #eef2f5;
+      color: #2c3e50;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      color: #1565c0;
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    ul {
+      padding-left: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background: #1565c0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 1rem 0;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .btn:hover { background: #0d47a1; }
+    #pdf-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .cover-page {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-top: 50px;
+    }
+    .cover-page img.logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+    .qr {
+      margin-top: 20px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .page-number {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 1rem;
+    }
+    .page { page-break-after: always; }
+    .no-break { page-break-inside: avoid; }
+    .signature-block {
+      margin-top: 3rem;
+      font-size: 1rem;
+      text-align: left;
+      padding-left: 2rem;
+    }
+    .table-of-contents h2 {
+      text-align: center;
+      color: #444;
+      border: none;
+    }
+    .table-of-contents ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .table-of-contents a {
+      text-decoration: none;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Photoshop for Beginners Curriculum</h1>
+  <button class="btn" onclick="downloadPDF()">Download PDF</button>
+  <div id="pdf-content">
+    <div class="cover-page page">
+      <img class="logo" src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="Photoshop Logo" />
+      <h1>Photoshop for Beginners</h1>
+      <h2>Programme Photoshop pour Débutants</h2>
+      <p><em>Learn the basics of Adobe Photoshop</em></p>
+      <p><em>Apprenez les bases d'Adobe Photoshop</em></p>
+      <div class="qr">
+        <canvas id="qr-code"></canvas>
+        <p style="font-size: 0.8rem;">Scan to visit: www.mdai.org</p>
+      </div>
+    </div>
+
+    <div class="page table-of-contents">
+      <h2>Table of Contents</h2>
+      <ul id="toc-list"></ul>
+    </div>
+
+    <div id="content-body"></div>
+
+    <div class="page">
+      <div class="signature-block">
+        <p>Kind regards,</p><br><br>
+        <p><strong>Mr. Symphorien</strong></p>
+        <p>Chief Executive Officer</p>
+        <p>MDai Creative Division</p>
+        <p>www.mdai.xyz</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>MDai Creative Division | <a href="https://symphorienpya.github.io/RINGA/">www.mdai.xyz</a> | Email: contact@mdai.org</p>
+      <p>&copy; 2025 MDai Platform. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    new QRious({
+      element: document.getElementById("qr-code"),
+      value: "https://symphorienpya.github.io/RINGA/",
+      size: 120
+    });
+
+    const photoshopTopics = [
+      {
+        title: "1. Getting Started with Photoshop / Prise en main de Photoshop",
+        items: [
+          "What is Photoshop? / Qu'est-ce que Photoshop ?",
+          "Exploring the workspace / Exploration de l'interface",
+          "Opening and saving files / Ouvrir et enregistrer des fichiers"
+        ]
+      },
+      {
+        title: "2. Basic Tools and Features / Outils et fonctionnalités de base",
+        items: [
+          "Move, Marquee, Lasso tools / Outils Déplacement, Rectangle, Lasso",
+          "Brush and Eraser / Pinceau et gomme",
+          "Zoom and Hand tools / Zoom et main",
+          "Undo, redo, and history / Annuler, rétablir et historique"
+        ]
+      },
+      {
+        title: "3. Working with Layers / Travailler avec les calques",
+        items: [
+          "Creating and naming layers / Créer et nommer des calques",
+          "Layer order and visibility / Ordre et visibilité des calques",
+          "Merging and grouping layers / Fusionner et grouper des calques"
+        ]
+      },
+      {
+        title: "4. Selections and Masking / Sélections et masquage",
+        items: [
+          "Using selection tools / Utiliser les outils de sélection",
+          "Feather and refine edges / Contour progressif et affiner les bords",
+          "Layer masks basics / Bases des masques de calque"
+        ]
+      },
+      {
+        title: "5. Text and Basic Effects / Texte et effets simples",
+        items: [
+          "Adding and formatting text / Ajouter et formater du texte",
+          "Applying basic layer styles / Appliquer des styles de calque",
+          "Creating simple effects / Créer des effets simples"
+        ]
+      }
+    ];
+
+    const toc = document.getElementById("toc-list");
+    const content = document.getElementById("content-body");
+    let pageCount = 2;
+
+    photoshopTopics.forEach((topic, i) => {
+      const anchorId = `section-${i+1}`;
+      const tocItem = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `#${anchorId}`;
+      link.textContent = topic.title;
+      tocItem.appendChild(link);
+      toc.appendChild(tocItem);
+
+      const section = document.createElement("div");
+      section.className = "page no-break";
+      section.id = anchorId;
+
+      const header = document.createElement("h2");
+      header.textContent = topic.title;
+
+      const ul = document.createElement("ul");
+      topic.items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+
+      const footer = document.createElement("div");
+      footer.className = "page-number";
+      footer.textContent = `Page ${++pageCount}`;
+
+      section.appendChild(header);
+      section.appendChild(ul);
+      section.appendChild(footer);
+      content.appendChild(section);
+    });
+
+    function downloadPDF() {
+      html2pdf().set({
+        margin: 0.5,
+        filename: 'Photoshop_for_Beginners_MDai.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      }).from(document.getElementById("pdf-content")).save();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>English for Intermediate Learners Curriculum</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #eef2f5;
+      color: #2c3e50;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      color: #1565c0;
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    ul {
+      padding-left: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background: #1565c0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 1rem 0;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .btn:hover { background: #0d47a1; }
+    #pdf-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .cover-page {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-top: 50px;
+    }
+    .cover-page img.logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+    .qr {
+      margin-top: 20px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .page-number {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 1rem;
+    }
+    .page { page-break-after: always; }
+    .no-break { page-break-inside: avoid; }
+    .signature-block {
+      margin-top: 3rem;
+      font-size: 1rem;
+      text-align: left;
+      padding-left: 2rem;
+    }
+    .table-of-contents h2 {
+      text-align: center;
+      color: #444;
+      border: none;
+    }
+    .table-of-contents ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .table-of-contents a {
+      text-decoration: none;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <h1>English for Intermediate Learners Curriculum</h1>
+  <button class="btn" onclick="downloadPDF()">Download PDF</button>
+  <div id="pdf-content">
+    <div class="cover-page page">
+      <img class="logo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" />
+      <h1>English for Intermediate Learners</h1>
+      <h2>Programme d'Anglais Intermédiaire</h2>
+      <p><em>Advance your English speaking, reading and writing skills</em></p>
+      <p><em>Améliorez vos compétences en anglais oral, écrit et lecture</em></p>
+      <div class="qr">
+        <canvas id="qr-code"></canvas>
+        <p style="font-size: 0.8rem;">Scan to visit: www.mdai.org</p>
+      </div>
+    </div>
+
+    <div class="page table-of-contents">
+      <h2>Table of Contents</h2>
+      <ul id="toc-list"></ul>
+    </div>
+
+    <div id="content-body"></div>
+
+    <div class="page">
+      <div class="signature-block">
+        <p>Kind regards,</p><br><br>
+        <p><strong>Mr. Symphorien</strong></p>
+        <p>Chief Executive Officer</p>
+        <p>MDai Language Division</p>
+        <p>www.mdai.xyz</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>MDai Language Division | <a href="https://symphorienpya.github.io/RINGA/">www.mdai.xyz</a> | Email: contact@mdai.org</p>
+      <p>&copy; 2025 MDai Platform. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    new QRious({
+      element: document.getElementById("qr-code"),
+      value: "https://symphorienpya.github.io/RINGA/",
+      size: 120
+    });
+
+    const englishTopics = [
+      {
+        title: "1. Intermediate Grammar / Grammaire Intermédiaire",
+        items: [
+          "Past Simple vs. Present Perfect / Passé simple vs. présent parfait",
+          "Future Tenses / Temps du futur",
+          "Conditionals / Phrases conditionnelles",
+          "Modal Verbs / Verbes modaux",
+          "Comparatives & Superlatives / Comparatifs et superlatifs",
+          "Relative Clauses / Phrases relatives",
+          "Passive Voice / Voix passive",
+          "Reported Speech / Discours indirect",
+          "Gerunds & Infinitives / Gérondifs et infinitifs",
+          "Question Tags / Questions de confirmation"
+        ]
+      },
+      {
+        title: "2. Speaking & Communication / Expression orale et communication",
+        items: [
+          "Giving Opinions / Donner son avis",
+          "Agreeing & Disagreeing / Être d'accord et ne pas être d'accord",
+          "Making Suggestions / Faire des suggestions",
+          "Describing Experiences / Décrire des expériences",
+          "Telephone Conversations / Conversations téléphoniques",
+          "Role-playing Situations / Jeux de rôle",
+          "Storytelling / Raconter une histoire",
+          "Debates & Discussions / Débats et discussions"
+        ]
+      },
+      {
+        title: "3. Reading & Writing Skills / Compétences en lecture et écriture",
+        items: [
+          "Reading Articles and Stories / Lire des articles et histoires",
+          "Writing Paragraphs and Essays / Écrire des paragraphes et essais",
+          "Email and Letter Writing / Rédaction d'e-mails et de lettres",
+          "Descriptive Writing / Écriture descriptive",
+          "Opinion Writing / Rédiger une opinion",
+          "Understanding Inference / Compréhension implicite"
+        ]
+      },
+      {
+        title: "4. Vocabulary Expansion / Enrichissement du vocabulaire",
+        items: [
+          "Phrasal Verbs / Verbes à particule",
+          "Idioms & Expressions / Idiomes et expressions",
+          "Synonyms & Antonyms / Synonymes et antonymes",
+          "Collocations / Collocations",
+          "Word Formation / Formation des mots",
+          "Topic-based Vocabulary / Vocabulaire par thème",
+          "False Friends / Faux amis",
+          "Linking Words / Mots de liaison"
+        ]
+      },
+      {
+        title: "5. Real-life English / Anglais pratique",
+        items: [
+          "At Work / Au travail",
+          "At the University / À l’université",
+          "Public Speaking / Prise de parole en public",
+          "Cultural Conversations / Conversations culturelles",
+          "Job Interviews / Entretiens d'embauche",
+          "Giving Presentations / Faire des présentations",
+          "Travel Situations / Situations de voyage",
+          "Problem Solving / Résolution de problèmes"
+        ]
+      }
+    ];
+
+    const toc = document.getElementById("toc-list");
+    const content = document.getElementById("content-body");
+    let pageCount = 2;
+
+    englishTopics.forEach((topic, i) => {
+      const anchorId = `section-${i + 1}`;
+      const tocItem = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `#${anchorId}`;
+      link.textContent = topic.title;
+      tocItem.appendChild(link);
+      toc.appendChild(tocItem);
+
+      const section = document.createElement("div");
+      section.className = "page no-break";
+      section.id = anchorId;
+
+      const header = document.createElement("h2");
+      header.textContent = topic.title;
+
+      const ul = document.createElement("ul");
+      topic.items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+
+      const footer = document.createElement("div");
+      footer.className = "page-number";
+      footer.textContent = `Page ${++pageCount}`;
+
+      section.appendChild(header);
+      section.appendChild(ul);
+      section.appendChild(footer);
+      content.appendChild(section);
+    });
+
+    function downloadPDF() {
+      html2pdf().set({
+        margin: 0.5,
+        filename: 'English_for_Intermediate_Learners_MDai.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      }).from(document.getElementById("pdf-content")).save();
+    }
+  </script>
+</body>
+</html>
