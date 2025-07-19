@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Python Programming Curriculum</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #eef2f5;
+      color: #2c3e50;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+      color: #1565c0;
+    }
+    ul {
+      padding-left: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background: #1565c0;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .btn:hover { background: #0d47a1; }
+    #pdf-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .cover-page {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .cover-page img.logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+    .qr {
+      margin-top: 20px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .page-number {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 1rem;
+    }
+    .page { page-break-after: always; }
+    .no-break { page-break-inside: avoid; }
+    .table-of-contents ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: left;
+    }
+    .table-of-contents a {
+      text-decoration: none;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Python Programming Curriculum / Programme Python</h1>
+  <button class="btn" onclick="downloadPDF()">Download PDF</button>
+  <div id="pdf-content">
+    <div class="cover-page page">
+      <img class="logo" src="https://cdn-icons-png.flaticon.com/512/919/919852.png" alt="Python Logo">
+      <h1>Python Programming Curriculum</h1>
+      <h2>Programme Complet de Python</h2>
+      <p><em>Beginner to Advanced Python Development</em></p>
+      <p><em>Développement Python du débutant à avancé</em></p>
+      <div class="qr">
+        <canvas id="qr-code"></canvas>
+        <p style="font-size: 0.8rem;">Scan to visit: www.mdai.org</p>
+      </div>
+    </div>
+    <div class="page table-of-contents">
+      <h2>Table of Contents</h2>
+      <ul id="toc-list"></ul>
+    </div>
+    <div id="content-body"></div>
+    <div class="page">
+      <p>Kind regards,</p><br><br>
+      <p><strong>Mr. Symphorien</strong></p>
+      <p>Chief Executive Officer</p>
+      <p>MDai Web Division</p>
+      <p>www.mdai.xyz</p>
+    </div>
+    <div class="footer">
+      <p>MDai Web Division | <a href="https://symphorienpya.github.io/RINGA/">www.mdai.xyz</a> | Email: contact@mdai.org</p>
+      <p>&copy; 2025 MDai Platform. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    new QRious({
+      element: document.getElementById("qr-code"),
+      value: "https://symphorienpya.github.io/RINGA/",
+      size: 120
+    });
+
+    const pythonCurriculum = [
+      {
+        title: "1. Beginner Level / Niveau Débutant",
+        items: ["Introduction to Python / Introduction à Python", "Installing Python and IDEs / Installation de Python et des IDEs", "Variables and Data Types / Variables et types de données", "Conditionals and Loops / Conditionnelles et boucles", "Functions and Parameters / Fonctions et paramètres"]
+      },
+      {
+        title: "2. Intermediate Level / Niveau Intermédiaire",
+        items: ["File Handling / Manipulation de fichiers", "Error Handling / Gestion des erreurs", "Modules and Packages / Modules et packages", "Classes and OOP / Classes et programmation orientée objet", "Working with Dates / Travailler avec les dates"]
+      },
+      {
+        title: "3. Advanced Level / Niveau Avancé",
+        items: ["Generators and Iterators / Générateurs et itérateurs", "Decorators / Décorateurs", "Regular Expressions / Expressions régulières", "JSON and APIs / JSON et APIs", "Web Scraping / Extraction web"]
+      },
+      {
+        title: "4. Projects & Practice / Projets et Pratique",
+        items: ["Calculator App / Application calculatrice", "Quiz App / Application de quiz", "Password Generator / Générateur de mots de passe", "Web Scraper / Scraper web", "Mini Game / Mini jeu"]
+      }
+    ];
+
+    const toc = document.getElementById("toc-list");
+    const content = document.getElementById("content-body");
+    let pageCount = 2;
+
+    pythonCurriculum.forEach((topic, i) => {
+      const anchorId = `section-${i+1}`;
+      const tocItem = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `#${anchorId}`;
+      link.textContent = topic.title;
+      tocItem.appendChild(link);
+      toc.appendChild(tocItem);
+
+      const section = document.createElement("div");
+      section.className = "page no-break";
+      section.id = anchorId;
+
+      const header = document.createElement("h2");
+      header.textContent = topic.title;
+
+      const ul = document.createElement("ul");
+      topic.items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+
+      const footer = document.createElement("div");
+      footer.className = "page-number";
+      footer.textContent = `Page ${++pageCount}`;
+
+      section.appendChild(header);
+      section.appendChild(ul);
+      section.appendChild(footer);
+      content.appendChild(section);
+    });
+
+    function downloadPDF() {
+      html2pdf().set({
+        margin: 0.5,
+        filename: 'Python_Curriculum_MDai.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      }).from(document.getElementById("pdf-content")).save();
+    }
+  </script>
+</body>
+</html>

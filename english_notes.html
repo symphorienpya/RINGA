@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced English Topics</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #eef2f5;
+      color: #2c3e50;
+      padding: 2rem;
+      line-height: 1.7;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: #1565c0;
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #1565c0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 1rem 0;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      background: #0d47a1;
+    }
+
+    #pdf-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .cover-page {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-top: 50px;
+    }
+
+    .cover-page img.logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .cover-page .qr {
+      margin-top: 20px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .page-number {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 1rem;
+    }
+
+    .page {
+      page-break-after: always;
+    }
+
+    .no-break {
+      page-break-inside: avoid;
+    }
+
+    .signature-block {
+      margin-top: 3rem;
+      font-size: 1rem;
+      text-align: left;
+      padding-left: 2rem;
+    }
+
+    .signature-block p {
+      margin: 0.2rem 0;
+    }
+
+    .table-of-contents h2 {
+      text-align: center;
+      color: #444;
+      border: none;
+    }
+
+    .table-of-contents ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .table-of-contents li {
+      margin-bottom: 10px;
+    }
+
+    .table-of-contents a {
+      text-decoration: none;
+      color: #1565c0;
+    }
+
+    .table-of-contents a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Advanced English Topics / Sujets d'Anglais Avancés</h1>
+  <button class="btn" onclick="downloadPDF()">Download PDF</button>
+
+  <div id="pdf-content">
+
+    <!-- COVER PAGE -->
+    <div class="cover-page page">
+      <img class="logo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" />
+      <h1>Advanced English Topics</h1>
+      <h2>Sujets Avancés en Anglais</h2>
+      <p><em>A comprehensive guide for academic and professional mastery</em></p>
+      <p><em>Un guide complet pour la maîtrise académique et professionnelle</em></p>
+      <div class="qr">
+        <canvas id="qr-code"></canvas>
+        <p style="font-size: 0.8rem;">Scan to visit: www.mdai.org</p>
+      </div>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="page table-of-contents">
+      <h2>Table of Contents</h2>
+      <ul id="toc-list"></ul>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content-body"></div>
+
+    <!-- SIGNATURE -->
+    <div class="page">
+      <div class="signature-block">
+        <p>Kind regards,</p>
+        <br><br>
+        <p><strong>Mr. symphorien </strong></p>
+        <p>Chief Executive Officer</p>
+        <p>MDai Language Division</p>
+        <p>www.mdai.xyz</p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>MDai Language Division | <a href="https://symphorienpya.github.io/RINGA/" target="_blank">www.mdai.xyz</a> | Email: contact@mdai.org</p>
+      <p>&copy; 2025 MDai Platform. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    // QR Code
+    new QRious({
+      element: document.getElementById("qr-code"),
+      value: "https://symphorienpya.github.io/RINGA/",
+      size: 120
+    });
+
+    // Topics Data
+    const topics = [
+      {
+        title: "1. Advanced Grammar & Usage / Grammaire et Usage Avancés",
+        items: [
+          "Subjunctive mood / Mode subjonctif",
+          "Inversion and emphasis / Inversion et emphase",
+          "Ellipsis and substitution / Ellipse et substitution",
+          "Complex conditionals / Conditionnels complexes",
+          "Nominalization / Nominalisation",
+          "Cleft sentences / Phrases clivées",
+          "Embedded questions / Questions intégrées",
+          "Advanced passive constructions / Voix passive avancée"
+        ]
+      },
+      {
+        title: "2. Vocabulary & Word Choice / Vocabulaire et Choix des Mots",
+        items: [
+          "Idiomatic expressions / Expressions idiomatiques",
+          "Phrasal verbs / Verbes à particule",
+          "Word formation / Formation des mots",
+          "Formal vs. informal / Formel vs informel",
+          "Academic vocabulary / Vocabulaire académique",
+          "Euphemisms / Euphémismes"
+        ]
+      },
+      {
+        title: "3. Writing Skills / Compétences en Rédaction",
+        items: [
+          "Essay & research writing / Rédaction d'essais et de recherches",
+          "Persuasive techniques / Techniques de persuasion",
+          "Cohesion & coherence / Cohésion et cohérence",
+          "Editing & punctuation / Révision et ponctuation"
+        ]
+      },
+      {
+        title: "4. Reading & Analysis / Lecture et Analyse",
+        items: [
+          "Critical reading / Lecture critique",
+          "Inference and tone / Inférence et ton",
+          "Rhetorical devices / Figures de style",
+          "Literary analysis / Analyse littéraire"
+        ]
+      },
+      {
+        title: "5. Listening & Speaking / Écoute et Expression Orale",
+        items: [
+          "Lectures and talks / Conférences et présentations",
+          "Debates and public speaking / Débats et discours",
+          "Pronunciation and stress / Prononciation et accentuation"
+        ]
+      },
+      {
+        title: "6. Academic & Professional English / Anglais Académique et Professionnel",
+        items: [
+          "Resumes & emails / CVs et e-mails",
+          "Reports & interviews / Rapports et entretiens",
+          "Business language / Langage professionnel"
+        ]
+      },
+      {
+        title: "7. Literary & Cultural Exploration / Exploration Littéraire et Culturelle",
+        items: [
+          "Classic & modern literature / Littérature classique et moderne",
+          "Cultural references / Références culturelles",
+          "Varieties of English / Variétés d'anglais"
+        ]
+      },
+      {
+        title: "8. Exam Preparation / Préparation aux Examens",
+        items: [
+          "IELTS, TOEFL, C1/C2",
+          "Writing and speaking tasks / Épreuves écrites et orales"
+        ]
+      },
+      {
+        title: "9. Critical Thinking / Pensée Critique",
+        items: [
+          "Logical reasoning / Raisonnement logique",
+          "Bias and fallacies / Biais et sophismes"
+        ]
+      },
+      {
+        title: "10. Creative & Functional English / Anglais Créatif et Fonctionnel",
+        items: [
+          "Creative writing / Écriture créative",
+          "Real-life scenarios / Situations réelles",
+          "Humor and irony / Humour et ironie"
+        ]
+      }
+    ];
+
+    const contentDiv = document.getElementById("content-body");
+    const tocList = document.getElementById("toc-list");
+    let pageCount = 2; // Page 1 is cover, 2 is ToC
+
+    topics.forEach((topic, index) => {
+      const anchorId = `section-${index + 1}`;
+      // TOC Link
+      const tocItem = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `#${anchorId}`;
+      link.textContent = topic.title;
+      tocItem.appendChild(link);
+      tocList.appendChild(tocItem);
+
+      // Content Section
+      const section = document.createElement("div");
+      section.className = "page no-break";
+      section.id = anchorId;
+
+      const header = document.createElement("h2");
+      header.textContent = topic.title;
+
+      const ul = document.createElement("ul");
+      topic.items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+
+      const footer = document.createElement("div");
+      footer.className = "page-number";
+      footer.textContent = `Page ${++pageCount}`;
+
+      section.appendChild(header);
+      section.appendChild(ul);
+      section.appendChild(footer);
+      contentDiv.appendChild(section);
+    });
+
+    // PDF Download
+    function downloadPDF() {
+      const element = document.getElementById("pdf-content");
+      const opt = {
+        margin: 0.5,
+        filename: 'Advanced_English_Topics_MDai.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>

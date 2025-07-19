@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta charset="UTF-8" />
+  <title>MDai | Notes de cours PDF</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family:'Segoe UI', sans-serif;
+      background:#f7f9fb;
+      margin:0;
+      padding:0
+    }
+    .container {
+      max-width:700px;
+      margin:60px auto;
+      padding:30px;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.1);
+      text-align:center
+    }
+    select, button {
+      padding:12px;
+      font-size:16px;
+      border-radius:8px;
+      margin-top:10px
+    }
+    select {
+      width:80%;
+      border:1px solid #ccc
+    }
+    button {
+      background:#28a745;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      transition: background .3s
+    }
+    button:hover {
+      background:#218838
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Télécharger les Notes PDF</h1>
+    <p>Sélectionnez un cours :</p>
+    <select id="courseSelect">
+      <option value="">-- Choisissez un cours --</option>
+      <option value="PY101">Python pour Débutants</option>
+      <option value="WEB202">Développement Web Avancé</option>
+      <option value="EXL303">Excel</option>
+      <option value="C404">Programmation C</option>
+      <option value="PSH505">Photoshop</option>
+      <option value="ENG1">Anglais 1</option>
+      <option value="ENG2">Anglais 2</option>
+      <option value="ENG3">Anglais 3</option>
+    </select>
+    <br>
+    <button onclick="generatePDF()">Générer & Télécharger le PDF</button>
+  </div>
+
+  <script>
+    const courseData = {
+      PY101: {
+        title: "Python pour Débutants",
+        desc: "Bases de Python : variables, boucles, fonctions.",
+        lang: "python",
+        chapters: [
+          "Introduction à Python et installation",
+          "Variables et types de données",
+          "Conditions (if, else)",
+          "Boucles (for, while)",
+          "Fonctions et paramètres",
+          "Listes, tuples, dictionnaires",
+          "Fichiers et gestion",
+          "Modules et packages",
+          "Projets pratiques"
+        ]
+      },
+      WEB202: {
+        title: "Développement Web Avancé",
+        desc: "Maîtrise de HTML, CSS et JavaScript dynamique.",
+        lang: "javascript",
+        chapters: [
+          "Structure HTML avancée",
+          "CSS3 moderne (Flexbox/Grid)",
+          "Animation avec CSS et JS",
+          "Événements DOM",
+          "Requêtes AJAX",
+          "Frameworks (ex: Bootstrap)",
+          "Applications web SPA",
+          "Mini-projets dynamiques"
+        ]
+      }
+    };
+
+    function generatePDF() {
+      const code = document.getElementById("courseSelect").value;
+      if (!code) return alert("Veuillez sélectionner un cours.");
+      const c = courseData[code];
+      const today = new Date().toLocaleDateString("fr-FR");
+
+      let html = `
+        <div id="pdfContent" style='padding:40px;border:4px solid #004aad;border-radius:16px;font-family:Segoe UI;'>
+          <h1 style='text-align:center;color:#004aad;'>MDai Platform</h1>
+          <h2 style='text-align:center;color:#0096ff;'>Notes Officielles du Cours</h2>
+          <p><strong>Cours :</strong> ${c.title} (${code})</p>
+          <p><strong>Description :</strong> ${c.desc}</p>
+          <p style='font-size:13px;color:#666;'><em>Ce document est généré numériquement à des fins éducatives uniquement et n'a pas de valeur légale.</em></p>
+          <div style='text-align:center;margin-top:30px;'>
+            <img src='https://via.placeholder.com/160x50?text=Signature' style='width:160px;'><br>
+            <strong>Symphorien Pyana</strong><br>
+            CEO – MDai Platform<br>
+            www.mdai.xyz
+          </div>
+          <p style='font-size:12px;color:#444'>Généré le : ${today}</p>
+        </div>`;
+
+      c.chapters.forEach((chapter, i) => {
+        html += `<div style='page-break-before: always; padding:30px;'>
+          <h2>Chapitre ${i + 1} – ${chapter}</h2>
+          <p>Ce chapitre introduit <strong>${chapter.toLowerCase()}</strong> de manière simple pour les débutants.
+          Vous apprendrez les concepts de base et avancés étape par étape, avec des explications claires, exemples, et exercices.</p>
+          <ul>
+            <li>Comprendre le concept</li>
+            <li>Exemples pratiques</li>
+            <li>Exercices d'entraînement</li>
+          </ul>
+        </div>`;
+      });
+
+      html += `<div style='page-break-before: always; padding:30px;'>
+        <h2>📑 Table des matières</h2>
+        <ol>${c.chapters.map((ch, i) => `<li>Chapitre ${i + 1}: ${ch}</li>`).join('')}</ol>
+      </div>`;
+
+      html += `<div style='page-break-before: always; padding:30px;'>
+        <h2>À propos de l'auteur</h2>
+        <p><strong>Symphorien Pyana</strong> est un développeur web et développeur logiciel originaire de <strong>Wamaza, Maniema, Congo</strong>.</p>
+        <p>Il est étudiant à <strong>Adamas University, India</strong>, passionné par l'éducation numérique, le développement de logiciels et l'autonomisation technologique en Afrique.</p>
+        <p><strong>Email :</strong> symphorienpyana065@gmail.com</p>
+        <p><strong>Nationalité :</strong> Congolaise</p>
+        <p><strong>Site personnel :</strong> <a href='https://symphorienpya.github.io/RINGA/'>https://symphorienpya.github.io/RINGA/</a></p>
+        <p><strong>Réseaux :</strong> GitHub, LinkedIn, YouTube</p>
+      </div>`;
+
+      const temp = document.createElement("div");
+      temp.innerHTML = html;
+      temp.style.position = "absolute";
+      temp.style.left = "-9999px";
+      document.body.appendChild(temp);
+
+      // attendre que le contenu soit rendu
+      setTimeout(() => {
+        html2pdf().set({
+          margin: 10,
+          filename: `${code}_notes_MDai.pdf`,
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          html2canvas: { scale: 2, useCORS: true }
+        }).from(temp).save().then(() => temp.remove());
+      }, 800);
+    }
+  </script>
+</body>
+</html>
