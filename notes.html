@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDai Notes</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    nav {
+      background: #004d40;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    nav img {
+      height: 40px;
+    }
+
+    nav h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .container {
+      flex: 1;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .note-box {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1.2rem;
+      padding: 2.5rem 1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      border: 1px solid #c8e6c9;
+      backdrop-filter: blur(3px);
+    }
+
+    .note-box h2 {
+      color: #00695c;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .note-box:hover {
+      transform: translateY(-7px) scale(1.02);
+      background: #ffffff;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    #lockScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 77, 64, 0.9);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #lockScreen h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    #lockScreen input {
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      width: 80%;
+      max-width: 300px;
+      outline: none;
+      transition: box-shadow 0.3s;
+    }
+
+    #lockScreen input:focus {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    }
+
+    #lockScreen button {
+      padding: 10px 25px;
+      margin-top: 15px;
+      background: #26a69a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #lockScreen button:hover {
+      background: #00796b;
+    }
+
+    #errorMsg {
+      color: #ffab91;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    footer {
+      background: #004d40;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    @media screen and (max-width: 480px) {
+      nav h1 {
+        font-size: 1.2rem;
+      }
+
+      .note-box {
+        padding: 2rem 1rem;
+      }
+
+      #lockScreen h2 {
+        font-size: 1.3rem;
+      }
+
+      footer {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Lock Screen -->
+  <div id="lockScreen">
+    <h2>Enter Access Password</h2>
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="unlock()">Enter</button>
+    <p id="errorMsg"></p>
+  </div>
+
+  <!-- Navbar -->
+  <nav>
+        <img src="images/MDai.png" alt="" width="50" height="50" />
+    <h1>MDai Notes</h1>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="note-box" onclick="window.location.href='webdev-notes.html'">
+      <h2>Web Development Notes</h2>
+    </div>
+    <div class="note-box" onclick="window.location.href='python_notes.html'">
+      <h2>Python Notes</h2>
+    </div>
+    <div class="note-box" onclick="window.location.href='english_notes.html'">
+      <h2>English Notes</h2>
+    </div>
+    <div class="note-box" onclick="window.location.href='photoshop_notes.html'">
+      <h2>Photoshop Notes</h2>
+    </div>
+    <div class="note-box" onclick="window.location.href='excel_notes.html'">
+      <h2>Excel Notes</h2>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 MDai Notes Hub | Designed with ❤️ | All rights reserved.
+  </footer>
+
+  <!-- JS Lock -->
+  <script>
+    function unlock() {
+      const entered = document.getElementById("password").value;
+      const correct = "openMDai2024";
+      if (entered === correct) {
+        document.getElementById("lockScreen").style.display = "none";
+      } else {
+        document.getElementById("errorMsg").innerText = "Incorrect password. Please try again.";
+      }
+    }
+  </script>
+</body>
+</html>
