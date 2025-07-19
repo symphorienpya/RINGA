@@ -38,7 +38,33 @@
       padding: 8px 10px;
     }
   }
-   
+
+    .button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.button-link:hover {
+  background: linear-gradient(135deg, #66BB6A, #388E3C);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+    li[role="none"] {
+  list-style: none;
+  text-align: center;
+  margin: 10px 0;
+}
+
+    
   </style>
 </head>
 <body>
@@ -85,7 +111,10 @@
     <a href="video.html" class="floating-btn" title="Go to Top">Voir des vidéos</a>
 
     <section class="filters" role="region" aria-label="Filtres de catégorie" id="filters">
-            <li role="none"><a href="notes.html" role="menuitem" tabindex="-1">Notes</a></li>
+      <li role="none">
+        <a href="notes.html" role="menuitem" tabindex="-1" class="button-link">Notes</a>
+      </li>
+
 
       <button class="filter-btn active" aria-pressed="true" data-category="all" role="button" tabindex="0">Tout</button>
       <button class="filter-btn" aria-pressed="false" data-category="beginner" role="button" tabindex="0">Débutant</button>
