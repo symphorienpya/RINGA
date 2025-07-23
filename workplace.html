@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+    <link rel="icon" href="images/MDai 1.ico" type="image/x-icon" />
+  <title>MDai workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f6fa;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 240px;
+      background: #2f3640;
+      color: #fff;
+      padding: 1rem;
+      transition: transform 0.3s ease;
+    }
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+    }
+    .sidebar button {
+      width: 100%;
+      padding: 12px;
+      background: #353b48;
+      border: none;
+      margin-bottom: 10px;
+      color: #fff;
+      font-size: 16px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .sidebar button:hover {
+      background: #40739e;
+    }
+    .main {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+    .navbar-toggle {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: #2f3640;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    .task-area {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    textarea, input, button, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button.action {
+      background: #44bd32;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .logs {
+      background: #f0f0f0;
+      padding: 10px;
+      border-top: 2px solid #ccc;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+    .drag-area {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      color: #555;
+      margin-top: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .progress-bar {
+      height: 20px;
+      background: #27ae60;
+      width: 0%;
+      color: white;
+      text-align: center;
+      font-size: 12px;
+      margin-top: 10px;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .file-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .file-card {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 6px;
+      width: 120px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .file-card img, .file-card video {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .file-card audio {
+      width: 100%;
+    }
+    .file-card i {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #888;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 999;
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .navbar-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="navbar-toggle" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar" id="sidebar">
+    <h2>MDai Tools</h2>
+    <button onclick="loadTool('pdf')"><i class="fas fa-file-pdf"></i> Text to PDF</button>
+    <button onclick="loadTool('qr')"><i class="fas fa-qrcode"></i> Text to QR</button>
+    <button onclick="loadTool('summary')"><i class="fas fa-align-left"></i> Summarizer</button>
+    <button onclick="loadTool('email')"><i class="fas fa-envelope"></i> Email Template</button>
+    <button onclick="loadTool('upload')"><i class="fas fa-upload"></i> Drag & Drop Upload</button>
+  </div>
+
+  <div class="main">
+    <div class="task-area" id="tool-area">
+      <h3>Welcome to MDai Assistant</h3>
+      <p>Select a tool from the sidebar to get started.</p>
+    </div>
+    <footer>© 2025 MDai Platform - All rights reserved</footer>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function loadTool(tool) {
+      const area = document.getElementById('tool-area');
+      let html = '';
+
+      if (tool === 'pdf') {
+        html = `
+          <h3>Text to PDF</h3>
+          <textarea id="pdfText" rows="6" placeholder="Enter your text here..."></textarea>
+          <button class="action" onclick="generatePDF()">Download PDF</button>
+        `;
+      } else if (tool === 'qr') {
+        html = `
+          <h3>Text to QR Code</h3>
+          <input type="text" id="qrText" placeholder="Enter text for QR code" />
+          <button class="action" onclick="generateQR()">Generate QR</button>
+          <div id="qrOutput" style="margin-top: 1rem;"></div>
+        `;
+      } else if (tool === 'summary') {
+        html = `
+          <h3>Text Summarizer</h3>
+          <textarea id="summaryText" rows="6" placeholder="Paste your text to summarize..."></textarea>
+          <button class="action" onclick="summarizeText()">Summarize</button>
+          <div class="logs" id="summaryOutput"></div>
+        `;
+      } else if (tool === 'email') {
+        html = `
+          <h3>Email Template Generator</h3>
+          <input type="text" id="emailSubject" placeholder="Subject" />
+          <textarea id="emailBody" rows="5" placeholder="Message body..."></textarea>
+          <button class="action" onclick="generateEmail()">Generate Email</button>
+          <div class="logs" id="emailOutput"></div>
+        `;
+      } else if (tool === 'upload') {
+        html = `
+          <h3>File Upload</h3>
+          <div class="drag-area" ondrop="handleDrop(event)" ondragover="event.preventDefault()">Drag and drop your files here</div>
+          <div class="progress-bar" id="uploadProgress">0%</div>
+          <div class="file-preview" id="filePreview"></div>
+        `;
+      }
+
+      area.innerHTML = html;
+      document.getElementById('sidebar').classList.remove('active');
+    }
+
+    function generatePDF() {
+      const text = document.getElementById('pdfText').value;
+      const doc = new window.jspdf.jsPDF();
+      doc.text(text, 10, 10);
+      doc.save("document.pdf");
+    }
+
+    function generateQR() {
+      const text = document.getElementById('qrText').value;
+      const qrDiv = document.getElementById('qrOutput');
+      qrDiv.innerHTML = "";
+      new QRCode(qrDiv, {
+        text: text,
+        width: 128,
+        height: 128
+      });
+    }
+
+    function summarizeText() {
+      const text = document.getElementById('summaryText').value;
+      const output = document.getElementById('summaryOutput');
+      const sentences = text.split('.').filter(s => s.trim().length > 0);
+      const summary = sentences.slice(0, Math.ceil(sentences.length / 3)).join('. ') + '.';
+      output.innerText = summary;
+    }
+
+    function generateEmail() {
+      const subject = document.getElementById('emailSubject').value;
+      const body = document.getElementById('emailBody').value;
+      const output = document.getElementById('emailOutput');
+      output.innerHTML = `<strong>Subject:</strong> ${subject}<br/><strong>Body:</strong><br/>${body.replace(/\n/g, "<br />")}`;
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      const files = Array.from(e.dataTransfer.files);
+      const preview = document.getElementById('filePreview');
+      const progress = document.getElementById('uploadProgress');
+
+      preview.innerHTML = "";
+      progress.style.width = '0%';
+      progress.innerText = '0%';
+
+      let uploaded = 0;
+      const total = files.length;
+
+      files.forEach((file, index) => {
+        const reader = new FileReader();
+        const card = document.createElement('div');
+        card.className = 'file-card';
+
+        reader.onload = () => {
+          if (file.type.startsWith('image/')) {
+            card.innerHTML = `<img src="${reader.result}" alt="${file.name}"><div>${file.name}</div>`;
+          } else if (file.type.startsWith('audio/')) {
+            card.innerHTML = `<audio controls src="${reader.result}"></audio><div>${file.name}</div>`;
+          } else if (file.type.startsWith('video/')) {
+            card.innerHTML = `<video controls src="${reader.result}"></video><div>${file.name}</div>`;
+          } else {
+            const icon = file.type.includes('pdf') ? 'fa-file-pdf' :
+                         file.type.includes('zip') ? 'fa-file-archive' :
+                         file.type.includes('word') ? 'fa-file-word' :
+                         'fa-file';
+            card.innerHTML = `<i class="fas ${icon}"></i><div>${file.name}</div>`;
+          }
+          preview.appendChild(card);
+        };
+
+        reader.readAsDataURL(file);
+
+        setTimeout(() => {
+          uploaded++;
+          const percent = Math.round((uploaded / total) * 100);
+          progress.style.width = `${percent}%`;
+          progress.innerText = `${percent}%`;
+        }, 500 * (index + 1));
+      });
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</body>
+</html>
