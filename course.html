@@ -276,7 +276,7 @@
         localStorage.setItem("selectedCourseTotal", `${total} ${currency}`);
 
         Swal.fire({
-          title: "Confirmer l'inscription",
+          title: "procéder au paiement",
           html: `
             <strong>${title}</strong><br>
             <small>${info}</small><br><br>
@@ -285,7 +285,7 @@
           `,
           icon: 'question',
           showCancelButton: true,
-          confirmButtonText: "Oui, je m'inscris !",
+          confirmButtonText: "continuer",
           cancelButtonText: "Annuler",
           confirmButtonColor: '#28a745',
           cancelButtonColor: '#d33'
@@ -294,7 +294,7 @@
             Swal.fire({
               icon: 'success',
               title: 'Redirection...',
-              text: 'Vous allez être redirigé vers la page de paiement.',
+              text: 'vous serez redirigé vers la page de confirmation de paiement.',
               showConfirmButton: false,
               timer: 1500
             });
