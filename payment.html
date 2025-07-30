@@ -260,33 +260,33 @@
 <body>
   <div class="info-banner" id="infoBanner"></div>
   <div class="payment-container">
-    <h2><i class="fas fa-credit-card"></i> Course Payment</h2>
+    <h2><i class="fas fa-credit-card"></i> Paiement du cours</h2>
 
 
     <!-- M-PESA Button and Modal -->
-<button class="view-mpesa-btn" onclick="showMpesa()">📱 View M-PESA Number</button>
+<button class="view-mpesa-btn" onclick="showMpesa()">Afficher le numéro M-PESA</button>
 
 <div class="mpesa-box" id="mpesaBox">
   <div class="mpesa-content">
-    <h3>📲 M-PESA Payment</h3>
+    <h3>M-PESA Payment</h3>
     <p class="mpesa-number" onclick="copyMpesa()">+243 828 170 642</p>
     <p class="mpesa-msg">Payez à ce numéro avant de remplir la section de paiement</p>
-    <span id="copy-feedback" class="copied">📋 Copié !</span>
+    <span id="copy-feedback" class="copied">Copié !</span>
     <button onclick="hideMpesa()" class="close-btn">OK</button>
   </div>
 </div>
 
     <form id="paymentForm">
-      <label for="to_name">Name:</label>
+      <label for="to_name">Nom:</label>
       <input type="text" name="to_name" placeholder="Full Name" required />
-      <label for="email">Email:</label>
+      <label for="email">E-mail:</label>
       <input type="email" name="email" placeholder="Email Address" required />
-      <label for="amount">Price:</label>
+      <label for="amount">Prix:</label>
       <input type="number" id="amount" name="amount" placeholder="Amount (USD or FC)" required />
-      <label for="payment_method">Payment Method:</label>
+      <label for="payment_method">Mode de paiement:</label>
       <select name="payment_method" required>
-        <option value="">Select Payment Method</option>
-        <option value="card">Credit/Debit Card</option>
+        <option value="">Sélectionnez le mode de paiement:</option>
+        <option value="card">Carte de crédit/débit</option>
         <option value="mobile">M-PESA</option>
       </select>
       <input type="hidden" id="course_title" name="course_title">
@@ -294,7 +294,7 @@
       <input type="hidden" id="course_price" name="course_price">
       <input type="hidden" id="registration_fee" name="registration_fee">
       <input type="hidden" id="total_amount" name="total_amount">
-      <button type="submit"><i class="fas fa-paper-plane"></i> Pay Now</button>
+      <button type="submit"><i class="fas fa-paper-plane"></i> Payez maintenant</button>
     </form>
   </div>
 
@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("total_amount").value = total;
   document.getElementById("amount").value = amount;
 
-  document.getElementById("infoBanner").innerHTML = `You selected <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
+  document.getElementById("infoBanner").innerHTML = `Vous avez sélectionné <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
 
   document.getElementById("paymentForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
       doc.setTextColor(0, 128, 0);
       doc.setFontSize(13);
       doc.setFont("helvetica", "bold");
-      doc.text("Thank you for your payment!", 20, y + 10);
+      doc.text("Merci pour votre paiement !", 20, y + 10);
 
       doc.setTextColor(100);
       doc.setFontSize(11);
@@ -398,26 +398,26 @@ document.addEventListener("DOMContentLoaded", function () {
               <div></div><div></div><div></div><div></div><div></div><div></div>
               <div></div><div></div><div></div><div></div><div></div><div></div>
             </div>
-            <p style="margin-top:15px; font-size:1rem;">Be patient, MDai is generating your receipt...</p>
+            <p style="margin-top:15px; font-size:1rem;">Soyez patient, MDai génère votre reçu...</p>
           </div>`,
         allowOutsideClick: false,
         showConfirmButton: false,
         didOpen: () => {
           setTimeout(() => {
             Swal.fire({
-              icon: 'success',
-              title: '🎉 Your receipt is ready!',
-              html: '<p style="font-size:1rem;">Click the button below to download your PDF receipt.</p>',
+              icon: 'succès',
+              title: ' Votre reçu est prêt!',
+              html: '<p style="font-size:1rem;">Cliquez sur le bouton ci-dessous pour télécharger votre reçu PDF.</p>',
               showCancelButton: false,
-              confirmButtonText: '📥 Download Now',
+              confirmButtonText: 'Télécharger maintenant',
               confirmButtonColor: '#28a745'
             }).then(result => {
               if (result.isConfirmed) {
                 doc.save(`MDai_Receipt_${receiptId}.pdf`);
                 Swal.fire({
                   icon: 'info',
-                  title: '✅ Receipt Downloaded',
-                  text: 'Thank you for your payment.',
+                  title: '✅Reçu téléchargé',
+                  text: 'Merci pour votre paiement.',
                   confirmButtonText: 'OK',
                   confirmButtonColor: '#007bff'
                 }).then(() => {
@@ -439,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.clear();
     } catch (err) {
       console.error("EmailJS error:", err);
-      Swal.fire({ icon: 'error', title: 'Error', text: err?.text || 'Something went wrong.' });
+      Swal.fire({ icon: 'error', title: 'Error', text: err?.text || "Quelque chose s'est mal passé" });
     }
   });
 
