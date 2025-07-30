@@ -283,10 +283,10 @@
         </div>
         <button type="submit">S'inscrire</button>
       </form>
-      <div id="alert" class="alert-box"></div>
+       <div id="alert" class="alert-box"></div>
       <div id="successMessage" class="message-box"></div>
     </div>
-    <div id="admin" class="tab-content">
+<div id="admin" class="tab-content">
       <h2>Panneau Administrateur</h2>
       <input type="text" id="searchInput" placeholder="Recherche...">
       <button onclick="exportCSV()">Exporter CSV</button>
@@ -303,96 +303,75 @@
     </div>
   </div>
 
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, updateDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-  <script>
-        let users = JSON.parse(localStorage.getItem('users')) || [];
+    const firebaseConfig = {
+      apiKey: "AIzaSyDItyYqBdyYlUnxX4uzoMOLPWiR5lXqogs",
+      authDomain: "mdai-registration.firebaseapp.com",
+      projectId: "mdai-registration",
+      storageBucket: "mdai-registration.appspot.com",
+      messagingSenderId: "1069482771907",
+      appId: "1:1069482771907:web:41f78081169ca819462976"
+    };
 
-    function showAlert(message, duration = 3000) {
-      const alertBox = document.getElementById("alert");
-      alertBox.textContent = message;
-      alertBox.style.display = "block";
-      setTimeout(() => {
-        alertBox.style.display = "none";
-      }, duration);
-    }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-    function showTab(tab) {
+    window.showTab = (tab) => {
       document.getElementById("user").style.display = tab === "user" ? "block" : "none";
       document.getElementById("admin").style.display = tab === "admin" ? "block" : "none";
-    }
+    };
 
-    function loginAdmin() {
+    window.loginAdmin = () => {
       const pass = prompt("Enter Admin Password:");
       if (pass === "admin123") {
         showTab("admin");
-        updateTable();
-        showAlert("Admin access granted ✅");
+        alert("Admin access granted ✅");
       } else {
-        showAlert("Access Denied ❌", 4000);
+        alert("Access Denied ❌");
       }
-    }
+    };
 
     function generateRegNumber(courseCode) {
       const rand = Math.floor(1000 + Math.random() * 9000);
       return `MDai${courseCode}${rand}`;
     }
 
-    document.getElementById("course").addEventListener("change", () => {
-      const courseCode = document.getElementById("course").value;
-      const regNum = generateRegNumber(courseCode);
-      document.getElementById("regNumber").innerText = `Your Reg No: ${regNum}`;
-    });
-
-    document.getElementById("photo").addEventListener("change", function () {
-      const file = this.files[0];
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const preview = document.getElementById("preview");
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-      };
-      if (file) reader.readAsDataURL(file);
-    });
-
-    document.getElementById("regForm").addEventListener("submit", function (e) {
+    document.getElementById("regForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const regNumber = generateRegNumber(document.getElementById("course").value);
-      const user = {
-        regNumber,
-        username: username.value,
-        email: email.value,
-        phone: countryCode.value + phone.value,
-        country: country.value,
-        course: course.value,
-        language: language.value,
-        referrer: referrer.value,
-        payment: payment.value,
-        attendance: 0,
-        total: 0,
-        photo: preview.src || ""
-      };
-      users.push(user);
-      localStorage.setItem('users', JSON.stringify(users));
-      const success = document.getElementById("successMessage");
-      success.innerHTML = `<strong>Welcome to MDai!</strong><br>Your registration is successful.<br>Explore your course and proceed to payment.`;
-      success.style.display = 'block';
-      setTimeout(() => {
-        success.innerHTML = `Go to <strong>Explore Courses</strong> to make payment and start learning now.`;
-      }, 5000);
+      const courseCode = document.getElementById("course").value;
+      const regNumber = generateRegNumber(courseCode);
+      const photoFile = document.getElementById("preview").src;
+      let photoURL = "";
+      if (photoFile) {
+        const storageRef = ref(storage, `photos/${regNumber}.jpg`);
+        await uploadString(storageRef, photoFile, 'data_url');
+        photoURL = await getDownloadURL(storageRef);
+      }
+
+      const user = { regNumber, username: username.value, email: email.value, phone: countryCode.value + phone.value, country: country.value, course: course.value, language: language.value, referrer: referrer.value, payment: payment.value, attendance: 0, total: 0, photo: photoURL };
+
+      await addDoc(collection(db, "users"), user);
+      document.getElementById("successMessage").innerHTML = `<strong>Welcome!</strong> Registration successful.`;
+      document.getElementById("successMessage").style.display = 'block';
       regForm.reset();
-      document.getElementById("regNumber").innerText = "";
-      preview.style.display = "none";
-      showAlert("Registration complete ✅");
     });
 
-    function updateTable() {
-      const tbody = document.querySelector("#dataTable tbody");
-      const search = document.getElementById("searchInput").value.toLowerCase();
+    const tbody = document.querySelector("#dataTable tbody");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderUsers(snapshot) {
       tbody.innerHTML = "";
-      users.forEach((u, i) => {
-        const percent = u.total > 0 ? ((u.attendance / u.total) * 100).toFixed(1) : "0";
+      const filter = searchInput.value.toLowerCase();
+      snapshot.forEach((docSnap) => {
+        const u = docSnap.data();
         const searchString = `${u.regNumber} ${u.username} ${u.email} ${u.course} ${u.phone} ${u.country}`.toLowerCase();
-        if (!search || searchString.includes(search)) {
+        if (!filter || searchString.includes(filter)) {
+          const percent = u.total > 0 ? ((u.attendance / u.total) * 100).toFixed(1) : "0";
           const tr = document.createElement("tr");
           tr.innerHTML = `
             <td>${u.regNumber}</td>
@@ -407,49 +386,42 @@
             <td>${u.attendance}</td>
             <td>${percent}%</td>
             <td>
-              <button onclick="markAttendance(${i}, true)">+</button>
-              <button onclick="markAttendance(${i}, false)">-</button>
+              <button onclick="markAttendance('${docSnap.id}', true)">+</button>
+              <button onclick="markAttendance('${docSnap.id}', false)">-</button>
             </td>
-            <td><button onclick="editUser(${i})">✏️</button></td>
-            <td><button onclick="deleteUser(${i})">🗑️</button></td>
-          `;
+            <td><button onclick="editUser('${docSnap.id}', '${u.username}')">✏️</button></td>
+            <td><button onclick="deleteUser('${docSnap.id}')">🗑️</button></td>`;
           tbody.appendChild(tr);
         }
       });
     }
 
-    function markAttendance(index, isPresent) {
-      if (isPresent) users[index].attendance++;
-      users[index].total++;
-      localStorage.setItem('users', JSON.stringify(users));
-      updateTable();
-      showAlert("Attendance updated ✅");
-    }
+    const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => renderUsers(snapshot));
+    searchInput.addEventListener("input", () => {
+      getDocs(collection(db, "users")).then(renderUsers);
+    });
 
-    function deleteUser(index) {
-      const confirmBox = confirm("Are you sure to delete this user?");
-      if (confirmBox) {
-        users.splice(index, 1);
-        localStorage.setItem('users', JSON.stringify(users));
-        updateTable();
-        showAlert("User deleted successfully 🗑️");
-      }
-    }
+    window.markAttendance = async (id, isPresent) => {
+      const docRef = doc(db, "users", id);
+      const snapshot = await getDocs(collection(db, "users"));
+      const current = snapshot.docs.find(d => d.id === id).data();
+      await updateDoc(docRef, { attendance: current.attendance + (isPresent ? 1 : 0), total: current.total + 1 });
+    };
 
-    function editUser(index) {
-      const u = users[index];
-      const newName = prompt("Edit Username:", u.username);
-      if (newName !== null) {
-        users[index].username = newName;
-        localStorage.setItem('users', JSON.stringify(users));
-        updateTable();
-        showAlert("Username updated ✏️");
-      }
-    }
+    window.editUser = async (id, oldName) => {
+      const newName = prompt("Edit Username:", oldName);
+      if (newName) await updateDoc(doc(db, "users", id), { username: newName });
+    };
 
-    function exportCSV() {
+    window.deleteUser = async (id) => {
+      if (confirm("Delete user?")) await deleteDoc(doc(db, "users", id));
+    };
+
+    window.exportCSV = async () => {
+      const snapshot = await getDocs(collection(db, "users"));
       let csv = "Reg No,Username,Email,Phone,Country,Course,Language,Referrer,Payment,Attendance,Total,%\n";
-      users.forEach(u => {
+      snapshot.forEach((docSnap) => {
+        const u = docSnap.data();
         const percent = u.total > 0 ? ((u.attendance / u.total) * 100).toFixed(1) : "0";
         csv += `${u.regNumber},${u.username},${u.email},${u.phone},${u.country},${u.course},${u.language},${u.referrer},${u.payment},${u.attendance},${u.total},${percent}%\n`;
       });
@@ -458,10 +430,8 @@
       link.href = URL.createObjectURL(blob);
       link.download = 'mdai_users.csv';
       link.click();
-      showAlert("CSV exported 📁");
-    }
+    };
 
-    document.getElementById("searchInput").addEventListener("input", updateTable);
     showTab("user");
   </script>
 </body>
