@@ -1,3 +1,6 @@
+<!-- <button id="mado-btn" aria-label="Chat avec MADO" style="background: none; border: none; padding: 0;">
+  <img src="images/love.png" alt="MADO" style="width:48px;height:48px;border-radius:50%;box-shadow:0 4px 24px rgba(0,0,0,0.12);">
+</button> -->
 
 
 <!DOCTYPE html>
@@ -72,9 +75,9 @@
   <nav role="navigation" aria-label="Primary navigation">
     <a href="#" class="logo" aria-label="Accueil MDai">
       <div class="logo-circle" aria-hidden="true">
-        <img src="images/MDai.png" alt="" width="50" height="50" />
+        <img src="images/love.png" alt="MDai Logo" width="40" height="40" style="vertical-align:middle;box-shadow:0 2px 8px rgba(0,0,0,0.12);" />
       </div>
-      MDai
+      <span class="logo-text" style="display:inline-block;vertical-align:middle;margin-left:8px;font-weight:700;letter-spacing:1px;">MDai</span>
     </a>
 
     <button class="hamburger" aria-label="Afficher/masquer le menu" aria-expanded="false" aria-controls="primary-navigation" id="hamburgerBtn">
@@ -194,6 +197,19 @@
     </section>
   </main>
 
+
+  <!-- MADO Chat Window -->
+<div id="mado-header">
+  <img src="images/love.png" alt="MADO" class="mado-avatar" id="mado-avatar">
+  <span>MADO - Assistant IA</span>
+</div>
+  <div id="mado-messages" class="scroll-area"></div>
+  <form id="mado-input">
+    <input type="text" id="mado-user-input" placeholder="Posez votre question..." required />
+    <button type="submit">➤</button>
+  </form>
+</div>
+
   <button id="backToTopBtn" aria-label="Retour en haut" title="Retour en haut">↑</button>
 
   <footer id="footer" role="contentinfo">
@@ -204,20 +220,9 @@
 
 
 <!-- MADO Chat Button -->
-<button id="mado-btn" aria-label="Chat avec MADO">🤖</button>
+<!-- <button id="mado-btn" aria-label="Chat avec MADO">🤖</button> -->
 
-<!-- MADO Chat Window -->
-<div id="mado-chat">
-  <div id="mado-header">
-    <img src="images/MDai.png" alt="MADO" class="mado-avatar">
-    <span>MADO - Assistant IA</span>
-  </div>
-  <div id="mado-messages" class="scroll-area"></div>
-  <form id="mado-input">
-    <input type="text" id="mado-user-input" placeholder="Posez votre question..." required />
-    <button type="submit">➤</button>
-  </form>
-</div>
+
 
   <!-- JS preserved as-is from previous version -->
   <script>
@@ -417,56 +422,7 @@ filterFeatures();
   });
 
   const responses = {
-    "bonjour": "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
-    "comment payer ?": "Cliquez sur 'Explorer nos cours', choisissez votre cours et cliquez sur 'S'inscrire', puis appuyez sur 'Confirmer' dans la fenêtre qui s’ouvre. Sur la page de paiement, sélectionnez M-Pesa ou cliquez sur 'Voir le numéro M-Pesa' pour voir le numéro auquel payer. Effectuez d’abord le paiement, puis remplissez le formulaire avec votre email correct ; le montant est pré-rempli. Cliquez sur 'Payer maintenant' et attendez environ 20 secondes sans fermer la fenêtre. Ensuite, cliquez sur 'Télécharger votre reçu', ouvrez-le dans votre navigateur (Chrome, etc.), puis vérifiez votre email de confirmation et notez votre code d’accès. N’hésitez pas à demander si vous avez un souci !",
-
-    "salut": "Salut ! Que voulez-vous savoir ?",
-    "comment tu vas": "Je suis une IA, toujours prêt(e) à aider !",
-    "mdai": "MDai est une plateforme d'apprentissage en ligne pour l'intelligence artificielle.",
-    "cours": "Vous pouvez explorer nos cours via la section 'Explorer les cours'.",
-    "python": "Le cours Python pour Débutants vous aide à apprendre à coder facilement.",
-    "c": "Le cours 'Langage C' vous initie à la programmation bas niveau.",
-    "html": "HTML est un langage de balisage utilisé pour structurer une page web.",
-    "css": "CSS est utilisé pour styliser votre site web : couleurs, polices, mises en page.",
-    "javascript": "JavaScript permet de rendre les sites interactifs (boutons, animations, formulaires...).",
-    "hello world python": "print('Hello, world!') est la syntaxe pour afficher en Python.",
-    "variable en  python": "En Python : nom = 'Mado'.",
-    "if en python": "if age >= 18:\n    print('Majeur')",
-    "boucle for": "for i in range(5):\n    print(i)",
-    "fonction en python": "def saluer(nom):\n    print(f'Bonjour {nom}')",
-    "liste en python": "ma_liste = [1, 2, 3]",
-    "objet en javascript": "let utilisateur = { nom: 'Mado', age: 2 };",
-    "fonction en  javascript": "function direBonjour(nom) {\n  alert('Bonjour ' + nom);\n}",
-    "sélecteur en css": "Pour sélectionner une classe : .ma-classe { color: red; }",
-    "margin en css": "margin: 10px; ajoute de l’espace autour d’un élément.",
-    "erreur courante": "Vérifiez la syntaxe, les accolades et les noms de variables !",
-    "comment s'inscrire": "Cliquez sur un cours et appuyez sur le bouton 'S'inscrire'.",
-    "gratuit": "Certains cours sont gratuits, d'autres nécessitent un abonnement.",
-    "abonnement": "Nos abonnements mensuels permettent l'accès à tous les cours.",
-    "live": "Les sessions LIVE sont disponibles dans le menu 'LIVE'.",
-    "horaire": "Consultez la page 'Time Table' pour connaître les horaires.",
-    "certificat": "Oui ! Vous recevez un certificat après avoir terminé un cours.",
-    "contact": "Vous pouvez nous contacter via la section Contact ou par email.",
-    "intelligence artificielle": "L'IA est la capacité des machines à simuler l'intelligence humaine.",
-    "machine learning": "Le machine learning est une branche de l’IA qui apprend à partir des données.",
-    "data science": "La science des données combine programmation, statistiques et IA.",
-    "deep learning": "C'est une méthode avancée d'apprentissage automatique utilisant les réseaux de neurones.",
-    "projets": "Visitez notre page Projets pour voir ce que les étudiants ont créé.",
-    "professeurs": "Nos cours sont conçus par des experts de l'industrie et de l'enseignement.",
-    "application": "Bientôt disponible sur Android et iOS !",
-    "mot de passe": "Vous pouvez réinitialiser votre mot de passe sur la page de connexion.",
-    "langue": "La plateforme est disponible en français et en anglais.",
-    "offline": "Certains contenus peuvent être téléchargés pour une lecture hors ligne.",
-    "enfant": "Oui, certains cours conviennent aux jeunes apprenants.",
-    "avancé": "Les cours avancés incluent l'IA, le C, et le développement web complexe.",
-    "débutant": "Commencez par Python ou Anglais 1 si vous êtes nouveau.",
-    "support": "Notre équipe support est disponible 24/7.",
-    "chatbot": "Je suis MADO, votre assistante IA personnel 😄",
-    "merci": "Avec plaisir ! N'hésitez pas à poser une autre question.",
-    "au revoir": "Au revoir ! À très bientôt sur MDai.",
-    "qui es-tu": "Je suis MADO, un assistant IA intégré à la plateforme MDai.",
-    "tu parles anglais": "Oui, je comprends l'anglais aussi ! But let’s keep it in French 😉",
-    "erreur": "Pouvez-vous reformuler votre question ?",
+    // ...existing responses...
   };
 
   function getResponse(input) {
@@ -477,34 +433,85 @@ filterFeatures();
     return "Je suis désolé, je ne comprends pas encore cette question.";
   }
 
+  // Advanced chatbox: show avatar when responding, rich bubbles, auto-scroll, and quick suggestions
   madoForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const userMsg = userInput.value.trim();
     if (!userMsg) return;
 
+    // User bubble
     const userBubble = document.createElement("div");
     userBubble.className = "mado-message user-msg";
     userBubble.textContent = userMsg;
     messages.appendChild(userBubble);
     messages.scrollTop = messages.scrollHeight;
 
-    // MADO "typing..." animation
-    const typingBubble = document.createElement("div");
-    typingBubble.className = "mado-message mado-msg typing";
-    typingBubble.textContent = "MADO écrit...";
-    messages.appendChild(typingBubble);
+    // MADO "typing..." with avatar
+    const typingContainer = document.createElement("div");
+    typingContainer.className = "mado-message mado-msg typing";
+    typingContainer.style.display = "flex";
+    typingContainer.style.alignItems = "center";
+
+    const avatar = document.createElement("img");
+    avatar.src = "images/love.png";
+    avatar.alt = "MADO";
+    avatar.className = "mado-avatar";
+    avatar.style.marginRight = "10px";
+    typingContainer.appendChild(avatar);
+
+    const typingText = document.createElement("span");
+    typingText.textContent = "MADO écrit...";
+    typingContainer.appendChild(typingText);
+
+    messages.appendChild(typingContainer);
     messages.scrollTop = messages.scrollHeight;
 
-    // Wait 3 seconds then replace with actual response
+    // Wait 2 seconds then show response with avatar
     setTimeout(() => {
-      const response = getResponse(userMsg);
-      typingBubble.classList.remove("typing");
-      typingBubble.textContent = response;
+      typingContainer.classList.remove("typing");
+      typingText.textContent = getResponse(userMsg);
+      typingText.style.fontStyle = "normal";
+      typingText.style.opacity = "1";
+      typingContainer.style.background = "var(--accent-color)";
+      typingContainer.style.color = "#fff";
       messages.scrollTop = messages.scrollHeight;
-    }, 3000);
+    }, 2000);
 
     userInput.value = "";
   });
+
+  // Quick suggestions for powerful UX
+  const quickSuggestions = [
+    "Qu'est-ce que l'intelligence artificielle ?",
+    "Comment s'inscrire à un cours ?",
+    "Quels sont les cours gratuits ?",
+    "Comment contacter le support ?",
+    "Donne-moi un exemple Python"
+  ];
+
+  const quickBar = document.createElement("div");
+  quickBar.id = "mado-quick-bar";
+  quickBar.style.display = "flex";
+  quickBar.style.flexWrap = "wrap";
+  quickBar.style.gap = "8px";
+  quickBar.style.padding = "8px 12px";
+  quickBar.style.background = "var(--card-bg)";
+  quickBar.style.borderTop = "1px solid #eee";
+
+  quickSuggestions.forEach(s => {
+    const btn = document.createElement("button");
+    btn.textContent = s;
+    btn.className = "button-link";
+    btn.style.fontSize = "0.95rem";
+    btn.style.padding = "0.5rem 1rem";
+    btn.onclick = () => {
+      userInput.value = s;
+      madoForm.dispatchEvent(new Event("submit"));
+    };
+    quickBar.appendChild(btn);
+  });
+
+  madoChat.appendChild(quickBar);
 </script>
 
 
@@ -534,6 +541,7 @@ filterFeatures();
 </body>
 
 </html>
+
 
 
 
