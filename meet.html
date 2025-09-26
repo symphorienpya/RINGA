@@ -1,407 +1,1487 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+  <head>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MDai - Rejoignez Notre Session Live</title>
+    <meta
+      name="description"
+      content="Rejoignez notre session d'apprentissage IA interactive et moderne avec MDai - Votre passerelle vers l'avenir de l'éducation."
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Join Our Live Session</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      :root {
+        /* Modern Color Palette */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        --success-gradient: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+
+        --primary-color: #667eea;
+        --secondary-color: #f093fb;
+        --accent-color: #4facfe;
+        --success-color: #00c9ff;
+        --text-primary: #ffffff;
+        --text-secondary: #b4b4b4;
+        --background-dark: #0a0a0a;
+        --background-card: rgba(255, 255, 255, 0.08);
+        --background-card-hover: rgba(255, 255, 255, 0.12);
+        --border-color: rgba(255, 255, 255, 0.1);
+
+        /* Shadows */
+        --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.15);
+        --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.3);
+        --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
+        --shadow-success: 0 0 30px rgba(0, 201, 255, 0.3);
+      }
+
       * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(-45deg, #1a73e8, #34a853, #fbbc05, #ea4335);
-  background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  padding: 20px;
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.container {
-  display: flex;
-  gap: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  max-width: 900px;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  animation: fadeSlideIn 1.2s ease;
-}
-
-.logo-box {
-  flex: 1 1 300px;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.logo-box img {
-  width: 120px;
-  height: auto;
-  margin-bottom: 20px;
-  animation: bounce 2s infinite;
-}
-
-.logo-box h2 {
-  font-size: 28px;
-  margin-bottom: 10px;
-  animation: fadeInText 2s ease-in-out forwards;
-}
-
-.logo-box p,
-.logo-box #greeting {
-  font-size: 16px;
-  opacity: 0.9;
-  animation: fadeInText 2.5s ease-in-out forwards;
-}
-
-#countdown {
-  margin-top: 20px;
-  font-weight: bold;
-  color: #fff;
-  font-size: 18px;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 8px 12px;
-  border-radius: 10px;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes fadeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(60px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInText {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.card {
-  flex: 1 1 300px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  text-align: center;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-}
-
-h1 {
-  font-size: 24px;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-input[type="password"] {
-  padding: 14px 16px;
-  font-size: 16px;
-  border-radius: 12px;
-  border: none;
-  width: 100%;
-  outline: none;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.btn {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  background: linear-gradient(to right, #1a73e8, #0b47a1);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(to right, #0b47a1, #1a73e8);
-}
-
-#link-container {
-  margin-top: 20px;
-  animation: fadeIn 0.5s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hidden {
-  display: none;
-}
-
-a.btn {
-  display: inline-block;
-  text-decoration: none;
-}
-
-/* Tablet and medium screen layout */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo-box,
-  .card {
-    width: 100%;
-  }
-}
-
-/* Small screens like phones */
-@media (max-width: 480px) {
-  .container {
-    padding: 30px 15px;
-    gap: 20px;
-  }
-
-  .logo-box img {
-    width: 90px;
-    margin-bottom: 16px;
-  }
-
-  .logo-box h2 {
-    font-size: 22px;
-  }
-
-  .logo-box p,
-  .logo-box #greeting,
-  #countdown {
-    font-size: 14px;
-  }
-
-  .card {
-    padding: 20px;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-
-  input[type="password"],
-  .btn {
-    font-size: 14px;
-    padding: 12px;
-  }
-}
-
-/* Extra small screens like 320px */
-@media (max-width: 360px) {
-  .container {
-    padding: 25px 10px;
-  }
-
-  .logo-box h2 {
-    font-size: 20px;
-  }
-
-  .logo-box p,
-  .logo-box #greeting,
-  #countdown {
-    font-size: 13px;
-  }
-
-  input[type="password"],
-  .btn {
-    font-size: 13px;
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 18px;
-  }
-}
-
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <!-- Left: Logo & Text -->
-    <div class="logo-box">
-      <img src="images/MDai.png" alt="MDai Logo">
-      <h2>Welcome to MDai Live</h2>
-      <p id="greeting">Empowering learning with intelligent sessions.</p>
-      <div id="countdown">⏳ Loading event timer...</div>
-    </div>
-
-    <!-- Right: Join Box -->
-    <div class="card">
-      <h1>🔐 Enter Access Code</h1>
-      <input type="password" id="access-code" placeholder="Enter secret code" />
-      <button class="btn" onclick="verifyCode()">Submit</button>
-
-      <div id="link-container" class="hidden">
-        <a id="join-link" class="btn" href="http://meet.google.com/tdq-mkfj-rfh" target="_blank">🎥 Join Google Meet</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- SOUND INTRO -->
-  <script>
-    window.onload = function () {
-      // Greet user by name
-      let name = localStorage.getItem("mdai_user_name");
-      if (!name) {
-        name = prompt("👋 Welcome! What's your name?");
-        if (name) localStorage.setItem("mdai_user_name", name);
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
-      if (name) {
-        document.getElementById("greeting").textContent = `Hello, ${name}! Ready to learn with MDai?`;
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--background-dark);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        min-height: 100vh;
       }
 
-// Voice intro in French
-const msg = new SpeechSynthesisUtterance("Bienvenue chez nous — votre compagnon intelligent d'apprentissage et passerelle numérique vers l'avenir de l'éducation.");
+      /* Modern Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
 
-// Wait for voices to load
-speechSynthesis.onvoiceschanged = () => {
-  const voices = speechSynthesis.getVoices();
-  msg.voice = voices.find(v => v.lang === "fr-FR" && v.name.includes("Google") && v.name.toLowerCase().includes("fem")) 
-            || voices.find(v => v.lang === "fr-FR") 
-            || voices[0];
+      .navbar.scrolled {
+        background: rgba(10, 10, 10, 0.98);
+        box-shadow: var(--shadow-soft);
+      }
 
-  msg.lang = 'fr-FR';
-  msg.pitch = 1;
-  msg.rate = 1;
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-  speechSynthesis.speak(msg);
-};
+      .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: -0.02em;
+      }
 
+      .logo img {
+        width: 45px;
+        height: 45px;
+        margin-right: 12px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-glow);
+      }
 
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
 
-      // Countdown timer
-      const eventTime = new Date();
-      eventTime.setMinutes(eventTime.getMinutes() + 10); // countdown to 10 mins from now
-      const countdownEl = document.getElementById("countdown");
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+      }
 
-      const timer = setInterval(() => {
-        const now = new Date().getTime();
-        const diff = eventTime.getTime() - now;
+      .nav-links a:hover {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.05);
+      }
 
-        if (diff <= 0) {
-          clearInterval(timer);
-          countdownEl.innerHTML = "✅ Session is starting now!";
-        } else {
-          const mins = Math.floor(diff / 60000);
-          const secs = Math.floor((diff % 60000) / 1000);
-          countdownEl.innerHTML = `⏳ Session starts in: ${mins}m ${secs}s`;
+      /* Theme Switcher */
+      .theme-switcher {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .theme-toggle {
+        position: relative;
+        width: 60px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+      }
+
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+      }
+
+      .theme-toggle.active::before {
+        transform: translateX(30px);
+        background: var(--accent-gradient);
+        box-shadow: 0 2px 10px rgba(79, 172, 254, 0.3);
+      }
+
+      .device-check-btn {
+        background: transparent;
+        border: 2px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .device-check-btn:hover {
+        border-color: var(--accent-color);
+        background: rgba(79, 172, 254, 0.1);
+      }
+
+      /* Light Theme Variables */
+      [data-theme="light"] {
+        --text-primary: #1a1a1a;
+        --text-secondary: #666666;
+        --background-dark: #f8f9fa;
+        --background-card: rgba(255, 255, 255, 0.9);
+        --background-card-hover: rgba(255, 255, 255, 1);
+        --border-color: rgba(0, 0, 0, 0.1);
+        --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        padding-top: 100px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+      }
+
+      .hero-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(102, 126, 234, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(240, 147, 251, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 80%,
+            rgba(79, 172, 254, 0.1) 0%,
+            transparent 50%
+          );
+        animation: float 20s ease-in-out infinite;
+      }
+
+      /* Advanced Particle System */
+      .particles-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .particle {
+        position: absolute;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.6;
+        animation: particleFloat 15s infinite linear;
+      }
+
+      .particle.geometric {
+        border-radius: 0;
+        transform: rotate(45deg);
+        background: var(--accent-gradient);
+      }
+
+      .particle.triangle {
+        width: 0 !important;
+        height: 0 !important;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 12px solid rgba(79, 172, 254, 0.4);
+        border-radius: 0;
+        background: transparent !important;
+      }
+
+      @keyframes particleFloat {
+        0% {
+          transform: translateY(100vh) scale(0);
+          opacity: 0;
         }
-      }, 1000);
-    }
-  </script>
+        10% {
+          opacity: 0.8;
+        }
+        90% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-100px) scale(1);
+          opacity: 0;
+        }
+      }
 
-  <!-- JOIN LOGIC -->
-  <script>
-    const ACCESS_CODE = "openMDai2024";
-    const MEET_URL = "http://meet.google.com/tdq-mkfj-rfh";
+      /* Interactive Cursor Effects */
+      .cursor-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(
+          circle,
+          rgba(102, 126, 234, 0.3) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease;
+      }
 
-    function verifyCode() {
-      const input = document.getElementById("access-code").value.trim();
-      const linkContainer = document.getElementById("link-container");
-      const joinLink = document.getElementById("join-link");
+      .hero-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(10, 10, 10, 0.8) 0%,
+          rgba(26, 26, 26, 0.6) 100%
+        );
+      }
 
-      if (input === ACCESS_CODE) {
-        joinLink.href = MEET_URL;
-        linkContainer.classList.remove("hidden");
+      .hero-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+      }
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Access Granted!',
-          html: '<strong>You may now join the session 🎥</strong><br>Click the button below.',
-          showConfirmButton: false,
-          timer: 3000,
-          background: '#eaf6ff',
-          color: '#1a73e8',
-          position: 'center'
-        });
+      .main-container {
+        display: flex;
+        gap: 4rem;
+        align-items: center;
+        min-height: 80vh;
+        flex-wrap: wrap;
+      }
 
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Incorrect Code ❌',
-          text: 'Please double-check and try again.',
-          confirmButtonColor: '#d33',
-          background: '#fff0f0',
-          color: '#cc0000'
+      .welcome-section {
+        flex: 1;
+        min-width: 400px;
+        padding: 2rem;
+      }
+
+      .welcome-content {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .welcome-logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+
+      .welcome-logo img {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        box-shadow: var(--shadow-glow);
+        animation: floatLogo 3s ease-in-out infinite;
+      }
+
+      .welcome-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+      }
+
+      .welcome-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      /* Typewriter Effects */
+      .typewriter {
+        overflow: hidden;
+        border-right: 2px solid var(--primary-color);
+        white-space: nowrap;
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: var(--primary-color);
+        }
+      }
+
+      /* Status Indicators */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin: 0.25rem;
+        backdrop-filter: blur(10px);
+      }
+
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        animation: pulse-dot 2s infinite;
+      }
+
+      .status-online {
+        background: #00ff88;
+      }
+      .status-busy {
+        background: #ff6b6b;
+      }
+      .status-away {
+        background: #ffd93d;
+      }
+
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.2);
+        }
+      }
+
+      /* Participant Counter */
+      .participant-counter {
+        background: var(--success-gradient);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-success);
+        animation: counterUpdate 0.5s ease;
+      }
+
+      @keyframes counterUpdate {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .greeting-text {
+        font-size: 1rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
+
+      .countdown-container {
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 1.5rem;
+        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow-soft);
+        margin-top: 2rem;
+      }
+
+      .countdown-timer {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .countdown-timer i {
+        color: var(--accent-color);
+        font-size: 1.2rem;
+      }
+
+      .access-section {
+        flex: 1;
+        min-width: 400px;
+        padding: 2rem;
+      }
+
+      .access-card {
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 3rem;
+        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow-hard);
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .access-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+      }
+
+      .access-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hard);
+        background: var(--background-card-hover);
+        border-color: rgba(102, 126, 234, 0.3);
+      }
+
+      .access-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .access-title i {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Modern Animations */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes floatLogo {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(2deg);
+        }
+      }
+
+      @keyframes fadeSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      .form-group {
+        margin-bottom: 2rem;
+      }
+
+      .input-container {
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        outline: none;
+        transition: all 0.3s ease;
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+      }
+
+      .form-input:focus {
+        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-input::placeholder {
+        color: var(--text-secondary);
+        font-weight: 400;
+      }
+
+      .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-soft);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hard);
+      }
+
+      .btn-success {
+        background: var(--success-gradient);
+        color: white;
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-success);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(0, 201, 255, 0.4);
+      }
+
+      .link-container {
+        margin-top: 2rem;
+        animation: slideInUp 0.6s ease forwards;
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      .link-container.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      /* Success State */
+      .access-granted {
+        background: rgba(0, 201, 255, 0.1);
+        border-color: rgba(0, 201, 255, 0.3);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .main-container {
+          flex-direction: column;
+          gap: 3rem;
+          text-align: center;
+        }
+
+        .welcome-section,
+        .access-section {
+          min-width: auto;
+          width: 100%;
+          max-width: 500px;
+          margin: 0 auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+        }
+
+        .logo img {
+          width: 35px;
+          height: 35px;
+        }
+
+        .hero-content {
+          padding: 0 1rem;
+        }
+
+        .main-container {
+          gap: 2rem;
+        }
+
+        .welcome-title {
+          font-size: 2rem;
+        }
+
+        .access-card {
+          padding: 2rem;
+        }
+
+        .access-title {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .welcome-logo img {
+          width: 90px;
+          height: 90px;
+        }
+
+        .welcome-title {
+          font-size: 1.8rem;
+        }
+
+        .welcome-subtitle {
+          font-size: 1rem;
+        }
+
+        .access-card {
+          padding: 1.5rem;
+        }
+
+        .access-title {
+          font-size: 1.3rem;
+        }
+
+        .form-input,
+        .btn-primary,
+        .btn-success {
+          padding: 0.8rem 1.2rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Animation keyframes */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      /* Loading states */
+      .loading {
+        animation: pulse 2s infinite;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Modern Navbar -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="home.html" class="logo">
+          <img src="images/MDai.png" alt="MDai Logo" />
+          MDai
+        </a>
+
+        <ul class="nav-links">
+          <li>
+            <a href="home.html"><i class="fas fa-home"></i> Accueil</a>
+          </li>
+          <li>
+            <a href="course.html"
+              ><i class="fas fa-graduation-cap"></i> Cours</a
+            >
+          </li>
+          <li>
+            <a href="meet.html"><i class="fas fa-video"></i> Session Live</a>
+          </li>
+          <li>
+            <a href="paiment.html"
+              ><i class="fas fa-credit-card"></i> Abonnement</a
+            >
+          </li>
+        </ul>
+
+        <div class="theme-switcher">
+          <button class="device-check-btn" onclick="checkDevices()">
+            <i class="fas fa-microphone"></i>
+            <i class="fas fa-video"></i>
+            Test
+          </button>
+          <div
+            class="theme-toggle"
+            id="theme-toggle"
+            onclick="toggleTheme()"
+          ></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-background">
+        <div class="hero-particles"></div>
+        <div class="particles-container" id="particles-container"></div>
+        <div class="hero-gradient"></div>
+      </div>
+
+      <!-- Cursor Effect -->
+      <div class="cursor-glow" id="cursor-glow"></div>
+
+      <div class="hero-content">
+        <div class="main-container">
+          <!-- Welcome Section -->
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <div class="welcome-logo">
+                <img src="images/MDai.png" alt="MDai Logo" />
+              </div>
+
+              <h1 class="welcome-title">Session Live MDai</h1>
+              <p class="welcome-subtitle">
+                Rejoignez notre session d'apprentissage IA interactive et
+                découvrez l'avenir de l'éducation avec nos technologies de
+                pointe.
+              </p>
+
+              <div class="greeting-text typewriter" id="greeting">
+                Empowering learning with intelligent sessions.
+              </div>
+
+              <!-- Status Indicators -->
+              <div class="status-badges" style="margin-top: 1.5rem">
+                <div class="status-badge">
+                  <div class="status-indicator status-online"></div>
+                  Session Active
+                </div>
+                <div class="participant-counter" id="participant-counter">
+                  <i class="fas fa-users"></i>
+                  <span id="participant-count">12</span> participants
+                </div>
+                <div class="status-badge">
+                  <i
+                    class="fas fa-shield-alt"
+                    style="color: var(--success-color)"
+                  ></i>
+                  Sécurisé
+                </div>
+              </div>
+            </div>
+
+            <div class="countdown-container">
+              <div class="countdown-timer" id="countdown">
+                <i class="fas fa-clock"></i>
+                <span>⏳ Chargement du minuteur...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Access Section -->
+          <div class="access-section">
+            <div class="access-card" id="access-card">
+              <h2 class="access-title">
+                <i class="fas fa-lock"></i>
+                Code d'Accès Requis
+              </h2>
+
+              <div class="form-group">
+                <div class="input-container">
+                  <input
+                    type="password"
+                    id="access-code"
+                    class="form-input"
+                    placeholder="Entrez votre code secret"
+                    maxlength="20"
+                  />
+                </div>
+
+                <button class="btn-primary" onclick="verifyCode()">
+                  <i class="fas fa-key"></i>
+                  Vérifier le Code
+                </button>
+              </div>
+
+              <div id="link-container" class="link-container hidden">
+                <a
+                  id="join-link"
+                  class="btn-success"
+                  href="http://meet.google.com/tdq-mkfj-rfh"
+                  target="_blank"
+                >
+                  <i class="fas fa-video"></i>
+                  Rejoindre la Session
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modern JavaScript -->
+    <script>
+      // Modern page initialization
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeApp();
+        setupAnimations();
+        handleNavbarScroll();
+        initParticleSystem();
+        initCursorEffects();
+        initTheme();
+        initParticipantCounter();
+        initSoundEffects();
+      });
+
+      function initializeApp() {
+        // Personalized greeting
+        let name = localStorage.getItem("mdai_user_name");
+        if (!name) {
+          // Use SweetAlert for better UX
+          Swal.fire({
+            title: "👋 Bienvenue sur MDai!",
+            text: "Comment vous appelez-vous?",
+            input: "text",
+            inputPlaceholder: "Votre prénom...",
+            showCancelButton: true,
+            confirmButtonText: "Continuer",
+            cancelButtonText: "Plus tard",
+            confirmButtonColor: "#667eea",
+            background: "#1a1a1a",
+            color: "#ffffff",
+            inputAttributes: {
+              autocapitalize: "off",
+            },
+          }).then((result) => {
+            if (result.isConfirmed && result.value) {
+              name = result.value;
+              localStorage.setItem("mdai_user_name", name);
+              updateGreeting(name);
+            }
+          });
+        } else {
+          updateGreeting(name);
+        }
+
+        // Voice intro with modern approach
+        setTimeout(() => {
+          playWelcomeMessage();
+        }, 1000);
+
+        // Initialize countdown
+        initCountdown();
+      }
+
+      function updateGreeting(name) {
+        const greetingEl = document.getElementById("greeting");
+        if (name) {
+          greetingEl.innerHTML = `
+            <i class="fas fa-user-circle" style="color: var(--accent-color);"></i>
+            Bonjour ${name}! Prêt pour votre session d'apprentissage?
+          `;
+        }
+      }
+
+      function playWelcomeMessage() {
+        if ("speechSynthesis" in window) {
+          const msg = new SpeechSynthesisUtterance(
+            "Bienvenue sur MDai, votre compagnon intelligent d'apprentissage et passerelle numérique vers l'avenir de l'éducation."
+          );
+
+          setTimeout(() => {
+            const voices = speechSynthesis.getVoices();
+            msg.voice = voices.find((v) => v.lang === "fr-FR") || voices[0];
+            msg.lang = "fr-FR";
+            msg.pitch = 1;
+            msg.rate = 0.9;
+            msg.volume = 0.7;
+
+            speechSynthesis.speak(msg);
+          }, 100);
+        }
+      }
+
+      function initCountdown() {
+        const eventTime = new Date();
+        eventTime.setMinutes(eventTime.getMinutes() + 15); // 15 minutes from now
+        const countdownEl = document.getElementById("countdown");
+
+        const timer = setInterval(() => {
+          const now = new Date().getTime();
+          const diff = eventTime.getTime() - now;
+
+          if (diff <= 0) {
+            clearInterval(timer);
+            countdownEl.innerHTML = `
+              <i class="fas fa-play-circle" style="color: var(--success-color);"></i>
+              <span>✅ La session commence maintenant!</span>
+            `;
+          } else {
+            const mins = Math.floor(diff / 60000);
+            const secs = Math.floor((diff % 60000) / 1000);
+            countdownEl.innerHTML = `
+              <i class="fas fa-clock"></i>
+              <span>Session dans: ${mins}m ${secs}s</span>
+            `;
+          }
+        }, 1000);
+      }
+
+      function setupAnimations() {
+        // Add entrance animations
+        const elements = document.querySelectorAll(
+          ".welcome-section, .access-section"
+        );
+        elements.forEach((el, index) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(30px)";
+
+          setTimeout(() => {
+            el.style.transition = "all 0.8s ease";
+            el.style.opacity = "1";
+            el.style.transform = "translateY(0)";
+          }, 200 + index * 200);
         });
       }
-    }
-  </script>
-</body>
 
+      function handleNavbarScroll() {
+        const navbar = document.getElementById("navbar");
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 50) {
+            navbar.classList.add("scrolled");
+          } else {
+            navbar.classList.remove("scrolled");
+          }
+        });
+      }
+
+      // Advanced Particle System
+      function initParticleSystem() {
+        const container = document.getElementById("particles-container");
+
+        function createParticle() {
+          const particle = document.createElement("div");
+          const size = Math.random() * 6 + 2;
+          const types = ["", "geometric", "triangle"];
+          const type = types[Math.floor(Math.random() * types.length)];
+
+          particle.classList.add("particle", type);
+          particle.style.width = size + "px";
+          particle.style.height = size + "px";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+          particle.style.animationDelay = Math.random() * 5 + "s";
+
+          container.appendChild(particle);
+
+          setTimeout(() => {
+            particle.remove();
+          }, 20000);
+        }
+
+        // Create initial particles
+        for (let i = 0; i < 15; i++) {
+          setTimeout(createParticle, i * 1000);
+        }
+
+        // Continue creating particles
+        setInterval(createParticle, 2000);
+      }
+
+      // Cursor Effects
+      function initCursorEffects() {
+        const cursorGlow = document.getElementById("cursor-glow");
+
+        document.addEventListener("mousemove", (e) => {
+          cursorGlow.style.left = e.clientX - 10 + "px";
+          cursorGlow.style.top = e.clientY - 10 + "px";
+        });
+
+        // Interactive hover effects
+        const interactiveElements = document.querySelectorAll(
+          "button, a, .access-card"
+        );
+        interactiveElements.forEach((element) => {
+          element.addEventListener("mouseenter", () => {
+            cursorGlow.style.transform = "scale(2)";
+            cursorGlow.style.opacity = "0.8";
+          });
+
+          element.addEventListener("mouseleave", () => {
+            cursorGlow.style.transform = "scale(1)";
+            cursorGlow.style.opacity = "0.6";
+          });
+        });
+      }
+
+      // Theme System
+      function initTheme() {
+        const savedTheme = localStorage.getItem("mdai-theme") || "dark";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+
+        const toggle = document.getElementById("theme-toggle");
+        if (savedTheme === "light") {
+          toggle.classList.add("active");
+        }
+      }
+
+      function toggleTheme() {
+        const toggle = document.getElementById("theme-toggle");
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("mdai-theme", newTheme);
+
+        toggle.classList.toggle("active");
+
+        // Play sound effect
+        playSound("toggle");
+      }
+
+      // Device Check Functionality
+      function checkDevices() {
+        playSound("click");
+
+        Swal.fire({
+          title: "🎥 Test des Appareils",
+          html: `
+            <div style="text-align: left; margin: 1rem 0;">
+              <div style="margin-bottom: 1rem;">
+                <strong>🎤 Microphone:</strong>
+                <div id="mic-status" style="margin-top: 0.5rem;">
+                  <i class="fas fa-spinner fa-spin"></i> Test en cours...
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <strong>📷 Caméra:</strong>
+                <div id="cam-status" style="margin-top: 0.5rem;">
+                  <i class="fas fa-spinner fa-spin"></i> Test en cours...
+                </div>
+              </div>
+              <div>
+                <strong>🔊 Audio:</strong>
+                <div id="audio-status" style="margin-top: 0.5rem;">
+                  <i class="fas fa-spinner fa-spin"></i> Test en cours...
+                </div>
+              </div>
+            </div>
+          `,
+          showConfirmButton: false,
+          background: "#1a1a1a",
+          color: "#ffffff",
+          width: "450px",
+          customClass: {
+            popup: "modern-popup",
+          },
+        });
+
+        // Simulate device checks
+        setTimeout(() => {
+          document.getElementById("mic-status").innerHTML =
+            '<i class="fas fa-check" style="color: #00ff88;"></i> Microphone détecté';
+        }, 1000);
+
+        setTimeout(() => {
+          document.getElementById("cam-status").innerHTML =
+            '<i class="fas fa-check" style="color: #00ff88;"></i> Caméra fonctionnelle';
+        }, 1500);
+
+        setTimeout(() => {
+          document.getElementById("audio-status").innerHTML =
+            '<i class="fas fa-check" style="color: #00ff88;"></i> Audio optimal';
+
+          setTimeout(() => {
+            Swal.update({
+              icon: "success",
+              title: "✅ Appareils Prêts",
+              html: "Tous vos appareils fonctionnent parfaitement!",
+              showConfirmButton: true,
+              confirmButtonText: "Parfait!",
+              confirmButtonColor: "#667eea",
+              timer: 3000,
+            });
+          }, 500);
+        }, 2000);
+      }
+
+      // Participant Counter Animation
+      function initParticipantCounter() {
+        const counter = document.getElementById("participant-count");
+        let currentCount = 8;
+
+        function updateCount() {
+          const change = Math.random() > 0.6 ? 1 : Math.random() > 0.3 ? -1 : 0;
+          currentCount = Math.max(5, Math.min(25, currentCount + change));
+
+          counter.textContent = currentCount;
+          counter.parentElement.style.animation = "none";
+          setTimeout(() => {
+            counter.parentElement.style.animation = "counterUpdate 0.5s ease";
+          }, 10);
+        }
+
+        // Update count every 15-30 seconds
+        setInterval(updateCount, Math.random() * 15000 + 15000);
+      }
+
+      // Sound Effects System
+      function initSoundEffects() {
+        // Create audio context for sound effects
+        window.audioContext = new (window.AudioContext ||
+          window.webkitAudioContext)();
+      }
+
+      function playSound(type) {
+        if (!window.audioContext) return;
+
+        const frequencies = {
+          click: 800,
+          success: 600,
+          error: 300,
+          toggle: 1000,
+          notification: 750,
+        };
+
+        const oscillator = window.audioContext.createOscillator();
+        const gain = window.audioContext.createGain();
+
+        oscillator.connect(gain);
+        gain.connect(window.audioContext.destination);
+
+        oscillator.frequency.setValueAtTime(
+          frequencies[type] || 500,
+          window.audioContext.currentTime
+        );
+        oscillator.type = "sine";
+
+        gain.gain.setValueAtTime(0, window.audioContext.currentTime);
+        gain.gain.linearRampToValueAtTime(
+          0.1,
+          window.audioContext.currentTime + 0.01
+        );
+        gain.gain.exponentialRampToValueAtTime(
+          0.001,
+          window.audioContext.currentTime + 0.3
+        );
+
+        oscillator.start(window.audioContext.currentTime);
+        oscillator.stop(window.audioContext.currentTime + 0.3);
+      }
+    </script>
+
+    <!-- Advanced Access Control -->
+    <script>
+      const ACCESS_CODE = "MDai2025";
+      const MEET_URL = "http://meet.google.com/tdq-mkfj-rfh";
+
+      // Add Enter key support
+      document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("access-code");
+        input.addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            verifyCode();
+          }
+        });
+      });
+
+      function verifyCode() {
+        const input = document.getElementById("access-code").value.trim();
+        const linkContainer = document.getElementById("link-container");
+        const joinLink = document.getElementById("join-link");
+        const accessCard = document.getElementById("access-card");
+
+        // Play click sound
+        playSound("click");
+
+        // Add loading state
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Vérification...';
+        button.disabled = true;
+
+        // Simulate verification delay for better UX
+        setTimeout(() => {
+          if (input === ACCESS_CODE) {
+            // Play success sound
+            playSound("success");
+
+            // Success state
+            joinLink.href = MEET_URL;
+            linkContainer.classList.remove("hidden");
+            linkContainer.classList.add("show");
+            accessCard.classList.add("access-granted");
+
+            // Update title
+            document.querySelector(".access-title").innerHTML = `
+              <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+              Accès Autorisé
+            `;
+
+            // Success notification
+            Swal.fire({
+              icon: "success",
+              title: "🎉 Accès Autorisé!",
+              html: `
+                <strong>Félicitations!</strong><br>
+                Vous pouvez maintenant rejoindre la session.<br>
+                <small style="color: #888;">Cliquez sur le bouton ci-dessous pour continuer.</small>
+              `,
+              showConfirmButton: false,
+              timer: 4000,
+              background: "#1a1a1a",
+              color: "#ffffff",
+              customClass: {
+                popup: "modern-popup",
+              },
+            });
+
+            // Update button
+            button.innerHTML = '<i class="fas fa-check"></i> Code Vérifié';
+            button.style.background = "var(--success-gradient)";
+          } else {
+            // Play error sound
+            playSound("error");
+
+            // Error state
+            input.style.borderColor = "#ff4757";
+            input.style.boxShadow = "0 0 0 4px rgba(255, 71, 87, 0.1)";
+
+            // Shake animation
+            accessCard.style.animation = "shake 0.5s ease-in-out";
+            setTimeout(() => {
+              accessCard.style.animation = "";
+            }, 500);
+
+            Swal.fire({
+              icon: "error",
+              title: "❌ Code Incorrect",
+              html: `
+                <strong>Code d'accès invalide</strong><br>
+                Veuillez vérifier et réessayer.<br>
+                <small style="color: #888;">Contactez l'administrateur si le problème persiste.</small>
+              `,
+              confirmButtonText: "Réessayer",
+              confirmButtonColor: "#667eea",
+              background: "#1a1a1a",
+              color: "#ffffff",
+              customClass: {
+                popup: "modern-popup",
+              },
+            });
+
+            // Reset button
+            button.innerHTML = originalText;
+            button.disabled = false;
+
+            // Clear error state after 3 seconds
+            setTimeout(() => {
+              input.style.borderColor = "var(--border-color)";
+              input.style.boxShadow = "none";
+            }, 3000);
+          }
+        }, 1500);
+      }
+
+      // Add shake animation
+      const style = document.createElement("style");
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .modern-popup {
+          border-radius: 16px !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+      `;
+      document.head.appendChild(style);
+    </script>
+  </body>
 </html>
-
-
-
-
-
