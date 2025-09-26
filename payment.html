@@ -1,399 +1,1115 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Course Payment | MDai</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #c3e0f3, #fefefe);
-      padding: 40px 20px;
-      color: #333;
-      overflow-x: hidden;
-    }
-    .payment-container {
-      max-width: 500px;
-      margin: 0 auto;
-      background: white;
-      padding: 30px 25px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15);
-      animation: slideFade 0.8s ease;
-      position: relative;
-    }
-    @keyframes slideFade {
-      from { opacity: 0; transform: translateY(60px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .payment-container h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 2rem;
-      color: #007bff;
-      position: relative;
-    }
-    .payment-container h2::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: #007bff;
-      margin: 10px auto 0;
-      border-radius: 3px;
-    }
-    .payment-container input,
-    .payment-container select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 1rem;
-      margin-bottom: 15px;
-      background: #fafafa;
-      transition: all 0.3s ease;
-    }
-    .payment-container input:focus,
-    .payment-container select:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
-      background: #fff;
-      outline: none;
-    }
-    .payment-container button {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(45deg, #28a745, #218838);
-      color: white;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-      transition: transform 0.2s ease;
-    }
-    .payment-container button:hover {
-      transform: scale(1.03);
-    }
-    .info-banner {
-      background: #007bff;
-      color: white;
-      padding: 15px 20px;
-      border-radius: 10px;
-      text-align: center;
-      max-width: 500px;
-      margin: 0 auto 30px;
-      font-size: 1.05rem;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-    @media (max-width: 600px) {
-      .payment-container { padding: 25px 15px; }
-    }
+  <head>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Payment | MDai</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Modern Color Palette from home.html */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
 
+        --primary-color: #667eea;
+        --secondary-color: #f093fb;
+        --accent-color: #4facfe;
+        --text-primary: #ffffff;
+        --text-secondary: #b4b4b4;
+        --background-dark: #0a0a0a;
+        --background-card: rgba(255, 255, 255, 0.05);
+        --border-color: rgba(255, 255, 255, 0.1);
 
+        /* Shadows */
+        --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.15);
+        --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 30px rgba(102, 126, 234, 0.3);
+      }
 
-   /* M-pasa button */
-    .view-mpesa-btn {
-  display: block;
-  margin: 20px auto;
-  padding: 12px 24px;
-  font-size: 1rem;
-  background: linear-gradient(45deg, #007bff, #00d4ff);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
-  transition: transform 0.3s ease, background 0.4s;
-}
-.view-mpesa-btn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(45deg, #0056b3, #00b4cc);
-}
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--background-dark);
+        padding: 40px 20px;
+        color: var(--text-primary);
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+      }
 
-.mpesa-box {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.4s ease;
-}
-.mpesa-box.active {
-  visibility: visible;
-  opacity: 1;
-}
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(102, 126, 234, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(240, 147, 251, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 80%,
+            rgba(79, 172, 254, 0.1) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+        animation: float 20s ease-in-out infinite;
+      }
+      .payment-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        padding: 40px 35px;
+        border-radius: 24px;
+        box-shadow: var(--shadow-hard);
+        animation: slideFade 0.8s ease;
+        position: relative;
+      }
+      @keyframes slideFade {
+        from {
+          opacity: 0;
+          transform: translateY(60px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .payment-container h2 {
+        text-align: center;
+        margin-bottom: 35px;
+        font-size: 2.2rem;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        letter-spacing: -0.02em;
+      }
+      .payment-container h2::after {
+        content: "";
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--accent-gradient);
+        margin: 15px auto 0;
+        border-radius: 4px;
+      }
+      .payment-container label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+      }
 
-.mpesa-content {
-  background: #fff;
-  padding: 30px 25px;
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-  text-align: center;
-  animation: bounceIn 0.6s ease;
-  max-width: 360px;
-  width: 90%;
-  position: relative;
-}
+      .payment-container input,
+      .payment-container select {
+        width: 100%;
+        padding: 16px 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
 
-.mpesa-content h3 {
-  color: #007bff;
-  margin-bottom: 15px;
-}
+      .payment-container input::placeholder {
+        color: var(--text-secondary);
+      }
 
-.mpesa-number {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin: 10px 0;
-  color: #28a745;
-  cursor: pointer;
-}
-.mpesa-number:hover {
-  text-decoration: underline;
-  color: #1e7e34;
-}
+      .payment-container input:focus,
+      .payment-container select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        outline: none;
+        transform: translateY(-2px);
+      }
+      .payment-container button {
+        width: 100%;
+        padding: 18px;
+        background: var(--primary-gradient);
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        box-shadow: var(--shadow-hard);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
 
-.mpesa-msg {
-  font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 20px;
-}
+      .payment-container button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
 
-.close-btn {
-  padding: 10px 22px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-.close-btn:hover {
-  background: #0056b3;
-}
+      .payment-container button:hover::before {
+        left: 100%;
+      }
 
-.copied {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 10px;
-  font-size: 0.85rem;
-  color: green;
-  display: none;
-  animation: fadeInOut 2s ease-in-out;
-}
+      .payment-container button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 25px 70px rgba(102, 126, 234, 0.4);
+      }
+      .info-banner {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 20px 25px;
+        border-radius: 16px;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 40px;
+        font-size: 1.1rem;
+        box-shadow: var(--shadow-soft);
+        animation: pulse 2s infinite;
+        line-height: 1.6;
+      }
 
-@keyframes bounceIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  60% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); }
-}
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(-10px); }
-  30% { opacity: 1; transform: translateY(0); }
-  70% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-10px); }
-}
+      .info-banner strong {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+      }
 
-.lds-spinner {
-  color: official;
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-spinner div {
-  transform-origin: 40px 40px;
-  animation: lds-spinner 1.2s linear infinite;
-}
-.lds-spinner div:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 3px;
-  left: 37px;
-  width: 6px;
-  height: 18px;
-  border-radius: 20%;
-  background: #007bff;
-}
-.lds-spinner div:nth-child(1) { transform: rotate(0deg); animation-delay: -1.1s; }
-.lds-spinner div:nth-child(2) { transform: rotate(30deg); animation-delay: -1s; }
-.lds-spinner div:nth-child(3) { transform: rotate(60deg); animation-delay: -0.9s; }
-.lds-spinner div:nth-child(4) { transform: rotate(90deg); animation-delay: -0.8s; }
-.lds-spinner div:nth-child(5) { transform: rotate(120deg); animation-delay: -0.7s; }
-.lds-spinner div:nth-child(6) { transform: rotate(150deg); animation-delay: -0.6s; }
-.lds-spinner div:nth-child(7) { transform: rotate(180deg); animation-delay: -0.5s; }
-.lds-spinner div:nth-child(8) { transform: rotate(210deg); animation-delay: -0.4s; }
-.lds-spinner div:nth-child(9) { transform: rotate(240deg); animation-delay: -0.3s; }
-.lds-spinner div:nth-child(10) { transform: rotate(270deg); animation-delay: -0.2s; }
-.lds-spinner div:nth-child(11) { transform: rotate(300deg); animation-delay: -0.1s; }
-.lds-spinner div:nth-child(12) { transform: rotate(330deg); animation-delay: 0s; }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: var(--shadow-soft);
+        }
+        50% {
+          transform: scale(1.02);
+          box-shadow: var(--shadow-hard);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
 
-@keyframes lds-spinner {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
+      @media (max-width: 600px) {
+        .payment-container {
+          padding: 30px 20px;
+          margin: 0 10px;
+        }
+        .info-banner {
+          margin: 0 10px 30px;
+          padding: 18px 20px;
+          font-size: 1rem;
+        }
+        .payment-container h2 {
+          font-size: 1.8rem;
+        }
+      }
 
-  </style>
-</head>
-<body>
-  <div class="info-banner" id="infoBanner"></div>
-  <div class="payment-container">
-    <h2><i class="fas fa-credit-card"></i> Paiement du cours</h2>
+      /* M-pesa button */
+      .view-mpesa-btn {
+        display: block;
+        margin: 25px auto;
+        padding: 16px 32px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        background: var(--accent-gradient);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: var(--shadow-hard);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
 
+      .view-mpesa-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
 
-    <!-- M-PESA Button and Modal -->
-<button class="view-mpesa-btn" onclick="showMpesa()">Afficher le numéro M-PESA</button>
+      .view-mpesa-btn:hover::before {
+        left: 100%;
+      }
 
-<div class="mpesa-box" id="mpesaBox">
-  <div class="mpesa-content">
-    <h3>M-PESA Payment</h3>
-    <p class="mpesa-number" onclick="copyMpesa()">+243 812 336 721</p>
-    <p class="mpesa-msg">Payez à ce numéro avant de remplir la section de paiement</p>
-     <p class="mpesa-msg">Nom: MADELEINE AMURI MARIAMO</p>
-    <span id="copy-feedback" class="copied">Copié !</span>
-    <button onclick="hideMpesa()" class="close-btn">OK</button>
-  </div>
-</div>
+      .view-mpesa-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 25px 70px rgba(79, 172, 254, 0.4);
+      }
 
-    <form id="paymentForm">
-      <label for="to_name">Nom:</label>
-      <input type="text" name="to_name" placeholder="Full Name" required />
-      <label for="email">E-mail:</label>
-      <input type="email" name="email" placeholder="Email Address" required />
-      <label for="amount">Prix:</label>
-      <input type="number" id="amount" name="amount" placeholder="Amount (USD or FC)" required />
-      <label for="payment_method">Mode de paiement:</label>
-      <select name="payment_method" required>
-        <option value="">Sélectionnez le mode de paiement:</option>
-        <option value="card">Carte de crédit/débit</option>
-        <option value="mobile">M-PESA</option>
-      </select>
-      <input type="hidden" id="course_title" name="course_title">
-      <input type="hidden" id="course_info" name="course_info">
-      <input type="hidden" id="course_price" name="course_price">
-      <input type="hidden" id="registration_fee" name="registration_fee">
-      <input type="hidden" id="total_amount" name="total_amount">
-      <button type="submit"><i class="fas fa-paper-plane"></i> Payez maintenant</button>
-    </form>
-  </div>
+      .mpesa-box {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.4s ease;
+      }
+      .mpesa-box.active {
+        visibility: visible;
+        opacity: 1;
+      }
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-  emailjs.init("px88hVvZZOI8odox8");
+      .mpesa-content {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        padding: 40px 35px;
+        border-radius: 24px;
+        box-shadow: var(--shadow-hard);
+        text-align: center;
+        animation: bounceIn 0.6s ease;
+        max-width: 420px;
+        width: 90%;
+        position: relative;
+      }
 
-  const title = localStorage.getItem("selectedCourseTitle") || "";
-  const info = localStorage.getItem("selectedCourseInfo") || "";
-  const price = localStorage.getItem("coursePrice") || "";
-  const fee = localStorage.getItem("registrationFee") || "";
-  const total = localStorage.getItem("selectedCourseTotal") || "";
-  const match = total.match(/([\d,.]+)\s?(FC|USD)?/i);
-  let amount = match ? parseFloat(match[1].replace(",", "")) : "";
+      .mpesa-content h3 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
 
-  document.getElementById("course_title").value = title;
-  document.getElementById("course_info").value = info;
-  document.getElementById("course_price").value = price;
-  document.getElementById("registration_fee").value = fee;
-  document.getElementById("total_amount").value = total;
-  document.getElementById("amount").value = amount;
+      .mpesa-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 15px 0;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background-color: rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+      }
+      .mpesa-number:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soft);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
 
-  document.getElementById("infoBanner").innerHTML = `Vous avez sélectionné <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
+      .mpesa-msg {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: 25px;
+        line-height: 1.6;
+      }
 
-  document.getElementById("paymentForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const data = new FormData(this);
-    const payload = {};
-    for (let [k, v] of data.entries()) payload[k] = v.trim();
-    if (!payload.to_name || !payload.email || !payload.amount || !payload.payment_method)
-      return Swal.fire({ icon: 'warning', title: 'Missing Fields', text: 'Please complete all fields.' });
+      .close-btn {
+        padding: 14px 28px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-soft);
+        position: relative;
+        overflow: hidden;
+      }
 
-    try {
-      const randomId = Math.random().toString().slice(2, 12);
-      const receiptId = `Mdai${randomId}`;
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+      .close-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
 
-      const bg = new Image();
-      bg.src = "images/MDai.png";
-      await new Promise(resolve => bg.onload = resolve);
-      doc.addImage(bg, 'JPEG', 0, 0, 210, 297);
+      .close-btn:hover::before {
+        left: 100%;
+      }
 
-      const watermark = new Image();
-      watermark.src = "images/MDai.png";
-      await new Promise(resolve => watermark.onload = resolve);
-      doc.addImage(watermark, 'PNG', 60, 100, 90, 90, '', 'FAST');
+      .close-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hard);
+      }
 
-      doc.setTextColor(0, 123, 255);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(22);
-      doc.text("MDai Receipt", 20, 30);
+      .copied {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 10px;
+        font-size: 0.85rem;
+        color: green;
+        display: none;
+        animation: fadeInOut 2s ease-in-out;
+      }
 
-      doc.setTextColor(0);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      let y = 50;
-      doc.text(`Receipt No: ${receiptId}`, 20, y);
-      const lines = [
-        `Name: ${payload.to_name}`,
-        `Email: ${payload.email}`,
-        `Course: ${payload.course_title}`,
-        `Details: ${payload.course_info}`,
-        `Course Price: ${payload.course_price}`,
-        `Registration Fee: ${payload.registration_fee}`,
-        `Total Paid: ${payload.total_amount}`,
-        `Payment Method: ${payload.payment_method}`
-      ];
-      lines.forEach(line => doc.text(line, 20, y += 10));
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        60% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        30% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        70% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+      }
 
-      doc.setTextColor(0, 128, 0);
-      doc.setFontSize(13);
-      doc.setFont("helvetica", "bold");
-      doc.text("Merci pour votre paiement !", 20, y + 10);
+      .lds-spinner {
+        color: official;
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .lds-spinner div {
+        transform-origin: 40px 40px;
+        animation: lds-spinner 1.2s linear infinite;
+      }
+      .lds-spinner div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 3px;
+        left: 37px;
+        width: 6px;
+        height: 18px;
+        border-radius: 20%;
+        background: var(--primary-color);
+      }
+      .lds-spinner div:nth-child(1) {
+        transform: rotate(0deg);
+        animation-delay: -1.1s;
+      }
+      .lds-spinner div:nth-child(2) {
+        transform: rotate(30deg);
+        animation-delay: -1s;
+      }
+      .lds-spinner div:nth-child(3) {
+        transform: rotate(60deg);
+        animation-delay: -0.9s;
+      }
+      .lds-spinner div:nth-child(4) {
+        transform: rotate(90deg);
+        animation-delay: -0.8s;
+      }
+      .lds-spinner div:nth-child(5) {
+        transform: rotate(120deg);
+        animation-delay: -0.7s;
+      }
+      .lds-spinner div:nth-child(6) {
+        transform: rotate(150deg);
+        animation-delay: -0.6s;
+      }
+      .lds-spinner div:nth-child(7) {
+        transform: rotate(180deg);
+        animation-delay: -0.5s;
+      }
+      .lds-spinner div:nth-child(8) {
+        transform: rotate(210deg);
+        animation-delay: -0.4s;
+      }
+      .lds-spinner div:nth-child(9) {
+        transform: rotate(240deg);
+        animation-delay: -0.3s;
+      }
+      .lds-spinner div:nth-child(10) {
+        transform: rotate(270deg);
+        animation-delay: -0.2s;
+      }
+      .lds-spinner div:nth-child(11) {
+        transform: rotate(300deg);
+        animation-delay: -0.1s;
+      }
+      .lds-spinner div:nth-child(12) {
+        transform: rotate(330deg);
+        animation-delay: 0s;
+      }
 
-      doc.setTextColor(100);
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "italic");
-      doc.text("_______________________", 20, y + 35);
-      doc.text("Symphorien Pyana", 20, y + 42);
-      doc.text("MDai CEO", 20, y + 48);
+      @keyframes lds-spinner {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
 
-      doc.setTextColor(150);
-      doc.setFontSize(10);
-      doc.text("MDai Platform | www.mdai.xyz | info@mdai.xyz", 20, 285);
+      /* Enhanced Payment Methods */
+      .payment-methods-container {
+        margin-bottom: 30px;
+      }
 
-      const qrData = `Receipt: ${receiptId}\nName: ${payload.to_name}\nCourse: ${payload.course_title}\nAmount: ${payload.total_amount}`;
-      const qrImage = await QRCode.toDataURL(qrData);
-      doc.addImage(qrImage, "PNG", 150, y + 15, 40, 40);
+      .payment-methods-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+      }
 
-      // SUPER SMART ANIMATION START
-      Swal.fire({
-        title: '🧠 Generating Receipt...',
-        html: `
+      .payment-method-card {
+        background: var(--background-card);
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(20px);
+        position: relative;
+      }
+
+      .payment-method-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .payment-method-card.selected {
+        border-color: var(--primary-color);
+        background: rgba(102, 126, 234, 0.1);
+        box-shadow: var(--glow);
+      }
+
+      .payment-method-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .payment-method-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 5px;
+      }
+
+      .payment-method-desc {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      /* Security & Trust Elements */
+      .security-badges {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin: 25px 0;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+      }
+
+      .security-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .security-badge i {
+        color: #22c55e;
+      }
+
+      /* Form Validation States */
+      .form-group {
+        position: relative;
+        margin-bottom: 25px;
+      }
+
+      .form-group.error input {
+        border-color: #ef4444;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+      }
+
+      .form-group.success input {
+        border-color: #22c55e;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+      }
+
+      .error-message {
+        color: #ef4444;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .form-group.error .error-message {
+        display: block;
+      }
+
+      .success-message {
+        color: #22c55e;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .form-group.success .success-message {
+        display: block;
+      }
+
+      /* Payment Progress Indicator */
+      .payment-progress {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: var(--background-card);
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+      }
+
+      .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        position: relative;
+      }
+
+      .progress-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        right: -50%;
+        width: 100%;
+        height: 2px;
+        background: var(--border-color);
+        z-index: 1;
+      }
+
+      .progress-step.active::after {
+        background: var(--primary-color);
+      }
+
+      .progress-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+      }
+
+      .progress-step.active .progress-icon {
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      .progress-step.completed .progress-icon {
+        background: #22c55e;
+        color: white;
+      }
+
+      .progress-label {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
+      .progress-step.active .progress-label {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      /* Pricing Breakdown */
+      .pricing-breakdown {
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        backdrop-filter: blur(20px);
+      }
+
+      .pricing-breakdown h3 {
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .pricing-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .pricing-item:last-child {
+        border-bottom: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 2px solid var(--border-color);
+      }
+
+      .pricing-label {
+        color: var(--text-secondary);
+      }
+
+      .pricing-value {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .total-amount {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.3rem !important;
+      }
+
+      /* Enhanced Mobile Responsiveness */
+      @media (max-width: 768px) {
+        .payment-methods-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .security-badges {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .payment-progress {
+          padding: 15px 10px;
+        }
+
+        .progress-step {
+          flex: none;
+          margin: 0 5px;
+        }
+
+        .progress-step:not(:last-child)::after {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="info-banner" id="infoBanner"></div>
+    <div class="payment-container">
+      <h2><i class="fas fa-credit-card"></i> Paiement du cours</h2>
+
+      <!-- Payment Progress Indicator -->
+      <div class="payment-progress">
+        <div class="progress-step active" id="step1">
+          <div class="progress-icon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="progress-label">Informations</div>
+        </div>
+        <div class="progress-step" id="step2">
+          <div class="progress-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="progress-label">Paiement</div>
+        </div>
+        <div class="progress-step" id="step3">
+          <div class="progress-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="progress-label">Confirmation</div>
+        </div>
+      </div>
+
+      <!-- Pricing Breakdown -->
+      <div class="pricing-breakdown" id="pricingBreakdown">
+        <h3><i class="fas fa-receipt"></i> Détails du prix</h3>
+        <div class="pricing-item">
+          <span class="pricing-label">Cours:</span>
+          <span class="pricing-value" id="coursePrice">$0</span>
+        </div>
+        <div class="pricing-item">
+          <span class="pricing-label">Frais d'inscription:</span>
+          <span class="pricing-value" id="regFee">$0</span>
+        </div>
+        <div class="pricing-item">
+          <span class="pricing-label total-amount">Total:</span>
+          <span class="pricing-value total-amount" id="totalPrice">$0</span>
+        </div>
+      </div>
+
+      <!-- Payment Methods Selection -->
+      <div class="payment-methods-container">
+        <h3
+          style="
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+          "
+        >
+          <i class="fas fa-wallet"></i> Choisissez votre méthode de paiement
+        </h3>
+        <div class="payment-methods-grid">
+          <div
+            class="payment-method-card"
+            data-method="card"
+            onclick="selectPaymentMethod('card')"
+          >
+            <div class="payment-method-icon">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="payment-method-title">Carte Bancaire</div>
+            <div class="payment-method-desc">Visa, Mastercard, Amex</div>
+          </div>
+          <div
+            class="payment-method-card"
+            data-method="mobile"
+            onclick="selectPaymentMethod('mobile')"
+          >
+            <div class="payment-method-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="payment-method-title">M-PESA</div>
+            <div class="payment-method-desc">Paiement mobile sécurisé</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Badges -->
+      <div class="security-badges">
+        <div class="security-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>Sécurisé SSL</span>
+        </div>
+        <div class="security-badge">
+          <i class="fas fa-lock"></i>
+          <span>Crypté 256-bit</span>
+        </div>
+        <div class="security-badge">
+          <i class="fas fa-user-shield"></i>
+          <span>Données protégées</span>
+        </div>
+      </div>
+
+      <!-- M-PESA Button and Modal -->
+      <button
+        class="view-mpesa-btn"
+        onclick="showMpesa()"
+        id="mpesaBtn"
+        style="display: none"
+      >
+        <i class="fas fa-mobile-alt"></i> Afficher le numéro M-PESA
+      </button>
+
+      <div class="mpesa-box" id="mpesaBox">
+        <div class="mpesa-content">
+          <h3><i class="fas fa-mobile-alt"></i> M-PESA Payment</h3>
+          <p class="mpesa-number" onclick="copyMpesa()">+243 812 336 721</p>
+          <p class="mpesa-msg">
+            Payez à ce numéro avant de remplir la section de paiement
+          </p>
+          <p class="mpesa-msg">Nom: MADELEINE AMURI MARIAMO</p>
+          <span id="copy-feedback" class="copied">Copié !</span>
+          <button onclick="hideMpesa()" class="close-btn">
+            <i class="fas fa-times"></i> Fermer
+          </button>
+        </div>
+      </div>
+
+      <form id="paymentForm">
+        <div class="form-group">
+          <label for="to_name">
+            <i class="fas fa-user"></i> Nom complet:
+          </label>
+          <input
+            type="text"
+            name="to_name"
+            placeholder="Entrez votre nom complet"
+            required
+          />
+          <div class="error-message">Veuillez entrer un nom valide</div>
+          <div class="success-message">Nom valide ✓</div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            <i class="fas fa-envelope"></i> Adresse e-mail:
+          </label>
+          <input
+            type="email"
+            name="email"
+            placeholder="votre.email@exemple.com"
+            required
+          />
+          <div class="error-message">
+            Veuillez entrer une adresse e-mail valide
+          </div>
+          <div class="success-message">Adresse e-mail valide ✓</div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">
+            <i class="fas fa-dollar-sign"></i> Montant:
+          </label>
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            placeholder="Montant (USD ou FC)"
+            required
+            readonly
+          />
+          <div class="error-message">Montant invalide</div>
+          <div class="success-message">Montant confirmé ✓</div>
+        </div>
+
+        <input type="hidden" name="payment_method" id="selectedPaymentMethod" />
+        <input type="hidden" id="course_title" name="course_title" />
+        <input type="hidden" id="course_info" name="course_info" />
+        <input type="hidden" id="course_price" name="course_price" />
+        <input type="hidden" id="registration_fee" name="registration_fee" />
+        <input type="hidden" id="total_amount" name="total_amount" />
+
+        <button type="submit" id="paymentButton" disabled>
+          <i class="fas fa-credit-card"></i>
+          <span id="buttonText">Sélectionnez une méthode de paiement</span>
+        </button>
+      </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+      // Global variables
+      let selectedPaymentMethod = null;
+      let isFormValid = false;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        emailjs.init("px88hVvZZOI8odox8");
+
+        // Initialize course data
+        const title = localStorage.getItem("selectedCourseTitle") || "";
+        const info = localStorage.getItem("selectedCourseInfo") || "";
+        const price = localStorage.getItem("coursePrice") || "";
+        const fee = localStorage.getItem("registrationFee") || "";
+        const total = localStorage.getItem("selectedCourseTotal") || "";
+        const match = total.match(/([\d,.]+)\s?(FC|USD)?/i);
+        let amount = match ? parseFloat(match[1].replace(",", "")) : "";
+
+        document.getElementById("course_title").value = title;
+        document.getElementById("course_info").value = info;
+        document.getElementById("course_price").value = price;
+        document.getElementById("registration_fee").value = fee;
+        document.getElementById("total_amount").value = total;
+        document.getElementById("amount").value = amount;
+
+        // Update pricing breakdown
+        document.getElementById("coursePrice").textContent = price;
+        document.getElementById("regFee").textContent = fee;
+        document.getElementById("totalPrice").textContent = total;
+
+        document.getElementById(
+          "infoBanner"
+        ).innerHTML = `Vous avez sélectionné <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
+
+        // Initialize form validation
+        initializeFormValidation();
+
+        document
+          .getElementById("paymentForm")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const data = new FormData(this);
+            const payload = {};
+            for (let [k, v] of data.entries()) payload[k] = v.trim();
+            if (
+              !payload.to_name ||
+              !payload.email ||
+              !payload.amount ||
+              !selectedPaymentMethod
+            )
+              return Swal.fire({
+                icon: "warning",
+                title: "Missing Fields",
+                text: "Please complete all fields.",
+              });
+
+            // Progress to step 3
+            updateProgressStep(3);
+
+            try {
+              const randomId = Math.random().toString().slice(2, 12);
+              const receiptId = `Mdai${randomId}`;
+              const { jsPDF } = window.jspdf;
+              const doc = new jsPDF();
+
+              const bg = new Image();
+              bg.src = "images/MDai.png";
+              await new Promise((resolve) => (bg.onload = resolve));
+              doc.addImage(bg, "JPEG", 0, 0, 210, 297);
+
+              const watermark = new Image();
+              watermark.src = "images/MDai.png";
+              await new Promise((resolve) => (watermark.onload = resolve));
+              doc.addImage(watermark, "PNG", 60, 100, 90, 90, "", "FAST");
+
+              doc.setTextColor(0, 123, 255);
+              doc.setFont("helvetica", "bold");
+              doc.setFontSize(22);
+              doc.text("MDai Receipt", 20, 30);
+
+              doc.setTextColor(0);
+              doc.setFont("helvetica", "normal");
+              doc.setFontSize(12);
+              let y = 50;
+              doc.text(`Receipt No: ${receiptId}`, 20, y);
+              const lines = [
+                `Name: ${payload.to_name}`,
+                `Email: ${payload.email}`,
+                `Course: ${payload.course_title}`,
+                `Details: ${payload.course_info}`,
+                `Course Price: ${payload.course_price}`,
+                `Registration Fee: ${payload.registration_fee}`,
+                `Total Paid: ${payload.total_amount}`,
+                `Payment Method: ${payload.payment_method}`,
+              ];
+              lines.forEach((line) => doc.text(line, 20, (y += 10)));
+
+              doc.setTextColor(0, 128, 0);
+              doc.setFontSize(13);
+              doc.setFont("helvetica", "bold");
+              doc.text("Merci pour votre paiement !", 20, y + 10);
+
+              doc.setTextColor(100);
+              doc.setFontSize(11);
+              doc.setFont("helvetica", "italic");
+              doc.text("_______________________", 20, y + 35);
+              doc.text("Symphorien Pyana", 20, y + 42);
+              doc.text("MDai CEO", 20, y + 48);
+
+              doc.setTextColor(150);
+              doc.setFontSize(10);
+              doc.text("MDai Platform | www.mdai.xyz | info@mdai.xyz", 20, 285);
+
+              const qrData = `Receipt: ${receiptId}\nName: ${payload.to_name}\nCourse: ${payload.course_title}\nAmount: ${payload.total_amount}`;
+              const qrImage = await QRCode.toDataURL(qrData);
+              doc.addImage(qrImage, "PNG", 150, y + 15, 40, 40);
+
+              // SUPER SMART ANIMATION START
+              Swal.fire({
+                title: "🧠 Generating Receipt...",
+                html: `
           <div style="padding:20px">
             <div class="lds-spinner">
               <div></div><div></div><div></div><div></div><div></div><div></div>
@@ -401,78 +1117,188 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <p style="margin-top:15px; font-size:1rem;">Soyez patient, MDai génère votre reçu...</p>
           </div>`,
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          setTimeout(() => {
-            Swal.fire({
-              icon: 'succès',
-              title: ' Votre reçu est prêt!',
-              html: '<p style="font-size:1rem;">Cliquez sur le bouton ci-dessous pour télécharger votre reçu PDF.</p>',
-              showCancelButton: false,
-              confirmButtonText: 'Télécharger maintenant',
-              confirmButtonColor: '#28a745'
-            }).then(result => {
-              if (result.isConfirmed) {
-                doc.save(`MDai_Receipt_${receiptId}.pdf`);
-                Swal.fire({
-                  icon: 'info',
-                  title: '✅Reçu téléchargé',
-                  text: 'Merci pour votre paiement.',
-                  confirmButtonText: 'OK',
-                  confirmButtonColor: '#007bff'
-                }).then(() => {
-                  window.location.href = 'index.html';
-                });
-              }
-            });
-          }, 10000); // 10 seconds
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                  setTimeout(() => {
+                    Swal.fire({
+                      icon: "succès",
+                      title: " Votre reçu est prêt!",
+                      html: '<p style="font-size:1rem;">Cliquez sur le bouton ci-dessous pour télécharger votre reçu PDF.</p>',
+                      showCancelButton: false,
+                      confirmButtonText: "Télécharger maintenant",
+                      confirmButtonColor: "#28a745",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        doc.save(`MDai_Receipt_${receiptId}.pdf`);
+                        Swal.fire({
+                          icon: "info",
+                          title: "✅Reçu téléchargé",
+                          text: "Merci pour votre paiement.",
+                          confirmButtonText: "OK",
+                          confirmButtonColor: "#007bff",
+                        }).then(() => {
+                          window.location.href = "index.html";
+                        });
+                      }
+                    });
+                  }, 10000); // 10 seconds
+                },
+              });
+              // SUPER SMART ANIMATION END
+
+              await emailjs.send("service_osvola7", "template_12nvate", {
+                ...payload,
+                receipt_number: receiptId,
+              });
+
+              this.reset();
+              localStorage.clear();
+            } catch (err) {
+              console.error("EmailJS error:", err);
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: err?.text || "Quelque chose s'est mal passé",
+              });
+            }
+          });
+      });
+
+      // Payment Method Selection
+      function selectPaymentMethod(method) {
+        // Remove previous selection
+        document.querySelectorAll(".payment-method-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+
+        // Add selection to clicked card
+        document
+          .querySelector(`[data-method="${method}"]`)
+          .classList.add("selected");
+
+        selectedPaymentMethod = method;
+        document.getElementById("selectedPaymentMethod").value = method;
+
+        // Update button text and show/hide M-PESA button
+        const paymentButton = document.getElementById("paymentButton");
+        const buttonText = document.getElementById("buttonText");
+        const mpesaBtn = document.getElementById("mpesaBtn");
+
+        if (method === "card") {
+          buttonText.innerHTML = "Payer par carte";
+          mpesaBtn.style.display = "none";
+        } else if (method === "mobile") {
+          buttonText.innerHTML = "Payer par M-PESA";
+          mpesaBtn.style.display = "block";
         }
-      });
-      // SUPER SMART ANIMATION END
 
-      await emailjs.send("service_osvola7", "template_12nvate", {
-        ...payload,
-        receipt_number: receiptId
-      });
+        // Enable button if form is valid
+        updatePaymentButton();
 
-      this.reset();
-      localStorage.clear();
-    } catch (err) {
-      console.error("EmailJS error:", err);
-      Swal.fire({ icon: 'error', title: 'Error', text: err?.text || "Quelque chose s'est mal passé" });
-    }
-  });
+        // Progress to step 2
+        updateProgressStep(2);
+      }
 
-  document.querySelector('select[name="payment_method"]').addEventListener("change", function () {
-    if (this.value.toLowerCase() === "mobile") {
-      showMpesa();
-    }
-  });
-});
-</script>
+      // Form Validation
+      function initializeFormValidation() {
+        const nameInput = document.querySelector('input[name="to_name"]');
+        const emailInput = document.querySelector('input[name="email"]');
 
+        nameInput.addEventListener("input", validateName);
+        nameInput.addEventListener("blur", validateName);
 
-<script>
-  function showMpesa() {
-    document.getElementById("mpesaBox").classList.add("active");
-  }
-  function hideMpesa() {
-    document.getElementById("mpesaBox").classList.remove("active");
-  }
-  function copyMpesa() {
-    const number = document.querySelector(".mpesa-number").textContent;
-    navigator.clipboard.writeText(number).then(() => {
-      const feedback = document.getElementById("copy-feedback");
-      feedback.style.display = 'block';
-      setTimeout(() => feedback.style.display = 'none', 2000);
-    });
-  }
-</script>
+        emailInput.addEventListener("input", validateEmail);
+        emailInput.addEventListener("blur", validateEmail);
+      }
 
-</body>
+      function validateName() {
+        const nameInput = document.querySelector('input[name="to_name"]');
+        const formGroup = nameInput.closest(".form-group");
+        const name = nameInput.value.trim();
+
+        if (name.length < 2) {
+          setValidationState(formGroup, "error");
+          return false;
+        } else {
+          setValidationState(formGroup, "success");
+          return true;
+        }
+      }
+
+      function validateEmail() {
+        const emailInput = document.querySelector('input[name="email"]');
+        const formGroup = emailInput.closest(".form-group");
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+          setValidationState(formGroup, "error");
+          return false;
+        } else {
+          setValidationState(formGroup, "success");
+          return true;
+        }
+      }
+
+      function setValidationState(formGroup, state) {
+        formGroup.classList.remove("error", "success");
+        if (state) {
+          formGroup.classList.add(state);
+        }
+        updateFormValidation();
+      }
+
+      function updateFormValidation() {
+        const nameValid = validateName();
+        const emailValid = validateEmail();
+        isFormValid = nameValid && emailValid;
+        updatePaymentButton();
+      }
+
+      function updatePaymentButton() {
+        const paymentButton = document.getElementById("paymentButton");
+        const canProceed = isFormValid && selectedPaymentMethod;
+
+        paymentButton.disabled = !canProceed;
+
+        if (!canProceed && !selectedPaymentMethod) {
+          document.getElementById("buttonText").innerHTML =
+            "Sélectionnez une méthode de paiement";
+        } else if (!canProceed && selectedPaymentMethod) {
+          document.getElementById("buttonText").innerHTML =
+            "Complétez le formulaire";
+        }
+      }
+
+      // Progress Step Management
+      function updateProgressStep(step) {
+        document.querySelectorAll(".progress-step").forEach((stepEl, index) => {
+          stepEl.classList.remove("active", "completed");
+          if (index + 1 < step) {
+            stepEl.classList.add("completed");
+          } else if (index + 1 === step) {
+            stepEl.classList.add("active");
+          }
+        });
+      }
+    </script>
+
+    <script>
+      function showMpesa() {
+        document.getElementById("mpesaBox").classList.add("active");
+      }
+      function hideMpesa() {
+        document.getElementById("mpesaBox").classList.remove("active");
+      }
+      function copyMpesa() {
+        const number = document.querySelector(".mpesa-number").textContent;
+        navigator.clipboard.writeText(number).then(() => {
+          const feedback = document.getElementById("copy-feedback");
+          feedback.style.display = "block";
+          setTimeout(() => (feedback.style.display = "none"), 2000);
+        });
+      }
+    </script>
+  </body>
 </html>
-
-
-
-
