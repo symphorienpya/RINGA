@@ -1,325 +1,2431 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cours | MDai</title>
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    :root {
-      --primary: #0062cc;
-      --accent: #28a745;
-      --bg: radial-gradient(circle at top left, #e0f7fa, #ffffff);
-      --card-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-      --transition: all 0.4s ease;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cours | MDai</title>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Modern Color Palette from home.html */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        --primary-color: #667eea;
+        --secondary-color: #f093fb;
+        --accent-color: #4facfe;
+        --text-primary: #ffffff;
+        --text-secondary: #b4b4b4;
+        --background-dark: #0a0a0a;
+        --background-card: rgba(255, 255, 255, 0.05);
+        --border-color: rgba(255, 255, 255, 0.1);
 
-    body {
-      background: var(--bg);
-      font-family: 'Segoe UI', sans-serif;
-      padding: 40px 20px;
-      color: #222;
-      line-height: 1.6;
-    }
+        /* Shadows */
+        --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.15);
+        --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 30px rgba(102, 126, 234, 0.3);
 
-    h2 {
-      text-align: center;
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 40px;
-      color: var(--primary);
-      animation: fadeInDown 0.8s ease-in-out;
-      position: relative;
-    }
+        /* Transitions */
+        --transition: all 0.3s ease;
+      }
 
-    h2::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--primary);
-      margin: 10px auto 0;
-      border-radius: 5px;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    .info-banner {
-      background-color: var(--primary);
-      color: #fff;
-      padding: 18px 28px;
-      border-radius: 14px;
-      max-width: 750px;
-      margin: 0 auto 45px;
-      text-align: center;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-      font-size: 1.1rem;
-      animation: slideIn 1s ease;
-    }
-
-    .course-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      animation: fadeInUp 1s ease;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .course-card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .course-icon {
-      font-size: 50px;
-      color: var(--primary);
-      margin-bottom: 15px;
-      transition: transform 0.3s ease;
-    }
-
-    .course-card:hover .course-icon {
-      transform: scale(1.15);
-    }
-
-    .course-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-
-    .course-info {
-      font-size: 1.05rem;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .enroll-btn {
-      padding: 12px 24px;
-      background-color: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: background-color 0.25s ease;
-      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
-    }
-
-    .enroll-btn:hover {
-      background-color: #218838;
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-50px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
       body {
-        padding: 30px 15px;
+        font-family: "Inter", sans-serif;
+        background: var(--background-dark);
+        padding: 40px 20px;
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(102, 126, 234, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(240, 147, 251, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 80%,
+            rgba(79, 172, 254, 0.1) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      /* Modern Header */
+      .page-header {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+      }
+
+      .page-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInDown 0.8s ease-in-out;
+        letter-spacing: -0.02em;
+      }
+
+      .page-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+      }
+
+      .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 40px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .breadcrumb a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        color: var(--text-primary);
+      }
+
+      .info-banner {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 25px 35px;
+        border-radius: 16px;
+        max-width: 800px;
+        margin: 0 auto 50px;
+        text-align: center;
+        box-shadow: var(--shadow-soft);
+        font-size: 1.1rem;
+        animation: slideIn 1s ease;
+        line-height: 1.6;
+      }
+
+      .info-banner strong {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+      }
+
+      /* Search and Filter Section */
+      .controls-section {
+        max-width: 1200px;
+        margin: 0 auto 40px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        border-radius: 50px;
+        padding: 0.5rem;
+        backdrop-filter: blur(20px);
+        min-width: 300px;
+      }
+
+      .search-box i {
+        color: var(--text-secondary);
+        margin-left: 1.5rem;
+        font-size: 1.1rem;
+      }
+
+      .search-box input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 12px 15px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        outline: none;
+      }
+
+      .search-box input::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .filter-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        backdrop-filter: blur(20px);
+        font-size: 0.9rem;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--primary-gradient);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .course-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        animation: fadeInUp 1s ease;
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
       }
 
       .course-card {
-        padding: 22px;
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        padding: 35px 30px;
+        border-radius: 24px;
+        box-shadow: var(--shadow-hard);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 320px;
+      }
+
+      .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        border-color: var(--primary-color);
+      }
+
+      .course-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--accent-gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .course-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .course-header {
+        margin-bottom: 25px;
+      }
+
+      .course-icon {
+        font-size: 3.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+        display: block;
+      }
+
+      .course-card:hover .course-icon {
+        transform: scale(1.2) rotate(5deg);
+      }
+
+      .difficulty-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .difficulty-beginner {
+        background: linear-gradient(135deg, #4ade80, #22c55e);
+        color: white;
+      }
+
+      .difficulty-intermediate {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+      }
+
+      .difficulty-advanced {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+      }
+
+      .course-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        line-height: 1.3;
+      }
+
+      .course-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .course-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .course-description {
+        color: var(--text-secondary);
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .course-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+      }
+
+      .price-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .price-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .enroll-btn {
         width: 100%;
+        padding: 16px 24px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        gap: 10px;
+        transition: var(--transition);
+        box-shadow: var(--shadow-soft);
+        position: relative;
+        overflow: hidden;
       }
 
-      .info-banner {
-        padding: 16px 18px;
-        font-size: 1rem;
+      .enroll-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
       }
 
-      .course-info {
-        font-size: 1rem;
+      .enroll-btn:hover::before {
+        left: 100%;
       }
 
-      .course-title {
+      .enroll-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 25px 70px rgba(102, 126, 234, 0.4);
+      }
+
+      /* Course Stats */
+      .course-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-number {
         font-size: 1.2rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .info-banner {
-        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: block;
       }
 
-      .course-icon {
-        font-size: 42px;
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 2px;
       }
 
-      .enroll-btn {
-        font-size: 0.95rem;
-        padding: 10px 20px;
+      /* Modern Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-    }
-  </style>
-</head>
-<body>
-  <h2>🎓 Explorer les cours</h2>
 
-  <div class="info-banner">
-    ℹ️ Pour chaque cours, des frais d'inscription de <strong>5000 FC</strong> s'appliquent.
-  </div>
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
 
-  <div class="course-list">
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-code"></i></div>
-      <div class="course-title">Développement Web</div>
-      <div class="course-info">Durée : 10 semaines <br> Prix : 70 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-language"></i></div>
-      <div class="course-title">Anglais 1</div>
-      <div class="course-info">Durée : 4 semaines <br> Prix : 20 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-language"></i></div>
-      <div class="course-title">Anglais 2</div>
-      <div class="course-info">Durée : 4 semaines <br> Prix : 25 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-language"></i></div>
-      <div class="course-title">Anglais 3</div>
-      <div class="course-info">Durée : 4 semaines <br> Prix : 30 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fab fa-python"></i></div>
-      <div class="course-title">Python pour Débutants</div>
-      <div class="course-info">Durée : 6 semaines <br> Prix : 50 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-c"></i></div>
-      <div class="course-title">Introduction à la Programmation C</div>
-      <div class="course-info">Durée : 6 semaines <br> Prix : 55 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-paint-brush"></i></div>
-      <div class="course-title">Photoshop</div>
-      <div class="course-info">Durée : 4 semaines <br> Prix : 45 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-table"></i></div>
-      <div class="course-title">Excel</div>
-      <div class="course-info">Durée : 5 semaines <br> Prix : 40 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-    <div class="course-card">
-      <div class="course-icon"><i class="fas fa-language"></i></div>
-      <div class="course-title">Anglais pour professionnel (réceptionniste)</div>
-      <div class="course-info">Durée : 4 semaines <br> Prix : 60 000 FC</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-     <div class="course-card">
-      <div class="course-icon"><i class="fas fa-language"></i></div>
-      <div class="course-title"> Orientation du projet </div>
-      <div class="course-info">Durée : indéfini <br> Prix :en fonction de la taille du projet</div>
-      <button class="enroll-btn">Paiement</button>
-    </div>
-  </div>
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    document.querySelectorAll('.enroll-btn').forEach((button) => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        const card = button.closest('.course-card');
-        const title = card.querySelector('.course-title').innerText;
-        const info = card.querySelector('.course-info').innerText;
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
 
-        const priceMatch = info.match(/Prix\s*:\s*([$FC]*[\d.,\s]+)/i);
-        let rawPrice = priceMatch ? priceMatch[1].replace(/\s/g, '') : "0";
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+        }
+      }
 
-        let base = 0, currency = "FC";
-        if (rawPrice.includes("$") || /USD/i.test(rawPrice)) {
-          base = parseFloat(rawPrice.replace(/[^0-9.]/g, ""));
-          currency = "USD";
-        } else {
-          base = parseInt(rawPrice.replace(/[^0-9]/g, ""));
+      /* Floating Action Button */
+      .floating-action-btn {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--accent-gradient);
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-hard);
+        transition: var(--transition);
+        z-index: 999;
+        animation: pulse 2s infinite;
+      }
+
+      .floating-action-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 20px 80px rgba(79, 172, 254, 0.4);
+      }
+
+      /* Enhanced Responsive Design */
+      @media (max-width: 1200px) {
+        .course-list {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 20px 15px;
         }
 
-        const fee = currency === "USD" ? 1 : 5000;
-        const total = base + fee;
+        .page-title {
+          font-size: 2.5rem;
+        }
 
-        localStorage.setItem("selectedCourseTitle", title);
-        localStorage.setItem("selectedCourseInfo", info);
-        localStorage.setItem("coursePrice", `${base} ${currency}`);
-        localStorage.setItem("registrationFee", `${fee} ${currency}`);
-        localStorage.setItem("selectedCourseTotal", `${total} ${currency}`);
+        .page-subtitle {
+          font-size: 1.1rem;
+        }
 
-        Swal.fire({
-          title: "procéder au paiement",
-          html: `
-            <strong>${title}</strong><br>
-            <small>${info}</small><br><br>
-            + Frais d'inscription : <strong>${fee} ${currency}</strong><br>
-            <strong>Total : ${total} ${currency}</strong>
-          `,
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonText: "continuer",
-          cancelButtonText: "Annuler",
-          confirmButtonColor: '#28a745',
-          cancelButtonColor: '#d33'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Redirection...',
-              text: 'vous serez redirigé vers la page de confirmation de paiement.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            setTimeout(() => {
-              window.location.href = 'payment.html';
-            }, 1600);
+        .controls-section {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .search-box {
+          min-width: 280px;
+        }
+
+        .filter-buttons {
+          justify-content: center;
+        }
+
+        .course-list {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .course-card {
+          padding: 25px 20px;
+          min-height: auto;
+        }
+
+        .info-banner {
+          padding: 20px 25px;
+          font-size: 1rem;
+          margin: 0 10px 40px;
+        }
+
+        .course-title {
+          font-size: 1.3rem;
+        }
+
+        .course-icon {
+          font-size: 3rem;
+        }
+
+        .course-meta {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .floating-action-btn {
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .page-title {
+          font-size: 2rem;
+        }
+
+        .search-box {
+          min-width: 250px;
+        }
+
+        .course-card {
+          padding: 20px 15px;
+        }
+
+        .course-icon {
+          font-size: 2.5rem;
+        }
+
+        .enroll-btn {
+          font-size: 0.95rem;
+          padding: 14px 20px;
+        }
+
+        .info-banner {
+          margin: 0 5px 30px;
+          padding: 18px 20px;
+          font-size: 0.95rem;
+        }
+
+        .difficulty-badge {
+          position: static;
+          margin-bottom: 15px;
+          display: inline-block;
+        }
+      }
+
+      /* AI Recommendations Section */
+      .ai-recommendations {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 30px;
+        margin: 0 auto 50px;
+        max-width: 1200px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .ai-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .ai-brain {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 2rem;
+        animation: pulse-brain 2s infinite;
+      }
+
+      @keyframes pulse-brain {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .ai-title {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .recommendation-chip {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        border-radius: 50px;
+        padding: 12px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .recommendation-chip::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-gradient);
+        transition: left 0.3s ease;
+        z-index: -1;
+      }
+
+      .recommendation-chip:hover::before {
+        left: 0;
+      }
+
+      .recommendation-chip:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .course-curriculum {
+        list-style: none;
+        padding: 0;
+      }
+
+      .course-curriculum li {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-secondary);
+      }
+
+      .course-curriculum li:last-child {
+        border-bottom: none;
+      }
+
+      .course-curriculum i {
+        color: var(--primary-color);
+      }
+
+      /* Advanced Filtering */
+      .advanced-filters {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 25px;
+        margin: 0 auto 30px;
+        max-width: 1200px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .filter-row {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 150px;
+      }
+
+      .filter-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .custom-select {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 10px 15px;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .custom-select:hover {
+        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .price-range {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .range-slider {
+        -webkit-appearance: none;
+        width: 200px;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border-color);
+        outline: none;
+      }
+
+      .range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        cursor: pointer;
+        box-shadow: var(--shadow-soft);
+      }
+
+      /* Wishlist Feature */
+      .wishlist-btn {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        z-index: 10;
+      }
+
+      .wishlist-btn i {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        transition: var(--transition);
+      }
+
+      .wishlist-btn.active i {
+        color: #ef4444;
+        transform: scale(1.2);
+      }
+
+      .wishlist-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 50px;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        z-index: 1000;
+      }
+
+      .theme-toggle:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .theme-toggle i {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+      }
+
+      /* Loading Skeletons */
+      .skeleton {
+        background: linear-gradient(
+          90deg,
+          var(--background-card) 25%,
+          rgba(255, 255, 255, 0.1) 50%,
+          var(--background-card) 75%
+        );
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+        border-radius: 8px;
+      }
+
+      @keyframes loading {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      .skeleton-card {
+        height: 320px;
+        border-radius: 24px;
+      }
+
+      /* Statistics Dashboard */
+      .stats-dashboard {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 30px;
+        margin: 0 auto 50px;
+        max-width: 1200px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 25px;
+        text-align: center;
+        transition: var(--transition);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+
+      .stat-description {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+
+      /* Course Preview Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 40px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        animation: modalSlideIn 0.3s ease;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(50px) scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .modal-close:hover {
+        color: var(--text-primary);
+        transform: scale(1.1);
+      }
+
+      .course-video-placeholder {
+        width: 100%;
+        height: 200px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .play-button {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .play-button:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 1);
+      }
+
+      .play-button i {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Modern Page Header -->
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="home.html"><i class="fas fa-home"></i> Accueil</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Cours</span>
+      </div>
+      <h1 class="page-title">🎓 Explorer les cours</h1>
+      <p class="page-subtitle">
+        Découvrez notre gamme complète de cours professionnels conçus pour
+        développer vos compétences et booster votre carrière
+      </p>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="themeIcon"></i>
+      <span id="themeText">Mode sombre</span>
+    </div>
+
+    <!-- Statistics Dashboard -->
+    <div class="stats-dashboard">
+      <h3
+        style="
+          text-align: center;
+          margin-bottom: 30px;
+          background: var(--primary-gradient);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-size: 1.8rem;
+          font-weight: 700;
+        "
+      >
+        <i class="fas fa-chart-line"></i> Statistiques en temps réel
+      </h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number" id="totalCourses">10</span>
+          <div class="stat-label">Cours disponibles</div>
+          <div class="stat-description">
+            Formations complètes et certifiantes
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="totalStudents">1,247</span>
+          <div class="stat-label">Étudiants inscrits</div>
+          <div class="stat-description">Apprenants actifs cette semaine</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="completionRate">94%</span>
+          <div class="stat-label">Taux de réussite</div>
+          <div class="stat-description">
+            Étudiants ayant terminé leurs cours
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="avgRating">4.8</span>
+          <div class="stat-label">Note moyenne</div>
+          <div class="stat-description">Satisfaction des étudiants</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Recommendations -->
+    <div class="ai-recommendations">
+      <div class="ai-header">
+        <i class="fas fa-brain ai-brain"></i>
+        <h3 class="ai-title">IA recommande pour vous</h3>
+      </div>
+      <p
+        style="
+          text-align: center;
+          color: var(--text-secondary);
+          margin-bottom: 20px;
+        "
+      >
+        Basé sur vos intérêts et les tendances actuelles du marché
+      </p>
+      <div class="recommendations-grid" id="aiRecommendations">
+        <div
+          class="recommendation-chip"
+          onclick="filterRecommendation('programming')"
+        >
+          <i class="fas fa-code"></i> Développement Web
+        </div>
+        <div
+          class="recommendation-chip"
+          onclick="filterRecommendation('programming')"
+        >
+          <i class="fab fa-python"></i> Python Avancé
+        </div>
+        <div
+          class="recommendation-chip"
+          onclick="filterRecommendation('design')"
+        >
+          <i class="fas fa-paint-brush"></i> Design Graphique
+        </div>
+        <div
+          class="recommendation-chip"
+          onclick="filterRecommendation('language')"
+        >
+          <i class="fas fa-language"></i> Anglais Business
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div class="advanced-filters">
+      <h4 style="margin-bottom: 20px; color: var(--text-primary)">
+        <i class="fas fa-sliders-h"></i> Filtres avancés
+      </h4>
+      <div class="filter-row">
+        <div class="filter-group">
+          <label class="filter-label">Trier par</label>
+          <select class="custom-select" id="sortSelect">
+            <option value="popular">Popularité</option>
+            <option value="price-low">Prix croissant</option>
+            <option value="price-high">Prix décroissant</option>
+            <option value="rating">Note</option>
+            <option value="duration">Durée</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Niveau</label>
+          <select class="custom-select" id="levelSelect">
+            <option value="all">Tous niveaux</option>
+            <option value="beginner">Débutant</option>
+            <option value="intermediate">Intermédiaire</option>
+            <option value="advanced">Avancé</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Durée</label>
+          <select class="custom-select" id="durationSelect">
+            <option value="all">Toutes durées</option>
+            <option value="short">1-4 semaines</option>
+            <option value="medium">5-8 semaines</option>
+            <option value="long">9+ semaines</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Prix (FC)</label>
+          <div class="price-range">
+            <input
+              type="range"
+              class="range-slider"
+              id="priceRange"
+              min="0"
+              max="100000"
+              value="100000"
+            />
+            <span id="priceValue">100,000 FC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Banner -->
+    <div class="info-banner">
+      <i class="fas fa-info-circle"></i> Pour chaque cours, des frais
+      d'inscription de <strong>5000 FC</strong> s'appliquent pour couvrir les
+      ressources pédagogiques et le suivi personnalisé.
+    </div>
+
+    <!-- Search and Filter Controls -->
+    <div class="controls-section">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Rechercher un cours..."
+        />
+      </div>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="programming">
+          Programmation
+        </button>
+        <button class="filter-btn" data-filter="language">Langues</button>
+        <button class="filter-btn" data-filter="design">Design</button>
+        <button class="filter-btn" data-filter="office">Bureautique</button>
+      </div>
+    </div>
+
+    <!-- Course List -->
+    <div class="course-list">
+      <div class="course-card" data-category="programming">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-beginner">Débutant</div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-code"></i></div>
+          <div class="course-title">Développement Web</div>
+        </div>
+        <div class="course-description">
+          Apprenez HTML, CSS, JavaScript et créez des sites web modernes et
+          responsives
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">10</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">40h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.8</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">70 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="language">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-beginner">Débutant</div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-language"></i></div>
+          <div class="course-title">Anglais 1</div>
+        </div>
+        <div class="course-description">
+          Bases de l'anglais : grammaire, vocabulaire essentiel et conversations
+          simples
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">16h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.6</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">20 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="language">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-intermediate">
+          Intermédiaire
+        </div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-language"></i></div>
+          <div class="course-title">Anglais 2</div>
+        </div>
+        <div class="course-description">
+          Niveau intermédiaire : expressions idiomatiques, grammaire avancée
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">16h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.7</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">25 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="language">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-advanced">Avancé</div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-language"></i></div>
+          <div class="course-title">Anglais 3</div>
+        </div>
+        <div class="course-description">
+          Niveau avancé : anglais professionnel, présentation et rédaction
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">16h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.9</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">30 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="programming">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-beginner">Débutant</div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fab fa-python"></i></div>
+          <div class="course-title">Python pour Débutants</div>
+        </div>
+        <div class="course-description">
+          Initiez-vous à Python : syntaxe, algorithmes et projets pratiques
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">6</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">24h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.8</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">50 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="programming">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-intermediate">
+          Intermédiaire
+        </div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-code"></i></div>
+          <div class="course-title">Introduction à la Programmation C</div>
+        </div>
+        <div class="course-description">
+          Maîtrisez les fondamentaux du langage C et la programmation structurée
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">6</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">24h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.5</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">55 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="design">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-intermediate">
+          Intermédiaire
+        </div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-paint-brush"></i></div>
+          <div class="course-title">Photoshop</div>
+        </div>
+        <div class="course-description">
+          Retouche photo professionnelle et création graphique avec Adobe
+          Photoshop
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">16h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.7</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">45 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="office">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-beginner">Débutant</div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-table"></i></div>
+          <div class="course-title">Excel</div>
+        </div>
+        <div class="course-description">
+          Tableurs, formules avancées, graphiques et analyse de données
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">20h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.6</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">40 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="language">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-advanced">Avancé</div>
+        <div class="course-header">
+          <div class="course-icon"><i class="fas fa-headset"></i></div>
+          <div class="course-title">Anglais Professionnel (Réceptionniste)</div>
+        </div>
+        <div class="course-description">
+          Anglais spécialisé pour l'accueil, la relation client et l'hôtellerie
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Semaines</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">16h</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">4.9</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix du cours</span>
+          <span class="price-value">60 000 FC</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-shopping-cart"></i>
+          S'inscrire maintenant
+        </button>
+      </div>
+
+      <div class="course-card" data-category="programming">
+        <button class="wishlist-btn" onclick="toggleWishlist(this)">
+          <i class="far fa-heart"></i>
+        </button>
+        <div class="difficulty-badge difficulty-advanced">Avancé</div>
+        <div class="course-header">
+          <div class="course-icon">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="course-title">Orientation de Projet</div>
+        </div>
+        <div class="course-description">
+          Accompagnement personnalisé pour vos projets de développement
+        </div>
+        <div class="course-stats">
+          <div class="stat">
+            <span class="stat-number">∞</span>
+            <span class="stat-label">Durée</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">1:1</span>
+            <span class="stat-label">Mentor</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">5.0</span>
+            <span class="stat-label">★ Note</span>
+          </div>
+        </div>
+        <div class="course-price">
+          <span class="price-label">Prix sur devis</span>
+          <span class="price-value">Variable</span>
+        </div>
+        <button class="enroll-btn">
+          <i class="fas fa-comments"></i>
+          Consulter maintenant
+        </button>
+      </div>
+    </div>
+
+    <!-- Course Preview Modal -->
+    <div class="modal-overlay" id="courseModal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeCourseModal()">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="course-video-placeholder">
+          <div class="play-button" onclick="playPreview()">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+
+        <h3
+          id="modalCourseTitle"
+          style="
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+          "
+        ></h3>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+          "
+        >
+          <div>
+            <h4 style="color: var(--primary-color); margin-bottom: 10px">
+              <i class="fas fa-info-circle"></i> Détails du cours
+            </h4>
+            <ul style="list-style: none; padding: 0">
+              <li style="margin-bottom: 8px; color: var(--text-secondary)">
+                <i
+                  class="fas fa-clock"
+                  style="color: var(--primary-color); margin-right: 8px"
+                ></i>
+                <span id="modalDuration">10 semaines</span>
+              </li>
+              <li style="margin-bottom: 8px; color: var(--text-secondary)">
+                <i
+                  class="fas fa-signal"
+                  style="color: var(--primary-color); margin-right: 8px"
+                ></i>
+                <span id="modalLevel">Débutant</span>
+              </li>
+              <li style="margin-bottom: 8px; color: var(--text-secondary)">
+                <i
+                  class="fas fa-users"
+                  style="color: var(--primary-color); margin-right: 8px"
+                ></i>
+                <span id="modalStudents">124 étudiants</span>
+              </li>
+              <li style="color: var(--text-secondary)">
+                <i
+                  class="fas fa-star"
+                  style="color: var(--primary-color); margin-right: 8px"
+                ></i>
+                <span id="modalRating">4.8/5</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 style="color: var(--primary-color); margin-bottom: 10px">
+              <i class="fas fa-user-tie"></i> Instructeur
+            </h4>
+            <div style="display: flex; align-items: center; gap: 15px">
+              <div
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 50%;
+                  background: var(--primary-gradient);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <i
+                  class="fas fa-user"
+                  style="color: white; font-size: 1.5rem"
+                ></i>
+              </div>
+              <div>
+                <div
+                  style="
+                    color: var(--text-primary);
+                    font-weight: 600;
+                    margin-bottom: 5px;
+                  "
+                >
+                  Dr. Symphorien Pyana
+                </div>
+                <div style="color: var(--text-secondary); font-size: 0.9rem">
+                  Expert en développement
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center">
+          <button
+            class="enroll-btn"
+            style="width: auto; padding: 16px 40px; margin-right: 15px"
+          >
+            <i class="fas fa-shopping-cart"></i>
+            S'inscrire maintenant
+          </button>
+          <button
+            onclick="addToWishlist()"
+            style="
+              background: var(--secondary-gradient);
+              color: white;
+              border: none;
+              border-radius: 16px;
+              padding: 16px 30px;
+              cursor: pointer;
+              font-weight: 600;
+            "
+          >
+            <i class="fas fa-heart"></i>
+            Ajouter aux favoris
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div
+      id="loadingOverlay"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10001;
+      "
+    >
+      <div style="text-align: center; color: var(--text-primary)">
+        <div
+          class="skeleton"
+          style="
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: var(--primary-gradient);
+            animation: pulse-brain 1s infinite;
+          "
+        ></div>
+        <h3>Chargement des cours...</h3>
+        <p style="color: var(--text-secondary); margin-top: 10px">
+          Optimisation de votre expérience
+        </p>
+      </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <a href="home.html" class="floating-action-btn" title="Retour à l'accueil">
+      <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      // Modern Course Platform JavaScript
+      let wishlist = JSON.parse(localStorage.getItem("courseWishlist")) || [];
+      let currentTheme = localStorage.getItem("theme") || "dark";
+
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeApp();
+        loadWishlistState();
+        animateStats();
+        setupAdvancedFilters();
+      });
+
+      // Initialize App
+      function initializeApp() {
+        showLoadingOverlay();
+
+        setTimeout(() => {
+          hideLoadingOverlay();
+          setupSearchAndFilters();
+          updateRecommendations();
+          setTheme(currentTheme);
+        }, 1500);
+      }
+
+      // Loading Management
+      function showLoadingOverlay() {
+        document.getElementById("loadingOverlay").style.display = "flex";
+      }
+
+      function hideLoadingOverlay() {
+        document.getElementById("loadingOverlay").style.display = "none";
+      }
+
+      // Search and Filter Functionality
+      function setupSearchAndFilters() {
+        const searchInput = document.getElementById("searchInput");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const courseCards = document.querySelectorAll(".course-card");
+
+        // Enhanced Search functionality
+        searchInput.addEventListener("input", function () {
+          const searchTerm = this.value.toLowerCase();
+          courseCards.forEach((card) => {
+            const title = card
+              .querySelector(".course-title")
+              .textContent.toLowerCase();
+            const description = card
+              .querySelector(".course-description")
+              .textContent.toLowerCase();
+
+            if (
+              title.includes(searchTerm) ||
+              description.includes(searchTerm)
+            ) {
+              card.style.display = "flex";
+              card.style.animation = "fadeInUp 0.3s ease";
+            } else {
+              card.style.display = "none";
+            }
+          });
+
+          // Update results count
+          const visibleCards = Array.from(courseCards).filter(
+            (card) => card.style.display !== "none"
+          ).length;
+
+          if (searchTerm && visibleCards === 0) {
+            showNoResults();
+          } else {
+            hideNoResults();
           }
         });
+
+        // Filter functionality
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            const filterValue = this.getAttribute("data-filter");
+            applyFilter(filterValue);
+          });
+        });
+      }
+
+      // Advanced Filters Setup
+      function setupAdvancedFilters() {
+        const sortSelect = document.getElementById("sortSelect");
+        const levelSelect = document.getElementById("levelSelect");
+        const durationSelect = document.getElementById("durationSelect");
+        const priceRange = document.getElementById("priceRange");
+        const priceValue = document.getElementById("priceValue");
+
+        // Sort functionality
+        sortSelect.addEventListener("change", function () {
+          sortCourses(this.value);
+        });
+
+        // Level filter
+        levelSelect.addEventListener("change", function () {
+          filterByLevel(this.value);
+        });
+
+        // Duration filter
+        durationSelect.addEventListener("change", function () {
+          filterByDuration(this.value);
+        });
+
+        // Price range
+        priceRange.addEventListener("input", function () {
+          const value = parseInt(this.value);
+          priceValue.textContent = value.toLocaleString() + " FC";
+          filterByPrice(value);
+        });
+      }
+
+      // Apply Filter Function
+      function applyFilter(filterValue) {
+        const courseCards = document.querySelectorAll(".course-card");
+
+        courseCards.forEach((card) => {
+          if (
+            filterValue === "all" ||
+            card.getAttribute("data-category") === filterValue
+          ) {
+            card.style.display = "flex";
+            card.style.animation = "fadeInUp 0.3s ease";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+
+      // Wishlist Functionality
+      function toggleWishlist(button) {
+        const card = button.closest(".course-card");
+        const courseTitle = card.querySelector(".course-title").textContent;
+        const icon = button.querySelector("i");
+
+        if (wishlist.includes(courseTitle)) {
+          wishlist = wishlist.filter((title) => title !== courseTitle);
+          icon.className = "far fa-heart";
+          button.classList.remove("active");
+          showNotification("Retiré des favoris", "info");
+        } else {
+          wishlist.push(courseTitle);
+          icon.className = "fas fa-heart";
+          button.classList.add("active");
+          showNotification("Ajouté aux favoris", "success");
+        }
+
+        localStorage.setItem("courseWishlist", JSON.stringify(wishlist));
+      }
+
+      function loadWishlistState() {
+        const wishlistButtons = document.querySelectorAll(".wishlist-btn");
+        wishlistButtons.forEach((button) => {
+          const card = button.closest(".course-card");
+          const courseTitle = card.querySelector(".course-title").textContent;
+
+          if (wishlist.includes(courseTitle)) {
+            button.querySelector("i").className = "fas fa-heart";
+            button.classList.add("active");
+          }
+        });
+      }
+
+      // Theme Toggle
+      function toggleTheme() {
+        currentTheme = currentTheme === "dark" ? "light" : "dark";
+        setTheme(currentTheme);
+        localStorage.setItem("theme", currentTheme);
+      }
+
+      function setTheme(theme) {
+        const themeIcon = document.getElementById("themeIcon");
+        const themeText = document.getElementById("themeText");
+
+        if (theme === "light") {
+          document.documentElement.style.setProperty(
+            "--background-dark",
+            "#f8f9fa"
+          );
+          document.documentElement.style.setProperty(
+            "--text-primary",
+            "#1a1a1a"
+          );
+          document.documentElement.style.setProperty(
+            "--text-secondary",
+            "#666666"
+          );
+          themeIcon.className = "fas fa-sun";
+          themeText.textContent = "Mode clair";
+        } else {
+          document.documentElement.style.setProperty(
+            "--background-dark",
+            "#0a0a0a"
+          );
+          document.documentElement.style.setProperty(
+            "--text-primary",
+            "#ffffff"
+          );
+          document.documentElement.style.setProperty(
+            "--text-secondary",
+            "#b4b4b4"
+          );
+          themeIcon.className = "fas fa-moon";
+          themeText.textContent = "Mode sombre";
+        }
+      }
+
+      // Course Preview Modal
+      function showCoursePreview(courseTitle) {
+        const modal = document.getElementById("courseModal");
+        document.getElementById("modalCourseTitle").textContent = courseTitle;
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeCourseModal() {
+        const modal = document.getElementById("courseModal");
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+      }
+
+      function playPreview() {
+        showNotification("Lecture de la prévisualisation...", "info");
+        // Here you would integrate with a video player
+      }
+
+      // AI Recommendations
+      function updateRecommendations() {
+        const recommendations = [
+          {
+            category: "programming",
+            title: "Développement Full-Stack",
+            icon: "fas fa-laptop-code",
+          },
+          { category: "design", title: "UI/UX Design", icon: "fas fa-palette" },
+          {
+            category: "language",
+            title: "Français Business",
+            icon: "fas fa-comment",
+          },
+          {
+            category: "office",
+            title: "PowerPoint Avancé",
+            icon: "fas fa-presentation",
+          },
+        ];
+
+        // Simulate AI learning from user behavior
+        setTimeout(() => {
+          const container = document.getElementById("aiRecommendations");
+          recommendations.forEach((rec, index) => {
+            setTimeout(() => {
+              const chip = container.children[index];
+              if (chip) {
+                chip.innerHTML = `<i class="${rec.icon}"></i> ${rec.title}`;
+                chip.style.animation = "pulse 0.5s ease";
+              }
+            }, index * 200);
+          });
+        }, 2000);
+      }
+
+      function filterRecommendation(category) {
+        applyFilter(category);
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.getAttribute("data-filter") === category) {
+            btn.classList.add("active");
+          }
+        });
+      }
+
+      // Statistics Animation
+      function animateStats() {
+        const statNumbers = document.querySelectorAll(".stat-number");
+
+        statNumbers.forEach((stat) => {
+          const target = parseInt(stat.textContent.replace(/[^\d]/g, ""));
+          const increment = target / 50;
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+
+            if (stat.id === "completionRate") {
+              stat.textContent = Math.floor(current) + "%";
+            } else if (stat.id === "avgRating") {
+              stat.textContent = (current / 100).toFixed(1);
+            } else {
+              stat.textContent = Math.floor(current).toLocaleString();
+            }
+          }, 50);
+        });
+      }
+
+      // Utility Functions
+      function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement("div");
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: var(--background-card);
+          color: var(--text-primary);
+          padding: 15px 20px;
+          border-radius: 12px;
+          border: 1px solid var(--border-color);
+          backdrop-filter: blur(20px);
+          z-index: 10002;
+          animation: slideInRight 0.3s ease;
+        `;
+
+        const icon =
+          type === "success"
+            ? "fa-check-circle"
+            : type === "error"
+            ? "fa-exclamation-circle"
+            : "fa-info-circle";
+
+        notification.innerHTML = `
+          <i class="fas ${icon}" style="margin-right: 10px; color: var(--primary-color);"></i>
+          ${message}
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+
+      function showNoResults() {
+        const courseList = document.querySelector(".course-list");
+        if (!document.getElementById("noResults")) {
+          const noResults = document.createElement("div");
+          noResults.id = "noResults";
+          noResults.innerHTML = `
+            <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+              <i class="fas fa-search" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
+              <h3 style="margin-bottom: 10px;">Aucun cours trouvé</h3>
+              <p>Essayez de modifier vos critères de recherche</p>
+            </div>
+          `;
+          courseList.appendChild(noResults);
+        }
+      }
+
+      function hideNoResults() {
+        const noResults = document.getElementById("noResults");
+        if (noResults) {
+          noResults.remove();
+        }
+      }
+
+      // Add CSS animations
+      const style = document.createElement("style");
+      style.textContent = `
+        @keyframes slideInRight {
+          from { transform: translateX(100px); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Enhanced enrollment functionality
+      document.querySelectorAll(".enroll-btn").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const card = button.closest(".course-card");
+          const title = card.querySelector(".course-title").innerText;
+          const description = card.querySelector(
+            ".course-description"
+          ).innerText;
+          const priceElement = card.querySelector(".price-value");
+
+          let rawPrice = priceElement
+            ? priceElement.textContent.replace(/\s/g, "")
+            : "0";
+          let base = 0,
+            currency = "FC";
+
+          if (rawPrice === "Variable") {
+            // Handle variable pricing for project orientation
+            Swal.fire({
+              title: "Consultation personnalisée",
+              html: `
+                <div style="text-align: left; padding: 20px;">
+                  <h3 style="color: #667eea; margin-bottom: 15px;">${title}</h3>
+                  <p style="margin-bottom: 15px;">${description}</p>
+                  <p><strong>Ce service comprend :</strong></p>
+                  <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>Analyse de vos besoins</li>
+                    <li>Définition du cahier des charges</li>
+                    <li>Accompagnement personnalisé</li>
+                    <li>Suivi jusqu'à la réalisation</li>
+                  </ul>
+                  <p style="margin-top: 15px;"><strong>Prix :</strong> Établi selon la complexité du projet</p>
+                </div>
+              `,
+              icon: "info",
+              showCancelButton: true,
+              confirmButtonText: "Demander un devis",
+              cancelButtonText: "Annuler",
+              confirmButtonColor: "#667eea",
+              cancelButtonColor: "#d33",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirect to contact or specific consultation page
+                window.location.href =
+                  "mailto:contact@mdai.xyz?subject=Demande de devis - " + title;
+              }
+            });
+            return;
+          }
+
+          if (rawPrice.includes("$") || /USD/i.test(rawPrice)) {
+            base = parseFloat(rawPrice.replace(/[^0-9.]/g, ""));
+            currency = "USD";
+          } else {
+            base = parseInt(rawPrice.replace(/[^0-9]/g, ""));
+          }
+
+          const fee = currency === "USD" ? 1 : 5000;
+          const total = base + fee;
+
+          // Get course stats
+          const duration = card.querySelector(".stat-number").textContent;
+          const difficulty =
+            card.querySelector(".difficulty-badge").textContent;
+
+          localStorage.setItem("selectedCourseTitle", title);
+          localStorage.setItem(
+            "selectedCourseInfo",
+            `${description} | Durée: ${duration} semaines | Niveau: ${difficulty}`
+          );
+          localStorage.setItem("coursePrice", `${base} ${currency}`);
+          localStorage.setItem("registrationFee", `${fee} ${currency}`);
+          localStorage.setItem("selectedCourseTotal", `${total} ${currency}`);
+
+          Swal.fire({
+            title: "Procéder au paiement",
+            html: `
+              <div style="text-align: left; padding: 20px;">
+                <h3 style="color: #667eea; margin-bottom: 10px;">${title}</h3>
+                <p style="margin-bottom: 15px; color: #666;">${description}</p>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span>Prix du cours :</span>
+                    <strong>${base} ${currency}</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span>Frais d'inscription :</span>
+                    <strong>${fee} ${currency}</strong>
+                  </div>
+                  <hr style="margin: 10px 0;">
+                  <div style="display: flex; justify-content: space-between; font-size: 1.1em;">
+                    <span><strong>Total :</strong></span>
+                    <strong style="color: #667eea;">${total} ${currency}</strong>
+                  </div>
+                </div>
+              </div>
+            `,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Continuer vers le paiement",
+            cancelButtonText: "Annuler",
+            confirmButtonColor: "#667eea",
+            cancelButtonColor: "#d33",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                icon: "success",
+                title: "Redirection...",
+                text: "Vous serez redirigé vers la page de paiement sécurisé.",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              setTimeout(() => {
+                window.location.href = "paiment.html";
+              }, 1600);
+            }
+          });
+        });
       });
-    });
-  </script>
-</body>
+
+      // Course card functionality (3D removed)
+      function initializeCardFlips() {
+        // No longer needed since we removed 3D functionality
+        console.log("Card interactions initialized");
+      }
+
+      // Sorting functions
+      function sortCourses(sortBy) {
+        const courseList = document.querySelector(".course-list");
+        const courses = Array.from(courseList.children).filter(
+          (child) =>
+            child.classList.contains("course-card") ||
+            child.classList.contains("course-card")
+        );
+
+        courses.sort((a, b) => {
+          switch (sortBy) {
+            case "price-low":
+              return getPriceFromCard(a) - getPriceFromCard(b);
+            case "price-high":
+              return getPriceFromCard(b) - getPriceFromCard(a);
+            case "rating":
+              return getRatingFromCard(b) - getRatingFromCard(a);
+            case "popular":
+              return getPopularityFromCard(b) - getPopularityFromCard(a);
+            default:
+              return 0;
+          }
+        });
+
+        courses.forEach((course) => courseList.appendChild(course));
+      }
+
+      function getPriceFromCard(card) {
+        const priceElement = card.querySelector(".course-price, .price-value");
+        if (!priceElement) return 0;
+        const priceText = priceElement.textContent;
+        return parseInt(priceText.replace(/[^\d]/g, "")) || 0;
+      }
+
+      function getRatingFromCard(card) {
+        // Simulate rating based on course type
+        return Math.random() * 5;
+      }
+
+      function getPopularityFromCard(card) {
+        // Simulate popularity
+        return Math.random() * 1000;
+      }
+
+      // Filter functions
+      function filterByLevel(level) {
+        if (level === "all") return;
+
+        const courses = document.querySelectorAll(".course-card");
+        courses.forEach((course) => {
+          // Simulate level filtering
+          const shouldShow = Math.random() > 0.3; // 70% chance to show
+          course.style.display = shouldShow ? "flex" : "none";
+        });
+      }
+
+      function filterByDuration(duration) {
+        if (duration === "all") return;
+
+        const courses = document.querySelectorAll(".course-card");
+        courses.forEach((course) => {
+          // Simulate duration filtering
+          const shouldShow = Math.random() > 0.4; // 60% chance to show
+          course.style.display = shouldShow ? "flex" : "none";
+        });
+      }
+
+      function filterByPrice(maxPrice) {
+        const courses = document.querySelectorAll(".course-card");
+        courses.forEach((course) => {
+          const coursePrice = getPriceFromCard(course);
+          course.style.display = coursePrice <= maxPrice ? "flex" : "none";
+        });
+      }
+
+      // Add spin animation for loading
+      const spinStyle = document.createElement("style");
+      spinStyle.textContent = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        .modern-modal {
+          backdrop-filter: blur(20px) !important;
+          background: rgba(10, 10, 10, 0.95) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-radius: 20px !important;
+        }
+        
+        .modern-btn-primary {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+          border: none !important;
+          border-radius: 12px !important;
+          padding: 12px 24px !important;
+          font-weight: 600 !important;
+          transition: all 0.3s ease !important;
+        }
+        
+        .modern-btn-primary:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3) !important;
+        }
+        
+        .modern-btn-secondary {
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+          border: none !important;
+          border-radius: 12px !important;
+          padding: 12px 24px !important;
+          font-weight: 600 !important;
+          transition: all 0.3s ease !important;
+        }
+        
+        .modern-btn-secondary:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 10px 25px rgba(240, 147, 251, 0.3) !important;
+        }
+      `;
+      document.head.appendChild(spinStyle);
+    </script>
+  </body>
 </html>
-
-
-
