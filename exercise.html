@@ -1,180 +1,1505 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDai Brain | Plateforme d'Éducation IA</title>
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f3f4f6, #e3f2fd);
-      color: #333;
-      overflow-x: hidden;
-    }
-    header {
-      background: url('https://images.unsplash.com/photo-1581091870620-fd1c247f0316') center/cover;
-      height: 80vh;
-      color: white;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-    }
-    header::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 0;
-    }
-    header h1, header span {
-      position: relative;
-      z-index: 1;
-    }
-    header h1 {
-      font-size: 4rem;
-      font-weight: 800;
-    }
-    header span {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      color: #e3f2fd;
-    }
-    nav {
-      background: #1565c0;
-      padding: 10px 0;
-      text-align: center;
-      animation: slideInDown 1.2s ease;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    nav a:hover {
-      color: #ffeb3b;
-    }
-    .hero-video {
-      margin-top: 40px;
-      display: flex;
-      justify-content: center;
-    }
-    .hero-video iframe {
-      width: 90%;
-      max-width: 800px;
-      height: 450px;
-      border-radius: 20px;
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-    }
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-      padding: 60px 20px;
-      background: #f8f9fa;
-      text-align: center;
-    }
-    .features div {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-    }
-    .features div:hover {
-      transform: translateY(-5px);
-    }
-    .features i {
-      font-size: 40px;
-      color: #1565c0;
-      margin-bottom: 15px;
-    }
-    footer {
-      background: #0d47a1;
-      color: white;
-      text-align: center;
-      padding: 20px 10px;
-      margin-top: 40px;
-    }
-    @keyframes slideInDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MDai Exercises | Plateforme d'Éducation IA Avancée</title>
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        /* Modern Color Palette */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        --hero-gradient: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 50%,
+          #f093fb 100%
+        );
+
+        --primary-color: #667eea;
+        --secondary-color: #f093fb;
+        --accent-color: #4facfe;
+        --text-primary: #ffffff;
+        --text-secondary: #b4b4b4;
+        --text-muted: #6b7280;
+        --background-dark: #0a0a0a;
+        --background-card: rgba(255, 255, 255, 0.05);
+        --border-color: rgba(255, 255, 255, 0.1);
+
+        /* Shadows & Effects */
+        --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.15);
+        --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.3);
+        --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
+        --shadow-neon: 0 0 20px rgba(102, 126, 234, 0.6);
+
+        /* Animation Timings */
+        --transition-fast: 0.2s ease;
+        --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* Advanced Effects */
+        --blur-strong: blur(20px);
+        --blur-light: blur(10px);
       }
-      to {
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--background-dark);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Loading Screen */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--background-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      .loading-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        border: 3px solid var(--border-color);
+        border-top: 3px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Particle Background */
+      #particles-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.3;
+      }
+
+      /* Cursor Trail */
+      .cursor-trail {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(
+          circle,
+          var(--primary-color) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        animation: trail-fade 0.5s ease-out forwards;
+      }
+
+      @keyframes trail-fade {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+
+      /* Modern Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: -0.02em;
+      }
+
+      .logo i {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-right: 0.5rem;
+        font-size: 2rem;
+      }
+
+      /* Search Functionality */
+      .search-container {
+        position: relative;
+        margin-left: auto;
+        margin-right: 2rem;
+      }
+
+      .search-box {
+        background: var(--background-card);
+        border: 1px solid var(--border-color);
+        border-radius: 25px;
+        padding: 0.5rem 1rem 0.5rem 2.5rem;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        width: 300px;
+        transition: all var(--transition-smooth);
+        backdrop-filter: var(--blur-light);
+      }
+
+      .search-box:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-glow);
+        width: 350px;
+      }
+
+      .search-box::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 0.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        pointer-events: none;
+      }
+
+      /* Skill Progress Indicators */
+      .skill-progress {
+        margin-top: 1rem;
+      }
+
+      .skill-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+      }
+
+      .skill-name {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .progress-bar {
+        width: 100px;
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+        transition: width 1s ease;
+        animation: progress-glow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes progress-glow {
+        0% {
+          box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+        100% {
+          box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: var(--dark-gradient);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://images.unsplash.com/photo-1581091870620-fd1c247f0316?ixlib=rb-4.0.3")
+          center/cover;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        padding: 0 2rem;
+      }
+
+      .hero h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 800;
+        background: var(--hero-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        font-weight: 400;
+      }
+
+      /* Typing Animation */
+      .typing-text {
+        border-right: 2px solid var(--primary-color);
+        animation: blink-caret 1s step-end infinite;
+        display: inline-block;
+        min-height: 1.5em;
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: var(--primary-color);
+        }
+      }
+
+      /* Interactive Tooltips */
+      .tooltip {
+        position: relative;
+        cursor: help;
+      }
+
+      .tooltip::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--background-dark);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-smooth);
+        border: 1px solid var(--border-color);
+        backdrop-filter: var(--blur-strong);
+        z-index: 1000;
+      }
+
+      .tooltip::after {
+        content: "";
+        position: absolute;
+        bottom: 115%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: var(--border-color);
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-smooth);
+      }
+
+      .tooltip:hover::before,
+      .tooltip:hover::after {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* Modern Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hard);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-primary);
+        border: 2px solid var(--border-color);
+      }
+
+      .btn-secondary:hover {
+        background: var(--background-card);
+        border-color: var(--primary-color);
+      }
+
+      /* Floating Action Button */
+      .fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-hard);
+        cursor: pointer;
+        transition: all var(--transition-smooth);
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(100px);
+      }
+
+      .fab.visible {
+        opacity: 1;
         transform: translateY(0);
+      }
+
+      .fab:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: var(--shadow-neon);
+      }
+
+      /* Scroll Progress Indicator */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        z-index: 1001;
+        background: transparent;
+      }
+
+      .scroll-progress-bar {
+        height: 100%;
+        background: var(--primary-gradient);
+        width: 0%;
+        transition: width 0.1s ease;
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+      }
+      /* Course Navigation */
+      .course-nav {
+        padding: 6rem 0 4rem;
+        background: var(--background-dark);
+      }
+
+      .course-nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-title h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+      }
+
+      .section-title p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+      }
+
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .course-card {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .course-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .course-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hard);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .course-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: white;
+      }
+
+      .course-card h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .course-card p {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .course-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .course-link:hover {
+        gap: 1rem;
+        color: var(--secondary-color);
+      }
+
+      /* Difficulty Indicator */
+      .difficulty-indicator {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 0.2rem;
+      }
+
+      .difficulty-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border-color);
+      }
+
+      .difficulty-dot.active {
+        background: var(--primary-color);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* Course Stats */
+      .course-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .stat-item {
+        text-align: center;
+        flex: 1;
+      }
+
+      .stat-value {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        margin-top: 0.2rem;
+      }
+
+      /* Interactive Elements */
+      .course-card .bookmark {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: 20px;
+        height: 25px;
+        background: var(--secondary-gradient);
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 65%, 0 80%);
+        opacity: 0;
+        transition: all var(--transition-smooth);
+        cursor: pointer;
+      }
+
+      .course-card:hover .bookmark {
         opacity: 1;
       }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>MDai Brain</h1>
-    <span><i class="fas fa-brain"></i> Apprentissage moderne par l'intelligence artificielle</span>
-  </header>
 
-  <nav>
-    <ul>
-      <li><a href="web_development.html">Développement Web</a></li>
-      <li><a href="excel.html">Excel</a></li>
-      <li><a href="english.html">Anglais 1–3</a></li>
-      <li><a href="photoshop.html">Photoshop</a></li>
-      <li><a href="python.html">Python</a></li>
-      <li><a href="c_programming.html">Langage C</a></li>
-    </ul>
-  </nav>
+      .course-card .bookmark.bookmarked {
+        opacity: 1;
+        animation: bookmark-bounce 0.6s ease;
+      }
 
-  <!-- <div class="hero-video">
-    <iframe src="https://www.youtube.com/embed/Ieb5hYX7wmo" title="AI in Education" frameborder="0" allowfullscreen></iframe>
-  </div> -->
+      @keyframes bookmark-bounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+      /* Features Section */
+      .features {
+        padding: 6rem 0;
+        background: linear-gradient(
+          180deg,
+          var(--background-dark) 0%,
+          #111111 100%
+        );
+      }
 
-  <section class="features">
-    <div>
-      <i class="fas fa-laptop-code"></i>
-      <h3>Apprentissage Pratique</h3>
-      <p>Interagissez avec des exercices codables et vérifiez vos réponses instantanément.</p>
-    </div>
-    <div>
-      <i class="fas fa-language"></i>
-      <h3>Multilingue</h3>
-      <p>Apprenez en anglais ou en français avec notre chatbot intelligent MADO.</p>
-    </div>
-    <div>
-      <i class="fas fa-robot"></i>
-      <h3>Assistance IA</h3>
-      <p>Posez vos questions et recevez des réponses précises en temps réel.</p>
-    </div>
-    <div>
-      <i class="fas fa-certificate"></i>
-      <h3>Certificats</h3>
-      <p>Recevez des certificats PDF après avoir terminé chaque module.</p>
-    </div>
-  </section>
+      .features-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
 
-  <footer>
-    &copy; 2025 MDai Platform. Tous droits réservés.
-  </footer>
-</body>
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .feature-card {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(102, 126, 234, 0.1) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .feature-card:hover::before {
+        opacity: 1;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .feature-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 2rem;
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      .feature-card h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .feature-card p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--dark-gradient);
+        padding: 3rem 0 2rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        text-align: center;
+      }
+
+      .footer p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      /* Animations */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(102, 126, 234, 0.4);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .hero-content {
+          padding: 0 1rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .course-nav-container,
+        .features-container,
+        .footer-container {
+          padding: 0 1rem;
+        }
+
+        .course-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress">
+      <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- Particle Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Modern Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-brain"></i>
+          MDai Brain
+        </a>
+
+        <!-- Search Functionality -->
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-box"
+            placeholder="Rechercher un cours..."
+            id="courseSearch"
+          />
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="course.html">Cours</a></li>
+          <li><a href="payment.html">Inscription</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Floating Action Button -->
+    <div class="fab" id="backToTop" title="Retour en haut">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content" data-aos="fade-up">
+        <h1>Exercices Pratiques</h1>
+        <p class="hero-subtitle">
+          <i class="fas fa-brain"></i>
+          <span class="typing-text" id="typingText"></span>
+        </p>
+        <div class="hero-buttons">
+          <a href="#courses" class="btn btn-primary">
+            <i class="fas fa-play"></i>
+            Commencer maintenant
+          </a>
+          <a href="index.html" class="btn btn-secondary">
+            <i class="fas fa-home"></i>
+            Retour à l'accueil
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Course Navigation -->
+    <section class="course-nav" id="courses">
+      <div class="course-nav-container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Domaines d'Expertise</h2>
+          <p>
+            Choisissez votre parcours d'apprentissage et développez vos
+            compétences
+          </p>
+        </div>
+
+        <div class="course-grid">
+          <div
+            class="course-card"
+            data-aos="fade-up"
+            data-aos-delay="100"
+            data-course="web"
+          >
+            <!-- Bookmark -->
+            <div class="bookmark" onclick="toggleBookmark(this)"></div>
+
+            <!-- Difficulty Indicator -->
+            <div
+              class="difficulty-indicator tooltip"
+              data-tooltip="Niveau Intermédiaire"
+            >
+              <div class="difficulty-dot"></div>
+              <div class="difficulty-dot active"></div>
+              <div class="difficulty-dot active"></div>
+              <div class="difficulty-dot"></div>
+              <div class="difficulty-dot"></div>
+            </div>
+
+            <div
+              class="course-icon"
+              style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              "
+            >
+              <i class="fab fa-html5"></i>
+            </div>
+            <h3>Développement Web</h3>
+            <p>
+              Créez des sites web modernes avec HTML5, CSS3, et JavaScript.
+              Maîtrisez les frameworks populaires et les bonnes pratiques du
+              développement web.
+            </p>
+
+            <!-- Course Stats -->
+            <div class="course-stats">
+              <div class="stat-item">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Leçons</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">8h</div>
+                <div class="stat-label">Durée</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">4.8</div>
+                <div class="stat-label">Note</div>
+              </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="skill-progress">
+              <div class="skill-item">
+                <span class="skill-name">Votre progression</span>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 65%"></div>
+                </div>
+              </div>
+            </div>
+
+            <a href="web_development.html" class="course-link">
+              Commencer le cours <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="course-card" data-aos="fade-up" data-aos-delay="200">
+            <div
+              class="course-icon"
+              style="
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+              "
+            >
+              <i class="fas fa-table"></i>
+            </div>
+            <h3>Excel Avancé</h3>
+            <p>
+              Devenez expert en analyse de données avec Excel. Tableaux croisés
+              dynamiques, macros, formules avancées et visualisation de données.
+            </p>
+            <a href="excel.html" class="course-link">
+              Commencer le cours <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="course-card" data-aos="fade-up" data-aos-delay="300">
+            <div
+              class="course-icon"
+              style="
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+              "
+            >
+              <i class="fas fa-language"></i>
+            </div>
+            <h3>Anglais Professionnel</h3>
+            <p>
+              Perfectionnez votre anglais des affaires. Communication
+              professionnelle, présentations, négociations et correspondance
+              commerciale.
+            </p>
+            <a href="english.html" class="course-link">
+              Commencer le cours <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="course-card" data-aos="fade-up" data-aos-delay="400">
+            <div
+              class="course-icon"
+              style="
+                background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+              "
+            >
+              <i class="fab fa-adobe"></i>
+            </div>
+            <h3>Photoshop Pro</h3>
+            <p>
+              Maîtrisez les techniques de retouche photo et de design graphique.
+              Créez des visuels professionnels et développez votre créativité.
+            </p>
+            <a href="photoshop.html" class="course-link">
+              Commencer le cours <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="course-card" data-aos="fade-up" data-aos-delay="500">
+            <div
+              class="course-icon"
+              style="
+                background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+              "
+            >
+              <i class="fab fa-python"></i>
+            </div>
+            <h3>Python & IA</h3>
+            <p>
+              Programmez en Python et explorez l'intelligence artificielle.
+              Machine learning, data science et automatisation avec des projets
+              concrets.
+            </p>
+            <a href="python.html" class="course-link">
+              Commencer le cours <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="course-card" data-aos="fade-up" data-aos-delay="600">
+            <div
+              class="course-icon"
+              style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              "
+            >
+              <i class="fas fa-code"></i>
+            </div>
+            <h3>Langage C</h3>
+            <p>
+              Apprenez les fondamentaux de la programmation avec le langage C.
+              Structures de données, algorithmes et programmation système.
+            </p>
+            <a href="c_programming.html" class="course-link">
+              Commencer le cours <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="features-container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Pourquoi Choisir MDai?</h2>
+          <p>Une approche révolutionnaire de l'apprentissage numérique</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3>Apprentissage Pratique</h3>
+            <p>
+              Interagissez avec des exercices codables et vérifiez vos réponses
+              instantanément grâce à notre environnement de développement
+              intégré.
+            </p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>Intelligence Artificielle</h3>
+            <p>
+              Notre IA MADO vous accompagne personnellement, adapte le contenu à
+              votre rythme et répond à toutes vos questions en temps réel.
+            </p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <h3>Multilingue</h3>
+            <p>
+              Apprenez en français ou en anglais selon vos préférences.
+              Interface adaptative et contenu disponible dans plusieurs langues.
+            </p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <h3>Certifications</h3>
+            <p>
+              Recevez des certificats PDF professionnels après chaque module
+              terminé. Valorisez vos compétences sur le marché du travail.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <p>
+          &copy; 2025 MDai Platform. Tous droits réservés. Propulsé par
+          l'Intelligence Artificielle.
+        </p>
+      </div>
+    </footer>
+
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      // Initialize AOS animations
+      AOS.init({
+        duration: 800,
+        easing: "ease-in-out",
+        once: true,
+      });
+
+      // Loading Screen
+      window.addEventListener("load", function () {
+        setTimeout(() => {
+          document.getElementById("loadingScreen").classList.add("hidden");
+        }, 1000);
+      });
+
+      // Typing Animation
+      const typingTexts = [
+        "Maîtrisez les compétences essentielles avec notre plateforme d'apprentissage intelligente",
+        "Apprenez avec l'intelligence artificielle comme guide personnel",
+        "Développez vos talents avec des exercices pratiques et interactifs",
+        "Obtenez des certifications reconnues dans votre domaine",
+      ];
+
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typingElement = document.getElementById("typingText");
+
+      function typeText() {
+        const currentText = typingTexts[textIndex];
+
+        if (isDeleting) {
+          typingElement.textContent = currentText.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typingElement.textContent = currentText.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 30 : 60;
+
+        if (!isDeleting && charIndex === currentText.length) {
+          typeSpeed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % typingTexts.length;
+          typeSpeed = 500;
+        }
+
+        setTimeout(typeText, typeSpeed);
+      }
+
+      // Start typing animation after page load
+      setTimeout(typeText, 1500);
+
+      // Scroll Progress Indicator
+      function updateScrollProgress() {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        document.getElementById("scrollProgressBar").style.width =
+          scrollPercent + "%";
+      }
+
+      // Navbar scroll effect & FAB visibility
+      function handleScroll() {
+        const navbar = document.querySelector(".navbar");
+        const fab = document.getElementById("backToTop");
+        const scrollY = window.scrollY;
+
+        if (scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+
+        if (scrollY > 300) {
+          fab.classList.add("visible");
+        } else {
+          fab.classList.remove("visible");
+        }
+
+        updateScrollProgress();
+      }
+
+      window.addEventListener("scroll", handleScroll);
+
+      // Back to Top functionality
+      document
+        .getElementById("backToTop")
+        .addEventListener("click", function () {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
+
+      // Course Search functionality
+      const searchInput = document.getElementById("courseSearch");
+      const courseCards = document.querySelectorAll(".course-card");
+
+      searchInput.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase();
+
+        courseCards.forEach((card) => {
+          const title = card.querySelector("h3").textContent.toLowerCase();
+          const description = card.querySelector("p").textContent.toLowerCase();
+
+          if (title.includes(searchTerm) || description.includes(searchTerm)) {
+            card.style.display = "block";
+            card.style.animation = "fadeIn 0.5s ease";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+
+      // Bookmark functionality
+      function toggleBookmark(bookmark) {
+        bookmark.classList.toggle("bookmarked");
+
+        // Save to localStorage
+        const courseCard = bookmark.closest(".course-card");
+        const courseId = courseCard.dataset.course;
+        const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+
+        if (bookmark.classList.contains("bookmarked")) {
+          if (!bookmarks.includes(courseId)) {
+            bookmarks.push(courseId);
+          }
+        } else {
+          const index = bookmarks.indexOf(courseId);
+          if (index > -1) {
+            bookmarks.splice(index, 1);
+          }
+        }
+
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+      }
+
+      // Load bookmarks from localStorage
+      function loadBookmarks() {
+        const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+        bookmarks.forEach((courseId) => {
+          const courseCard = document.querySelector(
+            `[data-course="${courseId}"]`
+          );
+          if (courseCard) {
+            const bookmark = courseCard.querySelector(".bookmark");
+            bookmark.classList.add("bookmarked");
+          }
+        });
+      }
+
+      // Particle Background
+      function initParticles() {
+        const canvas = document.getElementById("particles-canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 50;
+
+        class Particle {
+          constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.radius = Math.random() * 2 + 1;
+            this.opacity = Math.random() * 0.5 + 0.2;
+          }
+
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+          }
+
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(102, 126, 234, ${this.opacity})`;
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach((particle) => {
+            particle.update();
+            particle.draw();
+          });
+
+          // Draw connections
+          particles.forEach((particleA, indexA) => {
+            particles.slice(indexA + 1).forEach((particleB) => {
+              const distance = Math.sqrt(
+                Math.pow(particleA.x - particleB.x, 2) +
+                  Math.pow(particleA.y - particleB.y, 2)
+              );
+
+              if (distance < 100) {
+                ctx.beginPath();
+                ctx.moveTo(particleA.x, particleA.y);
+                ctx.lineTo(particleB.x, particleB.y);
+                ctx.strokeStyle = `rgba(102, 126, 234, ${
+                  0.1 * (1 - distance / 100)
+                })`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            });
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+      }
+
+      // Cursor Trail Effect
+      function initCursorTrail() {
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener("mousemove", (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+
+          const trail = document.createElement("div");
+          trail.className = "cursor-trail";
+          trail.style.left = mouseX - 10 + "px";
+          trail.style.top = mouseY - 10 + "px";
+
+          document.body.appendChild(trail);
+
+          setTimeout(() => {
+            trail.remove();
+          }, 500);
+        });
+      }
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Initialize all features when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        loadBookmarks();
+        initParticles();
+        initCursorTrail();
+      });
+
+      // Add CSS for fadeIn animation
+      const style = document.createElement("style");
+      style.textContent = `
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `;
+      document.head.appendChild(style);
+    </script>
+  </body>
 </html>
-
-
-
