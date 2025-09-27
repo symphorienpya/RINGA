@@ -4,7 +4,7 @@
     <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MDai - Plateforme d'apprentissage </title>
+    <title>MDai - Plateforme d'apprentissage</title>
 
     <!-- Google Fonts -->
     <link
@@ -6355,6 +6355,1045 @@
           height: 100px;
         }
       }
+
+      /* AI Course Reminder Panel */
+      .ai-reminder-panel {
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1) 0%,
+          rgba(118, 75, 162, 0.1) 100%
+        );
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        position: relative;
+        overflow: hidden;
+        animation: slideInFromLeft 0.8s ease-out;
+        transition: all 0.3s ease;
+      }
+
+      .ai-reminder-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      .reminder-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .reminder-icon {
+        color: #667eea;
+        font-size: 1.2rem;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .reminder-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+      }
+
+      .ai-pulse {
+        width: 8px;
+        height: 8px;
+        background: #00ff88;
+        border-radius: 50%;
+        animation: aiPulse 1.5s ease-in-out infinite;
+        margin-left: auto;
+      }
+
+      .reminder-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .next-course,
+      .course-suggestion {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        transition: opacity 0.3s ease;
+      }
+
+      .next-course i {
+        color: #f59e0b;
+        animation: tick 1s ease-in-out infinite;
+      }
+
+      .course-suggestion i {
+        color: #10b981;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      .course-time strong {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-family: "Courier New", monospace;
+        background: rgba(102, 126, 234, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      /* AI Learning Orb */
+      .ai-learning-orb {
+        position: absolute;
+        top: 50%;
+        right: 10%;
+        transform: translateY(-50%);
+        width: 200px;
+        height: 200px;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .orb-core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+        animation: orbFloat 4s ease-in-out infinite;
+      }
+
+      .orb-rings {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .ring {
+        position: absolute;
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        border-radius: 50%;
+        animation: ringRotate 8s linear infinite;
+      }
+
+      .ring-1 {
+        width: 120px;
+        height: 120px;
+        top: -60px;
+        left: -60px;
+        animation-duration: 8s;
+      }
+
+      .ring-2 {
+        width: 160px;
+        height: 160px;
+        top: -80px;
+        left: -80px;
+        animation-duration: 12s;
+        animation-direction: reverse;
+      }
+
+      .ring-3 {
+        width: 200px;
+        height: 200px;
+        top: -100px;
+        left: -100px;
+        animation-duration: 16s;
+      }
+
+      /* Enhanced Floating Cards */
+      .floating-card.ai-powered {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+      }
+
+      .floating-card.ai-powered:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+        border-color: rgba(102, 126, 234, 0.5);
+      }
+
+      .card-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(102, 126, 234, 0.1) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .floating-card.ai-powered:hover .card-glow {
+        opacity: 1;
+        animation: cardGlow 2s ease-in-out infinite;
+      }
+
+      .ai-indicator {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        background: #00ff88;
+        border-radius: 50%;
+        animation: aiPulse 1.5s ease-in-out infinite;
+      }
+
+      .progress-wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        animation: progressWave 2s ease-in-out infinite;
+      }
+
+      .social-pulse {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border: 2px solid #10b981;
+        border-radius: 12px;
+        opacity: 0;
+        animation: socialPulse 3s ease-in-out infinite;
+      }
+
+      .cert-shine {
+        position: absolute;
+        top: -100%;
+        left: -10px;
+        width: calc(100% + 20px);
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 215, 0, 0.3),
+          transparent
+        );
+        animation: certShine 3s ease-in-out infinite;
+      }
+
+      /* Learning Path Visualization */
+      .learning-path-viz {
+        position: absolute;
+        bottom: 10%;
+        left: 5%;
+        width: 300px;
+        height: 200px;
+        opacity: 0.7;
+      }
+
+      .path-svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .learning-path {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: drawPath 4s ease-in-out forwards,
+          pathGlow 2s ease-in-out infinite 4s;
+      }
+
+      .path-node {
+        fill: #667eea;
+        animation: nodeGlow 2s ease-in-out infinite;
+      }
+
+      /* Enhanced Button Effects */
+      .btn-hero-primary {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .btn-hero-primary:hover .btn-glow {
+        opacity: 1;
+        animation: btnGlow 1.5s ease-in-out infinite;
+      }
+
+      .btn-ripple {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: width 0.3s ease, height 0.3s ease;
+      }
+
+      .btn-hero-secondary:hover .btn-ripple {
+        width: 100%;
+        height: 100%;
+        animation: rippleEffect 0.6s ease-out;
+      }
+
+      /* AI Animations */
+      @keyframes slideInFromLeft {
+        0% {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      @keyframes aiPulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.2);
+        }
+      }
+
+      @keyframes tick {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-10deg);
+        }
+        75% {
+          transform: rotate(10deg);
+        }
+      }
+
+      @keyframes glow {
+        0% {
+          text-shadow: 0 0 5px #10b981;
+        }
+        100% {
+          text-shadow: 0 0 20px #10b981, 0 0 30px #10b981;
+        }
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) translateY(0px);
+        }
+        50% {
+          transform: translate(-50%, -50%) translateY(-20px);
+        }
+      }
+
+      @keyframes ringRotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes cardGlow {
+        0%,
+        100% {
+          transform: scale(1) rotate(0deg);
+        }
+        50% {
+          transform: scale(1.1) rotate(180deg);
+        }
+      }
+
+      @keyframes progressWave {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      @keyframes socialPulse {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.8);
+        }
+        50% {
+          opacity: 0.5;
+          transform: translate(-50%, -50%) scale(1.1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1.3);
+        }
+      }
+
+      @keyframes certShine {
+        0% {
+          top: -100%;
+        }
+        50% {
+          top: 50%;
+        }
+        100% {
+          top: 200%;
+        }
+      }
+
+      @keyframes drawPath {
+        0% {
+          stroke-dashoffset: 1000;
+        }
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes pathGlow {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px #667eea);
+        }
+        50% {
+          filter: drop-shadow(0 0 15px #667eea);
+        }
+      }
+
+      @keyframes nodeGlow {
+        0%,
+        100% {
+          fill: #667eea;
+          filter: drop-shadow(0 0 3px #667eea);
+        }
+        50% {
+          fill: #764ba2;
+          filter: drop-shadow(0 0 8px #764ba2);
+        }
+      }
+
+      @keyframes btnGlow {
+        0%,
+        100% {
+          transform: scale(1) rotate(0deg);
+          opacity: 0.3;
+        }
+        50% {
+          transform: scale(1.2) rotate(180deg);
+          opacity: 0.7;
+        }
+      }
+
+      @keyframes rippleEffect {
+        0% {
+          width: 0;
+          height: 0;
+          opacity: 0.7;
+        }
+        100% {
+          width: 300px;
+          height: 300px;
+          opacity: 0;
+        }
+      }
+
+      /* AI Study Companion */
+      .ai-study-companion {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.1) 0%,
+          rgba(52, 211, 153, 0.1) 100%
+        );
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        position: relative;
+        overflow: hidden;
+        animation: slideInFromRight 0.8s ease-out;
+        transition: all 0.3s ease;
+      }
+
+      .ai-study-companion::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(16, 185, 129, 0.1),
+          transparent
+        );
+        animation: shimmer 4s ease-in-out infinite;
+      }
+
+      .companion-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .companion-icon {
+        color: #10b981;
+        font-size: 1.2rem;
+        animation: brainPulse 2s ease-in-out infinite;
+      }
+
+      .companion-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        flex: 1;
+        margin-left: 0.75rem;
+      }
+
+      .learning-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .indicator-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: learningPulse 1.8s ease-in-out infinite;
+      }
+
+      .companion-insights {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .insight-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        border: 1px solid rgba(16, 185, 129, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .insight-item:hover {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: rgba(16, 185, 129, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .insight-icon {
+        color: #10b981;
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .insight-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .insight-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .insight-value {
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .insight-value.prediction {
+        color: #10b981;
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+      }
+
+      /* Advanced AI Animations */
+      @keyframes slideInFromRight {
+        0% {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes brainPulse {
+        0%,
+        100% {
+          color: #10b981;
+          transform: scale(1);
+        }
+        50% {
+          color: #34d399;
+          transform: scale(1.1);
+        }
+      }
+
+      @keyframes learningPulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          background: #10b981;
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.3);
+          background: #34d399;
+        }
+      }
+
+      /* Enhanced Hero Particles */
+      .hero-ai-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .ai-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #667eea;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: particleFloat 8s ease-in-out infinite;
+      }
+
+      .ai-particle:nth-child(1) {
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .ai-particle:nth-child(2) {
+        top: 60%;
+        left: 20%;
+        animation-delay: -2s;
+      }
+      .ai-particle:nth-child(3) {
+        top: 30%;
+        left: 80%;
+        animation-delay: -4s;
+      }
+      .ai-particle:nth-child(4) {
+        top: 80%;
+        left: 70%;
+        animation-delay: -6s;
+      }
+      .ai-particle:nth-child(5) {
+        top: 10%;
+        left: 60%;
+        animation-delay: -8s;
+      }
+
+      @keyframes particleFloatAdvanced {
+        0%,
+        100% {
+          transform: translateY(0px) translateX(0px) scale(1);
+          opacity: 0.6;
+        }
+        25% {
+          transform: translateY(-30px) translateX(20px) scale(1.2);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateY(-60px) translateX(-10px) scale(0.8);
+          opacity: 0.4;
+        }
+        75% {
+          transform: translateY(-30px) translateX(-30px) scale(1.1);
+          opacity: 0.7;
+        }
+      }
+
+      /* Intelligent Progress Visualization */
+      .ai-progress-ring {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+      }
+
+      .progress-ring-circle {
+        width: 100%;
+        height: 100%;
+        fill: transparent;
+        stroke: rgba(102, 126, 234, 0.2);
+        stroke-width: 4;
+        transform: rotate(-90deg);
+      }
+
+      .progress-ring-progress {
+        stroke: url(#progressGradient);
+        stroke-dasharray: 188;
+        stroke-dashoffset: 188;
+        animation: progressRingFill 2s ease-out forwards;
+      }
+
+      @keyframes progressRingFill {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      /* AI Study Companion */
+      .ai-study-companion {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.1) 0%,
+          rgba(52, 211, 153, 0.1) 100%
+        );
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        position: relative;
+        overflow: hidden;
+        animation: slideInFromRight 0.8s ease-out;
+        transition: all 0.3s ease;
+      }
+
+      .ai-study-companion::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(16, 185, 129, 0.1),
+          transparent
+        );
+        animation: shimmer 4s ease-in-out infinite;
+      }
+
+      .companion-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .companion-icon {
+        color: #10b981;
+        font-size: 1.2rem;
+        animation: brainPulse 2s ease-in-out infinite;
+      }
+
+      .companion-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        flex: 1;
+        margin-left: 0.75rem;
+      }
+
+      .learning-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .indicator-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: learningPulse 1.8s ease-in-out infinite;
+      }
+
+      .companion-insights {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .insight-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        border: 1px solid rgba(16, 185, 129, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .insight-item:hover {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: rgba(16, 185, 129, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .insight-icon {
+        color: #10b981;
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .insight-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .insight-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .insight-value {
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .insight-value.prediction {
+        color: #10b981;
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+      }
+
+      /* Advanced AI Animations */
+      @keyframes slideInFromRight {
+        0% {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes brainPulse {
+        0%,
+        100% {
+          color: #10b981;
+          transform: scale(1);
+        }
+        50% {
+          color: #34d399;
+          transform: scale(1.1);
+        }
+      }
+
+      @keyframes learningPulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          background: #10b981;
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.3);
+          background: #34d399;
+        }
+      }
+
+      /* Enhanced Hero AI Particles */
+      .hero-ai-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .ai-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #667eea;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: particleFloatAdvanced 8s ease-in-out infinite;
+      }
+
+      .ai-particle:nth-child(1) {
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .ai-particle:nth-child(2) {
+        top: 60%;
+        left: 20%;
+        animation-delay: -2s;
+      }
+      .ai-particle:nth-child(3) {
+        top: 30%;
+        left: 80%;
+        animation-delay: -4s;
+      }
+      .ai-particle:nth-child(4) {
+        top: 80%;
+        left: 70%;
+        animation-delay: -6s;
+      }
+      .ai-particle:nth-child(5) {
+        top: 10%;
+        left: 60%;
+        animation-delay: -8s;
+      }
+
+      @keyframes particleFloatAdvanced {
+        0%,
+        100% {
+          transform: translateY(0px) translateX(0px) scale(1);
+          opacity: 0.6;
+        }
+        25% {
+          transform: translateY(-30px) translateX(20px) scale(1.2);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateY(-60px) translateX(-10px) scale(0.8);
+          opacity: 0.4;
+        }
+        75% {
+          transform: translateY(-30px) translateX(-30px) scale(1.1);
+          opacity: 0.7;
+        }
+      }
+
+      /* Responsive Design for AI Features */
+      @media (max-width: 768px) {
+        .ai-reminder-panel {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .ai-study-companion {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .companion-insights {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+        }
+
+        .insight-item {
+          padding: 0.5rem;
+        }
+
+        .ai-learning-orb {
+          width: 120px;
+          height: 120px;
+          right: 5%;
+        }
+
+        .orb-core {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+
+        .learning-path-viz {
+          width: 200px;
+          height: 120px;
+        }
+
+        .floating-card.ai-powered {
+          margin-bottom: 0.5rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -6407,6 +7446,7 @@
         <div class="hero-background">
           <div class="hero-particles"></div>
           <div class="hero-gradient"></div>
+          <!-- Smart AI Particles will be added by JavaScript -->
         </div>
 
         <div class="hero-content">
@@ -6443,37 +7483,176 @@
               </div>
             </div>
 
+            <!-- AI Course Reminder System -->
+            <div class="ai-reminder-panel" id="aiReminderPanel">
+              <div class="reminder-header">
+                <i class="fas fa-robot reminder-icon"></i>
+                <span class="reminder-title">Assistant IA</span>
+                <div class="ai-pulse"></div>
+              </div>
+              <div class="reminder-content" id="reminderContent">
+                <div class="next-course">
+                  <i class="fas fa-clock"></i>
+                  <span class="course-time"
+                    >Prochain cours dans
+                    <strong id="nextCourseTimer">--:--</strong></span
+                  >
+                </div>
+                <div class="course-suggestion">
+                  <i class="fas fa-lightbulb"></i>
+                  <span id="aiSuggestion"
+                    >Analysing your learning pattern...</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Study Companion -->
+            <div class="ai-study-companion" id="aiStudyCompanion">
+              <div class="companion-header">
+                <i class="fas fa-brain-circuit companion-icon"></i>
+                <span class="companion-title">Compagnon d'Étude IA</span>
+                <div class="learning-indicator" id="learningIndicator">
+                  <div class="indicator-dot"></div>
+                  <span id="learningStatus">Analyse en cours...</span>
+                </div>
+              </div>
+              <div class="companion-insights">
+                <div class="insight-item">
+                  <i class="fas fa-chart-line insight-icon"></i>
+                  <div class="insight-content">
+                    <span class="insight-label">Rythme d'apprentissage</span>
+                    <span class="insight-value" id="learningPace">Optimal</span>
+                  </div>
+                </div>
+                <div class="insight-item">
+                  <i class="fas fa-target insight-icon"></i>
+                  <div class="insight-content">
+                    <span class="insight-label">Focus actuel</span>
+                    <span class="insight-value" id="currentFocus"
+                      >Machine Learning</span
+                    >
+                  </div>
+                </div>
+                <div class="insight-item">
+                  <i class="fas fa-trophy insight-icon"></i>
+                  <div class="insight-content">
+                    <span class="insight-label">Prédiction de réussite</span>
+                    <span
+                      class="insight-value prediction"
+                      id="successPrediction"
+                      >87%</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="hero-cta">
               <a href="course.html" class="btn-hero-primary">
                 <i class="fas fa-rocket"></i>
                 Commencer maintenant
+                <div class="btn-glow"></div>
               </a>
               <a href="video.html" class="btn-hero-secondary">
                 <i class="fas fa-play"></i>
                 Voir la démo
+                <div class="btn-ripple"></div>
               </a>
             </div>
           </div>
         </div>
 
         <div class="hero-visual">
+          <!-- AI Learning Orb -->
+          <div class="ai-learning-orb">
+            <div class="orb-core">
+              <i class="fas fa-brain"></i>
+            </div>
+            <div class="orb-rings">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
+            </div>
+            <div class="orb-particles"></div>
+          </div>
+
+          <!-- Enhanced Floating Elements -->
           <div class="floating-elements">
-            <div class="floating-card" data-delay="0">
+            <div
+              class="floating-card ai-powered"
+              data-delay="0"
+              data-ai-feature="adaptive"
+            >
+              <div class="card-glow"></div>
               <i class="fas fa-brain"></i>
               <span>IA Adaptive</span>
+              <div class="ai-indicator"></div>
             </div>
-            <div class="floating-card" data-delay="200">
+            <div
+              class="floating-card ai-powered"
+              data-delay="200"
+              data-ai-feature="progress"
+            >
+              <div class="card-glow"></div>
               <i class="fas fa-chart-line"></i>
               <span>Progression</span>
+              <div class="progress-wave"></div>
             </div>
-            <div class="floating-card" data-delay="400">
+            <div
+              class="floating-card ai-powered"
+              data-delay="400"
+              data-ai-feature="community"
+            >
+              <div class="card-glow"></div>
               <i class="fas fa-users"></i>
               <span>Communauté</span>
+              <div class="social-pulse"></div>
             </div>
-            <div class="floating-card" data-delay="600">
+            <div
+              class="floating-card ai-powered"
+              data-delay="600"
+              data-ai-feature="certificate"
+            >
+              <div class="card-glow"></div>
               <i class="fas fa-certificate"></i>
               <span>Certification</span>
+              <div class="cert-shine"></div>
             </div>
+          </div>
+
+          <!-- Smart Learning Path Visualization -->
+          <div class="learning-path-viz">
+            <svg class="path-svg" viewBox="0 0 300 200">
+              <defs>
+                <linearGradient
+                  id="pathGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style="stop-color: #667eea; stop-opacity: 1"
+                  />
+                  <stop
+                    offset="100%"
+                    style="stop-color: #764ba2; stop-opacity: 1"
+                  />
+                </linearGradient>
+              </defs>
+              <path
+                class="learning-path"
+                d="M20,150 Q80,50 150,100 T280,80"
+                stroke="url(#pathGradient)"
+                stroke-width="3"
+                fill="none"
+              />
+              <circle class="path-node" cx="20" cy="150" r="6" />
+              <circle class="path-node" cx="150" cy="100" r="6" />
+              <circle class="path-node" cx="280" cy="80" r="6" />
+            </svg>
           </div>
         </div>
       </section>
@@ -8902,7 +10081,6 @@
           </div>
         </div>
       </section>
-
 
       <!-- Newsletter Section -->
       <section class="newsletter-section" id="newsletter">
@@ -11704,6 +12882,405 @@
 
         placeButtonRandomly();
         window.addEventListener("resize", placeButtonRandomly);
+      });
+
+      // AI Course Reminder System
+      class AIReminderSystem {
+        constructor() {
+          this.nextCourseTime = new Date();
+          this.nextCourseTime.setHours(this.nextCourseTime.getHours() + 2);
+          this.suggestions = [
+            "Based on your progress, I recommend starting with Python fundamentals.",
+            "Your learning pattern suggests you're most productive in the evening.",
+            "You're 73% ready for the Advanced Machine Learning course!",
+            "Consider reviewing Data Structures before the next module.",
+            "Your peers are excelling in JavaScript - want to join them?",
+            "Perfect time to tackle that AI Ethics course you bookmarked!",
+          ];
+          this.currentSuggestionIndex = 0;
+          this.init();
+        }
+
+        init() {
+          this.updateTimer();
+          this.rotateSuggestions();
+          setInterval(() => this.updateTimer(), 1000);
+          setInterval(() => this.rotateSuggestions(), 4000);
+        }
+
+        updateTimer() {
+          const now = new Date();
+          const diff = this.nextCourseTime - now;
+
+          if (diff > 0) {
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const timerElement = document.getElementById("nextCourseTimer");
+            if (timerElement) {
+              timerElement.textContent = `${hours
+                .toString()
+                .padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+            }
+          }
+        }
+
+        rotateSuggestions() {
+          const suggestionElement = document.getElementById("aiSuggestion");
+          if (suggestionElement) {
+            suggestionElement.style.opacity = "0";
+            setTimeout(() => {
+              suggestionElement.textContent =
+                this.suggestions[this.currentSuggestionIndex];
+              suggestionElement.style.opacity = "1";
+              this.currentSuggestionIndex =
+                (this.currentSuggestionIndex + 1) % this.suggestions.length;
+            }, 300);
+          }
+        }
+      }
+
+      // Enhanced Floating Card Interactions
+      function initAIFloatingCards() {
+        const cards = document.querySelectorAll(".floating-card.ai-powered");
+
+        cards.forEach((card) => {
+          card.addEventListener("mouseenter", function () {
+            const feature = this.dataset.aiFeature;
+            this.style.transform = "translateY(-15px) scale(1.1) rotateY(5deg)";
+
+            // Add specific animations based on feature type
+            switch (feature) {
+              case "adaptive":
+                this.style.background =
+                  "linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2))";
+                break;
+              case "progress":
+                const progressWave = this.querySelector(".progress-wave");
+                if (progressWave) progressWave.style.animationDuration = "0.5s";
+                break;
+              case "community":
+                this.style.boxShadow = "0 0 30px rgba(16, 185, 129, 0.4)";
+                break;
+              case "certificate":
+                const certShine = this.querySelector(".cert-shine");
+                if (certShine) certShine.style.animationDuration = "1s";
+                break;
+            }
+          });
+
+          card.addEventListener("mouseleave", function () {
+            this.style.transform = "";
+            this.style.background = "";
+            this.style.boxShadow = "";
+
+            const progressWave = this.querySelector(".progress-wave");
+            if (progressWave) progressWave.style.animationDuration = "2s";
+
+            const certShine = this.querySelector(".cert-shine");
+            if (certShine) certShine.style.animationDuration = "3s";
+          });
+
+          // Add click interactions
+          card.addEventListener("click", function () {
+            const feature = this.dataset.aiFeature;
+            this.style.animation = "pulse 0.6s ease-in-out";
+
+            // Simulate AI feature activation
+            setTimeout(() => {
+              this.style.animation = "";
+              console.log(`AI Feature activated: ${feature}`);
+            }, 600);
+          });
+        });
+      }
+
+      // Smart Learning Path Animation
+      function initLearningPathViz() {
+        const pathNodes = document.querySelectorAll(".path-node");
+
+        pathNodes.forEach((node, index) => {
+          setTimeout(() => {
+            node.style.animation = `nodeGlow 2s ease-in-out infinite ${
+              index * 0.5
+            }s`;
+          }, index * 1000);
+        });
+      }
+
+      // Advanced AI Study Companion System
+      class AIStudyCompanion {
+        constructor() {
+          this.learningData = {
+            pace: ['Très lent', 'Lent', 'Optimal', 'Rapide', 'Très rapide'],
+            focus: ['Python', 'Machine Learning', 'Data Science', 'AI Ethics', 'Deep Learning'],
+            predictions: [73, 81, 87, 92, 95]
+          };
+          this.currentIndex = 0;
+          this.init();
+        }
+
+        init() {
+          this.updateLearningInsights();
+          setInterval(() => this.updateLearningInsights(), 6000);
+          this.simulateRealTimeAnalysis();
+        }
+
+        updateLearningInsights() {
+          const paceElement = document.getElementById('learningPace');
+          const focusElement = document.getElementById('currentFocus');
+          const predictionElement = document.getElementById('successPrediction');
+
+          if (paceElement && focusElement && predictionElement) {
+            // Smooth transition
+            [paceElement, focusElement, predictionElement].forEach(el => {
+              el.style.opacity = '0.5';
+            });
+
+            setTimeout(() => {
+              paceElement.textContent = this.learningData.pace[this.currentIndex % this.learningData.pace.length];
+              focusElement.textContent = this.learningData.focus[this.currentIndex % this.learningData.focus.length];
+              predictionElement.textContent = `${this.learningData.predictions[this.currentIndex % this.learningData.predictions.length]}%`;
+
+              [paceElement, focusElement, predictionElement].forEach(el => {
+                el.style.opacity = '1';
+              });
+
+              this.currentIndex++;
+            }, 300);
+          }
+        }
+
+        simulateRealTimeAnalysis() {
+          const statusElement = document.getElementById('learningStatus');
+          const statuses = [
+            'Analyse en cours...',
+            'Optimisation du parcours...',
+            'Détection des lacunes...',
+            'Personnalisation active...',
+            'Prédiction de performance...'
+          ];
+
+          let statusIndex = 0;
+          setInterval(() => {
+            if (statusElement) {
+              statusElement.style.opacity = '0';
+              setTimeout(() => {
+                statusElement.textContent = statuses[statusIndex % statuses.length];
+                statusElement.style.opacity = '1';
+                statusIndex++;
+              }, 200);
+            }
+          }, 3000);
+        }
+      }
+
+      // Adaptive Learning Engine
+      class AdaptiveLearningEngine {
+        constructor() {
+          this.userProgress = {
+            completionRate: 0.73,
+            difficultyPreference: 'medium',
+            learningSpeed: 'normal',
+            weakAreas: ['algorithms', 'data-structures'],
+            strongAreas: ['python-basics', 'web-development']
+          };
+          this.init();
+        }
+
+        init() {
+          this.analyzeUserBehavior();
+          this.adaptContent();
+          setInterval(() => this.provideIntelligentSuggestions(), 10000);
+        }
+
+        analyzeUserBehavior() {
+          // Simulate real-time learning analytics
+          console.log('🧠 AI: Analyzing user learning patterns...');
+
+          // Track user interactions
+          document.addEventListener('click', (e) => {
+            if (e.target.closest('.floating-card.ai-powered')) {
+              this.recordInteraction('card_click', e.target.dataset.aiFeature);
+            }
+          });
+
+          // Monitor scroll behavior for engagement analysis
+          let scrollTimeout;
+          window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              this.analyzeEngagement();
+            }, 1000);
+          });
+        }
+
+        recordInteraction(type, feature) {
+          console.log(`🎯 AI: Recorded ${type} interaction with ${feature}`);
+          // In a real implementation, this would send data to analytics
+        }
+
+        adaptContent() {
+          // Simulate content adaptation based on user performance
+          const adaptiveElements = document.querySelectorAll('.floating-card.ai-powered');
+
+          adaptiveElements.forEach((element, index) => {
+            setTimeout(() => {
+              element.style.order = Math.floor(Math.random() * 4);
+              element.style.animation = 'pulse 0.5s ease-in-out';
+            }, index * 500);
+          });
+        }
+
+        analyzeEngagement() {
+          const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+          if (scrollPercentage > 50) {
+            console.log('📈 AI: High engagement detected - user is actively learning');
+          }
+        }
+
+        provideIntelligentSuggestions() {
+          const suggestions = [
+            '💡 Based on your progress, consider taking a short break to consolidate learning.',
+            '🚀 You\\'re excelling! Ready for more advanced content?',
+            '🎯 Focus on algorithms - detected as a growth area.',
+            '⭐ Your learning pace is optimal. Keep it up!',
+            '🔄 Time to review previous concepts for better retention.'
+          ];
+
+          const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+          console.log(`🤖 AI Suggestion: ${randomSuggestion}`);
+
+          // Show suggestion in AI companion
+          const aiSuggestion = document.getElementById('aiSuggestion');
+          if (aiSuggestion && Math.random() > 0.7) {
+            aiSuggestion.style.opacity = '0';
+            setTimeout(() => {
+              aiSuggestion.textContent = randomSuggestion;
+              aiSuggestion.style.opacity = '1';
+            }, 300);
+          }
+        }
+      }
+
+      // Predictive Analytics Engine
+      class PredictiveAnalytics {
+        constructor() {
+          this.models = {
+            completionProbability: 0.87,
+            skillMastery: 0.73,
+            recommendedPath: 'ml-specialist'
+          };
+          this.init();
+        }
+
+        init() {
+          this.runPredictiveModels();
+          setInterval(() => this.updatePredictions(), 15000);
+        }
+
+        runPredictiveModels() {
+          console.log('🔮 AI: Running predictive models...');
+
+          // Simulate machine learning predictions
+          setTimeout(() => {
+            const predictions = {
+              courseCompletion: Math.random() * 0.3 + 0.7, // 70-100%
+              timeToMastery: Math.floor(Math.random() * 8 + 4), // 4-12 weeks
+              careerReadiness: Math.random() * 0.2 + 0.8 // 80-100%
+            };
+
+            console.log('📊 Predictions generated:', predictions);
+            this.displayPredictions(predictions);
+          }, 2000);
+        }
+
+        updatePredictions() {
+          // Update predictions based on new data
+          this.models.completionProbability = Math.min(0.99, this.models.completionProbability + Math.random() * 0.02);
+
+          const predictionElement = document.getElementById('successPrediction');
+          if (predictionElement) {
+            const newPrediction = Math.floor(this.models.completionProbability * 100);
+            predictionElement.textContent = `${newPrediction}%`;
+
+            // Visual feedback for improvement
+            if (newPrediction > parseInt(predictionElement.textContent)) {
+              predictionElement.style.animation = 'glow 1s ease-in-out';
+              setTimeout(() => {
+                predictionElement.style.animation = '';
+              }, 1000);
+            }
+          }
+        }
+
+        displayPredictions(predictions) {
+          console.log(`🎯 Course Completion Probability: ${(predictions.courseCompletion * 100).toFixed(1)}%`);
+          console.log(`⏱️ Estimated Time to Mastery: ${predictions.timeToMastery} weeks`);
+          console.log(`💼 Career Readiness: ${(predictions.careerReadiness * 100).toFixed(1)}%`);
+        }
+      }
+
+      // Initialize AI Features
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize AI Reminder System
+        new AIReminderSystem();
+
+        // Initialize new AI systems
+        new AIStudyCompanion();
+        new AdaptiveLearningEngine();
+        new PredictiveAnalytics();
+
+        // Initialize enhanced interactions
+        initAIFloatingCards();
+        initLearningPathViz();
+
+        // Add smooth transitions to AI panels
+        const reminderPanel = document.getElementById("aiReminderPanel");
+        const studyCompanion = document.getElementById("aiStudyCompanion");
+
+        [reminderPanel, studyCompanion].forEach(panel => {
+          if (panel) {
+            panel.addEventListener("mouseenter", function () {
+              this.style.transform = "scale(1.02)";
+              this.style.boxShadow = "0 10px 40px rgba(102, 126, 234, 0.2)";
+            });
+
+            panel.addEventListener("mouseleave", function () {
+              this.style.transform = "scale(1)";
+              this.style.boxShadow = "";
+            });
+          }
+        });
+
+        // Animate AI orb on scroll
+        window.addEventListener("scroll", function () {
+          const scrolled = window.pageYOffset;
+          const orb = document.querySelector(".ai-learning-orb");
+          if (orb) {
+            orb.style.transform = `translateY(calc(-50% + ${
+              scrolled * 0.1
+            }px))`;
+          }
+        });
+
+        // Add AI particles to hero background
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+          const particlesContainer = document.createElement('div');
+          particlesContainer.className = 'hero-ai-particles';
+
+          for (let i = 0; i < 5; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'ai-particle';
+            particlesContainer.appendChild(particle);
+          }
+
+          heroSection.appendChild(particlesContainer);
+        }
       });
     </script>
   </body>
