@@ -1037,15 +1037,15 @@
 
         <div class="form-group">
           <label for="amount">
-            <i class="fas fa-dollar-sign"></i> Montant:
+            <i class="fas fa-dollar-sign"></i> Montant (optionnel):
           </label>
           <input
             type="number"
             id="amount"
             name="amount"
-            placeholder="Montant (USD ou FC)"
-            required
+            placeholder="Montant (USD ou FC) - Optionnel"
             readonly
+            value="0"
           />
           <div class="error-message">Montant invalide</div>
           <div class="success-message">Montant confirmé ✓</div>
@@ -1060,7 +1060,45 @@
 
         <button type="submit" id="paymentButton" disabled>
           <i class="fas fa-credit-card"></i>
-          <span id="buttonText">Sélectionnez une méthode de paiement</span>
+          <span id="buttonText">OK</span>
+        </button>
+
+        <!-- Email Test Button -->
+        <button
+          type="button"
+          id="emailTestButton"
+          style="
+            margin-top: 10px;
+            margin-left: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+          "
+          onclick="testEmailTemplate()"
+        >
+          Envoyer un mail de confirmation
+        </button>
+
+        <!-- Form Submission Test Button -->
+        <button
+          type="button"
+          id="formTestButton"
+          style="
+            margin-top: 10px;
+            margin-left: 10px;
+            background: #ffc107;
+            color: black;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+          "
+          onclick="testFormSubmission()"
+        >
+          🧪 Test Form Submission
         </button>
       </form>
 
@@ -1107,17 +1145,34 @@
       let selectedPaymentMethod = null;
       let isFormValid = false;
 
+      // EmailJS Configuration - CONFIGURED WITH YOUR DETAILS
+      const EMAILJS_CONFIG = {
+        publicKey: "px88hVvZZOI8odox8", // Your EmailJS public key
+        serviceId: "service_osvola7", // Your EmailJS service ID
+        templateId: "template_12nvate", // Your EmailJS template ID
+      };
+
+      // Global variable to track EmailJS initialization status
+      let emailjsInitialized = false;
+
       document.addEventListener("DOMContentLoaded", function () {
+        console.log("🚀 DOM Content Loaded - Starting initialization");
+
         // Initialize EmailJS with error handling
         try {
           if (typeof emailjs !== "undefined") {
-            emailjs.init("px88hVvZZOI8odox8");
-            console.log("EmailJS initialized successfully");
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+            emailjsInitialized = true;
+            console.log("✅ EmailJS initialized successfully");
+            console.log("🔧 Service ID:", EMAILJS_CONFIG.serviceId);
+            console.log("📝 Template ID:", EMAILJS_CONFIG.templateId);
           } else {
-            console.warn("EmailJS not loaded");
+            console.warn("⚠️ EmailJS library not loaded");
+            emailjsInitialized = false;
           }
         } catch (emailjsError) {
-          console.error("EmailJS initialization failed:", emailjsError);
+          console.error("❌ EmailJS initialization failed:", emailjsError);
+          emailjsInitialized = false;
         }
 
         // Check if required libraries are loaded
@@ -1159,6 +1214,12 @@
         // Initialize form validation
         console.log("Initializing form validation...");
         initializeFormValidation();
+
+        // Perform initial validation check
+        setTimeout(() => {
+          updateFormValidation();
+          console.log("🔍 Initial validation check completed");
+        }, 100);
 
         // Add debug listener to check if form submission is working
         const form = document.getElementById("paymentForm");
@@ -1209,21 +1270,14 @@
             };
           }
 
-          if (!payload.amount || parseFloat(payload.amount) <= 0) {
-            return {
-              isValid: false,
-              message: "Veuillez entrer un montant valide.",
-            };
-          }
+          // For basic receipt generation, amount and payment method are optional
+          // If no amount is provided, we'll use default course pricing
+          // If no payment method is selected, we'll use "Non spécifié"
 
-          if (!paymentMethod) {
-            return {
-              isValid: false,
-              message: "Veuillez sélectionner une méthode de paiement.",
-            };
-          }
-
-          return { isValid: true, message: "Validation réussie" };
+          return {
+            isValid: true,
+            message: "Validation réussie - Prêt pour génération de reçu",
+          };
         }
 
         function isValidEmail(email) {
@@ -1255,10 +1309,10 @@
             console.log("📋 Form payload:", payload);
             console.log("💳 Selected payment method:", selectedPaymentMethod);
 
-            // Comprehensive form validation
+            // Basic form validation (name and email only required)
             const validationResult = validatePaymentForm(
               payload,
-              selectedPaymentMethod
+              selectedPaymentMethod || "Non spécifié"
             );
             if (!validationResult.isValid) {
               // Highlight the problematic field
@@ -1407,7 +1461,7 @@
 
                 // Redirect to home
                 setTimeout(() => {
-                  window.location.href = "home.html";
+                  window.location.href = "index.html";
                 }, 3000);
 
                 return; // Exit the function as processing is complete
@@ -1539,23 +1593,63 @@
               // Call the automatic receipt generation
               await generateAutomaticReceipt(doc, receiptId, payload);
 
-              // Send email with error handling
+              // Send email with your custom template
               try {
                 if (typeof emailjs !== "undefined") {
-                  await emailjs.send("service_osvola7", "template_12nvate", {
-                    ...payload,
-                    receipt_number: receiptId,
+                  const emailData = {
+                    // Multiple email field formats to match different template configurations
                     to_email: payload.email,
+                    email: payload.email,
+                    recipient_email: payload.email,
+                    reply_to: payload.email,
+                    user_email: payload.email,
+
+                    // Multiple name field formats
                     to_name: payload.to_name,
-                  });
-                  console.log("Email sent successfully");
+                    name: payload.to_name,
+                    user_name: payload.to_name,
+                    recipient_name: payload.to_name,
+
+                    // Transaction details
+                    receipt_number: receiptId,
+                    transaction_id: receiptId,
+
+                    // Course information
+                    course_title: payload.course_title || "Formation MDai",
+                    course_info:
+                      payload.course_info ||
+                      "Formation en Intelligence Artificielle",
+
+                    // Payment details
+                    amount: payload.total_amount || payload.amount || "0",
+                    payment_method: payload.payment_method || "Non spécifié",
+
+                    // Date and time
+                    payment_date: new Date().toLocaleDateString("fr-FR"),
+                    payment_time: new Date().toLocaleTimeString("fr-FR"),
+
+                    // Additional fields - customize as needed
+                    company_name: "OpenMind Digital Academy",
+                    support_email: "contact@mdai.xyz",
+                  };
+
+                  console.log("📧 Sending email with data:", emailData);
+
+                  // Send email using your configured template
+                  await emailjs.send(
+                    EMAILJS_CONFIG.serviceId,
+                    EMAILJS_CONFIG.templateId,
+                    emailData
+                  );
+
+                  console.log("✅ Email sent successfully to:", payload.email);
                 } else {
                   throw new Error("EmailJS not available");
                 }
               } catch (emailError) {
-                console.error("Email sending failed:", emailError);
+                console.error("❌ Email sending failed:", emailError);
                 // Don't stop the process if email fails - continue with success message
-                console.log("Continuing without email notification");
+                console.log("⚠️ Continuing without email notification");
               }
 
               // Reset form and clear storage
@@ -1596,18 +1690,19 @@
             );
           }
 
-          // Step 2: Process payment data
+          // Step 2: Process payment data with fallback values
           const paymentData = {
             name: formData.get("to_name") || formData.get("name"),
             email: formData.get("email"),
             phone: formData.get("phone") || "Non spécifié",
-            amount: parseFloat(formData.get("amount")),
-            paymentMethod: selectedPaymentMethod,
+            amount: parseFloat(formData.get("amount")) || 0,
+            paymentMethod: selectedPaymentMethod || "Non spécifié",
             transactionId:
-              "TXN" + Date.now() + Math.random().toString(36).substr(2, 9),
+              "RCP" + Date.now() + Math.random().toString(36).substr(2, 9),
             date: new Date().toLocaleDateString("fr-FR"),
             time: new Date().toLocaleTimeString("fr-FR"),
-            courseName: "Formation IA - OpenMind Digital Academy",
+            courseName:
+              localStorage.getItem("selectedCourseTitle") || "Formation MDai",
           };
 
           console.log("Payment data processed:", paymentData);
@@ -1720,19 +1815,40 @@
           if (typeof emailjs !== "undefined") {
             try {
               const emailParams = {
-                to_name: paymentData.name,
+                // Multiple email field formats to match different template configurations
                 to_email: paymentData.email,
+                email: paymentData.email,
+                recipient_email: paymentData.email,
+                reply_to: paymentData.email,
+                user_email: paymentData.email,
+
+                // Multiple name field formats
+                to_name: paymentData.name,
+                name: paymentData.name,
+                user_name: paymentData.name,
+                recipient_name: paymentData.name,
+
+                // Transaction details
                 transaction_id: paymentData.transactionId,
+                receipt_number: paymentData.transactionId,
                 amount: paymentData.amount.toFixed(2),
                 course_name: paymentData.courseName,
+                course_title: paymentData.courseName,
                 payment_method: paymentData.paymentMethod,
                 date: paymentData.date,
                 time: paymentData.time,
+                payment_date: paymentData.date,
+                payment_time: paymentData.time,
+
+                // Additional standard fields
+                company_name: "OpenMind Digital Academy",
+                support_email: "contact@mdai.xyz",
               };
 
+              // Use your custom EmailJS template
               await emailjs.send(
-                "service_osvola7",
-                "template_12nvate",
+                EMAILJS_CONFIG.serviceId,
+                EMAILJS_CONFIG.templateId,
                 emailParams
               );
               console.log("Email sent successfully");
@@ -1747,7 +1863,7 @@
           // Step 7: Show success message
           await Swal.fire({
             icon: "success",
-            title: "Paiement Réussi !",
+            title: "Reçu Généré avec Succès !",
             html: `
               <div style="text-align: left; padding: 10px;">
                 <p><strong>Transaction ID :</strong> ${
@@ -1776,7 +1892,7 @@
 
           // Step 8: Redirect to home page
           setTimeout(() => {
-            window.location.href = "home.html";
+            window.location.href = "index.html";
           }, 3000);
 
           return { success: true, data: paymentData };
@@ -1845,11 +1961,29 @@
         const nameInput = document.querySelector('input[name="to_name"]');
         const emailInput = document.querySelector('input[name="email"]');
 
+        if (!nameInput || !emailInput) {
+          console.error("❌ Form inputs not found!");
+          return;
+        }
+
+        console.log("✅ Form inputs found, adding event listeners");
+
         nameInput.addEventListener("input", validateName);
         nameInput.addEventListener("blur", validateName);
+        nameInput.addEventListener("keyup", validateName);
 
         emailInput.addEventListener("input", validateEmail);
         emailInput.addEventListener("blur", validateEmail);
+        emailInput.addEventListener("keyup", validateEmail);
+
+        // Add form-level event listener for testing
+        const form = document.getElementById("paymentForm");
+        if (form) {
+          form.addEventListener("change", function () {
+            console.log("🔄 Form changed, revalidating...");
+            setTimeout(updateFormValidation, 10);
+          });
+        }
       }
 
       function validateName() {
@@ -1896,14 +2030,347 @@
         updatePaymentButton();
 
         // If form becomes valid and payment method is selected, auto-enable button
-        if (isFormValid && selectedPaymentMethod) {
+        if (isFormValid) {
           console.log("✅ Form is now complete and ready for submission");
+        }
+
+        console.log("📊 Validation Status:", {
+          nameValid,
+          emailValid,
+          isFormValid,
+          selectedPaymentMethod,
+        });
+      }
+
+      // Debug function for testing
+      function debugFormValidation() {
+        console.log("🔧 DEBUGGING FORM VALIDATION");
+
+        const nameInput = document.querySelector('input[name="to_name"]');
+        const emailInput = document.querySelector('input[name="email"]');
+        const button = document.getElementById("paymentButton");
+
+        console.log("📋 Current Form State:");
+        console.log("Name:", nameInput ? nameInput.value : "NOT FOUND");
+        console.log("Email:", emailInput ? emailInput.value : "NOT FOUND");
+        console.log("Button disabled:", button ? button.disabled : "NOT FOUND");
+        console.log("isFormValid:", isFormValid);
+
+        if (nameInput && emailInput) {
+          console.log("🔄 Running manual validation...");
+          updateFormValidation();
+
+          // Try to enable button manually for testing
+          if (isFormValid && button) {
+            button.disabled = false;
+            console.log("✅ Button enabled manually for testing");
+          }
         }
       }
 
+      // Check EmailJS status function
+      function checkEmailJSStatus() {
+        console.log("🔍 CHECKING EMAILJS STATUS");
+
+        const status = {
+          emailjsLibraryLoaded: typeof emailjs !== "undefined",
+          emailjsInitialized: emailjsInitialized,
+          config: EMAILJS_CONFIG,
+          hasValidConfig: !!(
+            EMAILJS_CONFIG.serviceId &&
+            EMAILJS_CONFIG.templateId &&
+            EMAILJS_CONFIG.publicKey
+          ),
+        };
+
+        console.log("📊 EmailJS Status Report:", status);
+
+        let message = "📊 EmailJS Status Report:\\n\\n";
+        message +=
+          "Library Loaded: " +
+          (status.emailjsLibraryLoaded ? "✅ YES" : "❌ NO") +
+          "\\n";
+        message +=
+          "Initialized: " +
+          (status.emailjsInitialized ? "✅ YES" : "❌ NO") +
+          "\\n";
+        message +=
+          "Valid Config: " +
+          (status.hasValidConfig ? "✅ YES" : "❌ NO") +
+          "\\n\\n";
+        message += "Configuration Details:\\n";
+        message += "Service ID: " + EMAILJS_CONFIG.serviceId + "\\n";
+        message += "Template ID: " + EMAILJS_CONFIG.templateId + "\\n";
+        message +=
+          "Public Key: " +
+          EMAILJS_CONFIG.publicKey.substring(0, 8) +
+          "...\\n\\n";
+
+        if (
+          status.emailjsLibraryLoaded &&
+          status.emailjsInitialized &&
+          status.hasValidConfig
+        ) {
+          message += "🎉 All systems ready for email sending!";
+        } else {
+          message += "⚠️ Issues detected. Check console for details.";
+        }
+
+        alert(message);
+      }
+
+      // Test form submission function
+      function testFormSubmission() {
+        console.log("🧪 TESTING FORM SUBMISSION");
+
+        const nameInput = document.querySelector('input[name="to_name"]');
+        const emailInput = document.querySelector('input[name="email"]');
+        const paymentButton = document.getElementById("paymentButton");
+        const form = document.getElementById("paymentForm");
+
+        console.log("📋 Form Elements Status:");
+        console.log("- Name input:", nameInput ? nameInput.value : "NOT FOUND");
+        console.log(
+          "- Email input:",
+          emailInput ? emailInput.value : "NOT FOUND"
+        );
+        console.log("- Payment button:", paymentButton ? "FOUND" : "NOT FOUND");
+        console.log(
+          "- Payment button disabled:",
+          paymentButton ? paymentButton.disabled : "N/A"
+        );
+        console.log("- Form element:", form ? "FOUND" : "NOT FOUND");
+        console.log("- isFormValid:", isFormValid);
+        console.log("- selectedPaymentMethod:", selectedPaymentMethod);
+
+        // Test validation
+        if (nameInput && emailInput) {
+          const nameValid = validateName();
+          const emailValid = validateEmail();
+          console.log("- Name validation:", nameValid);
+          console.log("- Email validation:", emailValid);
+
+          // Force update validation
+          updateFormValidation();
+
+          console.log("- Updated isFormValid:", isFormValid);
+          console.log(
+            "- Updated button disabled:",
+            paymentButton ? paymentButton.disabled : "N/A"
+          );
+        }
+
+        // Test if form submission would work
+        if (nameInput?.value && emailInput?.value && form) {
+          console.log("✅ All required elements present");
+
+          // Try to manually trigger form submission for testing
+          const event = new Event("submit", {
+            bubbles: true,
+            cancelable: true,
+          });
+          console.log("🚀 Manually triggering form submit event...");
+          form.dispatchEvent(event);
+        } else {
+          console.log("❌ Missing required form elements or data");
+        }
+
+        alert("Form submission test completed. Check console for details.");
+      }
+
+      // Test EmailJS template function
+      async function testEmailTemplate() {
+        console.log("📧 TESTING EMAILJS TEMPLATE");
+
+        // First check if EmailJS is available and initialized
+        if (typeof emailjs === "undefined") {
+          console.error("❌ EmailJS library not loaded!");
+          alert(
+            "❌ EmailJS library not loaded! Please refresh the page and try again."
+          );
+          return;
+        }
+
+        if (!emailjsInitialized) {
+          console.error("❌ EmailJS not properly initialized!");
+          alert(
+            "❌ EmailJS not properly initialized! Please refresh the page and try again."
+          );
+          return;
+        }
+
+        console.log("✅ EmailJS library is available and initialized");
+        console.log("🔧 Using Service ID:", EMAILJS_CONFIG.serviceId);
+        console.log("📝 Using Template ID:", EMAILJS_CONFIG.templateId);
+        console.log("🔑 Using Public Key:", EMAILJS_CONFIG.publicKey);
+
+        const nameInput = document.querySelector('input[name="to_name"]');
+        const emailInput = document.querySelector('input[name="email"]');
+
+        if (!nameInput?.value || !emailInput?.value) {
+          alert("⚠️ Please fill in name and email first to test the template!");
+          return;
+        }
+
+        const testData = {
+          // Multiple email field formats to match different template configurations
+          to_email: emailInput.value,
+          email: emailInput.value,
+          recipient_email: emailInput.value,
+          reply_to: emailInput.value,
+          user_email: emailInput.value,
+
+          // Multiple name field formats
+          to_name: nameInput.value,
+          name: nameInput.value,
+          user_name: nameInput.value,
+          recipient_name: nameInput.value,
+
+          // Receipt and transaction details
+          receipt_number: "TEST_" + Date.now(),
+          transaction_id: "TEST_" + Date.now(),
+          course_title: "Test Course",
+          course_info: "This is a test email from your payment form",
+          amount: "99.00",
+          payment_method: "Test",
+          payment_date: new Date().toLocaleDateString("fr-FR"),
+          payment_time: new Date().toLocaleTimeString("fr-FR"),
+          company_name: "OpenMind Digital Academy",
+          support_email: "contact@mdai.xyz",
+        };
+
+        try {
+          console.log("📤 Sending test email with data:", testData);
+
+          // Validate configuration before sending
+          if (
+            !EMAILJS_CONFIG.serviceId ||
+            EMAILJS_CONFIG.serviceId === "YOUR_SERVICE_ID"
+          ) {
+            throw new Error(
+              "Service ID not configured properly: " + EMAILJS_CONFIG.serviceId
+            );
+          }
+
+          if (
+            !EMAILJS_CONFIG.templateId ||
+            EMAILJS_CONFIG.templateId === "YOUR_TEMPLATE_ID"
+          ) {
+            throw new Error(
+              "Template ID not configured properly: " +
+                EMAILJS_CONFIG.templateId
+            );
+          }
+
+          if (
+            !EMAILJS_CONFIG.publicKey ||
+            EMAILJS_CONFIG.publicKey === "YOUR_PUBLIC_KEY"
+          ) {
+            throw new Error("Public key not configured properly");
+          }
+
+          console.log("✅ Configuration validation passed, sending email...");
+
+          await emailjs.send(
+            EMAILJS_CONFIG.serviceId,
+            EMAILJS_CONFIG.templateId,
+            testData
+          );
+
+          // Modern, professional, and animated success message
+          await Swal.fire({
+            icon: "success",
+            title: "Email sent Successful",
+            html: `
+              <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px; animation: bounce 1s ease-in-out;">
+                  ✅
+                </div>
+                <h3 style="color: #28a745; margin-bottom: 15px; font-weight: 600;">
+                  Test Email Sent Successfully!
+                </h3>
+                <p style="color: #6c757d; font-size: 1.1rem; margin-bottom: 20px;">
+                  Your EmailJS template is working perfectly
+                </p>
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                           padding: 15px; border-radius: 10px; color: white; margin: 15px 0;">
+                  <p style="margin: 0; font-weight: 500;">
+                    📬 Please check <strong>${testData.to_email}</strong> for the test email
+                  </p>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                  <div style="text-align: center;">
+                    <div style="color: #28a745; font-size: 1.5rem;">📤</div>
+                    <small style="color: #6c757d;">Email Sent</small>
+                  </div>
+                  <div style="text-align: center;">
+                    <div style="color: #007bff; font-size: 1.5rem;">⚡</div>
+                    <small style="color: #6c757d;">Instant Delivery</small>
+                  </div>
+                  <div style="text-align: center;">
+                    <div style="color: #ffc107; font-size: 1.5rem;">🎯</div>
+                    <small style="color: #6c757d;">Template Active</small>
+                  </div>
+                </div>
+              </div>
+              <style>
+                @keyframes bounce {
+                  0%, 20%, 60%, 100% { transform: translateY(0); }
+                  40% { transform: translateY(-20px); }
+                  80% { transform: translateY(-10px); }
+                }
+              </style>
+            `,
+            confirmButtonText: "🎉 Awesome!",
+            confirmButtonColor: "#28a745",
+            background: "#ffffff",
+            backdrop: "rgba(0,0,0,0.4)",
+            showClass: {
+              popup: "animate__animated animate__fadeInUp animate__faster",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutDown animate__faster",
+            },
+            timer: 5000,
+            timerProgressBar: true,
+            allowOutsideClick: true,
+          });
+
+          console.log("✅ Test email sent successfully!");
+        } catch (error) {
+          console.error("❌ Test email failed - Full error:", error);
+          console.error("🔍 Error details:");
+          console.error("- Error name:", error?.name || "Unknown");
+          console.error("- Error message:", error?.message || "No message");
+          console.error("- Error stack:", error?.stack || "No stack trace");
+          console.error("- Error type:", typeof error);
+          console.error("- Error object:", error);
+
+          let errorMessage = "Unknown error occurred";
+          if (error && error.message) {
+            errorMessage = error.message;
+          } else if (error && typeof error === "string") {
+            errorMessage = error;
+          } else if (error) {
+            errorMessage = JSON.stringify(error);
+          }
+
+          alert(
+            "❌ Test email failed: " +
+              errorMessage +
+              "\\n\\nPossible causes:" +
+              "\\n1. EmailJS service/template ID incorrect" +
+              "\\n2. EmailJS public key invalid" +
+              "\\n3. Template variables don't match" +
+              "\\n4. Network connection issue" +
+              "\\n\\nCheck console for detailed error information."
+          );
+        }
+      }
       function updatePaymentButton() {
         const paymentButton = document.getElementById("paymentButton");
-        const canProceed = isFormValid && selectedPaymentMethod;
+        // Allow submission with just form validation (name + email)
+        const canProceed = isFormValid;
 
         console.log("🔄 Updating payment button:", {
           isFormValid,
@@ -1913,14 +2380,11 @@
 
         paymentButton.disabled = !canProceed;
 
-        if (!canProceed && !selectedPaymentMethod) {
+        if (!canProceed) {
           document.getElementById("buttonText").innerHTML =
-            "Sélectionnez une méthode de paiement";
-        } else if (!canProceed && selectedPaymentMethod) {
-          document.getElementById("buttonText").innerHTML =
-            "Complétez le formulaire";
-        } else if (canProceed) {
-          // Update button text based on payment method
+            "Complétez le formulaire (Nom + Email)";
+        } else {
+          // Update button text based on payment method or default to receipt generation
           if (selectedPaymentMethod === "card") {
             document.getElementById("buttonText").innerHTML =
               "<i class='fas fa-credit-card'></i> Payer par Carte";
@@ -1928,8 +2392,9 @@
             document.getElementById("buttonText").innerHTML =
               "<i class='fas fa-mobile-alt'></i> Payer par M-PESA";
           } else {
+            // Default: Generate receipt and send email
             document.getElementById("buttonText").innerHTML =
-              "<i class='fas fa-check'></i> Procéder au Paiement";
+              "<i class='fas fa-receipt'></i> Générer Reçu & Envoyer Email";
           }
         }
       }
@@ -2044,7 +2509,7 @@
                 allowOutsideClick: false,
               }).then(() => {
                 // Redirect to home page
-                window.location.href = "home.html";
+                window.location.href = "index.html";
               });
             } catch (processError) {
               console.error("Processing error:", processError);
@@ -2166,11 +2631,8 @@
           console.log("All required libraries loaded successfully");
         }
 
-        // Initialize EmailJS if available
-        if (typeof emailjs !== "undefined") {
-          emailjs.init("user_oskDomovicaVan111");
-          console.log("EmailJS initialized");
-        }
+        // EmailJS already initialized in DOMContentLoaded event
+        console.log("EmailJS initialization skipped (already done)");
 
         // Initialize form validation
         if (typeof initializeFormValidation === "function") {
