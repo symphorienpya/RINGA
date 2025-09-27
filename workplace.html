@@ -1,320 +1,2271 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
-  <title>MDai workspace</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f5f6fa;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .sidebar {
-      width: 240px;
-      background: #2f3640;
-      color: #fff;
-      padding: 1rem;
-      transition: transform 0.3s ease;
-    }
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 1.5rem;
-    }
-    .sidebar button {
-      width: 100%;
-      padding: 12px;
-      background: #353b48;
-      border: none;
-      margin-bottom: 10px;
-      color: #fff;
-      font-size: 16px;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-    .sidebar button:hover {
-      background: #40739e;
-    }
-    .main {
-      flex: 1;
-      padding: 1.5rem;
-      overflow-y: auto;
-    }
-    .navbar-toggle {
-      display: none;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 24px;
-      background: #2f3640;
-      color: white;
-      border: none;
-      padding: 10px 14px;
-      z-index: 1000;
-      cursor: pointer;
-    }
-    .task-area {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    textarea, input, button, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 12px;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button.action {
-      background: #44bd32;
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .logs {
-      background: #f0f0f0;
-      padding: 10px;
-      border-top: 2px solid #ccc;
-      font-size: 0.9rem;
-      margin-top: 10px;
-      border-radius: 8px;
-    }
-    .drag-area {
-      border: 2px dashed #ccc;
-      padding: 20px;
-      text-align: center;
-      color: #555;
-      margin-top: 1rem;
-      cursor: pointer;
-      border-radius: 8px;
-    }
-    .progress-bar {
-      height: 20px;
-      background: #27ae60;
-      width: 0%;
-      color: white;
-      text-align: center;
-      font-size: 12px;
-      margin-top: 10px;
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-    .file-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .file-card {
-      background: #fff;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 6px;
-      width: 120px;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-    .file-card img, .file-card video {
-      width: 100%;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-    .file-card audio {
-      width: 100%;
-    }
-    .file-card i {
-      font-size: 2rem;
-      margin-bottom: 5px;
-    }
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      color: #888;
-      font-size: 0.9rem;
-    }
-    @media (max-width: 768px) {
-      .sidebar {
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+    <title>MDai Workspace | Professional AI Tools Suite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Advanced AI-powered workspace with professional tools for productivity and creativity"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+      :root {
+        /* Modern Color Palette */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+        --primary-color: #667eea;
+        --secondary-color: #f093fb;
+        --accent-color: #4facfe;
+        --success-color: #11998e;
+        --warning-color: #f5576c;
+        --text-primary: #ffffff;
+        --text-secondary: #b4b4b4;
+        --text-muted: #6b7280;
+        --background-dark: #0a0a0a;
+        --background-card: rgba(255, 255, 255, 0.05);
+        --background-sidebar: rgba(15, 15, 15, 0.95);
+        --border-color: rgba(255, 255, 255, 0.1);
+
+        /* Shadows & Effects */
+        --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.15);
+        --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.3);
+        --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
+        --shadow-neon: 0 0 20px rgba(102, 126, 234, 0.6);
+
+        /* Animation Timings */
+        --transition-fast: 0.2s ease;
+        --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* Advanced Effects */
+        --blur-strong: blur(20px);
+        --blur-light: blur(10px);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--background-dark);
+        color: var(--text-primary);
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Loading Screen */
+      .loading-screen {
         position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
-        transform: translateX(-100%);
-        z-index: 999;
+        background: var(--background-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
       }
-      .sidebar.active {
-        transform: translateX(0);
+
+      .loading-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
       }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        border: 3px solid var(--border-color);
+        border-top: 3px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Particle Background */
+      #particles-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.3;
+      }
+      .sidebar {
+        width: 240px;
+        background: #2f3640;
+        color: #fff;
+        padding: 1rem;
+        transition: transform 0.3s ease;
+      }
+      .sidebar h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.5rem;
+      }
+      .sidebar button {
+        width: 100%;
+        padding: 12px;
+        background: #353b48;
+        border: none;
+        margin-bottom: 10px;
+        color: #fff;
+        font-size: 16px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        border-radius: 6px;
+      }
+      .sidebar button:hover {
+        background: #40739e;
+      }
+      /* Modern Main Area */
+      .main {
+        flex: 1;
+        padding: 2rem;
+        overflow-y: auto;
+        background: linear-gradient(
+          135deg,
+          var(--background-dark) 0%,
+          #111111 100%
+        );
+        position: relative;
+      }
+
+      .main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .main-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .status-indicators {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--background-card);
+        backdrop-filter: var(--blur-light);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success-color);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
       .navbar-toggle {
-        display: block;
+        display: none;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        font-size: 1.5rem;
+        background: var(--background-card);
+        backdrop-filter: var(--blur-strong);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 0.75rem;
+        z-index: 1000;
+        cursor: pointer;
+        transition: all var(--transition-smooth);
       }
-    }
-  </style>
-</head>
-<body>
-  <button class="navbar-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="sidebar" id="sidebar">
-    <h2>MDai Tools</h2>
-    <button onclick="loadTool('pdf')"><i class="fas fa-file-pdf"></i> Text to PDF</button>
-    <button onclick="loadTool('qr')"><i class="fas fa-qrcode"></i> Text to QR</button>
-    <button onclick="loadTool('summary')"><i class="fas fa-align-left"></i> Summarizer</button>
-    <button onclick="loadTool('email')"><i class="fas fa-envelope"></i> Email Template</button>
-    <button onclick="loadTool('upload')"><i class="fas fa-upload"></i> Drag & Drop Upload</button>
-  </div>
 
-  <div class="main">
-    <div class="task-area" id="tool-area">
-      <h3>Welcome to MDai Assistant</h3>
-      <p>Select a tool from the sidebar to get started.</p>
+      .navbar-toggle:hover {
+        background: var(--primary-gradient);
+        box-shadow: var(--shadow-glow);
+      }
+
+      /* Modern Task Area */
+      .task-area {
+        background: var(--background-card);
+        backdrop-filter: var(--blur-strong);
+        border: 1px solid var(--border-color);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow-soft);
+        position: relative;
+        overflow: hidden;
+        min-height: 500px;
+      }
+
+      .task-area::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary-gradient);
+      }
+
+      .welcome-screen {
+        text-align: center;
+        padding: 3rem 2rem;
+      }
+
+      .welcome-icon {
+        font-size: 4rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 2rem;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .welcome-title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .welcome-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      /* Modern Form Elements */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      textarea,
+      input,
+      select {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+        background: var(--background-card);
+        backdrop-filter: var(--blur-light);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-primary);
+        transition: all var(--transition-smooth);
+        resize: vertical;
+      }
+
+      textarea:focus,
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-glow);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      textarea::placeholder,
+      input::placeholder {
+        color: var(--text-muted);
+      }
+
+      /* Modern Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all var(--transition-smooth);
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        margin: 0.5rem 0.5rem 0.5rem 0;
+      }
+
+      .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hard);
+      }
+
+      .btn-success {
+        background: var(--success-gradient);
+        color: white;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .btn-warning {
+        background: var(--warning-gradient);
+        color: white;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-primary);
+        border: 2px solid var(--border-color);
+      }
+
+      .btn-secondary:hover {
+        background: var(--background-card);
+        border-color: var(--primary-color);
+      }
+
+      /* Legacy button support */
+      button.action {
+        background: var(--success-gradient);
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all var(--transition-smooth);
+      }
+
+      button.action:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hard);
+      }
+      .logs {
+        background: #f0f0f0;
+        padding: 10px;
+        border-top: 2px solid #ccc;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        border-radius: 8px;
+      }
+      .drag-area {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        color: #555;
+        margin-top: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+      .progress-bar {
+        height: 20px;
+        background: #27ae60;
+        width: 0%;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        margin-top: 10px;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+      .file-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .file-card {
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 6px;
+        width: 120px;
+        text-align: center;
+        font-size: 0.85rem;
+      }
+      .file-card img,
+      .file-card video {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      .file-card audio {
+        width: 100%;
+      }
+      .file-card i {
+        font-size: 2rem;
+        margin-bottom: 5px;
+      }
+      /* Progress Indicators */
+      .progress-container {
+        margin: 1.5rem 0;
+      }
+
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--background-card);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--primary-gradient);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+        position: relative;
+      }
+
+      .progress-fill::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Tool Specific Styles */
+      .tool-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .tool-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      .tool-info h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+      }
+
+      .tool-info p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .footer-gradient-text {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 600;
+      }
+
+      /* Notification System */
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-primary);
+        font-weight: 500;
+        box-shadow: var(--shadow-soft);
+        z-index: 1000;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        max-width: 400px;
+      }
+
+      .notification.show {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      .notification.notification-success {
+        border-left: 4px solid #10b981;
+      }
+
+      .notification.notification-error {
+        border-left: 4px solid #ef4444;
+      }
+
+      .notification.notification-info {
+        border-left: 4px solid #3b82f6;
+      }
+
+      .notification button {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        margin-left: auto;
+      }
+
+      .notification button:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+      }
+
+      /* Loading Spinner */
+      .loading-spinner {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--primary-color);
+      }
+
+      .loading-spinner::before {
+        content: "";
+        width: 16px;
+        height: 16px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Loading Screen */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-primary);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      .loading-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loading-logo {
+        font-size: 3rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+        margin-bottom: 2rem;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .loading-progress {
+        width: 200px;
+        height: 4px;
+        background: var(--bg-secondary);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      }
+
+      .loading-bar {
+        width: 0%;
+        height: 100%;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+        animation: loadingBar 2s ease-in-out;
+      }
+
+      @keyframes loadingBar {
+        0% {
+          width: 0%;
+        }
+        50% {
+          width: 70%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Particle Canvas */
+      #particles-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.6;
+      }
+
+      /* Modern Sidebar Styles */
+      .sidebar-header {
+        padding: 2rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .sidebar-logo i {
+        font-size: 2rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .sidebar-subtitle {
+        margin: 0.5rem 0 0 0;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0 1.5rem;
+      }
+
+      .sidebar-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-weight: 500;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+
+      .sidebar-button:hover {
+        background: var(--glass-bg-hover);
+        border-color: var(--primary-color);
+        transform: translateX(4px);
+        color: var(--primary-color);
+      }
+
+      .sidebar-button.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+        border-color: var(--primary-color);
+        color: white;
+        transform: translateX(4px);
+      }
+
+      .sidebar-button i {
+        font-size: 1.25rem;
+        min-width: 20px;
+      }
+
+      .sidebar-button span {
+        flex: 1;
+        font-size: 0.95rem;
+      }
+
+      .sidebar-button .button-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+
+      .sidebar-button.active .button-glow {
+        transform: translateX(100%);
+      }
+
+      .sidebar-footer {
+        margin-top: auto;
+        padding: 1.5rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .sidebar-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      .stat-item i {
+        color: var(--primary-color);
+        font-size: 1rem;
+      }
+
+      /* Main Header Styles */
+      .main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 2rem 0;
+      }
+
+      .header-content h1.main-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        line-height: 1.1;
+      }
+
+      .main-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin: 0;
+      }
+
+      .header-stats {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .stat-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        backdrop-filter: blur(20px);
+      }
+
+      .stat-card i {
+        font-size: 2rem;
+        color: var(--primary-color);
+      }
+
+      .stat-card .stat-number {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .stat-card .stat-label {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      /* Welcome Content */
+      .welcome-content {
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+
+      .welcome-icon {
+        margin-bottom: 2rem;
+      }
+
+      .welcome-icon i {
+        font-size: 4rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .welcome-content h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .welcome-content p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* Tool Header Styles */
+      .tool-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .tool-icon {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary-gradient);
+        border-radius: 20px;
+        font-size: 2rem;
+        color: white;
+      }
+
+      .tool-info h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        color: var(--text-primary);
+      }
+
+      .tool-info p {
+        color: var(--text-secondary);
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      /* Enhanced Form Styles */
+      .form-group {
+        margin-bottom: 2rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(20px);
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        background: var(--glass-bg-hover);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      /* Enhanced File Upload */
+      .file-upload {
+        border: 2px dashed var(--border-color);
+        border-radius: 16px;
+        padding: 3rem 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--glass-bg);
+        margin-bottom: 2rem;
+      }
+
+      .file-upload:hover,
+      .file-upload.drag-over {
+        border-color: var(--primary-color);
+        background: var(--glass-bg-hover);
+      }
+
+      .upload-icon i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .upload-text {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .upload-subtext {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .progress-container {
+        margin: 2rem 0;
+      }
+
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--bg-secondary);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--primary-gradient);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+
+      .file-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .file-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .file-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .file-card .file-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .file-info {
+        flex: 1;
+      }
+
+      .file-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        word-break: break-word;
+      }
+
+      .file-details {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .file-actions {
+        margin-top: 1rem;
+      }
+
+      .btn-icon {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #ef4444;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-icon:hover {
+        background: rgba(239, 68, 68, 0.2);
+        transform: scale(1.1);
+      }
+
+      /* Summary Result Styles */
+      .summary-result {
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-top: 2rem;
+      }
+
+      .summary-result h4 {
+        margin: 0 0 1.5rem 0;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .summary-result h4 i {
+        color: var(--primary-color);
+      }
+
+      .summary-result p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .summary-stats {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .summary-stats .stat {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .summary-stats .stat i {
+        color: var(--primary-color);
+      }
+
+      /* Success/Error Messages */
+      .success-message,
+      .error-message {
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 500;
+      }
+
+      .success-message {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #10b981;
+      }
+
+      .error-message {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #ef4444;
+      }
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .main {
+          padding: 1.5rem;
+        }
+
+        .task-area {
+          padding: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          position: fixed;
+          height: 100%;
+          transform: translateX(-100%);
+          z-index: 999;
+          width: 320px;
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+          box-shadow: var(--shadow-hard);
+        }
+
+        .navbar-toggle {
+          display: block;
+        }
+
+        .main {
+          padding: 1rem;
+          padding-top: 4rem;
+        }
+
+        .main-header {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: flex-start;
+        }
+
+        .status-indicators {
+          flex-wrap: wrap;
+        }
+
+        .task-area {
+          padding: 1.5rem;
+        }
+
+        .welcome-title {
+          font-size: 2rem;
+        }
+
+        .file-grid {
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 1rem;
+        }
+
+        .btn {
+          width: 100%;
+          margin: 0.5rem 0;
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .main {
+          padding: 0.75rem;
+          padding-top: 4rem;
+        }
+
+        .task-area {
+          padding: 1rem;
+        }
+
+        .welcome-title {
+          font-size: 1.5rem;
+        }
+
+        .file-upload {
+          padding: 2rem 1rem;
+        }
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--background-dark);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-gradient);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary-gradient);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+      <div class="loading-logo">AI Workplace</div>
+      <div class="loading-progress">
+        <div class="loading-bar"></div>
+      </div>
+      <p style="color: var(--text-secondary); margin-top: 1rem">
+        Loading professional AI tools...
+      </p>
     </div>
-    <footer>© 2025 MDai Platform - All rights reserved</footer>
-  </div>
 
-  <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('active');
-    }
+    <!-- Particle Background -->
+    <canvas id="particles-canvas"></canvas>
 
-    function loadTool(tool) {
-      const area = document.getElementById('tool-area');
-      let html = '';
+    <button class="navbar-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fas fa-robot"></i>
+          <span>MDai Workplace</span>
+        </div>
+        <p class="sidebar-subtitle">Professional AI Tools</p>
+      </div>
 
-      if (tool === 'pdf') {
-        html = `
+      <nav class="sidebar-nav">
+        <button
+          class="sidebar-button active"
+          onclick="loadTool('pdf')"
+          data-tool="pdf"
+        >
+          <i class="fas fa-file-pdf"></i>
+          <span>PDF Generator</span>
+          <div class="button-glow"></div>
+        </button>
+        <button class="sidebar-button" onclick="loadTool('qr')" data-tool="qr">
+          <i class="fas fa-qrcode"></i>
+          <span>QR Code</span>
+          <div class="button-glow"></div>
+        </button>
+        <button
+          class="sidebar-button"
+          onclick="loadTool('summary')"
+          data-tool="summary"
+        >
+          <i class="fas fa-brain"></i>
+          <span>AI Summarizer</span>
+          <div class="button-glow"></div>
+        </button>
+        <button
+          class="sidebar-button"
+          onclick="loadTool('email')"
+          data-tool="email"
+        >
+          <i class="fas fa-envelope"></i>
+          <span>Email Templates</span>
+          <div class="button-glow"></div>
+        </button>
+        <button
+          class="sidebar-button"
+          onclick="loadTool('upload')"
+          data-tool="upload"
+        >
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>File Manager</span>
+          <div class="button-glow"></div>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-stats">
+          <div class="stat-item">
+            <i class="fas fa-tools"></i>
+            <span>5 Tools Available</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-clock"></i>
+            <span>Always Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="main-header">
+        <div class="header-content">
+          <h1 class="main-title" data-aos="fade-up">
+            <span class="gradient-text">MDai Workplace</span>
+          </h1>
+          <p class="main-subtitle" data-aos="fade-up" data-aos-delay="100">
+            Professional AI-powered tools for enhanced productivity
+          </p>
+        </div>
+        <div class="header-stats" data-aos="fade-left" data-aos-delay="200">
+          <div class="stat-card">
+            <i class="fas fa-rocket"></i>
+            <div>
+              <span class="stat-number">5</span>
+              <span class="stat-label">AI Tools</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-zap"></i>
+            <div>
+              <span class="stat-number">Fast</span>
+              <span class="stat-label">Processing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="task-area"
+        id="tool-area"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        <div class="welcome-content">
+          <div class="welcome-icon">
+            <i class="fas fa-magic"></i>
+          </div>
+          <h2>Welcome to MDai Workplace</h2>
+          <p>
+            Select a tool from the sidebar to get started with professional
+            AI-powered solutions.
+          </p>
+          <div class="quick-actions">
+            <button class="btn btn-primary" onclick="loadTool('pdf')">
+              <i class="fas fa-file-pdf"></i> Start with PDF Generator
+            </button>
+            <button class="btn btn-secondary" onclick="loadTool('qr')">
+              <i class="fas fa-qrcode"></i> Try QR Code Generator
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>
+          © 2025 <span class="footer-gradient-text">MDai Workplace</span> -
+          Professional AI Tools Platform
+        </p>
+      </footer>
+    </div>
+
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+      // Initialize AOS animations
+      AOS.init({
+        duration: 800,
+        easing: "ease-in-out",
+        once: true,
+      });
+
+      // Loading Screen
+      window.addEventListener("load", function () {
+        setTimeout(() => {
+          document.getElementById("loadingScreen").classList.add("hidden");
+        }, 1000);
+      });
+
+      // Particle Background System
+      function initParticles() {
+        const canvas = document.getElementById("particles-canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 40;
+
+        class Particle {
+          constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.3;
+            this.vy = (Math.random() - 0.5) * 0.3;
+            this.radius = Math.random() * 2 + 1;
+            this.opacity = Math.random() * 0.5 + 0.2;
+          }
+
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+          }
+
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(102, 126, 234, ${this.opacity})`;
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach((particle) => {
+            particle.update();
+            particle.draw();
+          });
+
+          // Draw connections
+          particles.forEach((particleA, indexA) => {
+            particles.slice(indexA + 1).forEach((particleB) => {
+              const distance = Math.sqrt(
+                Math.pow(particleA.x - particleB.x, 2) +
+                  Math.pow(particleA.y - particleB.y, 2)
+              );
+
+              if (distance < 100) {
+                ctx.beginPath();
+                ctx.moveTo(particleA.x, particleA.y);
+                ctx.lineTo(particleB.x, particleB.y);
+                ctx.strokeStyle = `rgba(102, 126, 234, ${
+                  0.1 * (1 - distance / 100)
+                })`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            });
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+      }
+
+      // Enhanced Sidebar Toggle
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+
+        // Close sidebar when clicking outside on mobile
+        if (sidebar.classList.contains("active")) {
+          document.addEventListener("click", closeSidebarOutside);
+        }
+      }
+
+      function closeSidebarOutside(e) {
+        const sidebar = document.getElementById("sidebar");
+        const toggle = document.querySelector(".navbar-toggle");
+
+        if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+          sidebar.classList.remove("active");
+          document.removeEventListener("click", closeSidebarOutside);
+        }
+      }
+
+      // Enhanced Tool Loading with Modern UI
+      let currentTool = null;
+
+      function loadTool(tool) {
+        // Update active button
+        document.querySelectorAll(".sidebar-button").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.querySelector(`[data-tool="${tool}"]`).classList.add("active");
+
+        currentTool = tool;
+        const area = document.getElementById("tool-area");
+        let html = "";
+
+        if (tool === "pdf") {
+          html = `
+            <div class="tool-header">
+              <div class="tool-icon">
+                <i class="fas fa-file-pdf"></i>
+              </div>
+              <div class="tool-info">
+                <h3>Text to PDF Converter</h3>
+                <p>Transform your text into professional PDF documents</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Text Content</label>
+              <textarea id="pdfText" rows="8" placeholder="Enter your text here... You can write multiple paragraphs, and they will be formatted beautifully in the PDF."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Document Title (Optional)</label>
+              <input type="text" id="pdfTitle" placeholder="Enter document title" />
+            </div>
+            <button class="btn btn-primary" onclick="generatePDF()">
+              <i class="fas fa-download"></i> Generate & Download PDF
+            </button>
+            <div class="logs" id="pdfLogs" style="display: none;"></div>
+          `;
+        } else if (tool === "qr") {
+          html = `
+            <div class="tool-header">
+              <div class="tool-icon">
+                <i class="fas fa-qrcode"></i>
+              </div>
+              <div class="tool-info">
+                <h3>QR Code Generator</h3>
+                <p>Create QR codes for text, URLs, and more</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Content to Encode</label>
+              <input type="text" id="qrText" placeholder="Enter text, URL, or any content for QR code" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">QR Code Size</label>
+              <select id="qrSize">
+                <option value="200">Small (200x200)</option>
+                <option value="300" selected>Medium (300x300)</option>
+                <option value="400">Large (400x400)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="generateQR()">
+              <i class="fas fa-qrcode"></i> Generate QR Code
+            </button>
+            <div id="qrOutput" style="margin-top: 2rem; text-align: center;"></div>
+          `;
+        } else if (tool === "summary") {
+          html = `
+            <div class="tool-header">
+              <div class="tool-icon">
+                <i class="fas fa-brain"></i>
+              </div>
+              <div class="tool-info">
+                <h3>AI Text Summarizer</h3>
+                <p>Intelligent text summarization powered by AI</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Text to Summarize</label>
+              <textarea id="summaryText" rows="8" placeholder="Paste your long text here and our AI will create a concise summary..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Summary Length</label>
+              <select id="summaryLength">
+                <option value="short">Short (2-3 sentences)</option>
+                <option value="medium" selected>Medium (4-6 sentences)</option>
+                <option value="long">Long (7-10 sentences)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="generateSummary()">
+              <i class="fas fa-magic"></i> Generate Summary
+            </button>
+            <div class="logs" id="summaryOutput" style="display: none; margin-top: 1.5rem;"></div>
+          `;
+        } else if (tool === "email") {
+          html = `
+            <div class="tool-header">
+              <div class="tool-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="tool-info">
+                <h3>Email Template Generator</h3>
+                <p>Create professional email templates instantly</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Type</label>
+              <select id="emailType" onchange="updateEmailTemplate()">
+                <option value="business">Business Email</option>
+                <option value="follow-up">Follow-up Email</option>
+                <option value="thank-you">Thank You Email</option>
+                <option value="meeting">Meeting Request</option>
+                <option value="custom">Custom Template</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Recipient Name</label>
+              <input type="text" id="emailRecipient" placeholder="Enter recipient's name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <input type="text" id="emailSubject" placeholder="Email subject will be generated automatically" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Content</label>
+              <textarea id="emailContent" rows="10" placeholder="Professional email content will be generated here..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="generateEmail()">
+              <i class="fas fa-paper-plane"></i> Generate Email Template
+            </button>
+            <button class="btn btn-secondary" onclick="copyEmailToClipboard()">
+              <i class="fas fa-copy"></i> Copy to Clipboard
+            </button>
+          `;
+        } else if (tool === "upload") {
+          html = `
+            <div class="tool-header">
+              <div class="tool-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+              </div>
+              <div class="tool-info">
+                <h3>File Upload Manager</h3>
+                <p>Drag & drop files with preview and management</p>
+              </div>
+            </div>
+            <div class="file-upload" id="dropZone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+              <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+              </div>
+              <div class="upload-text">Drag & Drop Files Here</div>
+              <div class="upload-subtext">or click to browse files</div>
+              <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileSelect(event)">
+            </div>
+            <div class="progress-container" id="progressContainer" style="display: none;">
+              <div class="progress-label">
+                <span>Upload Progress</span>
+                <span id="progressText">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="file-grid" id="filePreview"></div>
+          `;
+        }
+
+        area.innerHTML = html;
+
+        // Add click handler for file upload
+        if (tool === "upload") {
+          document.getElementById("dropZone").addEventListener("click", () => {
+            document.getElementById("fileInput").click();
+          });
+        }
+
+        // Update email template when page loads
+        if (tool === "email") {
+          setTimeout(updateEmailTemplate, 100);
+        }
+
+        // Add animation
+        area.style.opacity = "0";
+        area.style.transform = "translateY(20px)";
+        setTimeout(() => {
+          area.style.transition = "all 0.3s ease";
+          area.style.opacity = "1";
+          area.style.transform = "translateY(0)";
+        }, 50);
+      }
+
+      function loadTool(tool) {
+        const area = document.getElementById("tool-area");
+        let html = "";
+
+        if (tool === "pdf") {
+          html = `
           <h3>Text to PDF</h3>
           <textarea id="pdfText" rows="6" placeholder="Enter your text here..."></textarea>
           <button class="action" onclick="generatePDF()">Download PDF</button>
         `;
-      } else if (tool === 'qr') {
-        html = `
+        } else if (tool === "qr") {
+          html = `
           <h3>Text to QR Code</h3>
           <input type="text" id="qrText" placeholder="Enter text for QR code" />
           <button class="action" onclick="generateQR()">Generate QR</button>
           <div id="qrOutput" style="margin-top: 1rem;"></div>
         `;
-      } else if (tool === 'summary') {
-        html = `
+        } else if (tool === "summary") {
+          html = `
           <h3>Text Summarizer</h3>
           <textarea id="summaryText" rows="6" placeholder="Paste your text to summarize..."></textarea>
           <button class="action" onclick="summarizeText()">Summarize</button>
           <div class="logs" id="summaryOutput"></div>
         `;
-      } else if (tool === 'email') {
-        html = `
+        } else if (tool === "email") {
+          html = `
           <h3>Email Template Generator</h3>
           <input type="text" id="emailSubject" placeholder="Subject" />
           <textarea id="emailBody" rows="5" placeholder="Message body..."></textarea>
           <button class="action" onclick="generateEmail()">Generate Email</button>
           <div class="logs" id="emailOutput"></div>
         `;
-      } else if (tool === 'upload') {
-        html = `
+        } else if (tool === "upload") {
+          html = `
           <h3>File Upload</h3>
           <div class="drag-area" ondrop="handleDrop(event)" ondragover="event.preventDefault()">Drag and drop your files here</div>
           <div class="progress-bar" id="uploadProgress">0%</div>
           <div class="file-preview" id="filePreview"></div>
         `;
+        }
+
+        area.innerHTML = html;
+        document.getElementById("sidebar").classList.remove("active");
       }
 
-      area.innerHTML = html;
-      document.getElementById('sidebar').classList.remove('active');
-    }
+      function generatePDF() {
+        const text = document.getElementById("pdfText").value;
+        const doc = new window.jspdf.jsPDF();
+        doc.text(text, 10, 10);
+        doc.save("document.pdf");
+      }
 
-    function generatePDF() {
-      const text = document.getElementById('pdfText').value;
-      const doc = new window.jspdf.jsPDF();
-      doc.text(text, 10, 10);
-      doc.save("document.pdf");
-    }
+      function generateQR() {
+        const text = document.getElementById("qrText").value;
+        const qrDiv = document.getElementById("qrOutput");
+        qrDiv.innerHTML = "";
+        new QRCode(qrDiv, {
+          text: text,
+          width: 128,
+          height: 128,
+        });
+      }
 
-    function generateQR() {
-      const text = document.getElementById('qrText').value;
-      const qrDiv = document.getElementById('qrOutput');
-      qrDiv.innerHTML = "";
-      new QRCode(qrDiv, {
-        text: text,
-        width: 128,
-        height: 128
-      });
-    }
+      function summarizeText() {
+        const text = document.getElementById("summaryText").value;
+        const output = document.getElementById("summaryOutput");
+        const sentences = text.split(".").filter((s) => s.trim().length > 0);
+        const summary =
+          sentences.slice(0, Math.ceil(sentences.length / 3)).join(". ") + ".";
+        output.innerText = summary;
+      }
 
-    function summarizeText() {
-      const text = document.getElementById('summaryText').value;
-      const output = document.getElementById('summaryOutput');
-      const sentences = text.split('.').filter(s => s.trim().length > 0);
-      const summary = sentences.slice(0, Math.ceil(sentences.length / 3)).join('. ') + '.';
-      output.innerText = summary;
-    }
+      function generateEmail() {
+        const subject = document.getElementById("emailSubject").value;
+        const body = document.getElementById("emailBody").value;
+        const output = document.getElementById("emailOutput");
+        output.innerHTML = `<strong>Subject:</strong> ${subject}<br/><strong>Body:</strong><br/>${body.replace(
+          /\n/g,
+          "<br />"
+        )}`;
+      }
 
-    function generateEmail() {
-      const subject = document.getElementById('emailSubject').value;
-      const body = document.getElementById('emailBody').value;
-      const output = document.getElementById('emailOutput');
-      output.innerHTML = `<strong>Subject:</strong> ${subject}<br/><strong>Body:</strong><br/>${body.replace(/\n/g, "<br />")}`;
-    }
+      function handleDrop(e) {
+        e.preventDefault();
+        const files = Array.from(e.dataTransfer.files);
+        const preview = document.getElementById("filePreview");
+        const progress = document.getElementById("uploadProgress");
 
-    function handleDrop(e) {
-      e.preventDefault();
-      const files = Array.from(e.dataTransfer.files);
-      const preview = document.getElementById('filePreview');
-      const progress = document.getElementById('uploadProgress');
+        preview.innerHTML = "";
+        progress.style.width = "0%";
+        progress.innerText = "0%";
 
-      preview.innerHTML = "";
-      progress.style.width = '0%';
-      progress.innerText = '0%';
+        let uploaded = 0;
+        const total = files.length;
 
-      let uploaded = 0;
-      const total = files.length;
+        files.forEach((file, index) => {
+          const reader = new FileReader();
+          const card = document.createElement("div");
+          card.className = "file-card";
 
-      files.forEach((file, index) => {
-        const reader = new FileReader();
-        const card = document.createElement('div');
-        card.className = 'file-card';
+          reader.onload = () => {
+            if (file.type.startsWith("image/")) {
+              card.innerHTML = `<img src="${reader.result}" alt="${file.name}"><div>${file.name}</div>`;
+            } else if (file.type.startsWith("audio/")) {
+              card.innerHTML = `<audio controls src="${reader.result}"></audio><div>${file.name}</div>`;
+            } else if (file.type.startsWith("video/")) {
+              card.innerHTML = `<video controls src="${reader.result}"></video><div>${file.name}</div>`;
+            } else {
+              const icon = file.type.includes("pdf")
+                ? "fa-file-pdf"
+                : file.type.includes("zip")
+                ? "fa-file-archive"
+                : file.type.includes("word")
+                ? "fa-file-word"
+                : "fa-file";
+              card.innerHTML = `<i class="fas ${icon}"></i><div>${file.name}</div>`;
+            }
+            preview.appendChild(card);
+          };
 
-        reader.onload = () => {
-          if (file.type.startsWith('image/')) {
-            card.innerHTML = `<img src="${reader.result}" alt="${file.name}"><div>${file.name}</div>`;
-          } else if (file.type.startsWith('audio/')) {
-            card.innerHTML = `<audio controls src="${reader.result}"></audio><div>${file.name}</div>`;
-          } else if (file.type.startsWith('video/')) {
-            card.innerHTML = `<video controls src="${reader.result}"></video><div>${file.name}</div>`;
-          } else {
-            const icon = file.type.includes('pdf') ? 'fa-file-pdf' :
-                         file.type.includes('zip') ? 'fa-file-archive' :
-                         file.type.includes('word') ? 'fa-file-word' :
-                         'fa-file';
-            card.innerHTML = `<i class="fas ${icon}"></i><div>${file.name}</div>`;
-          }
-          preview.appendChild(card);
-        };
+          reader.readAsDataURL(file);
 
-        reader.readAsDataURL(file);
+          setTimeout(() => {
+            uploaded++;
+            const percent = Math.round((uploaded / total) * 100);
+            progress.style.width = `${percent}%`;
+            progress.innerText = `${percent}%`;
+          }, 500 * (index + 1));
+        });
+      }
+
+      // PDF Generation Functions
+      function generatePDF() {
+        const text = document.getElementById("pdfText").value;
+        const title = document.getElementById("pdfTitle").value || "Document";
+        const logs = document.getElementById("pdfLogs");
+
+        if (!text.trim()) {
+          showNotification("Please enter some text to generate PDF", "error");
+          return;
+        }
+
+        logs.style.display = "block";
+        logs.innerHTML =
+          '<div class="loading-spinner"></div> Generating PDF...';
+
+        try {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          // Add title
+          doc.setFontSize(20);
+          doc.setFont(undefined, "bold");
+          doc.text(title, 20, 30);
+
+          // Add content
+          doc.setFontSize(12);
+          doc.setFont(undefined, "normal");
+          const splitText = doc.splitTextToSize(text, 170);
+          doc.text(splitText, 20, 50);
+
+          // Save the PDF
+          doc.save(`${title}.pdf`);
+
+          logs.innerHTML =
+            '<div class="success-message"><i class="fas fa-check-circle"></i> PDF generated successfully!</div>';
+          showNotification("PDF downloaded successfully!", "success");
+        } catch (error) {
+          logs.innerHTML =
+            '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating PDF</div>';
+          showNotification("Error generating PDF", "error");
+        }
+      }
+
+      // QR Code Generation
+      function generateQR() {
+        const text = document.getElementById("qrText").value;
+        const size = document.getElementById("qrSize").value;
+        const output = document.getElementById("qrOutput");
+
+        if (!text.trim()) {
+          showNotification("Please enter content for QR code", "error");
+          return;
+        }
+
+        output.innerHTML =
+          '<div class="loading-spinner"></div> Generating QR Code...';
+
+        try {
+          output.innerHTML = "";
+          const qr = new QRCode(output, {
+            text: text,
+            width: parseInt(size),
+            height: parseInt(size),
+            colorDark: "#1a1a2e",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
+
+          setTimeout(() => {
+            const downloadBtn = document.createElement("button");
+            downloadBtn.className = "btn btn-secondary";
+            downloadBtn.innerHTML =
+              '<i class="fas fa-download"></i> Download QR Code';
+            downloadBtn.onclick = downloadQR;
+            downloadBtn.style.marginTop = "1rem";
+            output.appendChild(downloadBtn);
+          }, 500);
+
+          showNotification("QR Code generated successfully!", "success");
+        } catch (error) {
+          output.innerHTML =
+            '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating QR code</div>';
+          showNotification("Error generating QR code", "error");
+        }
+      }
+
+      function downloadQR() {
+        const canvas = document.querySelector("#qrOutput canvas");
+        if (canvas) {
+          const link = document.createElement("a");
+          link.download = "qrcode.png";
+          link.href = canvas.toDataURL();
+          link.click();
+        }
+      }
+
+      // AI Summary Generation (Simulated)
+      function generateSummary() {
+        const text = document.getElementById("summaryText").value;
+        const length = document.getElementById("summaryLength").value;
+        const output = document.getElementById("summaryOutput");
+
+        if (!text.trim()) {
+          showNotification("Please enter text to summarize", "error");
+          return;
+        }
+
+        output.style.display = "block";
+        output.innerHTML =
+          '<div class="loading-spinner"></div> Analyzing text and generating summary...';
+
+        // Simulate AI processing
+        setTimeout(() => {
+          const sentences = text
+            .split(/[.!?]+/)
+            .filter((s) => s.trim().length > 0);
+          let summaryLength =
+            length === "short" ? 2 : length === "medium" ? 4 : 6;
+          summaryLength = Math.min(summaryLength, sentences.length);
+
+          const summary = sentences.slice(0, summaryLength).join(". ") + ".";
+
+          output.innerHTML = `
+            <div class="summary-result">
+              <h4><i class="fas fa-brain"></i> AI Generated Summary</h4>
+              <p>${summary}</p>
+              <div class="summary-stats">
+                <span class="stat"><i class="fas fa-align-left"></i> Original: ${
+                  text.length
+                } characters</span>
+                <span class="stat"><i class="fas fa-compress-alt"></i> Summary: ${
+                  summary.length
+                } characters</span>
+                <span class="stat"><i class="fas fa-percentage"></i> Reduction: ${Math.round(
+                  (1 - summary.length / text.length) * 100
+                )}%</span>
+              </div>
+            </div>
+          `;
+          showNotification("Summary generated successfully!", "success");
+        }, 2000);
+      }
+
+      // Email Template Generation
+      const emailTemplates = {
+        business: {
+          subject: "Business Inquiry - Partnership Opportunity",
+          content: `Dear [Recipient],
+
+I hope this email finds you well. I am writing to discuss a potential business opportunity that I believe could be mutually beneficial for both our organizations.
+
+Our company has been following your work in the industry, and we are impressed with your innovative approach and commitment to excellence. We would like to explore the possibility of establishing a strategic partnership that could help both parties achieve their business objectives.
+
+I would be delighted to schedule a meeting at your convenience to discuss this opportunity in more detail. I am confident that our collaboration could lead to significant value creation for both organizations.
+
+Thank you for your time and consideration. I look forward to hearing from you soon.
+
+Best regards,
+[Your Name]
+[Your Position]  
+[Your Company]
+[Your Contact Information]`,
+        },
+        "follow-up": {
+          subject: "Following Up on Our Previous Conversation",
+          content: `Dear [Recipient],
+
+I hope you are doing well. I wanted to follow up on our conversation from [Date/Context] regarding [Topic].
+
+I understand that you may be busy, but I wanted to ensure that you received my previous message and to see if you had any questions or needed any additional information.
+
+If now is not the right time, I completely understand. Please let me know when might be a better time to reconnect, or if there's anything specific I can provide to move things forward.
+
+Thank you for your time, and I look forward to hearing from you.
+
+Best regards,
+[Your Name]`,
+        },
+        "thank-you": {
+          subject: "Thank You - Appreciation for Your Time",
+          content: `Dear [Recipient],
+
+I wanted to take a moment to express my sincere gratitude for [specific reason - meeting, help, opportunity, etc.].
+
+Your [insight/assistance/time/guidance] was incredibly valuable, and I truly appreciate you taking the time to [specific action they took]. The [information/advice/opportunity] you provided will be instrumental in [how it will help].
+
+If there's ever anything I can do to return the favor or assist you in any way, please don't hesitate to reach out. I would be more than happy to help.
+
+Once again, thank you for your generosity and support.
+
+Warm regards,
+[Your Name]`,
+        },
+        meeting: {
+          subject: "Meeting Request - [Purpose of Meeting]",
+          content: `Dear [Recipient],
+
+I hope this message finds you well. I would like to schedule a meeting with you to discuss [purpose/topic of meeting].
+
+I believe this discussion would be valuable for [reason/benefit], and I would appreciate the opportunity to share some ideas and hear your thoughts on [specific topics].
+
+Would you be available for a [duration] meeting sometime in the next [timeframe]? I am flexible with timing and can accommodate your schedule. We could meet in person at your office, via video call, or at a location convenient for you.
+
+Please let me know what works best for you, and I will send a calendar invitation with all the details.
+
+Thank you for considering this request. I look forward to our conversation.
+
+Best regards,
+[Your Name]
+[Your Position]
+[Your Contact Information]`,
+        },
+      };
+
+      function updateEmailTemplate() {
+        const type = document.getElementById("emailType").value;
+        const subjectField = document.getElementById("emailSubject");
+        const contentField = document.getElementById("emailContent");
+
+        if (type !== "custom" && emailTemplates[type]) {
+          subjectField.value = emailTemplates[type].subject;
+          contentField.value = emailTemplates[type].content;
+        } else if (type === "custom") {
+          subjectField.value = "";
+          contentField.value = "";
+        }
+      }
+
+      function generateEmail() {
+        const recipient = document.getElementById("emailRecipient").value;
+        const subject = document.getElementById("emailSubject").value;
+        let content = document.getElementById("emailContent").value;
+
+        if (recipient.trim()) {
+          content = content.replace(/\[Recipient\]/g, recipient);
+        }
+
+        document.getElementById("emailContent").value = content;
+        showNotification(
+          "Email template updated with recipient name!",
+          "success"
+        );
+      }
+
+      function copyEmailToClipboard() {
+        const subject = document.getElementById("emailSubject").value;
+        const content = document.getElementById("emailContent").value;
+
+        const fullEmail = `Subject: ${subject}\n\n${content}`;
+
+        navigator.clipboard
+          .writeText(fullEmail)
+          .then(() => {
+            showNotification("Email copied to clipboard!", "success");
+          })
+          .catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = fullEmail;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            showNotification("Email copied to clipboard!", "success");
+          });
+      }
+
+      // Notification System
+      function showNotification(message, type = "info") {
+        const notification = document.createElement("div");
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+          <i class="fas fa-${
+            type === "success"
+              ? "check-circle"
+              : type === "error"
+              ? "exclamation-circle"
+              : "info-circle"
+          }"></i>
+          <span>${message}</span>
+          <button onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+
+        document.body.appendChild(notification);
 
         setTimeout(() => {
-          uploaded++;
-          const percent = Math.round((uploaded / total) * 100);
-          progress.style.width = `${percent}%`;
-          progress.innerText = `${percent}%`;
-        }, 500 * (index + 1));
-      });
-    }
-  </script>
+          notification.classList.add("show");
+        }, 100);
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</body>
+        setTimeout(() => {
+          notification.classList.remove("show");
+          setTimeout(() => notification.remove(), 300);
+        }, 4000);
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </body>
 </html>
-
-
-
