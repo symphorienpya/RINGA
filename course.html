@@ -1071,7 +1071,7 @@
     <!-- Modern Page Header -->
     <div class="page-header">
       <div class="breadcrumb">
-        <a href="home.html"><i class="fas fa-home"></i> Accueil</a>
+        <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
         <i class="fas fa-chevron-right"></i>
         <span>Cours</span>
       </div>
@@ -1797,7 +1797,7 @@
     </div>
 
     <!-- Floating Action Button -->
-    <a href="home.html" class="floating-action-btn" title="Retour à l'accueil">
+    <a href="index.html" class="floating-action-btn" title="Retour à l'accueil">
       <i class="fas fa-home"></i>
     </a>
 
@@ -1812,6 +1812,7 @@
         loadWishlistState();
         animateStats();
         setupAdvancedFilters();
+        setupEnrollmentButtons();
       });
 
       // Initialize App
@@ -1885,6 +1886,30 @@
             applyFilter(filterValue);
           });
         });
+      }
+
+      // Setup Enrollment Buttons
+      function setupEnrollmentButtons() {
+        const enrollButtons = document.querySelectorAll(".enroll-btn");
+
+        enrollButtons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Add visual feedback
+            this.style.transform = "scale(0.95)";
+            setTimeout(() => {
+              this.style.transform = "";
+            }, 150);
+
+            const courseCard = this.closest(".course-card");
+            enrollInCourse(courseCard);
+          });
+        });
+
+        console.log(
+          `✅ Set up ${enrollButtons.length} enrollment buttons for payment redirection`
+        );
       }
 
       // Advanced Filters Setup
@@ -2180,28 +2205,23 @@
       `;
       document.head.appendChild(style);
 
-      // Enhanced enrollment functionality
-      document.querySelectorAll(".enroll-btn").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.preventDefault();
-          const card = button.closest(".course-card");
-          const title = card.querySelector(".course-title").innerText;
-          const description = card.querySelector(
-            ".course-description"
-          ).innerText;
-          const priceElement = card.querySelector(".price-value");
+      // Enhanced enrollment functionality (moved to setupEnrollmentButtons function)
+      function enrollInCourse(card) {
+        const title = card.querySelector(".course-title").innerText;
+        const description = card.querySelector(".course-description").innerText;
+        const priceElement = card.querySelector(".price-value");
 
-          let rawPrice = priceElement
-            ? priceElement.textContent.replace(/\s/g, "")
-            : "0";
-          let base = 0,
-            currency = "FC";
+        let rawPrice = priceElement
+          ? priceElement.textContent.replace(/\s/g, "")
+          : "0";
+        let base = 0,
+          currency = "FC";
 
-          if (rawPrice === "Variable") {
-            // Handle variable pricing for project orientation
-            Swal.fire({
-              title: "Consultation personnalisée",
-              html: `
+        if (rawPrice === "Variable") {
+          // Handle variable pricing for project orientation
+          Swal.fire({
+            title: "Consultation personnalisée",
+            html: `
                 <div style="text-align: left; padding: 20px;">
                   <h3 style="color: #667eea; margin-bottom: 15px;">${title}</h3>
                   <p style="margin-bottom: 15px;">${description}</p>
@@ -2215,49 +2235,48 @@
                   <p style="margin-top: 15px;"><strong>Prix :</strong> Établi selon la complexité du projet</p>
                 </div>
               `,
-              icon: "info",
-              showCancelButton: true,
-              confirmButtonText: "Demander un devis",
-              cancelButtonText: "Annuler",
-              confirmButtonColor: "#667eea",
-              cancelButtonColor: "#d33",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to contact or specific consultation page
-                window.location.href =
-                  "mailto:contact@mdai.xyz?subject=Demande de devis - " + title;
-              }
-            });
-            return;
-          }
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "Demander un devis",
+            cancelButtonText: "Annuler",
+            confirmButtonColor: "#667eea",
+            cancelButtonColor: "#d33",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirect to contact or specific consultation page
+              window.location.href =
+                "mailto:contact@mdai.xyz?subject=Demande de devis - " + title;
+            }
+          });
+          return;
+        }
 
-          if (rawPrice.includes("$") || /USD/i.test(rawPrice)) {
-            base = parseFloat(rawPrice.replace(/[^0-9.]/g, ""));
-            currency = "USD";
-          } else {
-            base = parseInt(rawPrice.replace(/[^0-9]/g, ""));
-          }
+        if (rawPrice.includes("$") || /USD/i.test(rawPrice)) {
+          base = parseFloat(rawPrice.replace(/[^0-9.]/g, ""));
+          currency = "USD";
+        } else {
+          base = parseInt(rawPrice.replace(/[^0-9]/g, ""));
+        }
 
-          const fee = currency === "USD" ? 1 : 5000;
-          const total = base + fee;
+        const fee = currency === "USD" ? 1 : 5000;
+        const total = base + fee;
 
-          // Get course stats
-          const duration = card.querySelector(".stat-number").textContent;
-          const difficulty =
-            card.querySelector(".difficulty-badge").textContent;
+        // Get course stats
+        const duration = card.querySelector(".stat-number").textContent;
+        const difficulty = card.querySelector(".difficulty-badge").textContent;
 
-          localStorage.setItem("selectedCourseTitle", title);
-          localStorage.setItem(
-            "selectedCourseInfo",
-            `${description} | Durée: ${duration} semaines | Niveau: ${difficulty}`
-          );
-          localStorage.setItem("coursePrice", `${base} ${currency}`);
-          localStorage.setItem("registrationFee", `${fee} ${currency}`);
-          localStorage.setItem("selectedCourseTotal", `${total} ${currency}`);
+        localStorage.setItem("selectedCourseTitle", title);
+        localStorage.setItem(
+          "selectedCourseInfo",
+          `${description} | Durée: ${duration} semaines | Niveau: ${difficulty}`
+        );
+        localStorage.setItem("coursePrice", `${base} ${currency}`);
+        localStorage.setItem("registrationFee", `${fee} ${currency}`);
+        localStorage.setItem("selectedCourseTotal", `${total} ${currency}`);
 
-          Swal.fire({
-            title: "Procéder au paiement",
-            html: `
+        Swal.fire({
+          title: "Procéder au paiement",
+          html: `
               <div style="text-align: left; padding: 20px;">
                 <h3 style="color: #667eea; margin-bottom: 10px;">${title}</h3>
                 <p style="margin-bottom: 15px; color: #666;">${description}</p>
@@ -2278,28 +2297,27 @@
                 </div>
               </div>
             `,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Continuer vers le paiement",
-            cancelButtonText: "Annuler",
-            confirmButtonColor: "#667eea",
-            cancelButtonColor: "#d33",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire({
-                icon: "success",
-                title: "Redirection...",
-                text: "Vous serez redirigé vers la page de paiement sécurisé.",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              setTimeout(() => {
-                window.location.href = "paiment.html";
-              }, 1600);
-            }
-          });
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Continuer vers le paiement",
+          cancelButtonText: "Annuler",
+          confirmButtonColor: "#667eea",
+          cancelButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              icon: "success",
+              title: "Redirection...",
+              text: "Vous serez redirigé vers la page de paiement sécurisé.",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            setTimeout(() => {
+              window.location.href = "payment.html";
+            }, 1600);
+          }
         });
-      });
+      }
 
       // Course card functionality (3D removed)
       function initializeCardFlips() {
