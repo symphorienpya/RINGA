@@ -535,6 +535,183 @@
         }
       }
 
+      /* Payment Modal Styles */
+      .payment-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.4s ease;
+      }
+
+      .payment-modal.active {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .payment-modal-content {
+        background: var(--background-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        padding: 40px 35px;
+        border-radius: 24px;
+        box-shadow: var(--shadow-hard);
+        text-align: center;
+        animation: bounceIn 0.6s ease;
+        max-width: 450px;
+        width: 90%;
+        position: relative;
+      }
+
+      #paypalModal .payment-modal-content {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 112, 186, 0.1),
+          rgba(0, 48, 135, 0.1)
+        );
+        border: 1px solid rgba(0, 112, 186, 0.2);
+      }
+
+      #googlepayModal .payment-modal-content {
+        background: linear-gradient(
+          135deg,
+          rgba(66, 133, 244, 0.1),
+          rgba(52, 168, 83, 0.1)
+        );
+        border: 1px solid rgba(66, 133, 244, 0.2);
+      }
+
+      #upiModal .payment-modal-content {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 53, 0.1),
+          rgba(247, 147, 30, 0.1)
+        );
+        border: 1px solid rgba(255, 107, 53, 0.2);
+      }
+
+      .payment-modal-content h3 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .payment-info-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-color);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 20px 0;
+        backdrop-filter: blur(10px);
+      }
+
+      .payment-email,
+      .upi-id {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .payment-detail {
+        font-size: 1.1rem;
+        font-weight: 600;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        cursor: pointer;
+        padding: 12px 20px;
+        border-radius: 25px;
+        border: 1px solid var(--border-color);
+        background-color: rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .payment-detail:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .payment-instruction {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+        font-weight: 500;
+        line-height: 1.6;
+      }
+
+      .payment-steps {
+        text-align: left;
+        margin-top: 20px;
+      }
+
+      .step {
+        padding: 8px 0;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        border-left: 3px solid rgba(79, 172, 254, 0.3);
+        padding-left: 15px;
+        margin: 8px 0;
+        position: relative;
+      }
+
+      .step::before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        position: absolute;
+        left: -12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .payment-steps {
+        counter-reset: step-counter;
+      }
+
+      .qr-placeholder {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 20px;
+        font-size: 48px;
+        color: var(--text-secondary);
+        opacity: 0.8;
+      }
+
+      .upi-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
       .lds-spinner {
         color: official;
         display: inline-block;
@@ -658,6 +835,354 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        transition: all 0.3s ease;
+      }
+
+      /* Specific payment method colors */
+      .card-icon {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .mpesa-icon {
+        background: linear-gradient(135deg, #16a34a, #22c55e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .paypal-icon {
+        background: linear-gradient(135deg, #0070ba, #009cde);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .google-icon {
+        background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .upi-icon {
+        background: linear-gradient(135deg, #ff6b35, #ff8c42);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .apple-icon {
+        background: linear-gradient(135deg, #000000, #333333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .samsung-icon {
+        background: linear-gradient(135deg, #1428a0, #306ce5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .crypto-icon {
+        background: linear-gradient(135deg, #f7931a, #ffb347);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .payment-method-card:hover .payment-method-icon {
+        transform: scale(1.1);
+      }
+
+      /* Promo Code Section Removed - Clean Payment Interface */
+
+      /* Gradient animation removed with promo codes */
+
+      .promo-code-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .promo-code-header i {
+        color: #f59e0b;
+        font-size: 1.2rem;
+      }
+
+      .promo-badge {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .promo-code-input-container {
+        display: flex !important;
+        gap: 10px;
+        margin-bottom: 15px;
+        visibility: visible;
+        width: 100%;
+      }
+
+      .input-wrapper {
+        flex: 1;
+        position: relative;
+        display: block !important;
+        visibility: visible;
+      }
+
+      .promo-code-input {
+        width: 100%;
+        padding: 14px 50px 14px 16px;
+        border: 2px solid #4f46e5;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #1f2937;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        display: block;
+        visibility: visible;
+        box-sizing: border-box;
+      }
+
+      .promo-code-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+      }
+
+      .promo-code-input::placeholder {
+        color: #888;
+        font-style: italic;
+        text-transform: none;
+        opacity: 0.8;
+      }
+
+      .clear-promo-btn {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(239, 68, 68, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        color: #ef4444;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .clear-promo-btn:hover {
+        background: rgba(239, 68, 68, 0.2);
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .apply-promo-btn {
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .apply-promo-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .apply-promo-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      }
+
+      .apply-promo-btn:hover::before {
+        left: 100%;
+      }
+
+      .promo-code-result {
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-bottom: 15px;
+      }
+
+      .promo-code-result.success {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        animation: successPulse 0.5s ease-out;
+      }
+
+      .promo-code-result.error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        animation: shake 0.5s ease-out;
+      }
+
+      @keyframes successPulse {
+        0% {
+          transform: scale(0.95);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      @keyframes successPulse {
+        0% {
+          transform: scale(0.95);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      /* Clean promo code section - no visible codes */
+
+      /* Payment Calculator */
+      .payment-calculator {
+        background: var(--background-card);
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 25px 0;
+        backdrop-filter: blur(20px);
+      }
+
+      .calculator-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .calculator-header i {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+      }
+
+      .calculator-breakdown {
+        space-y: 10px;
+      }
+
+      .breakdown-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-secondary);
+      }
+
+      .breakdown-item:last-child {
+        border-bottom: none;
+      }
+
+      .breakdown-item.total {
+        border-top: 2px solid var(--primary-color);
+        padding-top: 15px;
+        margin-top: 10px;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+      }
+
+      .breakdown-item.promo-discount {
+        color: #22c55e;
+      }
+
+      .discount-amount {
+        color: #22c55e !important;
+        font-weight: 600;
+      }
+
+      .total-amount {
+        color: var(--primary-color);
+        font-size: 1.3rem;
       }
 
       .payment-method-title {
@@ -669,6 +1194,52 @@
       .payment-method-desc {
         font-size: 0.85rem;
         color: var(--text-secondary);
+        margin-bottom: 15px;
+      }
+
+      .payment-details-btn {
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 20px;
+        color: white;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .payment-details-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .payment-details-btn:active {
+        transform: translateY(0);
+      }
+
+      .payment-details-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .payment-details-btn:hover::before {
+        left: 100%;
       }
 
       /* Security & Trust Elements */
@@ -885,7 +1456,9 @@
   <body>
     <div class="info-banner" id="infoBanner"></div>
     <div class="payment-container">
-      <h2><i class="fas fa-credit-card"></i> Paiement du cours</h2>
+      <h2 id="paymentTitle">
+        <i class="fas fa-credit-card"></i> Paiement du cours
+      </h2>
 
       <!-- Payment Progress Indicator -->
       <div class="payment-progress">
@@ -914,15 +1487,15 @@
         <h3><i class="fas fa-receipt"></i> Détails du prix</h3>
         <div class="pricing-item">
           <span class="pricing-label">Cours:</span>
-          <span class="pricing-value" id="coursePrice">$0</span>
+          <span class="pricing-value" id="coursePrice">0 FC</span>
         </div>
         <div class="pricing-item">
           <span class="pricing-label">Frais d'inscription:</span>
-          <span class="pricing-value" id="regFee">$0</span>
+          <span class="pricing-value" id="regFee">0 FC</span>
         </div>
         <div class="pricing-item">
           <span class="pricing-label total-amount">Total:</span>
-          <span class="pricing-value total-amount" id="totalPrice">$0</span>
+          <span class="pricing-value total-amount" id="totalPrice">0 FC</span>
         </div>
       </div>
 
@@ -938,27 +1511,188 @@
           <i class="fas fa-wallet"></i> Choisissez votre méthode de paiement
         </h3>
         <div class="payment-methods-grid">
+          <!-- Card Payment -->
           <div
             class="payment-method-card"
             data-method="card"
             onclick="selectPaymentMethod('card')"
           >
-            <div class="payment-method-icon">
+            <div class="payment-method-icon card-icon">
               <i class="fas fa-credit-card"></i>
             </div>
             <div class="payment-method-title">Carte Bancaire</div>
-            <div class="payment-method-desc">Visa, Mastercard, Amex</div>
+            <div class="payment-method-desc">Visa • Mastercard • Amex</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showCardInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
           </div>
+
+          <!-- M-PESA Payment -->
           <div
             class="payment-method-card"
-            data-method="mobile"
-            onclick="selectPaymentMethod('mobile')"
+            data-method="mpesa"
+            onclick="selectPaymentMethod('mpesa')"
           >
-            <div class="payment-method-icon">
+            <div class="payment-method-icon mpesa-icon">
               <i class="fas fa-mobile-alt"></i>
             </div>
             <div class="payment-method-title">M-PESA</div>
             <div class="payment-method-desc">Paiement mobile sécurisé</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showMpesaInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir le numéro
+            </button>
+          </div>
+
+          <!-- PayPal Payment -->
+          <div
+            class="payment-method-card"
+            data-method="paypal"
+            onclick="selectPaymentMethod('paypal')"
+          >
+            <div class="payment-method-icon paypal-icon">
+              <i class="fab fa-paypal"></i>
+            </div>
+            <div class="payment-method-title">PayPal</div>
+            <div class="payment-method-desc">Compte PayPal ou carte</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showPaypalInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
+          </div>
+
+          <!-- Google Pay -->
+          <div
+            class="payment-method-card"
+            data-method="googlepay"
+            onclick="selectPaymentMethod('googlepay')"
+          >
+            <div class="payment-method-icon google-icon">
+              <i class="fab fa-google-pay"></i>
+            </div>
+            <div class="payment-method-title">Google Pay</div>
+            <div class="payment-method-desc">Paiement rapide Google</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showGooglePayInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
+          </div>
+
+          <!-- UPI Payment -->
+          <div
+            class="payment-method-card"
+            data-method="upi"
+            onclick="selectPaymentMethod('upi')"
+          >
+            <div class="payment-method-icon upi-icon">
+              <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="payment-method-title">UPI</div>
+            <div class="payment-method-desc">Paiement instantané UPI</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showUpiInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
+          </div>
+
+          <!-- Apple Pay -->
+          <div
+            class="payment-method-card"
+            data-method="applepay"
+            onclick="selectPaymentMethod('applepay')"
+          >
+            <div class="payment-method-icon apple-icon">
+              <i class="fab fa-apple-pay"></i>
+            </div>
+            <div class="payment-method-title">Apple Pay</div>
+            <div class="payment-method-desc">Touch ID • Face ID</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showApplePayInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
+          </div>
+
+          <!-- Samsung Pay -->
+          <div
+            class="payment-method-card"
+            data-method="samsungpay"
+            onclick="selectPaymentMethod('samsungpay')"
+          >
+            <div class="payment-method-icon samsung-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="payment-method-title">Samsung Pay</div>
+            <div class="payment-method-desc">NFC • MST • Biométrie</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showSamsungPayInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
+          </div>
+
+          <!-- Cryptocurrency -->
+          <div
+            class="payment-method-card"
+            data-method="crypto"
+            onclick="selectPaymentMethod('crypto')"
+          >
+            <div class="payment-method-icon crypto-icon">
+              <i class="fab fa-bitcoin"></i>
+            </div>
+            <div class="payment-method-title">Crypto</div>
+            <div class="payment-method-desc">BTC • ETH • USDT</div>
+            <button
+              class="payment-details-btn"
+              onclick="event.stopPropagation(); showCryptoInfo()"
+            >
+              <i class="fas fa-info-circle"></i> Voir détails
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Amount Calculator -->
+      <div class="payment-calculator">
+        <div class="calculator-header">
+          <i class="fas fa-calculator"></i>
+          <span>Calculateur de paiement</span>
+        </div>
+        <div class="calculator-breakdown">
+          <div class="breakdown-item">
+            <span>Prix du cours:</span>
+            <span id="coursePrice">0.00 FC</span>
+          </div>
+          <div class="breakdown-item">
+            <span>Frais d'inscription:</span>
+            <span id="registrationFee">5000.00 FC</span>
+          </div>
+          <div
+            class="breakdown-item promo-discount"
+            id="promoDiscount"
+            style="display: none"
+          >
+            <span>Réduction (-<span id="discountPercent">0</span>%):</span>
+            <span class="discount-amount" id="discountAmount">-0.00 FC</span>
+          </div>
+          <div class="breakdown-item total">
+            <span><strong>Total à payer:</strong></span>
+            <span class="total-amount" id="finalTotal"
+              ><strong>5000.00 FC</strong></span
+            >
           </div>
         </div>
       </div>
@@ -1004,6 +1738,99 @@
         </div>
       </div>
 
+      <!-- PayPal Modal -->
+      <div class="payment-modal" id="paypalModal">
+        <div class="payment-modal-content">
+          <h3><i class="fab fa-paypal"></i> PayPal Payment</h3>
+          <div class="payment-info-card">
+            <div class="payment-email">
+              <i class="fas fa-envelope"></i>
+              <span class="payment-detail" onclick="copyPaymentDetail('paypal')"
+                >symphorienpyana065@gmail.com</span
+              >
+            </div>
+            <p class="payment-instruction">
+              Envoyez le paiement à cette adresse PayPal et mentionnez votre nom
+              dans la note
+            </p>
+            <div class="payment-steps">
+              <div class="step">1. Ouvrez PayPal ou l'app PayPal</div>
+              <div class="step">2. Cliquez sur "Envoyer de l'argent"</div>
+              <div class="step">3. Entrez l'email ci-dessus</div>
+              <div class="step">4. Mentionnez votre nom dans la note</div>
+            </div>
+          </div>
+          <span id="paypal-copy-feedback" class="copied">Email copié !</span>
+          <button onclick="hidePaymentModal('paypal')" class="close-btn">
+            <i class="fas fa-times"></i> Fermer
+          </button>
+        </div>
+      </div>
+
+      <!-- Google Pay Modal -->
+      <div class="payment-modal" id="googlepayModal">
+        <div class="payment-modal-content">
+          <h3><i class="fab fa-google-pay"></i> Google Pay</h3>
+          <div class="payment-info-card">
+            <div class="payment-email">
+              <i class="fas fa-envelope"></i>
+              <span
+                class="payment-detail"
+                onclick="copyPaymentDetail('googlepay')"
+                >symphorienpyana065@gmail.com</span
+              >
+            </div>
+            <p class="payment-instruction">
+              Utilisez cette adresse email pour le paiement Google Pay
+            </p>
+            <div class="payment-steps">
+              <div class="step">1. Ouvrez Google Pay</div>
+              <div class="step">2. Recherchez ce compte par email</div>
+              <div class="step">3. Envoyez le montant requis</div>
+              <div class="step">4. Ajoutez votre nom en référence</div>
+            </div>
+          </div>
+          <span id="googlepay-copy-feedback" class="copied">Email copié !</span>
+          <button onclick="hidePaymentModal('googlepay')" class="close-btn">
+            <i class="fas fa-times"></i> Fermer
+          </button>
+        </div>
+      </div>
+
+      <!-- UPI Modal -->
+      <div class="payment-modal" id="upiModal">
+        <div class="payment-modal-content">
+          <h3><i class="fas fa-qrcode"></i> UPI Payment</h3>
+          <div class="payment-info-card">
+            <div class="upi-info">
+              <div class="qr-placeholder">
+                <i class="fas fa-qrcode"></i>
+                <p>Code QR UPI</p>
+              </div>
+              <div class="upi-id">
+                <i class="fas fa-at"></i>
+                <span class="payment-detail" onclick="copyPaymentDetail('upi')"
+                  >symphorienpyana@paytm</span
+                >
+              </div>
+            </div>
+            <p class="payment-instruction">
+              Scannez le QR code ou utilisez l'ID UPI pour effectuer le paiement
+            </p>
+            <div class="payment-steps">
+              <div class="step">1. Ouvrez votre app UPI</div>
+              <div class="step">2. Scannez le QR ou entrez l'ID UPI</div>
+              <div class="step">3. Vérifiez le montant</div>
+              <div class="step">4. Confirmez le paiement</div>
+            </div>
+          </div>
+          <span id="upi-copy-feedback" class="copied">ID UPI copié !</span>
+          <button onclick="hidePaymentModal('upi')" class="close-btn">
+            <i class="fas fa-times"></i> Fermer
+          </button>
+        </div>
+      </div>
+
       <form id="paymentForm">
         <div class="form-group">
           <label for="to_name">
@@ -1043,7 +1870,7 @@
             type="number"
             id="amount"
             name="amount"
-            placeholder="Montant (USD ou FC) - Optionnel"
+            placeholder="Montant (FC) - Optionnel"
             readonly
             value="0"
           />
@@ -1058,48 +1885,49 @@
         <input type="hidden" id="registration_fee" name="registration_fee" />
         <input type="hidden" id="total_amount" name="total_amount" />
 
-        <button type="submit" id="paymentButton" disabled>
-          <i class="fas fa-credit-card"></i>
-          <span id="buttonText">OK</span>
-        </button>
+        <!-- Enhanced Payment Details -->
+        <input type="hidden" id="payment_date" name="payment_date" />
+        <input type="hidden" id="payment_time" name="payment_time" />
+        <input type="hidden" id="transaction_id" name="transaction_id" />
+        <input
+          type="hidden"
+          id="registration_number"
+          name="registration_number"
+        />
+        <input type="hidden" id="receipt_number" name="receipt_number" />
 
-        <!-- Email Test Button -->
+        <!-- Single CONFIRMER Button - Does Everything -->
         <button
           type="button"
-          id="emailTestButton"
+          id="confirmerButton"
           style="
-            margin-top: 10px;
-            margin-left: 10px;
-            background: #007bff;
+            width: 100%;
+            margin-top: 25px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 18px 30px;
+            border-radius: 12px;
             cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
           "
-          onclick="testEmailTemplate()"
+          onclick="confirmerReservation()"
+          onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(40, 167, 69, 0.4)'"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(40, 167, 69, 0.3)'"
         >
-          Envoyer un mail de confirmation
+          <i class="fas fa-check-circle"></i> CONFIRMER LA RÉSERVATION
         </button>
 
-        <!-- Form Submission Test Button -->
-        <button
-          type="button"
-          id="formTestButton"
-          style="
-            margin-top: 10px;
-            margin-left: 10px;
-            background: #ffc107;
-            color: black;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-          "
-          onclick="testFormSubmission()"
-        >
-          🧪 Test Form Submission
-        </button>
+        <!-- Payment confirmation will be handled by the CONFIRMER button above -->
+
+        <!-- Form submission test functionality removed - using CONFIRMER button instead -->
+
+        <!-- Test functionality integrated into CONFIRMER button above -->
       </form>
 
       <!-- Receipt History Button -->
@@ -1936,17 +2764,38 @@
         selectedPaymentMethod = method;
         document.getElementById("selectedPaymentMethod").value = method;
 
-        // Update button text and show/hide M-PESA button
+        // Update button text and show appropriate modals/info
         const paymentButton = document.getElementById("paymentButton");
         const buttonText = document.getElementById("buttonText");
         const mpesaBtn = document.getElementById("mpesaBtn");
 
+        // Hide all payment info buttons first
+        mpesaBtn.style.display = "none";
+
         if (method === "card") {
-          buttonText.innerHTML = "Payer par carte";
-          mpesaBtn.style.display = "none";
-        } else if (method === "mobile") {
-          buttonText.innerHTML = "Payer par M-PESA";
+          buttonText.innerHTML =
+            '<i class="fas fa-credit-card"></i> Payer par carte';
+        } else if (method === "mpesa") {
+          buttonText.innerHTML =
+            '<i class="fas fa-mobile-alt"></i> Payer par M-PESA';
           mpesaBtn.style.display = "block";
+        } else if (method === "paypal") {
+          buttonText.innerHTML =
+            '<i class="fab fa-paypal"></i> Payer par PayPal';
+        } else if (method === "googlepay") {
+          buttonText.innerHTML =
+            '<i class="fab fa-google-pay"></i> Payer par Google Pay';
+        } else if (method === "upi") {
+          buttonText.innerHTML = '<i class="fas fa-qrcode"></i> Payer par UPI';
+        } else if (method === "applepay") {
+          buttonText.innerHTML =
+            '<i class="fab fa-apple-pay"></i> Payer par Apple Pay';
+        } else if (method === "samsungpay") {
+          buttonText.innerHTML =
+            '<i class="fas fa-mobile-alt"></i> Payer par Samsung Pay';
+        } else if (method === "crypto") {
+          buttonText.innerHTML =
+            '<i class="fab fa-bitcoin"></i> Payer par Crypto';
         }
 
         // Enable button if form is valid
@@ -2119,64 +2968,7 @@
         alert(message);
       }
 
-      // Test form submission function
-      function testFormSubmission() {
-        console.log("🧪 TESTING FORM SUBMISSION");
-
-        const nameInput = document.querySelector('input[name="to_name"]');
-        const emailInput = document.querySelector('input[name="email"]');
-        const paymentButton = document.getElementById("paymentButton");
-        const form = document.getElementById("paymentForm");
-
-        console.log("📋 Form Elements Status:");
-        console.log("- Name input:", nameInput ? nameInput.value : "NOT FOUND");
-        console.log(
-          "- Email input:",
-          emailInput ? emailInput.value : "NOT FOUND"
-        );
-        console.log("- Payment button:", paymentButton ? "FOUND" : "NOT FOUND");
-        console.log(
-          "- Payment button disabled:",
-          paymentButton ? paymentButton.disabled : "N/A"
-        );
-        console.log("- Form element:", form ? "FOUND" : "NOT FOUND");
-        console.log("- isFormValid:", isFormValid);
-        console.log("- selectedPaymentMethod:", selectedPaymentMethod);
-
-        // Test validation
-        if (nameInput && emailInput) {
-          const nameValid = validateName();
-          const emailValid = validateEmail();
-          console.log("- Name validation:", nameValid);
-          console.log("- Email validation:", emailValid);
-
-          // Force update validation
-          updateFormValidation();
-
-          console.log("- Updated isFormValid:", isFormValid);
-          console.log(
-            "- Updated button disabled:",
-            paymentButton ? paymentButton.disabled : "N/A"
-          );
-        }
-
-        // Test if form submission would work
-        if (nameInput?.value && emailInput?.value && form) {
-          console.log("✅ All required elements present");
-
-          // Try to manually trigger form submission for testing
-          const event = new Event("submit", {
-            bubbles: true,
-            cancelable: true,
-          });
-          console.log("🚀 Manually triggering form submit event...");
-          form.dispatchEvent(event);
-        } else {
-          console.log("❌ Missing required form elements or data");
-        }
-
-        alert("Form submission test completed. Check console for details.");
-      }
+      // Form submission test function removed - functionality integrated into CONFIRMER button
 
       // Test EmailJS template function
       async function testEmailTemplate() {
@@ -2392,10 +3184,653 @@
             document.getElementById("buttonText").innerHTML =
               "<i class='fas fa-mobile-alt'></i> Payer par M-PESA";
           } else {
-            // Default: Generate receipt and send email
+            // Default: Generate comprehensive payment details and send email
             document.getElementById("buttonText").innerHTML =
-              "<i class='fas fa-receipt'></i> Générer Reçu & Envoyer Email";
+              "<i class='fas fa-file-invoice-dollar'></i> Finaliser le Paiement";
           }
+        }
+      }
+
+      // Initialize payment details on page load
+      function initializePaymentDetails() {
+        // Set default course information if not provided
+        const courseTitle = document.getElementById("course_title");
+        const coursePrice = document.getElementById("course_price");
+        const registrationFee = document.getElementById("registration_fee");
+        const totalAmount = document.getElementById("total_amount");
+
+        if (!courseTitle.value)
+          courseTitle.value = "Formation Machine Learning & IA";
+        if (!coursePrice.value) coursePrice.value = "150.00";
+        if (!registrationFee.value) registrationFee.value = "25.00";
+        if (!totalAmount.value) totalAmount.value = "175.00";
+
+        // Update pricing display
+        document.getElementById("coursePrice").textContent =
+          "$" + coursePrice.value;
+        document.getElementById("regFee").textContent =
+          "$" + registrationFee.value;
+        document.getElementById("totalPrice").textContent =
+          "$" + totalAmount.value;
+
+        console.log("💳 Payment details initialized");
+      }
+
+      // Send comprehensive payment email with all details
+      function sendComprehensivePaymentEmail() {
+        try {
+          // Generate unique transaction ID and registration number
+          const transactionId =
+            "TXN-" +
+            Date.now() +
+            "-" +
+            Math.random().toString(36).substr(2, 6).toUpperCase();
+          const registrationNumber =
+            "REG-" +
+            new Date().getFullYear() +
+            "-" +
+            Math.random().toString(36).substr(2, 8).toUpperCase();
+
+          // Get current date and time
+          const now = new Date();
+          const paymentDate = now.toLocaleDateString("fr-FR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+          const paymentTime = now.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+
+          // Collect all payment details
+          const paymentDetails = {
+            // Customer Information
+            customerName:
+              document.getElementById("name").value || "Non spécifié",
+            email: document.getElementById("email").value || "Non spécifié",
+            phone: document.getElementById("phone").value || "Non spécifié",
+
+            // Course Information
+            courseName:
+              document.getElementById("course_title").value ||
+              "Formation Machine Learning & IA",
+            coursePrice: parseFloat(
+              document.getElementById("course_price").value || "150.00"
+            ).toFixed(2),
+
+            // Payment Information
+            registrationFees: parseFloat(
+              document.getElementById("registration_fee").value || "25.00"
+            ).toFixed(2),
+            totalAmount: parseFloat(
+              document.getElementById("total_amount").value || "175.00"
+            ).toFixed(2),
+            paymentMethod:
+              document.getElementById("selectedPaymentMethod").value ||
+              "Carte de crédit",
+
+            // Generated Details
+            paymentDate: paymentDate,
+            paymentTime: paymentTime,
+            transactionId: transactionId,
+            registrationNumber: registrationNumber,
+
+            // Additional Details
+            currency: "FC",
+            status: "Confirmé",
+            platform: "MDai Learning Platform",
+          };
+
+          // Update hidden fields with generated data
+          document.getElementById("payment_date").value = paymentDate;
+          document.getElementById("payment_time").value = paymentTime;
+          document.getElementById("transaction_id").value = transactionId;
+          document.getElementById("registration_number").value =
+            registrationNumber;
+
+          // Show loading animation
+          Swal.fire({
+            title: "📧 Préparation des Détails",
+            html: '<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><p>Génération des informations de paiement...</p>',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+
+          // Show comprehensive payment details with EmailJS option
+          setTimeout(() => {
+            showComprehensivePaymentDetails(paymentDetails);
+          }, 2000);
+        } catch (error) {
+          console.error("Error preparing payment details:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Erreur de Préparation",
+            text: "Une erreur s'est produite lors de la préparation des détails de paiement.",
+            confirmButtonColor: "#667eea",
+          });
+        }
+      }
+
+      // Show comprehensive payment details with all requested information
+      function showComprehensivePaymentDetails(paymentDetails) {
+        Swal.fire({
+          title: "📋 Détails Complets de Paiement",
+          html: `
+            <div style="text-align: left; background: #f8f9fa; padding: 25px; border-radius: 12px; max-height: 500px; overflow-y: auto;">
+              
+              <div style="text-align: center; margin-bottom: 20px;">
+                <h3 style="color: #667eea; margin: 0;">🎓 MDai Learning Platform</h3>
+                <span style="background: #28a745; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: bold;">PAIEMENT CONFIRMÉ</span>
+              </div>
+
+              <div style="background: white; padding: 18px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #667eea;">
+                <h4 style="color: #667eea; margin-bottom: 12px;">📅 Date & Transaction</h4>
+                <p><strong>Date de Paiement:</strong> ${
+                  paymentDetails.paymentDate
+                }</p>
+                <p><strong>Heure:</strong> ${paymentDetails.paymentTime}</p>
+                <p><strong>ID de Transaction:</strong> <code style="background: #e9ecef; padding: 2px 6px; border-radius: 4px;">${
+                  paymentDetails.transactionId
+                }</code></p>
+                <p><strong>Numéro d'Inscription:</strong> <code style="background: #e9ecef; padding: 2px 6px; border-radius: 4px;">${
+                  paymentDetails.registrationNumber
+                }</code></p>
+              </div>
+
+              <div style="background: white; padding: 18px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #28a745;">
+                <h4 style="color: #28a745; margin-bottom: 12px;">👤 Informations Client</h4>
+                <p><strong>Nom Complet:</strong> ${
+                  paymentDetails.customerName
+                }</p>
+                <p><strong>Email:</strong> ${paymentDetails.email}</p>
+                <p><strong>Téléphone:</strong> ${paymentDetails.phone}</p>
+              </div>
+
+              <div style="background: white; padding: 18px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #fd7e14;">
+                <h4 style="color: #fd7e14; margin-bottom: 12px;">📚 Cours & Tarification</h4>
+                <p><strong>Nom du Cours:</strong> ${
+                  paymentDetails.courseName
+                }</p>
+                <p><strong>Prix du Cours:</strong> $${
+                  paymentDetails.coursePrice
+                }</p>
+                <p><strong>Frais d'Inscription:</strong> $${
+                  paymentDetails.registrationFees
+                }</p>
+                <hr style="margin: 10px 0; border-color: #fd7e14;">
+                <p style="font-size: 18px;"><strong>Montant Total:</strong> <span style="color: #28a745; font-weight: bold; font-size: 20px;">$${
+                  paymentDetails.totalAmount
+                }</span></p>
+              </div>
+
+              <div style="background: white; padding: 18px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #6f42c1;">
+                <h4 style="color: #6f42c1; margin-bottom: 12px;">💳 Informations de Paiement</h4>
+                <p><strong>Méthode de Paiement:</strong> ${
+                  paymentDetails.paymentMethod
+                }</p>
+                <p><strong>Statut:</strong> <span style="color: #28a745; font-weight: bold;">${
+                  paymentDetails.status
+                }</span></p>
+                <p><strong>Devise:</strong> ${paymentDetails.currency}</p>
+                <p><strong>Plateforme:</strong> ${paymentDetails.platform}</p>
+              </div>
+
+              <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h4 style="color: #1976d2; margin-bottom: 10px;">🚀 Prochaines Étapes</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                  <li>Conservez votre ID de transaction: <strong>${
+                    paymentDetails.transactionId
+                  }</strong></li>
+                  <li>Accès au cours envoyé par email sous 24h</li>
+                  <li>Support disponible avec votre numéro d'inscription</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div style="margin-top: 20px; text-align: center;">
+              <button onclick="copyAllPaymentDetails('${JSON.stringify(
+                paymentDetails
+              ).replace(/"/g, "&quot;")}')" 
+                      style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin: 5px; cursor: pointer; font-weight: 600;">
+                📋 Copier Tous les Détails
+              </button>
+              <button onclick="downloadPaymentReceipt('${JSON.stringify(
+                paymentDetails
+              ).replace(/"/g, "&quot;")}')" 
+                      style="background: #17a2b8; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin: 5px; cursor: pointer; font-weight: 600;">
+                💾 Télécharger Reçu PDF
+              </button>
+              <button onclick="sendEmailWithEmailJS('${JSON.stringify(
+                paymentDetails
+              ).replace(/"/g, "&quot;")}')" 
+                      style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin: 5px; cursor: pointer; font-weight: 600;">
+                📧 Envoyer via EmailJS
+              </button>
+              <button onclick="sendEmailManually('${JSON.stringify(
+                paymentDetails
+              ).replace(/"/g, "&quot;")}')" 
+                      style="background: #fd7e14; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin: 5px; cursor: pointer; font-weight: 600;">
+                📮 Email Client Local
+              </button>
+            </div>
+          `,
+          confirmButtonText: "Terminé",
+          confirmButtonColor: "#667eea",
+          width: "700px",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+        });
+      }
+
+      // Copy all payment details to clipboard
+      function copyAllPaymentDetails(detailsJson) {
+        try {
+          const details = JSON.parse(detailsJson.replace(/&quot;/g, '"'));
+          const textToCopy = `
+═══════════════════════════════════════════
+    📋 DÉTAILS COMPLETS DE PAIEMENT
+         MDai Learning Platform
+═══════════════════════════════════════════
+
+📅 INFORMATIONS DE TRANSACTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Date de Paiement: ${details.paymentDate}
+• Heure: ${details.paymentTime}
+• ID de Transaction: ${details.transactionId}
+• Numéro d'Inscription: ${details.registrationNumber}
+
+👤 INFORMATIONS CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Nom Complet: ${details.customerName}
+• Email: ${details.email}
+• Téléphone: ${details.phone}
+
+📚 DÉTAILS DU COURS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Nom du Cours: ${details.courseName}
+• Prix du Cours: $${details.coursePrice}
+• Frais d'Inscription: $${details.registrationFees}
+• MONTANT TOTAL: $${details.totalAmount}
+
+💳 INFORMATIONS DE PAIEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Méthode de Paiement: ${details.paymentMethod}
+• Statut: ${details.status}
+• Devise: ${details.currency}
+• Plateforme: ${details.platform}
+
+═══════════════════════════════════════════
+🎓 Merci pour votre confiance en MDai!
+   Support: support@mdai.com
+   © 2025 MDai Learning Platform
+═══════════════════════════════════════════
+          `;
+
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "📋 Détails Copiés!",
+              text: "Tous les détails de paiement ont été copiés dans le presse-papiers.",
+              timer: 2500,
+              confirmButtonColor: "#667eea",
+            });
+          });
+        } catch (error) {
+          console.error("Error copying details:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Erreur de Copie",
+            text: "Impossible de copier les détails.",
+            confirmButtonColor: "#667eea",
+          });
+        }
+      }
+
+      // Download comprehensive payment receipt as PDF
+      function downloadPaymentReceipt(detailsJson) {
+        try {
+          const details = JSON.parse(detailsJson.replace(/&quot;/g, '"'));
+
+          if (typeof window.jspdf === "undefined") {
+            Swal.fire({
+              icon: "info",
+              title: "📄 Détails Disponibles",
+              text: 'La génération PDF n\'est pas disponible. Utilisez "Copier Tous les Détails" pour sauvegarder les informations.',
+              confirmButtonColor: "#667eea",
+            });
+            return;
+          }
+
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          // Header with logo space
+          doc.setFontSize(24);
+          doc.setTextColor(102, 126, 234);
+          doc.text("MDai Learning Platform", 20, 30);
+
+          doc.setFontSize(18);
+          doc.setTextColor(0, 0, 0);
+          doc.text("Reçu de Paiement Officiel", 20, 45);
+
+          // Status badge
+          doc.setFillColor(40, 167, 69);
+          doc.rect(150, 35, 40, 8, "F");
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(10);
+          doc.text("CONFIRMÉ", 165, 41);
+
+          // Transaction Information
+          doc.setTextColor(0, 0, 0);
+          doc.setFontSize(14);
+          doc.text("Informations de Transaction", 20, 65);
+          doc.line(20, 68, 190, 68);
+
+          let yPos = 80;
+          doc.setFontSize(11);
+
+          const addDetailLine = (label, value, isBold = false) => {
+            if (isBold) doc.setFont(undefined, "bold");
+            else doc.setFont(undefined, "normal");
+            doc.text(label + ":", 25, yPos);
+            doc.text(value, 80, yPos);
+            yPos += 8;
+          };
+
+          addDetailLine("Date de Paiement", details.paymentDate);
+          addDetailLine("Heure", details.paymentTime);
+          addDetailLine("ID de Transaction", details.transactionId, true);
+          addDetailLine(
+            "Numéro d'Inscription",
+            details.registrationNumber,
+            true
+          );
+
+          yPos += 10;
+          doc.setFontSize(14);
+          doc.text("Informations Client", 20, yPos);
+          doc.line(20, yPos + 3, 190, yPos + 3);
+          yPos += 15;
+
+          doc.setFontSize(11);
+          addDetailLine("Nom Complet", details.customerName);
+          addDetailLine("Email", details.email);
+          addDetailLine("Téléphone", details.phone);
+
+          yPos += 10;
+          doc.setFontSize(14);
+          doc.text("Détails du Cours", 20, yPos);
+          doc.line(20, yPos + 3, 190, yPos + 3);
+          yPos += 15;
+
+          doc.setFontSize(11);
+          addDetailLine("Nom du Cours", details.courseName);
+          addDetailLine("Prix du Cours", "$" + details.coursePrice);
+          addDetailLine("Frais d'Inscription", "$" + details.registrationFees);
+
+          // Total amount highlight
+          yPos += 5;
+          doc.setFillColor(230, 230, 230);
+          doc.rect(20, yPos - 3, 170, 12, "F");
+          doc.setFontSize(14);
+          doc.setFont(undefined, "bold");
+          doc.setTextColor(40, 167, 69);
+          doc.text("MONTANT TOTAL:", 25, yPos + 5);
+          doc.text("$" + details.totalAmount, 120, yPos + 5);
+
+          yPos += 20;
+          doc.setTextColor(0, 0, 0);
+          doc.setFontSize(11);
+          doc.setFont(undefined, "normal");
+          addDetailLine("Méthode de Paiement", details.paymentMethod);
+          addDetailLine("Statut", details.status);
+
+          // Footer
+          doc.setFontSize(10);
+          doc.setTextColor(100, 100, 100);
+          doc.text(
+            "Ce reçu a été généré automatiquement par MDai Learning Platform",
+            20,
+            260
+          );
+          doc.text(
+            "Pour toute question: support@mdai.com | © 2025 MDai Learning Platform",
+            20,
+            270
+          );
+
+          // Save the PDF
+          doc.save(`MDai_Recu_Complet_${details.transactionId}.pdf`);
+
+          Swal.fire({
+            icon: "success",
+            title: "💾 Reçu Téléchargé!",
+            text: "Le reçu complet a été téléchargé avec succès.",
+            confirmButtonColor: "#667eea",
+          });
+        } catch (error) {
+          console.error("Error creating comprehensive PDF:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Erreur PDF",
+            text: "Impossible de créer le PDF. Utilisez l'option de copie à la place.",
+            confirmButtonColor: "#667eea",
+          });
+        }
+      }
+
+      // Send email using EmailJS with all payment details
+      function sendEmailWithEmailJS(detailsJson) {
+        try {
+          const details = JSON.parse(detailsJson.replace(/&quot;/g, '"'));
+
+          // Check if EmailJS is initialized
+          if (!emailjsInitialized || typeof emailjs === "undefined") {
+            Swal.fire({
+              icon: "warning",
+              title: "EmailJS Non Disponible",
+              text: "Le service d'envoi d'emails n'est pas disponible. Utilisation de la méthode alternative.",
+              confirmButtonColor: "#667eea",
+            });
+            sendEmailManually(detailsJson);
+            return;
+          }
+
+          // Show sending animation
+          Swal.fire({
+            title: "📧 Envoi via EmailJS",
+            html: '<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><p>Envoi de l\'email de confirmation...</p>',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+          });
+
+          // Prepare template parameters for your custom MDai email template
+          const templateParams = {
+            // Variables used in your custom template
+            to_name: details.customerName,
+            course_title: details.courseName,
+            course_info: `Durée: Variable selon le cours | Niveau: Adapté à tous | Mode: En ligne et présentiel | Support: 24/7 disponible | Certificat: Inclus`,
+            total_amount: `${details.totalAmount} ${details.currency}`,
+            email: details.email,
+            transaction_id: details.transactionId,
+
+            // Dynamic links for your template buttons
+            details_link: `https://mdai.xyz/course/details?transaction=${
+              details.transactionId
+            }&course=${encodeURIComponent(details.courseName)}`,
+            receipt_link: `https://mdai.xyz/receipt/download?id=${details.transactionId}`,
+
+            // Email subject for your template
+            email_subject: `Confirmation de Réservation – MDai Courses - ${details.transactionId}`,
+
+            // Additional variables (backup/alternative names)
+            customer_name: details.customerName,
+            customer_email: details.email,
+            customer_phone: details.phone,
+            course_name: details.courseName,
+            course_price: details.coursePrice,
+            registration_fees: details.registrationFees,
+            payment_method: details.paymentMethod,
+            payment_status: details.status,
+            payment_date: details.paymentDate,
+            payment_time: details.paymentTime,
+            registration_number: details.registrationNumber,
+            platform_name: details.platform,
+            currency: details.currency,
+
+            // Pre-formatted fields for flexibility
+            full_date_time: `${details.paymentDate} à ${details.paymentTime}`,
+            formatted_course_details: `${details.courseName} - Prix: ${details.currency} ${details.coursePrice} + Frais: ${details.currency} ${details.registrationFees} = Total: ${details.currency} ${details.totalAmount}`,
+
+            // QR code data URL (matches your template's QR code format)
+            qr_data: `Nom:%20${encodeURIComponent(
+              details.customerName
+            )}%0ACours:%20${encodeURIComponent(
+              details.courseName
+            )}%0AInfo:%20Inscription%20confirmée%0AFrais:%205000%20FC%0ATotal:%20${encodeURIComponent(
+              details.totalAmount
+            )}%20${details.currency}%0AEmail:%20${encodeURIComponent(
+              details.email
+            )}%0AID%20Transaction:%20${details.transactionId}`,
+          };
+
+          // Debug: Log all template parameters
+          console.log("📧 EmailJS Template Parameters:", templateParams);
+          console.log("🔧 EmailJS Config:", EMAILJS_CONFIG);
+
+          // Send email using EmailJS
+          emailjs
+            .send(
+              EMAILJS_CONFIG.serviceId,
+              EMAILJS_CONFIG.templateId,
+              templateParams
+            )
+            .then((response) => {
+              console.log("✅ EmailJS Success:", response);
+
+              Swal.fire({
+                icon: "success",
+                title: "📧 Email Envoyé avec Succès!",
+                html: `
+                  <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: #28a745; margin-bottom: 15px;">✅ Confirmation envoyée</h4>
+                    <p><strong>📍 Destinataire:</strong> ${details.email}</p>
+                    <p><strong>📧 Via:</strong> EmailJS</p>
+                    <p><strong>🆔 Transaction:</strong> ${details.transactionId}</p>
+                    <p><strong>📋 Inscription:</strong> ${details.registrationNumber}</p>
+                    <p><strong>💰 Montant:</strong> ${details.currency}${details.totalAmount}</p>
+                    <hr style="margin: 15px 0;">
+                    <p style="color: #28a745;"><strong>✅ L'email de confirmation a été envoyé avec succès!</strong></p>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                      L'email contient tous les détails de votre paiement et les prochaines étapes.
+                    </p>
+                  </div>
+                `,
+                confirmButtonText: "Parfait!",
+                confirmButtonColor: "#667eea",
+                width: "600px",
+              });
+            })
+            .catch((error) => {
+              console.error("❌ EmailJS Error:", error);
+
+              Swal.fire({
+                icon: "error",
+                title: "Erreur d'Envoi EmailJS",
+                html: `
+                  <div style="text-align: left;">
+                    <p>L'envoi via EmailJS a échoué.</p>
+                    <p><strong>Erreur:</strong> ${
+                      error.text || error.message || "Erreur inconnue"
+                    }</p>
+                    <hr style="margin: 15px 0;">
+                    <p>Utilisation de la méthode alternative...</p>
+                  </div>
+                `,
+                confirmButtonText: "Utiliser Alternative",
+                confirmButtonColor: "#667eea",
+              }).then(() => {
+                sendEmailManually(detailsJson);
+              });
+            });
+        } catch (error) {
+          console.error("Error preparing EmailJS:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Erreur de Préparation",
+            text: "Impossible de préparer l'email. Utilisation de la méthode alternative.",
+            confirmButtonColor: "#667eea",
+          }).then(() => {
+            sendEmailManually(detailsJson);
+          });
+        }
+      }
+
+      // Send email manually (opens default email client)
+      function sendEmailManually(detailsJson) {
+        try {
+          const details = JSON.parse(detailsJson.replace(/&quot;/g, '"'));
+
+          const subject = `Confirmation de Paiement MDai - ${details.transactionId}`;
+          const body = `Bonjour,
+
+Voici le récapitulatif complet de votre paiement sur MDai Learning Platform:
+
+DÉTAILS DE TRANSACTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Date: ${details.paymentDate} à ${details.paymentTime}
+• Transaction ID: ${details.transactionId}  
+• Numéro d'Inscription: ${details.registrationNumber}
+
+INFORMATIONS CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Nom: ${details.customerName}
+• Email: ${details.email}
+• Téléphone: ${details.phone}
+
+COURS ET TARIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Cours: ${details.courseName}
+• Prix du cours: $${details.coursePrice}
+• Frais d'inscription: $${details.registrationFees}
+• MONTANT TOTAL: $${details.totalAmount}
+
+PAIEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Méthode: ${details.paymentMethod}
+• Statut: ${details.status}
+
+Merci pour votre confiance en MDai Learning Platform!
+
+Support: support@mdai.com
+© 2025 MDai Learning Platform`;
+
+          const emailUrl = `mailto:${
+            details.email
+          }?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+            body
+          )}`;
+
+          window.open(emailUrl);
+
+          Swal.fire({
+            icon: "info",
+            title: "📧 Email Préparé",
+            text: "Votre client email par défaut s'est ouvert avec tous les détails pré-remplis.",
+            confirmButtonColor: "#667eea",
+          });
+        } catch (error) {
+          console.error("Error opening email client:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Erreur Email",
+            text: "Impossible d'ouvrir le client email.",
+            confirmButtonColor: "#667eea",
+          });
         }
       }
 
@@ -2658,19 +4093,809 @@
 
       // Auto-initialize when DOM is ready
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initializePaymentSystem);
+        document.addEventListener("DOMContentLoaded", function () {
+          initializePaymentSystem();
+          initializePaymentDetails();
+        });
       } else {
         initializePaymentSystem();
+        initializePaymentDetails();
       }
-    </script>
 
-    <script>
-      function showMpesa() {
-        document.getElementById("mpesaBox").classList.add("active");
+      // Initialize payment details on page load - Auto-populated from course selection
+      function initializePaymentDetails() {
+        // Get course data from localStorage (set by course.html when user clicks enrollment button)
+        const selectedCourseTitle = localStorage.getItem("selectedCourseTitle");
+        const selectedCourseInfo = localStorage.getItem("selectedCourseInfo");
+        const coursePrice = localStorage.getItem("coursePrice");
+        const registrationFee = localStorage.getItem("registrationFee");
+        const selectedCourseTotal = localStorage.getItem("selectedCourseTotal");
+
+        // Get form elements
+        const courseTitleField = document.getElementById("course_title");
+        const courseInfoField = document.getElementById("course_info");
+        const coursePriceField = document.getElementById("course_price");
+        const registrationFeeField =
+          document.getElementById("registration_fee");
+        const totalAmountField = document.getElementById("total_amount");
+
+        // Auto-populate from course selection or use defaults
+        if (selectedCourseTitle) {
+          courseTitleField.value = selectedCourseTitle;
+          console.log("✅ Course title auto-selected:", selectedCourseTitle);
+        } else {
+          courseTitleField.value = "Formation Machine Learning & IA";
+          console.log("⚠️ Using default course title");
+        }
+
+        if (selectedCourseInfo) {
+          courseInfoField.value = selectedCourseInfo;
+        } else {
+          courseInfoField.value =
+            "Formation complète en intelligence artificielle";
+        }
+
+        // Parse price information
+        if (coursePrice) {
+          // Extract numeric value and currency from stored price (e.g., "70000 FC" or "150 USD")
+          const priceMatch = coursePrice.match(/(\d+(?:\.\d+)?)\s*(\w+)?/);
+          if (priceMatch) {
+            const price = parseFloat(priceMatch[1]);
+            const currency = priceMatch[2] || "FC";
+
+            // Display prices in FC currency
+            if (currency === "USD") {
+              // Convert USD to FC for display (rough conversion: 1 USD ≈ 2500 FC)
+              const priceInFC = (price * 2500).toFixed(2);
+              coursePriceField.value = priceInFC;
+            } else {
+              coursePriceField.value = price.toFixed(2);
+            }
+          }
+          console.log("✅ Course price auto-selected:", coursePrice);
+        } else {
+          coursePriceField.value = "375000.00";
+          console.log("⚠️ Using default course price");
+        }
+
+        if (registrationFee) {
+          // Extract registration fee and convert if needed
+          const feeMatch = registrationFee.match(/(\d+(?:\.\d+)?)\s*(\w+)?/);
+          if (feeMatch) {
+            const fee = parseFloat(feeMatch[1]);
+            const currency = feeMatch[2] || "FC";
+
+            if (currency === "USD") {
+              // Convert USD to FC for display (rough conversion: 1 USD ≈ 2500 FC)
+              const feeInFC = (fee * 2500).toFixed(2);
+              registrationFeeField.value = feeInFC;
+            } else {
+              registrationFeeField.value = fee.toFixed(2);
+            }
+          }
+          console.log("✅ Registration fee auto-selected:", registrationFee);
+        } else {
+          registrationFeeField.value = "5000.00";
+          console.log("⚠️ Using default registration fee");
+        }
+
+        // Calculate total amount
+        const totalPrice = (
+          parseFloat(coursePriceField.value || 0) +
+          parseFloat(registrationFeeField.value || 0)
+        ).toFixed(2);
+        totalAmountField.value = totalPrice;
+
+        // Update pricing display in the UI
+        document.getElementById("coursePrice").textContent =
+          "$" + coursePriceField.value;
+        document.getElementById("regFee").textContent =
+          "$" + registrationFeeField.value;
+        document.getElementById("totalPrice").textContent = "$" + totalPrice;
+
+        // Update course title display
+        const paymentTitle = document.getElementById("paymentTitle");
+        if (paymentTitle && selectedCourseTitle) {
+          paymentTitle.innerHTML = `<i class="fas fa-credit-card"></i> Paiement - ${selectedCourseTitle}`;
+        }
+
+        // Show confirmation of auto-populated data
+        if (selectedCourseTitle || coursePrice || registrationFee) {
+          console.log(
+            "🎯 Payment details auto-populated from course selection:"
+          );
+          console.log("  📚 Course:", selectedCourseTitle || "Default");
+          console.log("  💰 Price:", coursePrice || "Default");
+          console.log("  📝 Registration Fee:", registrationFee || "Default");
+          console.log("  💳 Total:", "$" + totalPrice);
+
+          // Optional: Show user confirmation that data was loaded
+          setTimeout(() => {
+            if (selectedCourseTitle) {
+              const notification = document.createElement("div");
+              notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: 600;
+                animation: slideIn 0.5s ease;
+              `;
+              notification.innerHTML = `
+                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                Cours sélectionné: ${selectedCourseTitle}
+              `;
+
+              // Add CSS animation
+              const style = document.createElement("style");
+              style.textContent = `
+                @keyframes slideIn {
+                  from { transform: translateX(100%); opacity: 0; }
+                  to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                  from { transform: translateX(0); opacity: 1; }
+                  to { transform: translateX(100%); opacity: 0; }
+                }
+              `;
+              document.head.appendChild(style);
+
+              document.body.appendChild(notification);
+
+              // Auto-remove after 4 seconds
+              setTimeout(() => {
+                notification.style.animation = "slideOut 0.5s ease";
+                setTimeout(() => notification.remove(), 500);
+              }, 4000);
+            }
+          }, 1000);
+        }
+
+        console.log("💳 Payment details initialized with auto-population");
       }
+
+      // Debug function to show what course data is available
+      function debugCourseData() {
+        console.log("🔍 Debug: Checking localStorage for course data...");
+        console.log(
+          "selectedCourseTitle:",
+          localStorage.getItem("selectedCourseTitle")
+        );
+        console.log(
+          "selectedCourseInfo:",
+          localStorage.getItem("selectedCourseInfo")
+        );
+        console.log("coursePrice:", localStorage.getItem("coursePrice"));
+        console.log(
+          "registrationFee:",
+          localStorage.getItem("registrationFee")
+        );
+        console.log(
+          "selectedCourseTotal:",
+          localStorage.getItem("selectedCourseTotal")
+        );
+      }
+
+      // Test function to simulate course selection (for testing purposes)
+      function simulateCourseSelection(courseName, price, regFee) {
+        localStorage.setItem("selectedCourseTitle", courseName);
+        localStorage.setItem(
+          "selectedCourseInfo",
+          `Formation complète en ${courseName}`
+        );
+        localStorage.setItem("coursePrice", price);
+        localStorage.setItem("registrationFee", regFee);
+
+        // Calculate total
+        const priceNum = parseFloat(price.replace(/[^0-9.]/g, ""));
+        const feeNum = parseFloat(regFee.replace(/[^0-9.]/g, ""));
+        const total = priceNum + feeNum;
+        localStorage.setItem("selectedCourseTotal", `${total} FC`);
+
+        console.log("🧪 Simulated course selection:", courseName);
+
+        // Refresh the page data
+        initializePaymentDetails();
+      }
+
+      // 🎯 COMPREHENSIVE CONFIRMATION FUNCTION - HANDLES EVERYTHING
+      async function confirmerReservation() {
+        try {
+          // 1. Validate form data
+          const name = document.querySelector('input[name="to_name"]').value;
+          const email = document.querySelector('input[name="email"]').value;
+          const phone = "Non spécifié"; // Phone field not present in current form
+
+          if (!name || !email) {
+            Swal.fire({
+              icon: "warning",
+              title: "⚠️ Informations Manquantes",
+              text: "Veuillez remplir tous les champs obligatoires (nom et email)",
+              confirmButtonColor: "#667eea",
+            });
+            return;
+          }
+
+          // Email validation
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            Swal.fire({
+              icon: "warning",
+              title: "⚠️ Email Invalide",
+              text: "Veuillez entrer une adresse email valide",
+              confirmButtonColor: "#667eea",
+            });
+            return;
+          }
+
+          // 2. Show confirmation process animation
+          Swal.fire({
+            title: "🚀 Confirmation en cours...",
+            html: `
+              <div style="text-align: center;">
+                <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                <p>📧 Envoi de l'email de confirmation...</p>
+                <p>📄 Génération du reçu PDF...</p>
+                <p>🔄 Finalisation de votre réservation...</p>
+              </div>
+            `,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+          });
+
+          // 3. Generate payment details
+          const now = new Date();
+          const transactionId = `TXN-${now.getTime()}-${Math.random()
+            .toString(36)
+            .substr(2, 6)
+            .toUpperCase()}`;
+          const registrationNumber = `REG-${now.getFullYear()}-${Math.random()
+            .toString(36)
+            .substr(2, 8)
+            .toUpperCase()}`;
+
+          const paymentDetails = {
+            customerName: name,
+            email: email,
+            phone: phone,
+            courseName:
+              localStorage.getItem("selectedCourseTitle") ||
+              "Formation Générale",
+            coursePrice: localStorage.getItem("coursePrice") || "170.00",
+            registrationFees: localStorage.getItem("registrationFee") || "5.00",
+            totalAmount: (
+              parseFloat(localStorage.getItem("coursePrice") || "170.00") +
+              parseFloat(localStorage.getItem("registrationFee") || "5.00")
+            ).toFixed(2),
+            currency: "USD",
+            paymentMethod: "Paiement en ligne",
+            paymentDate: now.toLocaleDateString("fr-FR"),
+            paymentTime: now.toLocaleTimeString("fr-FR"),
+            transactionId: transactionId,
+            registrationNumber: registrationNumber,
+            status: "Confirmé",
+            platform: "MDai Learning Platform",
+          };
+
+          // 4. Send email via EmailJS
+          const templateParams = {
+            to_name: paymentDetails.customerName,
+            course_title: paymentDetails.courseName,
+            course_info: `Durée: Variable selon le cours | Niveau: Adapté à tous | Mode: En ligne et présentiel | Support: 24/7 disponible | Certificat: Inclus`,
+            total_amount: `${paymentDetails.totalAmount} ${paymentDetails.currency}`,
+            email: paymentDetails.email,
+            transaction_id: paymentDetails.transactionId,
+            details_link: `https://mdai.xyz/course/details?transaction=${
+              paymentDetails.transactionId
+            }&course=${encodeURIComponent(paymentDetails.courseName)}`,
+            receipt_link: `https://mdai.xyz/receipt/download?id=${transactionId}`,
+            email_subject: `✅ Confirmation de Réservation – MDai Courses - ${transactionId}`,
+          };
+
+          // Send email
+          await emailjs.send(
+            "service_osvola7",
+            "template_12nvate",
+            templateParams
+          );
+
+          // 5. Generate and download PDF receipt
+          await generateAndDownloadPDF(paymentDetails);
+
+          // 6. Clear form
+          document.getElementById("paymentForm").reset();
+          localStorage.removeItem("selectedCourseTitle");
+          localStorage.removeItem("coursePrice");
+          localStorage.removeItem("registrationFee");
+
+          // 7. Show success message
+          await Swal.fire({
+            icon: "success",
+            title: "🎉 Réservation Confirmée!",
+            html: `
+              <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h4 style="color: #28a745; margin-bottom: 15px;">✅ Votre réservation est confirmée</h4>
+                <p><strong>📧 Email:</strong> Confirmation envoyée à ${email}</p>
+                <p><strong>📄 Reçu PDF:</strong> Automatiquement téléchargé</p>
+                <p><strong>🆔 Transaction:</strong> ${transactionId}</p>
+                <p><strong>📋 Inscription:</strong> ${registrationNumber}</p>
+                <p><strong>💰 Total:</strong> ${paymentDetails.totalAmount} ${paymentDetails.currency}</p>
+                <hr style="margin: 15px 0;">
+                <p style="color: #28a745; font-weight: bold;">Vous allez être redirigé vers la page d'accueil...</p>
+              </div>
+            `,
+            timer: 4000,
+            timerProgressBar: true,
+            confirmButtonColor: "#28a745",
+          });
+
+          // 8. Redirect to index.html
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Confirmation error:", error);
+          Swal.fire({
+            icon: "error",
+            title: "❌ Erreur de Confirmation",
+            html: `
+              <p>Une erreur s'est produite lors de la confirmation:</p>
+              <p style="color: #dc3545; font-weight: bold;">${error.message}</p>
+              <p>Veuillez réessayer ou contacter le support.</p>
+            `,
+            confirmButtonColor: "#dc3545",
+          });
+        }
+      }
+
+      // Generate and download PDF receipt with modern, professional design
+      async function generateAndDownloadPDF(details) {
+        try {
+          // Create PDF using jsPDF
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          // 🎨 MODERN COLOR PALETTE
+          const colors = {
+            primary: [102, 126, 234], // #667eea - Main brand color
+            secondary: [118, 75, 162], // #764ba2 - Secondary brand
+            accent: [79, 172, 254], // #4facfe - Accent blue
+            success: [34, 197, 94], // #22c55e - Success green
+            warning: [249, 115, 22], // #f97316 - Warning orange
+            dark: [30, 41, 59], // #1e293b - Dark text
+            light: [248, 250, 252], // #f8fafc - Light background
+            muted: [100, 116, 139], // #64748b - Muted text
+            white: [255, 255, 255], // #ffffff - Pure white
+            gradient1: [16, 185, 129], // #10b981 - Green gradient
+            gradient2: [59, 130, 246], // #3b82f6 - Blue gradient
+          };
+
+          // 📄 PAGE SETUP
+          const pageWidth = 210;
+          const pageHeight = 297;
+          let yPos = 0;
+
+          // 🎨 PREMIUM HEADER WITH GRADIENT EFFECT
+          // Primary gradient background
+          doc.setFillColor(...colors.primary);
+          doc.rect(0, 0, pageWidth, 50, "F");
+
+          // Accent overlay for depth
+          doc.setFillColor(...colors.accent);
+          doc.rect(0, 0, pageWidth, 8, "F");
+
+          // Modern geometric accent lines
+          doc.setFillColor(...colors.white);
+          doc.rect(15, 45, 180, 1, "F");
+          doc.setFillColor(...colors.accent);
+          doc.rect(15, 46, 60, 1, "F");
+
+          // 🏢 COMPANY BRANDING
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(28);
+          doc.setFont("helvetica", "bold");
+          doc.text("MDai", 20, 25);
+
+          doc.setFontSize(12);
+          doc.setFont("helvetica", "normal");
+          doc.text("LEARNING PLATFORM", 20, 33);
+          doc.text("Intelligence Artificielle & Innovation", 20, 40);
+
+          // Receipt title - right aligned
+          doc.setFontSize(20);
+          doc.setFont("helvetica", "bold");
+          doc.text("REÇU OFFICIEL", pageWidth - 20, 25, { align: "right" });
+
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "normal");
+          doc.text(`Ref: ${details.transactionId}`, pageWidth - 20, 33, {
+            align: "right",
+          });
+          doc.text(
+            `${details.paymentDate} - ${details.paymentTime}`,
+            pageWidth - 20,
+            40,
+            { align: "right" }
+          );
+
+          yPos = 65;
+
+          // 💼 CUSTOMER INFORMATION CARD
+          // Modern card background
+          doc.setFillColor(...colors.light);
+          doc.roundedRect(15, yPos, 85, 45, 3, 3, "F");
+
+          // Card border accent
+          doc.setDrawColor(...colors.accent);
+          doc.setLineWidth(0.5);
+          doc.roundedRect(15, yPos, 85, 45, 3, 3, "S");
+
+          // Customer info header
+          doc.setFillColor(...colors.primary);
+          doc.roundedRect(15, yPos, 85, 8, 3, 3, "F");
+
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "bold");
+          doc.text("👤 INFORMATIONS CLIENT", 18, yPos + 5);
+
+          doc.setTextColor(...colors.dark);
+          doc.setFontSize(11);
+          doc.setFont("helvetica", "normal");
+          doc.text(`${details.customerName}`, 18, yPos + 15);
+          doc.setFontSize(9);
+          doc.text(`📧 ${details.email}`, 18, yPos + 23);
+          doc.text(`📱 ${details.phone}`, 18, yPos + 30);
+          doc.text(`🎓 Étudiant MDai`, 18, yPos + 37);
+
+          // 📚 COURSE INFORMATION CARD
+          doc.setFillColor(...colors.light);
+          doc.roundedRect(110, yPos, 85, 45, 3, 3, "F");
+
+          doc.setDrawColor(...colors.success);
+          doc.roundedRect(110, yPos, 85, 45, 3, 3, "S");
+
+          // Course info header
+          doc.setFillColor(...colors.success);
+          doc.roundedRect(110, yPos, 85, 8, 3, 3, "F");
+
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "bold");
+          doc.text("📚 FORMATION SÉLECTIONNÉE", 113, yPos + 5);
+
+          doc.setTextColor(...colors.dark);
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "bold");
+          // Wrap long course names
+          const courseText =
+            details.courseName.length > 25
+              ? details.courseName.substring(0, 25) + "..."
+              : details.courseName;
+          doc.text(courseText, 113, yPos + 15);
+
+          doc.setFontSize(9);
+          doc.setFont("helvetica", "normal");
+          doc.text(
+            `Prix: ${details.coursePrice} ${details.currency}`,
+            113,
+            yPos + 23
+          );
+          doc.text(
+            `Inscription: ${details.registrationFees} ${details.currency}`,
+            113,
+            yPos + 30
+          );
+          doc.text(`✅ Accès confirmé`, 113, yPos + 37);
+
+          yPos += 60;
+
+          // 💳 PAYMENT SUMMARY - PREMIUM STYLE
+          // Gradient background effect
+          doc.setFillColor(...colors.gradient1);
+          doc.roundedRect(15, yPos, 180, 35, 5, 5, "F");
+
+          // Overlay gradient
+          doc.setFillColor(...colors.gradient2);
+          doc.roundedRect(15, yPos, 180, 6, 5, 5, "F");
+
+          // Payment amount highlight
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(24);
+          doc.setFont("helvetica", "bold");
+          doc.text(
+            `${details.totalAmount} ${details.currency}`,
+            105,
+            yPos + 18,
+            { align: "center" }
+          );
+
+          doc.setFontSize(12);
+          doc.setFont("helvetica", "normal");
+          doc.text("MONTANT TOTAL PAYÉ", 105, yPos + 28, { align: "center" });
+
+          // Payment status badge
+          doc.setTextColor(...colors.white);
+          doc.setFillColor(...colors.success);
+          doc.roundedRect(155, yPos + 8, 30, 8, 2, 2, "F");
+          doc.setFontSize(8);
+          doc.setFont("helvetica", "bold");
+          doc.text("✓ CONFIRMÉ", 170, yPos + 13, { align: "center" });
+
+          yPos += 50;
+
+          // 📋 TRANSACTION DETAILS - MODERN TABLE STYLE
+          doc.setTextColor(...colors.dark);
+          doc.setFontSize(14);
+          doc.setFont("helvetica", "bold");
+          doc.text("📋 DÉTAILS DE LA TRANSACTION", 20, yPos);
+
+          yPos += 10;
+
+          // Table header
+          doc.setFillColor(...colors.primary);
+          doc.rect(15, yPos, 180, 8, "F");
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(9);
+          doc.setFont("helvetica", "bold");
+          doc.text("INFORMATION", 18, yPos + 5);
+          doc.text("VALEUR", 120, yPos + 5);
+
+          yPos += 10;
+
+          // Table rows data
+          const transactionData = [
+            ["ID Transaction", details.transactionId],
+            ["Numéro d'inscription", details.registrationNumber],
+            ["Date de paiement", details.paymentDate],
+            ["Heure de paiement", details.paymentTime],
+            ["Méthode de paiement", details.paymentMethod],
+            ["Statut du paiement", details.status],
+            ["Devise", details.currency],
+            ["Plateforme", "MDai Learning Platform"],
+          ];
+
+          doc.setTextColor(...colors.dark);
+          doc.setFont("helvetica", "normal");
+
+          transactionData.forEach((row, index) => {
+            // Alternating row colors
+            if (index % 2 === 0) {
+              doc.setFillColor(250, 250, 250);
+              doc.rect(15, yPos, 180, 8, "F");
+            }
+
+            doc.setFontSize(9);
+            doc.text(row[0], 18, yPos + 5);
+            doc.setFont("helvetica", "bold");
+            doc.text(row[1], 120, yPos + 5);
+            doc.setFont("helvetica", "normal");
+            yPos += 8;
+          });
+
+          yPos += 10;
+
+          // 🔒 SECURITY & VERIFICATION SECTION
+          doc.setFillColor(...colors.warning);
+          doc.roundedRect(15, yPos, 180, 25, 3, 3, "F");
+
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(11);
+          doc.setFont("helvetica", "bold");
+          doc.text("🔒 SÉCURITÉ & VÉRIFICATION", 20, yPos + 8);
+
+          doc.setFontSize(9);
+          doc.setFont("helvetica", "normal");
+          doc.text("• Ce reçu est authentifié numériquement", 20, yPos + 15);
+          doc.text(
+            "• Certificat SSL 256-bit pour la sécurité des transactions",
+            20,
+            yPos + 20
+          );
+
+          // QR Code placeholder (simulated)
+          doc.setFillColor(...colors.white);
+          doc.rect(155, yPos + 3, 18, 18, "F");
+          doc.setTextColor(...colors.dark);
+          doc.setFontSize(6);
+          doc.text("QR", 164, yPos + 13, { align: "center" });
+
+          yPos += 35;
+
+          // 💯 CEO SIGNATURE SECTION
+          doc.setFillColor(...colors.light);
+          doc.roundedRect(15, yPos, 180, 35, 3, 3, "F");
+
+          // Signature border
+          doc.setDrawColor(...colors.primary);
+          doc.setLineWidth(1);
+          doc.roundedRect(15, yPos, 180, 35, 3, 3, "S");
+
+          // CEO Signature Header
+          doc.setTextColor(...colors.primary);
+          doc.setFontSize(12);
+          doc.setFont("helvetica", "bold");
+          doc.text("👨‍💼 SIGNATURE AUTORISÉE", 20, yPos + 10);
+
+          // Signature line
+          doc.setDrawColor(...colors.accent);
+          doc.setLineWidth(0.5);
+          doc.line(20, yPos + 20, 90, yPos + 20);
+
+          // CEO name and title
+          doc.setTextColor(...colors.dark);
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "bold");
+          doc.text("SYMPHORIEN PYANA", 20, yPos + 25);
+          doc.setFontSize(8);
+          doc.setFont("helvetica", "normal");
+          doc.text("CEO & Fondateur, MDai Learning Platform", 20, yPos + 30);
+
+          // Validation stamp
+          doc.setFillColor(...colors.success);
+          doc.roundedRect(120, yPos + 8, 60, 15, 5, 5, "F");
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "bold");
+          doc.text("✓ VALIDÉ OFFICIELLEMENT", 150, yPos + 17, {
+            align: "center",
+          });
+
+          yPos += 45;
+
+          // 🔖 WATERMARK (Background)
+          doc.setGState(new doc.GState({ opacity: 0.1 }));
+          doc.setTextColor(...colors.primary);
+          doc.setFontSize(60);
+          doc.setFont("helvetica", "bold");
+          // Rotate and place watermark diagonally
+          doc.text("MDai", pageWidth / 2, pageHeight / 2, {
+            align: "center",
+            angle: -45,
+          });
+          doc.setGState(new doc.GState({ opacity: 1 })); // Reset opacity
+
+          // 🌟 PREMIUM FOOTER
+          // Footer gradient
+          doc.setFillColor(...colors.dark);
+          doc.rect(0, pageHeight - 40, pageWidth, 40, "F");
+
+          doc.setFillColor(...colors.accent);
+          doc.rect(0, pageHeight - 40, pageWidth, 3, "F");
+
+          // Company info
+          doc.setTextColor(...colors.white);
+          doc.setFontSize(12);
+          doc.setFont("helvetica", "bold");
+          doc.text("MDai Learning Platform", 20, pageHeight - 25);
+
+          doc.setFontSize(9);
+          doc.setFont("helvetica", "normal");
+          doc.text("🌐 www.mdai.xyz", 20, pageHeight - 18);
+          doc.text("📧 support@mdai.com", 20, pageHeight - 12);
+          doc.text("📞 +243 81 233 6721", 20, pageHeight - 6);
+
+          // Right side footer
+          doc.text(
+            "Merci pour votre confiance!",
+            pageWidth - 20,
+            pageHeight - 25,
+            { align: "right" }
+          );
+          doc.text(
+            "Excellence • Innovation • Formation",
+            pageWidth - 20,
+            pageHeight - 18,
+            { align: "right" }
+          );
+          doc.text("© 2025 MDai Platform", pageWidth - 20, pageHeight - 12, {
+            align: "right",
+          });
+
+          // 💾 SAVE WITH MODERN FILENAME
+          const timestamp = new Date()
+            .toISOString()
+            .slice(0, 19)
+            .replace(/:/g, "-");
+          const fileName = `MDai_Receipt_${details.transactionId}_${timestamp}.pdf`;
+          doc.save(fileName);
+
+          console.log(`🎨 Modern PDF receipt generated: ${fileName}`);
+        } catch (error) {
+          console.warn("PDF generation failed, continuing without PDF:", error);
+          // Don't throw error - continue with other processes
+        }
+      }
+
+      // Test EmailJS with sample data
+      function testEmailJSWithSampleData() {
+        if (!emailjsInitialized) {
+          Swal.fire({
+            icon: "warning",
+            title: "EmailJS Non Initialisé",
+            text: "EmailJS n'est pas encore initialisé. Vérifiez votre configuration.",
+            confirmButtonColor: "#667eea",
+          });
+          return;
+        }
+
+        // Create sample payment details for testing
+        const samplePaymentDetails = {
+          customerName: "Jean Dupont",
+          email: "jean.dupont@example.com",
+          phone: "+33 1 23 45 67 89",
+          courseName: "Formation Machine Learning Avancé",
+          coursePrice: "150.00",
+          registrationFees: "25.00",
+          totalAmount: "175.00",
+          paymentMethod: "Carte de crédit",
+          paymentDate: new Date().toLocaleDateString("fr-FR"),
+          paymentTime: new Date().toLocaleTimeString("fr-FR"),
+          transactionId: "TXN-TEST-" + Date.now(),
+          registrationNumber:
+            "REG-TEST-" + Math.random().toString(36).substr(2, 8).toUpperCase(),
+          currency: "USD",
+          status: "Confirmé",
+          platform: "MDai Learning Platform",
+        };
+
+        // Convert to JSON string for the function
+        const detailsJson = JSON.stringify(samplePaymentDetails).replace(
+          /"/g,
+          "&quot;"
+        );
+
+        Swal.fire({
+          title: "🧪 Test EmailJS",
+          html: `
+            <div style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+              <h4>Données de test qui seront envoyées:</h4>
+              <p><strong>Email:</strong> ${samplePaymentDetails.email}</p>
+              <p><strong>Cours:</strong> ${samplePaymentDetails.courseName}</p>
+              <p><strong>Total:</strong> ${samplePaymentDetails.currency}${samplePaymentDetails.totalAmount}</p>
+              <p><strong>Transaction ID:</strong> ${samplePaymentDetails.transactionId}</p>
+              <hr style="margin: 15px 0;">
+              <p><strong>⚠️ Important:</strong> Ceci enverra un vrai email de test!</p>
+            </div>
+          `,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "📧 Envoyer Test",
+          cancelButtonText: "Annuler",
+          confirmButtonColor: "#17a2b8",
+          cancelButtonColor: "#6c757d",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            sendEmailWithEmailJS(detailsJson);
+          }
+        });
+      }
+
+      // M-PESA Modal Functions
+      function showMpesa() {
+        console.log("Showing M-PESA modal");
+        // Close any other open modals first
+        document.querySelectorAll(".payment-modal").forEach((modal) => {
+          modal.classList.remove("active");
+        });
+
+        // Show M-PESA modal
+        const mpesaBox = document.getElementById("mpesaBox");
+        if (mpesaBox) {
+          mpesaBox.classList.add("active");
+          console.log("M-PESA modal should now be visible");
+        } else {
+          console.error("M-PESA modal not found");
+        }
+      }
+
       function hideMpesa() {
         document.getElementById("mpesaBox").classList.remove("active");
       }
+
       function copyMpesa() {
         const number = document.querySelector(".mpesa-number").textContent;
         navigator.clipboard.writeText(number).then(() => {
@@ -2679,6 +4904,524 @@
           setTimeout(() => (feedback.style.display = "none"), 2000);
         });
       }
+
+      // Card Info Function
+      function showCardInfo() {
+        Swal.fire({
+          title: '<i class="fas fa-credit-card"></i> Paiement par Carte',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fas fa-shield-alt"></i> Paiement Sécurisé</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-check-circle" style="color: #22c55e;"></i> Cartes acceptées:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>💳 Visa</li>
+                  <li>💳 Mastercard</li>
+                  <li>💳 American Express</li>
+                  <li>💳 Cartes de débit internationales</li>
+                </ul>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-lock" style="color: #3b82f6;"></i> Sécurité:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>🔒 Cryptage SSL 256-bit</li>
+                  <li>🛡️ Conformité PCI DSS</li>
+                  <li>✅ Vérification 3D Secure</li>
+                  <li>🏦 Processus bancaire sécurisé</li>
+                </ul>
+              </div>
+
+              <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                <strong><i class="fas fa-info-circle" style="color: #3b82f6;"></i> Information:</strong><br>
+                Vos informations de carte sont traitées de manière sécurisée et ne sont jamais stockées sur nos serveurs.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#3b82f6",
+          width: 600,
+          showClass: {
+            popup: "animate__animated animate__fadeInUp",
+          },
+        });
+      }
+
+      // M-PESA Info Function
+      function showMpesaInfo() {
+        Swal.fire({
+          title: '<i class="fas fa-mobile-alt"></i> Paiement M-PESA',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #16a34a, #22c55e); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fas fa-mobile-alt"></i> Paiement Mobile Sécurisé</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-phone" style="color: #16a34a;"></i> Numéro de paiement:</strong>
+                <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; margin: 10px 0; border: 2px dashed #16a34a;">
+                  <span style="font-size: 1.5em; font-weight: bold; color: #16a34a;">+243 812 336 721</span>
+                  <br><small style="color: #166a34;">Nom: MADELEINE AMURI MARIAMO</small>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #16a34a;"></i> Instructions de paiement:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Composez *151# ou ouvrez l'app M-PESA</li>
+                  <li>💰 Sélectionnez "Envoyer de l'argent"</li>
+                  <li>📞 Entrez le numéro: +243 812 336 721</li>
+                  <li>💵 Saisissez le montant exact</li>
+                  <li>✅ Confirmez la transaction</li>
+                </ol>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-shield-alt" style="color: #16a34a;"></i> Sécurité:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>🔒 Transaction sécurisée par M-PESA</li>
+                  <li>📱 Confirmation par SMS</li>
+                  <li>✅ Traçabilité complète</li>
+                  <li>🏦 Partenaire financier certifié</li>
+                </ul>
+              </div>
+
+              <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; border-left: 4px solid #16a34a;">
+                <strong><i class="fas fa-info-circle" style="color: #16a34a;"></i> Information:</strong><br>
+                Effectuez le paiement avant de remplir le formulaire. Gardez votre référence de transaction.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#16a34a",
+          width: 600,
+          showClass: {
+            popup: "animate__animated animate__fadeInUp",
+          },
+        });
+      }
+
+      // PayPal Info Function
+      function showPaypalInfo() {
+        Swal.fire({
+          title: '<i class="fab fa-paypal"></i> Paiement PayPal',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #0070ba, #009cde); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fab fa-paypal"></i> Paiement PayPal Sécurisé</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-envelope" style="color: #0070ba;"></i> Adresse PayPal:</strong>
+                <div style="background: #f0f8ff; padding: 12px; border-radius: 8px; margin: 10px 0; border: 2px dashed #0070ba;">
+                  <span style="font-size: 1.2em; font-weight: bold; color: #0070ba;">symphorienpyana065@gmail.com</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #0070ba;"></i> Instructions de paiement:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>🌐 Ouvrez PayPal.com ou l'app PayPal</li>
+                  <li>💰 Cliquez sur "Envoyer de l'argent"</li>
+                  <li>📧 Entrez l'email: symphorienpyana065@gmail.com</li>
+                  <li>💵 Saisissez le montant exact</li>
+                  <li>📝 Mentionnez votre nom dans la note</li>
+                  <li>✅ Confirmez l'envoi</li>
+                </ol>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-shield-alt" style="color: #0070ba;"></i> Sécurité:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>🔒 Protection PayPal intégrée</li>
+                  <li>🛡️ Chiffrement de bout en bout</li>
+                  <li>✅ Historique des transactions</li>
+                  <li>🏦 Garantie de sécurité PayPal</li>
+                </ul>
+              </div>
+
+              <div style="background: #f0f8ff; padding: 15px; border-radius: 8px; border-left: 4px solid #0070ba;">
+                <strong><i class="fas fa-info-circle" style="color: #0070ba;"></i> Information:</strong><br>
+                Vous pouvez payer avec votre solde PayPal, carte bancaire ou compte bancaire lié.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#0070ba",
+          width: 600,
+          showClass: {
+            popup: "animate__animated animate__fadeInUp",
+          },
+        });
+      }
+
+      // Google Pay Info Function
+      function showGooglePayInfo() {
+        Swal.fire({
+          title: '<i class="fab fa-google-pay"></i> Paiement Google Pay',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #4285f4, #34a853); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fab fa-google-pay"></i> Paiement Google Pay</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-envelope" style="color: #4285f4;"></i> Adresse de paiement:</strong>
+                <div style="background: #f8f9ff; padding: 12px; border-radius: 8px; margin: 10px 0; border: 2px dashed #4285f4;">
+                  <span style="font-size: 1.2em; font-weight: bold; color: #4285f4;">symphorienpyana065@gmail.com</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #4285f4;"></i> Instructions de paiement:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Ouvrez l'app Google Pay</li>
+                  <li>🔍 Recherchez le contact par email</li>
+                  <li>💰 Sélectionnez "Envoyer de l'argent"</li>
+                  <li>💵 Entrez le montant exact</li>
+                  <li>📝 Ajoutez votre nom en référence</li>
+                  <li>✅ Confirmez le paiement</li>
+                </ol>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-mobile-alt" style="color: #4285f4;"></i> Méthodes acceptées:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>💳 Cartes de débit/crédit liées</li>
+                  <li>🏦 Comptes bancaires connectés</li>
+                  <li>💰 Solde Google Pay</li>
+                  <li>📱 NFC pour paiement rapide</li>
+                </ul>
+              </div>
+
+              <div style="background: #f8f9ff; padding: 15px; border-radius: 8px; border-left: 4px solid #4285f4;">
+                <strong><i class="fas fa-info-circle" style="color: #4285f4;"></i> Information:</strong><br>
+                Google Pay offre une sécurité avancée avec authentification biométrique et chiffrement.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#4285f4",
+          width: 600,
+          showClass: {
+            popup: "animate__animated animate__fadeInUp",
+          },
+        });
+      }
+
+      // UPI Info Function
+      function showUpiInfo() {
+        Swal.fire({
+          title: '<i class="fas fa-qrcode"></i> Paiement UPI',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #ff6b35, #ff8c42); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fas fa-qrcode"></i> Paiement UPI Instantané</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-at" style="color: #ff6b35;"></i> ID UPI:</strong>
+                <div style="background: #fff4f0; padding: 12px; border-radius: 8px; margin: 10px 0; border: 2px dashed #ff6b35;">
+                  <span style="font-size: 1.3em; font-weight: bold; color: #ff6b35;">symphorienpyana@paytm</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-qrcode" style="color: #ff6b35;"></i> Code QR:</strong>
+                <div style="background: #fff4f0; padding: 20px; border-radius: 8px; margin: 10px 0; text-align: center; border: 2px dashed #ff6b35;">
+                  <div style="font-size: 4em; color: #ff6b35;">⬜</div>
+                  <small style="color: #cc5429;">Scannez avec votre app UPI</small>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #ff6b35;"></i> Instructions de paiement:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Ouvrez votre app UPI (PhonePe, GPay, Paytm, etc.)</li>
+                  <li>📷 Scannez le QR code ou entrez l'ID UPI</li>
+                  <li>💵 Vérifiez le montant</li>
+                  <li>🔐 Entrez votre UPI PIN</li>
+                  <li>✅ Confirmez la transaction</li>
+                </ol>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-mobile-alt" style="color: #ff6b35;"></i> Apps supportées:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Google Pay (GPay)</li>
+                  <li>📱 PhonePe</li>
+                  <li>📱 Paytm</li>
+                  <li>📱 BHIM UPI</li>
+                  <li>📱 Apps bancaires UPI</li>
+                </ul>
+              </div>
+
+              <div style="background: #fff4f0; padding: 15px; border-radius: 8px; border-left: 4px solid #ff6b35;">
+                <strong><i class="fas fa-info-circle" style="color: #ff6b35;"></i> Information:</strong><br>
+                UPI permet des transferts instantanés 24h/24, 7j/7 avec confirmation immédiate.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#ff6b35",
+          width: 600,
+          showClass: {
+            popup: "animate__animated animate__fadeInUp",
+          },
+        });
+      }
+
+      // Apple Pay Info Function
+      function showApplePayInfo() {
+        Swal.fire({
+          title: '<i class="fab fa-apple-pay"></i> Apple Pay',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #000000, #333333); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fab fa-apple"></i> Paiement Apple Sécurisé</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-fingerprint" style="color: #000;"></i> Authentification biométrique:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>👆 Touch ID (empreinte digitale)</li>
+                  <li>👁️ Face ID (reconnaissance faciale)</li>
+                  <li>🔐 Code d'accès de l'appareil</li>
+                </ul>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #000;"></i> Instructions:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Vérifiez que Apple Pay est configuré</li>
+                  <li>💳 Ajoutez votre carte dans Wallet</li>
+                  <li>🛒 Sélectionnez Apple Pay au checkout</li>
+                  <li>👆 Authentifiez avec Touch/Face ID</li>
+                  <li>✅ Confirmez le paiement</li>
+                </ol>
+              </div>
+
+              <div style="background: #f5f5f7; padding: 15px; border-radius: 8px; border-left: 4px solid #000;">
+                <strong><i class="fas fa-info-circle" style="color: #000;"></i> Information:</strong><br>
+                Compatible avec iPhone 6+ et Apple Watch. Paiement instantané et ultra-sécurisé.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#000000",
+          width: 600,
+        });
+      }
+
+      // Samsung Pay Info Function
+      function showSamsungPayInfo() {
+        Swal.fire({
+          title: '<i class="fas fa-mobile-alt"></i> Samsung Pay',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #1428a0, #306ce5); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fas fa-mobile-alt"></i> Samsung Pay Avancé</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-wifi" style="color: #1428a0;"></i> Technologies supportées:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>📡 NFC (Near Field Communication)</li>
+                  <li>📻 MST (Magnetic Secure Transmission)</li>
+                  <li>👆 Authentification biométrique</li>
+                  <li>🔐 Samsung Knox Security</li>
+                </ul>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #1428a0;"></i> Instructions:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Ouvrez l'app Samsung Pay</li>
+                  <li>💳 Sélectionnez votre carte</li>
+                  <li>👆 Authentifiez avec biométrie</li>
+                  <li>📲 Approchez l'appareil du terminal</li>
+                  <li>✅ Attendez la confirmation</li>
+                </ol>
+              </div>
+
+              <div style="background: #f0f4ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1428a0;">
+                <strong><i class="fas fa-info-circle" style="color: #1428a0;"></i> Avantage:</strong><br>
+                Compatible avec 99% des terminaux grâce à la technologie MST unique.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#1428a0",
+          width: 600,
+        });
+      }
+
+      // Crypto Info Function
+      function showCryptoInfo() {
+        Swal.fire({
+          title: '<i class="fab fa-bitcoin"></i> Paiement Crypto',
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <div style="background: linear-gradient(135deg, #f7931a, #ffb347); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h4 style="margin: 0; color: white;"><i class="fab fa-bitcoin"></i> Cryptomonnaies Acceptées</h4>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-coins" style="color: #f7931a;"></i> Monnaies supportées:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>₿ Bitcoin (BTC)</li>
+                  <li>Ξ Ethereum (ETH)</li>
+                  <li>₮ Tether USD (USDT)</li>
+                  <li>₿ Bitcoin Cash (BCH)</li>
+                  <li>Ł Litecoin (LTC)</li>
+                </ul>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-wallet" style="color: #f7931a;"></i> Adresses de paiement:</strong>
+                <div style="background: #fef3e2; padding: 12px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em;">
+                  <strong>BTC:</strong> 1MDaiXXXXXXXXXXXXXXXXXXXXXXXXXXXX<br>
+                  <strong>ETH:</strong> 0xMDai000000000000000000000000000000000000<br>
+                  <strong>USDT:</strong> TMDai00000000000000000000000000000000
+                </div>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <strong><i class="fas fa-list-ol" style="color: #f7931a;"></i> Instructions:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>📱 Ouvrez votre wallet crypto</li>
+                  <li>📋 Copiez l'adresse correspondante</li>
+                  <li>💰 Envoyez le montant exact</li>
+                  <li>⏰ Attendez 1-3 confirmations</li>
+                  <li>✅ Paiement automatiquement vérifié</li>
+                </ol>
+              </div>
+
+              <div style="background: #fef3e2; padding: 15px; border-radius: 8px; border-left: 4px solid #f7931a;">
+                <strong><i class="fas fa-exclamation-triangle" style="color: #f7931a;"></i> Important:</strong><br>
+                Les transactions crypto sont irréversibles. Vérifiez bien l'adresse avant d'envoyer.
+              </div>
+            </div>
+          `,
+          confirmButtonText: "Compris",
+          confirmButtonColor: "#f7931a",
+          width: 650,
+        });
+      }
+
+      // Promo code system removed - keeping payment page clean
+
+      // Promo code functions removed - clean payment page
+
+      // All promo code related functions removed for clean payment interface
+
+      // Promo input and result functions removed
+
+      function updatePricing() {
+        const coursePrice = parseFloat(
+          localStorage.getItem("selectedCoursePrice") || "0"
+        );
+        const registrationFee = 5000.0;
+        const finalTotal = coursePrice + registrationFee;
+
+        // Update display
+        document.getElementById(
+          "coursePrice"
+        ).textContent = `${coursePrice.toFixed(2)} FC`;
+        document.getElementById(
+          "registrationFee"
+        ).textContent = `${registrationFee.toFixed(2)} FC`;
+        document.getElementById(
+          "finalTotal"
+        ).textContent = `${finalTotal.toFixed(2)} FC`;
+
+        // Hide discount section since no promo codes
+        const promoDiscountDiv = document.getElementById("promoDiscount");
+        if (promoDiscountDiv) {
+          promoDiscountDiv.style.display = "none";
+        }
+
+        // Update total price display
+        const totalPriceElements = document.querySelectorAll(
+          "#totalPrice, .pricing-value.total-amount"
+        );
+        totalPriceElements.forEach(
+          (el) => (el.textContent = `${finalTotal.toFixed(2)} FC`)
+        );
+      }
+
+      // Initialize pricing on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        updatePricing();
+      });
+
+      // Payment Modal Functions
+      function showPaymentModal(method) {
+        console.log(`Showing modal for method: ${method}`);
+        const modal = document.getElementById(method + "Modal");
+        if (modal) {
+          console.log(`Modal found: ${method}Modal`);
+          // Close any other open modals first
+          document.querySelectorAll(".payment-modal").forEach((m) => {
+            m.classList.remove("active");
+          });
+          document.getElementById("mpesaBox").classList.remove("active");
+
+          // Show the selected modal
+          modal.classList.add("active");
+          console.log(`Modal ${method}Modal should now be visible`);
+        } else {
+          console.error(`Modal not found: ${method}Modal`);
+        }
+      }
+
+      function hidePaymentModal(method) {
+        const modal = document.getElementById(method + "Modal");
+        if (modal) {
+          modal.classList.remove("active");
+        }
+      }
+
+      function copyPaymentDetail(method) {
+        let textToCopy = "";
+        let feedbackId = "";
+
+        if (method === "paypal" || method === "googlepay") {
+          textToCopy = "symphorienpyana065@gmail.com";
+          feedbackId = method + "-copy-feedback";
+        } else if (method === "upi") {
+          textToCopy = "symphorienpyana@paytm";
+          feedbackId = method + "-copy-feedback";
+        }
+
+        if (textToCopy) {
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              const feedback = document.getElementById(feedbackId);
+              if (feedback) {
+                feedback.classList.add("show");
+                setTimeout(() => feedback.classList.remove("show"), 2000);
+              }
+            })
+            .catch((err) => {
+              console.error("Failed to copy: ", err);
+            });
+        }
+      }
+
+      // Close modals when clicking outside
+      document.addEventListener("click", function (event) {
+        const modals = document.querySelectorAll(".payment-modal");
+        modals.forEach((modal) => {
+          if (event.target === modal) {
+            modal.classList.remove("active");
+          }
+        });
+      });
     </script>
   </body>
 </html>
