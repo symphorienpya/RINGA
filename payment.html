@@ -1726,11 +1726,11 @@
       <div class="mpesa-box" id="mpesaBox">
         <div class="mpesa-content">
           <h3><i class="fas fa-mobile-alt"></i> M-PESA Payment</h3>
-          <p class="mpesa-number" onclick="copyMpesa()">+243 815 348 721</p>
+          <p class="mpesa-number" onclick="copyMpesa()">+243815348721</p>
           <p class="mpesa-msg">
             Payez à ce numéro avant de remplir la section de paiement
           </p>
-          <p class="mpesa-msg">Nom: MWANASHIMA SALEH (CELESTIN) </p>
+          <p class="mpesa-msg">Nom: MWANASHIMA SALEH</p>
           <span id="copy-feedback" class="copied">Copié !</span>
           <button onclick="hideMpesa()" class="close-btn">
             <i class="fas fa-times"></i> Fermer
@@ -2014,30 +2014,53 @@
           console.error("SweetAlert2 library not loaded");
         }
 
-        // Initialize course data
+        // Initialize course data and compute total = price + registration fee
         const title = localStorage.getItem("selectedCourseTitle") || "";
         const info = localStorage.getItem("selectedCourseInfo") || "";
-        const price = localStorage.getItem("coursePrice") || "";
-        const fee = localStorage.getItem("registrationFee") || "";
-        const total = localStorage.getItem("selectedCourseTotal") || "";
-        const match = total.match(/([\d,.]+)\s?(FC|USD)?/i);
-        let amount = match ? parseFloat(match[1].replace(",", "")) : "";
+        const priceRaw = localStorage.getItem("coursePrice") || "";
+        const feeRaw = localStorage.getItem("registrationFee") || "";
 
+        // Helper: extract numeric value from strings like "70 000 FC" or "150.00 USD"
+        function parseCurrencyToNumber(str) {
+          if (!str) return 0;
+          const s = String(str).replace(/\s+/g, ""); // remove spaces
+          const m = s.match(/(\d+(?:[.,]\d+)?)/);
+          if (!m) return 0;
+          return parseFloat(m[1].replace(/,/g, ""));
+        }
+
+        const priceNum = parseCurrencyToNumber(priceRaw);
+        const feeNum = parseCurrencyToNumber(feeRaw);
+        const computedTotal = +(priceNum + feeNum).toFixed(2);
+
+        // Populate form fields (keep raw strings for display where appropriate)
         document.getElementById("course_title").value = title;
         document.getElementById("course_info").value = info;
-        document.getElementById("course_price").value = price;
-        document.getElementById("registration_fee").value = fee;
-        document.getElementById("total_amount").value = total;
-        document.getElementById("amount").value = amount;
+        document.getElementById("course_price").value =
+          priceRaw || (priceNum ? priceNum.toFixed(2) : "0.00");
+        document.getElementById("registration_fee").value =
+          feeRaw || (feeNum ? feeNum.toFixed(2) : "0.00");
 
-        // Update pricing breakdown
-        document.getElementById("coursePrice").textContent = price;
-        document.getElementById("regFee").textContent = fee;
-        document.getElementById("totalPrice").textContent = total;
+        // Hidden/posted total (numeric) and amount used by payment processors
+        document.getElementById("total_amount").value = computedTotal;
+        const amountField = document.getElementById("amount");
+        if (amountField) amountField.value = computedTotal;
+
+        // Update pricing breakdown display
+        document.getElementById("coursePrice").textContent =
+          priceRaw || (priceNum ? priceNum.toFixed(2) + " FC" : "0 FC");
+        document.getElementById("regFee").textContent =
+          feeRaw || (feeNum ? feeNum.toFixed(2) + " FC" : "0 FC");
+        document.getElementById("totalPrice").textContent =
+          (computedTotal ? computedTotal : 0) + " FC";
 
         document.getElementById(
           "infoBanner"
-        ).innerHTML = `Vous avez sélectionné <strong>${title}</strong><br>${info}<br>Course: <strong>${price}</strong> | Fee: <strong>${fee}</strong><br>Total: <strong>${total}</strong>`;
+        ).innerHTML = `Vous avez sélectionné <strong>${title}</strong><br>${info}<br>Prix du cours: <strong>${
+          priceRaw || priceNum.toFixed(2) + " FC"
+        }</strong> | Frais d'inscription: <strong>${
+          feeRaw || feeNum.toFixed(2) + " FC"
+        }</strong><br>Total à payer: <strong>${computedTotal} FC</strong>`;
 
         // Initialize form validation
         console.log("Initializing form validation...");
@@ -4179,19 +4202,48 @@ Support: support@mdai.com
           console.log("⚠️ Using default registration fee");
         }
 
-        // Calculate total amount
-        const totalPrice = (
-          parseFloat(coursePriceField.value || 0) +
-          parseFloat(registrationFeeField.value || 0)
-        ).toFixed(2);
+        // Calculate total amount = Prix du cours + Frais d'inscription
+        const priceVal = parseFloat(coursePriceField.value || 0);
+        const feeVal = parseFloat(registrationFeeField.value || 0);
+        const totalPrice = +(priceVal + feeVal).toFixed(2);
         totalAmountField.value = totalPrice;
 
-        // Update pricing display in the UI
-        document.getElementById("coursePrice").textContent =
-          "$" + coursePriceField.value;
-        document.getElementById("regFee").textContent =
-          "$" + registrationFeeField.value;
-        document.getElementById("totalPrice").textContent = "$" + totalPrice;
+        // Helper to format for FC display (French locale)
+        const formatFC = (n) =>
+          Number(n || 0).toLocaleString("fr-FR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) + " FC";
+
+        // Update pricing display in the UI (update any element that exists)
+        const elCoursePrice = document.getElementById("coursePrice");
+        if (elCoursePrice)
+          elCoursePrice.textContent =
+            coursePriceField.value &&
+            coursePriceField.value.toString().includes("FC")
+              ? coursePriceField.value
+              : formatFC(priceVal);
+
+        const elRegistrationFee = document.getElementById("registrationFee");
+        if (elRegistrationFee)
+          elRegistrationFee.textContent =
+            registrationFeeField.value &&
+            registrationFeeField.value.toString().includes("FC")
+              ? registrationFeeField.value
+              : formatFC(feeVal);
+
+        const elRegFee = document.getElementById("regFee");
+        if (elRegFee)
+          elRegFee.textContent = elRegistrationFee
+            ? elRegistrationFee.textContent
+            : formatFC(feeVal);
+
+        const elTotalPrice = document.getElementById("totalPrice");
+        if (elTotalPrice) elTotalPrice.textContent = formatFC(totalPrice);
+
+        const elFinalTotal = document.getElementById("finalTotal");
+        if (elFinalTotal)
+          elFinalTotal.innerHTML = `<strong>${formatFC(totalPrice)}</strong>`;
 
         // Update course title display
         const paymentTitle = document.getElementById("paymentTitle");
@@ -4540,16 +4592,16 @@ Support: support@mdai.com
           doc.setTextColor(...colors.white);
           doc.setFontSize(10);
           doc.setFont("helvetica", "bold");
-          doc.text("👤 INFORMATIONS CLIENT", 18, yPos + 5);
+          doc.text("INFORMATIONS CLIENT", 18, yPos + 5);
 
           doc.setTextColor(...colors.dark);
           doc.setFontSize(11);
           doc.setFont("helvetica", "normal");
           doc.text(`${details.customerName}`, 18, yPos + 15);
           doc.setFontSize(9);
-          doc.text(`📧 ${details.email}`, 18, yPos + 23);
-          doc.text(`📱 ${details.phone}`, 18, yPos + 30);
-          doc.text(`🎓 Étudiant MDai`, 18, yPos + 37);
+          doc.text(` ${details.email}`, 18, yPos + 23);
+          doc.text(` ${details.phone}`, 18, yPos + 30);
+          doc.text(` Étudiant MDai`, 18, yPos + 37);
 
           // 📚 COURSE INFORMATION CARD
           doc.setFillColor(...colors.light);
@@ -4565,7 +4617,7 @@ Support: support@mdai.com
           doc.setTextColor(...colors.white);
           doc.setFontSize(10);
           doc.setFont("helvetica", "bold");
-          doc.text("📚 FORMATION SÉLECTIONNÉE", 113, yPos + 5);
+          doc.text("FORMATION SÉLECTIONNÉE", 113, yPos + 5);
 
           doc.setTextColor(...colors.dark);
           doc.setFontSize(10);
@@ -4589,7 +4641,7 @@ Support: support@mdai.com
             113,
             yPos + 30
           );
-          doc.text(`✅ Accès confirmé`, 113, yPos + 37);
+          doc.text(`Accès confirmé`, 113, yPos + 37);
 
           yPos += 60;
 
@@ -4631,7 +4683,7 @@ Support: support@mdai.com
           doc.setTextColor(...colors.dark);
           doc.setFontSize(14);
           doc.setFont("helvetica", "bold");
-          doc.text("📋 DÉTAILS DE LA TRANSACTION", 20, yPos);
+          doc.text("DÉTAILS DE LA TRANSACTION", 20, yPos);
 
           yPos += 10;
 
@@ -4775,8 +4827,8 @@ Support: support@mdai.com
           doc.setFontSize(9);
           doc.setFont("helvetica", "normal");
           doc.text("🌐 www.mdai.xyz", 20, pageHeight - 18);
-          doc.text("📧 support@mdai.com", 20, pageHeight - 12);
-          doc.text("📞 +243 81 233 6721", 20, pageHeight - 6);
+          doc.text("📧 symphorienpyana065@gmail.com", 20, pageHeight - 12);
+          doc.text("📞 +243 983 629 2481", 20, pageHeight - 6);
 
           // Right side footer
           doc.text(
@@ -4837,7 +4889,7 @@ Support: support@mdai.com
           transactionId: "TXN-TEST-" + Date.now(),
           registrationNumber:
             "REG-TEST-" + Math.random().toString(36).substr(2, 8).toUpperCase(),
-          currency: "USD",
+          currency: "FC",
           status: "Confirmé",
           platform: "MDai Learning Platform",
         };
@@ -4963,8 +5015,8 @@ Support: support@mdai.com
               <div style="margin-bottom: 15px;">
                 <strong><i class="fas fa-phone" style="color: #16a34a;"></i> Numéro de paiement:</strong>
                 <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; margin: 10px 0; border: 2px dashed #16a34a;">
-                  <span style="font-size: 1.5em; font-weight: bold; color: #16a34a;">+243 812 336 721</span>
-                  <br><small style="color: #166a34;">Nom: MADELEINE AMURI MARIAMO</small>
+                  <span style="font-size: 1.5em; font-weight: bold; color: #16a34a;">+243815348721</span>
+                  <br><small style="color: #166a34;">Nom: MWANASHIMA SALEH</small>
                 </div>
               </div>
 
@@ -4973,7 +5025,7 @@ Support: support@mdai.com
                 <ol style="margin: 10px 0; padding-left: 20px;">
                   <li>📱 Composez *151# ou ouvrez l'app M-PESA</li>
                   <li>💰 Sélectionnez "Envoyer de l'argent"</li>
-                  <li>📞 Entrez le numéro: +243 812 336 721</li>
+                  <li>📞 Entrez le numéro: +243815348721</li>
                   <li>💵 Saisissez le montant exact</li>
                   <li>✅ Confirmez la transaction</li>
                 </ol>
@@ -5321,36 +5373,62 @@ Support: support@mdai.com
       // Promo input and result functions removed
 
       function updatePricing() {
-        const coursePrice = parseFloat(
-          localStorage.getItem("selectedCoursePrice") || "0"
-        );
-        const registrationFee = 5000.0;
-        const finalTotal = coursePrice + registrationFee;
+        // Helper to parse numeric amounts from strings like "70 000 FC" or "150.00 USD"
+        const parseCurrencyToNumber = (str) => {
+          if (!str) return 0;
+          const s = String(str).replace(/\s+/g, "");
+          const m = s.match(/(\d+(?:[.,]\d+)?)/);
+          if (!m) return 0;
+          return parseFloat(m[1].replace(/,/g, ""));
+        };
 
-        // Update display
-        document.getElementById(
-          "coursePrice"
-        ).textContent = `${coursePrice.toFixed(2)} FC`;
-        document.getElementById(
-          "registrationFee"
-        ).textContent = `${registrationFee.toFixed(2)} FC`;
-        document.getElementById(
-          "finalTotal"
-        ).textContent = `${finalTotal.toFixed(2)} FC`;
+        // Prefer localStorage values, fall back to form fields, then defaults
+        const priceRaw =
+          localStorage.getItem("coursePrice") ||
+          (document.getElementById("course_price") || {}).value ||
+          "0";
+        const feeRaw =
+          localStorage.getItem("registrationFee") ||
+          (document.getElementById("registration_fee") || {}).value ||
+          "5000";
 
-        // Hide discount section since no promo codes
-        const promoDiscountDiv = document.getElementById("promoDiscount");
-        if (promoDiscountDiv) {
-          promoDiscountDiv.style.display = "none";
-        }
+        const priceNum = parseCurrencyToNumber(priceRaw);
+        const feeNum = parseCurrencyToNumber(feeRaw);
+        const finalTotal = +(priceNum + feeNum).toFixed(2);
 
-        // Update total price display
+        const formatFC = (n) =>
+          Number(n || 0).toLocaleString("fr-FR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) + " FC";
+
+        // Update displays (safe checks)
+        const elCoursePrice = document.getElementById("coursePrice");
+        if (elCoursePrice) elCoursePrice.textContent = formatFC(priceNum);
+
+        const elRegistrationFee = document.getElementById("registrationFee");
+        if (elRegistrationFee) elRegistrationFee.textContent = formatFC(feeNum);
+
+        const elRegFee = document.getElementById("regFee");
+        if (elRegFee) elRegFee.textContent = formatFC(feeNum);
+
+        const elFinal = document.getElementById("finalTotal");
+        if (elFinal)
+          elFinal.innerHTML = `<strong>${formatFC(finalTotal)}</strong>`;
+
+        // Update any totalPrice elements
         const totalPriceElements = document.querySelectorAll(
           "#totalPrice, .pricing-value.total-amount"
         );
         totalPriceElements.forEach(
-          (el) => (el.textContent = `${finalTotal.toFixed(2)} FC`)
+          (el) => (el.textContent = formatFC(finalTotal))
         );
+
+        // Update hidden inputs used for submission and processing
+        const totalAmountInput = document.getElementById("total_amount");
+        if (totalAmountInput) totalAmountInput.value = finalTotal;
+        const amountField = document.getElementById("amount");
+        if (amountField) amountField.value = finalTotal;
       }
 
       // Initialize pricing on page load
@@ -5425,4 +5503,3 @@ Support: support@mdai.com
     </script>
   </body>
 </html>
-
