@@ -1,267 +1,1198 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="images/MDai 1.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Python | MDai</title>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Python | MDai</title>
 
-  <!-- Pyodide -->
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
 
-  <!-- CodeMirror -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <!-- Monaco Editor (VS Code-like) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
 
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(120deg, #f0f4c3, #e1bee7);
-      animation: fadeIn 1s ease-in;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    h1, h2 {
-      text-align: center;
-      color: #4a148c;
-    }
-    .quiz-container {
-      max-width: 700px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      animation: fadeIn 0.8s ease-in-out;
-    }
-    input[type="text"], .CodeMirror {
-      width: 100%;
-      font-size: 16px;
-      margin-top: 10px;
-      box-sizing: border-box;
-    }
-    button, select {
-      padding: 10px 20px;
-      margin-top: 10px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
-    #run-btn { background: #3949ab; color: white; }
-    #resetBtn { background: #d84315; color: white; display: block; margin: 20px auto 0; }
-    #submitBtn { background: #2e7d32; color: white; }
-    #output {
-      white-space: pre-wrap;
-      background: #212121;
-      color: #e0f7fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 10px;
-      font-family: monospace;
-      font-size: 14px;
-    }
-    #feedback, #score, #level, #explanation {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #explanation {
-      color: #5d4037;
-    }
-  </style>
-</head>
-<body>
-  <h1>Quiz Python</h1>
-
-  <div class="quiz-container">
-    <p id="question"></p>
-    <input type="text" id="answer" placeholder="Votre réponse..." />
-    <button id="submitBtn" onclick="checkAnswer()">Soumettre</button>
-    <p id="feedback"></p>
-    <p id="explanation"></p>
-    <p id="score"></p>
-    <p id="level"></p>
-    <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
-  </div>
-
-  <div class="quiz-container">
-    <h2>💻 Éditeur de Code Python</h2>
-    <select onchange="insertSnippet(this.value)">
-      <option value="">📌 Insérer un snippet</option>
-      <option value="print('Bonjour, monde!')">print()</option>
-      <option value="for i in range(5):\n    print(i)">Boucle for</option>
-      <option value="if x > 0:\n    print('Positif')\nelse:\n    print('Négatif')">Condition if/else</option>
-      <option value="def saluer(nom):\n    print(f'Bonjour {nom}')">Fonction simple</option>
-    </select>
-    <textarea id="code-editor">print("Bonjour, monde!")</textarea>
-    <button id="run-btn" onclick="runPython()">▶️ Exécuter</button>
-    <div id="output">Chargement de Python...</div>
-  </div>
-
-  <script>
-    let pyodide;
-    async function loadPyodideAndPackages() {
-      pyodide = await loadPyodide();
-      document.getElementById("output").innerText = "✅ Python prêt à l'emploi !";
-    }
-    loadPyodideAndPackages();
-
-    async function runPython() {
-      const code = editor.getValue();
-      try {
-        const result = await pyodide.runPythonAsync(code);
-        document.getElementById("output").innerText = result ?? "✅ Code exécuté.";
-      } catch (err) {
-        document.getElementById("output").innerText = "❌ Erreur :\n" + err;
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(120deg, #f0f4c3, #e1bee7);
+        animation: fadeIn 1s ease-in;
       }
-    }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      h1,
+      h2 {
+        text-align: center;
+        color: #4a148c;
+      }
+      .quiz-container {
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 0.8s ease-in-out;
+      }
+      input[type="text"],
+      .CodeMirror {
+        width: 100%;
+        font-size: 16px;
+        margin-top: 10px;
+        box-sizing: border-box;
+      }
+      button,
+      select {
+        padding: 10px 20px;
+        margin-top: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 6px;
+        transition: background 0.3s;
+      }
+      #run-btn {
+        background: #3949ab;
+        color: white;
+      }
+      #resetBtn {
+        background: #d84315;
+        color: white;
+        display: block;
+        margin: 20px auto 0;
+      }
+      #submitBtn {
+        background: #2e7d32;
+        color: white;
+      }
+      #output {
+        white-space: pre-wrap;
+        background: #212121;
+        color: #e0f7fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+      #feedback,
+      #score,
+      #level,
+      #explanation {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      #explanation {
+        color: #5d4037;
+      }
+      /* VS Code-like editor chrome */
+      .editor-shell {
+        background: #1e1e1e;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        margin-top: 12px;
+      }
+      .editor-header {
+        display:flex;align-items:center;gap:12px;padding:8px 12px;background:#2d2d2d;color:#ddd;
+      }
+      .editor-tab { padding:6px 12px;border-radius:4px;background:transparent;color:#ddd;font-weight:600 }
+      .editor-tab.active { background:#007acc;color:white }
+      .editor-toolbar { display:flex; gap:8px; align-items:center; padding:10px; background:#252526 }
+      .toolbar-buttons button { background:transparent; color:#ddd; border-radius:4px; padding:6px 10px }
+      .toolbar-buttons button.primary { background:#0e639c; color:white }
+      .editor-area { display:flex; gap:12px; padding:12px; background:#1e1e1e }
+      .CodeMirror { height: 360px; border-radius:6px; }
+      #output { background:#0f1720; color:#e6edf3; padding:12px; border-radius:6px; min-height:80px }
+      .status-bar { display:flex; justify-content:space-between; padding:6px 12px; background:#007acc; color:white; font-size:13px }
+      .status-left { display:flex; gap:12px; align-items:center }
+      .status-right { display:flex; gap:12px; align-items:center }
+    </style>
+  </head>
+  <body>
+    <h1>Quiz Python</h1>
 
-    function insertSnippet(code) {
-      if (code) editor.setValue(code);
-    }
+    <div class="quiz-container">
+      <p id="question"></p>
+      <input type="text" id="answer" placeholder="Votre réponse..." />
+      <button id="submitBtn" onclick="checkAnswer()">Soumettre</button>
+      <p id="feedback"></p>
+      <p id="explanation"></p>
+      <p id="score"></p>
+      <p id="level"></p>
+      <button id="resetBtn" onclick="resetQuiz()">🔁 Recommencer</button>
+    </div>
 
-    let editor;
-    window.onload = function () {
-      editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
-        mode: "python",
-        theme: "dracula",
-        lineNumbers: true,
-        tabSize: 4,
-        indentUnit: 4,
+    <div class="quiz-container">
+      <h2>💻 Éditeur de Code Python</h2>
+      <div class="editor-shell">
+        <div class="editor-header">
+          <div class="editor-tab active">script.py</div>
+          <div style="flex:1"></div>
+          <div style="opacity:0.8">MDai — Python</div>
+        </div>
+  <div class="editor-toolbar">
+        <select
+          id="snippetSelect"
+          aria-label="Insérer un snippet"
+          onchange="insertSnippet(this.value)"
+        >
+          <option value="">📌 Insérer un snippet</option>
+          <option value="print('Bonjour, monde!')">print()</option>
+          <option value="for i in range(5):\n    print(i)">Boucle for</option>
+          <option
+            value="if x > 0:\n    print('Positif')\nelse:\n    print('Négatif')"
+          >
+            Condition if/else
+          </option>
+          <option value="def saluer(nom):\n    print(f'Bonjour {nom}')">
+            Fonction simple
+          </option>
+          <option
+            value="# Numpy exemple\nimport numpy as np\na = np.arange(10)\nprint(a)"
+          >
+            Numpy - arange
+          </option>
+          <option
+            value="# Pandas exemple\nimport pandas as pd\ndf = pd.DataFrame({'a':[1,2,3],'b':[4,5,6]})\nprint(df)"
+          >
+            Pandas - DataFrame
+          </option>
+          <option
+            value="# Calculs simples\nres = sum(i*i for i in range(1000))\nprint(res)"
+          >
+            Somme carrés
+          </option>
+        </select>
+
+        <div class="toolbar-buttons">
+          <button id="run-btn" class="primary" onclick="runPython()" disabled>
+            ▶️ Exécuter
+          </button>
+          <button
+            id="cancel-btn"
+            onclick="cancelRun()"
+            disabled
+            style="background: #b71c1c; color: white; margin-left: 6px"
+          >
+            ✖️ Annuler
+          </button>
+          <button id="clear-output-btn" onclick="clearOutput()">
+            🧹 Effacer sortie
+          </button>
+          <button id="load-mpl-btn" onclick="loadMatplotlib()">
+            📈 Charger matplotlib
+          </button>
+          <button id="format-toggle" onclick="toggleFormat()" title="Format on save" style="margin-left:6px;background:#333;color:#fff;border-radius:4px;padding:6px">Format on Save: Off</button>
+          <button id="copy-btn" onclick="copyCode()">📋 Copier</button>
+          <button id="download-btn" onclick="downloadCode()">
+            ⬇️ Télécharger
+          </button>
+        </div>
+      </div>
+
+        </div>
+
+        <div class="editor-area">
+          <div style="flex:1">
+            <div id="code-editor" style="height:360px;border-radius:6px;overflow:hidden;background:#1e1e1e"></div>
+
+            <!-- Loader and progress UI -->
+        </div>
+
+        </div>
+
+        <style>
+          .file-explorer { width:180px;background:#111;color:#ddd;padding:8px;border-right:1px solid #222;border-radius:0 0 0 0 }
+          .file-item { padding:6px 8px;border-radius:4px;cursor:pointer }
+          .file-item:hover { background:#222 }
+          .tabs { display:flex;gap:6px;padding:8px;background:#1f1f1f }
+          .tab { padding:6px 10px;border-radius:4px;background:transparent;color:#ddd }
+          .tab.active { background:#2d2d2d;color:#fff }
+        </style>
+
+        <div class="editor-area">
+          <div class="file-explorer" id="file-explorer">
+            <div style="font-weight:700;margin-bottom:8px">EXPLORER</div>
+            <div id="files-list"></div>
+            <button onclick="newFile()" style="margin-top:8px;padding:6px;border-radius:6px;background:#007acc;color:#fff">New File</button>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column">
+            <div class="tabs" id="tabs-bar"></div>
+            <div style="flex:1;display:flex;gap:12px;padding:12px;">
+          margin-top: 10px;
+        "
+      >
+        <div id="loader" style="display: flex; align-items: center; gap: 10px">
+          <div
+            id="spinner"
+            aria-hidden="true"
+            style="
+              width: 18px;
+              height: 18px;
+              border-radius: 50%;
+              border: 3px solid rgba(255, 255, 255, 0.3);
+              border-top-color: #fff;
+              animation: spin 1s linear infinite;
+            "
+          ></div>
+          <div id="pyodide-status">Chargement de Python...</div>
+        </div>
+        <progress
+          id="pyodide-progress"
+          value="0"
+          max="100"
+          style="
+            width: 100%;
+            height: 10px;
+            border-radius: 6px;
+            overflow: hidden;
+          "
+        ></progress>
+        <div id="pyodide-extra" style="font-size: 12px; color: #333">
+          Paquet: <span id="pyodide-pkg">—</span> · Taille (est):
+          <span id="pyodide-size">—</span>
+        </div>
+      </div>
+
+      <div
+        style="
+          margin-top: 8px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          flex-wrap: wrap;
+        "
+      >
+        <label for="timeout-input">Timeout (s):</label>
+        <input
+          id="timeout-input"
+          type="number"
+          min="1"
+          value="8"
+          style="
+            width: 80px;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+          "
+        />
+        <small style="color: #555"
+          >(Temps maximum d'exécution avant arrêt automatique)</small
+        >
+      </div>
+
+            <div id="output" role="log" aria-live="polite">
+              <!-- runtime output appears here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar" id="status-bar">
+          <div class="status-left">
+            <div id="status-runtime">⏳ Initialisation...</div>
+            <div id="status-pkg">Paquet: —</div>
+          </div>
+          <div class="status-right">
+                <div id="status-cursor">Ln 1, Col 1</div>
+                <div id="status-ready">Ready</div>
+                <button id="lsp-connect" onclick="connectLSP()" style="margin-left:8px;background:#0e639c;color:white;border-radius:4px;padding:4px">LSP</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command palette (Ctrl+Shift+P) -->
+      <div id="command-palette" style="display:none;position:fixed;left:50%;top:18%;transform:translateX(-50%);width:60%;z-index:9999">
+        <input id="palette-input" placeholder="> Command (ex: Run, Clear, Load matplotlib)" style="width:100%;padding:12px;border-radius:6px;border:1px solid #333;background:#1e1e1e;color:#fff;box-shadow:0 8px 30px rgba(0,0,0,0.5)" />
+        <div id="palette-results" style="background:#111;color:#ddd;border-radius:6px;padding:6px;max-height:240px;overflow:auto"></div>
+      </div>
+
+      <!-- Terminal pane like VS Code -->
+      <div id="terminal" style="margin-top:12px;background:#1e1e1e;border-radius:6px;padding:8px;color:#eee;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-weight:600">TERMINAL</div>
+          <div>
+            <button onclick="clearOutput()" style="background:#333;color:#fff;border-radius:4px;padding:4px 8px">Clear</button>
+            <button onclick="cancelRun()" style="background:#b71c1c;color:#fff;border-radius:4px;padding:4px 8px;margin-left:6px">Kill</button>
+          </div>
+        </div>
+        <div id="terminal-output" style="font-family:monospace;background:#0b1220;padding:10px;border-radius:6px;min-height:100px;max-height:260px;overflow:auto;color:#9cdcfe"></div>
+      </div>
+
+      <style>
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      </style>
+    </div>
+
+    <script>
+      // Use a Web Worker to sandbox Pyodide and provide progress updates + timeouts
+      let editor;
+      let pyWorker = null;
+      let runWatchdog = null;
+      let EXECUTION_TIMEOUT_MS = 8000; // default (ms), updated from UI
+
+      function createPyodideWorker() {
+        if (pyWorker) return;
+
+        const workerCode = `
+          importScripts('https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js');
+
+          let pyodide = null;
+          async function init() {
+            postMessage({ type: 'status', msg: 'starting' });
+            self.pyodide = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/' });
+            postMessage({ type: 'status', msg: 'loaded' });
+            // preload common packages
+                const packages = ['numpy','pandas'];
+            try {
+              for (let i=0;i<packages.length;i++){
+                const pkg = packages[i];
+                    // send an estimated size (static heuristics)
+                    const estSize = pkg === 'numpy' ? '≈4MB' : pkg === 'pandas' ? '≈3MB' : '≈1MB';
+                    postMessage({ type: 'progress', pkg, progress: Math.round((i+1)/packages.length*80), estSize });
+                    await self.pyodide.loadPackage(pkg);
+              }
+              postMessage({ type: 'status', msg: 'ready' });
+            } catch (e) {
+              postMessage({ type: 'error', error: String(e) });
+            }
+          }
+
+          init();
+
+          self.onmessage = async (e) => {
+            const data = e.data;
+              if (data && data.type === 'run') {
+                const code = data.code || '';
+                try {
+                  const result = await self.pyodide.runPythonAsync(code);
+                  postMessage({ type: 'result', result: typeof result === 'undefined' ? null : String(result) });
+                } catch (err) {
+                  postMessage({ type: 'error', error: String(err) });
+                }
+              }
+              if (data && data.type === 'load-package') {
+                const pkg = data.pkg;
+                postMessage({ type: 'progress', pkg, progress: 10, estSize: 'estimating' });
+                try {
+                  await self.pyodide.loadPackage(pkg);
+                  postMessage({ type: 'status', msg: 'pkg-loaded', pkg });
+                } catch(e) { postMessage({ type: 'error', error: String(e) }); }
+              }
+          };
+        `;
+
+        // Use external worker file for better caching and CSP compatibility
+        try {
+          pyWorker = new Worker('pyodide-worker.js');
+        } catch(e) {
+          // fallback to inline blob if external worker can't be loaded
+          const blob = new Blob([workerCode], { type: "application/javascript" });
+          const url = URL.createObjectURL(blob);
+          pyWorker = new Worker(url);
+        }
+
+        pyWorker.onmessage = (ev) => {
+          const d = ev.data;
+          if (!d) return;
+          // route streaming/run lifecycle messages to terminal handler
+          if (d.type === 'stdout' || d.type === 'stderr' || d.type === 'run-start' || d.type === 'run-exit') {
+            try { handleWorkerMessage(d); } catch (e) { console.error('handleWorkerMessage error', e); }
+            return;
+          }
+          if (d.type === "status") {
+            if (d.msg === "starting")
+              updateLoader("Début du téléchargement...");
+            if (d.msg === "loaded")
+              updateLoader("Pyodide chargé, préchargement des paquets...");
+            if (d.msg === "ready") {
+              updateLoader("✅ Python prêt à l'emploi !", 100);
+              finalizeLoader();
+            }
+            if (d.msg === "pkg-loaded") {
+              appendOutput(`✅ Paquet ${d.pkg} chargé.`);
+              document.getElementById("pyodide-pkg").textContent = d.pkg;
+              const sp = document.getElementById('status-pkg'); if (sp) sp.textContent = d.pkg;
+              document.getElementById("pyodide-size").textContent = "chargé";
+            }
+          } else if (d.type === "progress") {
+            // d.progress (0-100)
+            updateLoader(`Préchargement ${d.pkg} (${d.progress}%)`, d.progress);
+            if (d.estSize)
+              document.getElementById("pyodide-size").textContent = d.estSize;
+            if (d.pkg)
+              document.getElementById("pyodide-pkg").textContent = d.pkg;
+          } else if (d.type === "result") {
+            appendOutput(d.result ?? "✅ Exécution terminée.");
+            appendTerminal(d.result ?? "✅ Exécution terminée.");
+            clearWatchdog();
+            document.getElementById("run-btn").disabled = false;
+            document.getElementById("cancel-btn").disabled = true;
+          } else if (d.type === 'format-result') {
+            // Replace editor content and save
+            if (editor && editor.setValue) editor.setValue(d.result || '');
+            if (currentFile) files[currentFile].content = d.result || '';
+            appendOutput('✅ Formatage terminé et sauvegardé.');
+          } else if (d.type === 'lint-result') {
+            appendOutput('🔎 Lint résultats:\n' + (d.result || '(aucun)'));
+          } else if (d.type === "error") {
+            appendOutput("❌ " + (d.error || "Erreur inconnue"), true);
+            appendTerminal("❌ " + (d.error || "Erreur inconnue"));
+            clearWatchdog();
+            document.getElementById("run-btn").disabled = false;
+            document.getElementById("cancel-btn").disabled = true;
+          }
+        };
+
+        pyWorker.onerror = (err) => {
+          appendOutput("❌ Worker error: " + err.message, true);
+          updateLoader("Erreur lors du chargement du worker", 0);
+        };
+      }
+
+      function updateLoader(msg, percent) {
+        const status = document.getElementById("pyodide-status");
+        const progress = document.getElementById("pyodide-progress");
+        const spinner = document.getElementById("spinner");
+        if (status) status.textContent = msg;
+        if (typeof percent === "number") progress.value = percent;
+        // show loader
+        document.getElementById("pyodide-loader").style.display = "flex";
+        if (percent >= 100) {
+          spinner.style.display = "none";
+          // update status bar
+          const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = 'Ready';
+        } else {
+          spinner.style.display = "block";
+          const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = msg;
+        }
+      }
+
+      function finalizeLoader() {
+        // Remove loader after short pause
+        setTimeout(() => {
+          const loader = document.getElementById("pyodide-loader");
+          if (loader) loader.style.display = "none";
+        }, 700);
+        document.getElementById("run-btn").disabled = false;
+      }
+
+      function appendOutput(text, isError = false) {
+        const out = document.getElementById("output");
+        const span = document.createElement("div");
+        span.style.whiteSpace = "pre-wrap";
+        span.style.color = isError ? "#ff6b6b" : "#212121";
+        span.textContent = text;
+        out.appendChild(span);
+        out.scrollTop = out.scrollHeight;
+        // update status
+        const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = isError ? 'Error' : 'Output';
+      }
+
+      function appendTerminal(text) {
+        const t = document.getElementById('terminal-output');
+        if (!t) return;
+        const el = document.createElement('div');
+        el.style.whiteSpace = 'pre-wrap';
+        // simple ANSI color handling (basic)
+        el.innerHTML = ansiToHtml(text);
+        t.appendChild(el);
+        t.scrollTop = t.scrollHeight;
+      }
+
+      // Minimal ANSI -> HTML converter (handles colors and reset)
+      function ansiToHtml(str) {
+        if (!str) return '';
+        // replace common ANSI color codes: red, green, yellow, cyan, magenta
+        const map = {
+          '0;31': 'color:#f87171', // red
+          '31': 'color:#f87171',
+          '0;32': 'color:#86efac',
+          '32': 'color:#86efac',
+          '0;33': 'color:#facc15',
+          '33': 'color:#facc15',
+          '0;36': 'color:#67e8f9',
+          '36': 'color:#67e8f9',
+          '0;35': 'color:#c084fc',
+          '35': 'color:#c084fc'
+        };
+        // escape HTML
+        const esc = str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        // convert codes
+        return esc.replace(/\x1b\[([0-9;]+)m/g, (m, code) => {
+          if (code === '0') return '</span>';
+          const style = map[code] || '';
+          return style ? `<span style="${style}">` : '';
+        }).replace(/\n/g,'<br/>');
+      }
+
+      // Terminal: handle worker streaming messages
+      function handleWorkerMessage(d) {
+        if (d.type === 'stdout') {
+          appendTerminal(d.chunk);
+        } else if (d.type === 'stderr') {
+          appendTerminal('\x1b[31m' + d.chunk + '\x1b[0m');
+        } else if (d.type === 'run-start') {
+          appendTerminal(`\x1b[36m[Running] ${new Date().toLocaleTimeString()}\x1b[0m`);
+          const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = 'Running';
+        } else if (d.type === 'run-exit') {
+          appendTerminal(`\x1b[33m[Process exited with code ${d.code}] ${new Date().toLocaleTimeString()}\x1b[0m`);
+          const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = 'Ready';
+        }
+      }
+
+      function clearOutput() {
+        document.getElementById("output").innerHTML = "";
+        const t = document.getElementById('terminal-output'); if(t) t.innerHTML = '';
+      }
+
+      function startWatchdog() {
+        clearWatchdog();
+        runWatchdog = setTimeout(() => {
+          appendOutput(
+            "⏱️ Le temps d'exécution a expiré. Arrêt en cours...",
+            true
+          );
+          // Terminate the worker and recreate it to kill runaway code
+          if (pyWorker) {
+            try {
+              pyWorker.terminate();
+            } catch (e) {}
+            pyWorker = null;
+          }
+          createPyodideWorker();
+          document.getElementById("run-btn").disabled = false;
+        }, EXECUTION_TIMEOUT_MS);
+      }
+
+      // In-memory file system and tabs
+      const files = {
+        'script.py': { content: 'print("Bonjour, monde!")\n' }
+      };
+      let currentFile = 'script.py';
+
+      function refreshFilesUI() {
+        const list = document.getElementById('files-list');
+        const tabs = document.getElementById('tabs-bar');
+        list.innerHTML = '';
+        tabs.innerHTML = '';
+        Object.keys(files).forEach(fn => {
+          const item = document.createElement('div');
+          item.className = 'file-item'; item.textContent = fn;
+          item.onclick = () => openFile(fn);
+          list.appendChild(item);
+
+          const tab = document.createElement('div');
+          tab.className = 'tab' + (fn===currentFile ? ' active' : '');
+          tab.textContent = fn; tab.onclick = () => openFile(fn);
+          tabs.appendChild(tab);
+        });
+      }
+
+      function newFile() {
+        let i=1; let name;
+        do { name = `untitled${i}.py`; i++; } while(files[name]);
+        files[name] = { content: '' };
+        currentFile = name;
+        refreshFilesUI();
+        loadFileToEditor(name);
+      }
+
+      function openFile(name) {
+        if (!files[name]) return;
+        currentFile = name;
+        refreshFilesUI();
+        loadFileToEditor(name);
+      }
+
+      function loadFileToEditor(name) {
+        const content = files[name].content || '';
+        if (editor && editor.setValue) editor.setValue(content);
+        const sr = document.getElementById('status-ready'); if(sr) sr.textContent = name;
+      }
+
+      function saveFile() {
+        if (!currentFile) return;
+        if (editor && editor.getValue) files[currentFile].content = editor.getValue();
+        appendOutput(`💾 Fichier ${currentFile} enregistré.`);
+      }
+
+      // Format on save using Black through the worker
+      async function formatAndSave() {
+        if (!editor || !pyWorker) return saveFile();
+        const code = editor.getValue();
+        appendOutput('🔧 Formatage en cours...');
+        pyWorker.postMessage({ type: 'format', code });
+      }
+
+      let FORMAT_ON_SAVE = false;
+      function toggleFormat() {
+        FORMAT_ON_SAVE = !FORMAT_ON_SAVE;
+        const btn = document.getElementById('format-toggle');
+        if (btn) btn.textContent = `Format on Save: ${FORMAT_ON_SAVE ? 'On' : 'Off'}`;
+      }
+
+      // Handle format result from worker
+      // worker will post 'format-result'
+
+
+      function cancelRun() {
+        appendOutput("✖️ Exécution annulée par l'utilisateur.", true);
+        if (pyWorker) {
+          try {
+            pyWorker.terminate();
+          } catch (e) {}
+          pyWorker = null;
+        }
+        createPyodideWorker();
+        clearWatchdog();
+        document.getElementById("run-btn").disabled = false;
+        document.getElementById("cancel-btn").disabled = true;
+        const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = 'Cancelled';
+      }
+
+      function clearWatchdog() {
+        if (runWatchdog) {
+          clearTimeout(runWatchdog);
+          runWatchdog = null;
+        }
+      }
+
+      async function runPython() {
+        if (!pyWorker) {
+          appendOutput("Pyodide non initialisé. Veuillez patienter...", true);
+          return;
+        }
+        const btn = document.getElementById("run-btn");
+        btn.disabled = true;
+        document.getElementById("cancel-btn").disabled = false;
+        clearOutput();
+        appendOutput("▶️ Envoi du code au sandbox...");
+        const rt = document.getElementById('status-runtime'); if(rt) rt.textContent = 'Running';
+      // Update cursor position in status bar
+      function bindCursorStatus() {
+        if (!editor) return;
+        editor.on('cursorActivity', function() {
+          const pos = editor.getCursor();
+          const txt = `Ln ${pos.line+1}, Col ${pos.ch+1}`;
+          const el = document.getElementById('status-cursor'); if(el) el.textContent = txt;
+        });
+      }
+
+      // Ctrl+S to save (download) and prevent default browser save dialog
+      window.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+          e.preventDefault();
+          if (FORMAT_ON_SAVE) formatAndSave().then(()=>{ saveFile(); }); else saveFile();
+        }
       });
 
-      const introMessage = `Bienvenue Chez nous — votre compagnon intelligent pour l'apprentissage et votre passerelle numérique vers le futur de l'éducation. Ensemble, explorons, apprenons et maîtrisons le Python. Préparez-vous à relever 1000 défis passionnants !`;
-      const introUtterance = new SpeechSynthesisUtterance(introMessage);
-      introUtterance.lang = "fr-FR";
-      introUtterance.rate = 0.7;
-      introUtterance.pitch = 1.2;
-      introUtterance.voice = speechSynthesis.getVoices().find(v => v.lang.includes("fr") && v.name.toLowerCase().includes("f")) || speechSynthesis.getVoices()[0];
-      speechSynthesis.speak(introUtterance);
+      // Command palette: Ctrl+Shift+P
+      const COMMANDS = ['Run', 'Clear', 'Load matplotlib', 'Download', 'Cancel'];
+      window.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && e.code === 'KeyP') {
+          e.preventDefault();
+          openPalette();
+        }
+      });
 
-      displayQuestion();
-    };
+      function openPalette() {
+        const pal = document.getElementById('command-palette');
+        const input = document.getElementById('palette-input');
+        const results = document.getElementById('palette-results');
+        pal.style.display = 'block';
+        input.value = '';
+        results.innerHTML = '';
+        input.focus();
 
-    const pythonQuestions = [];
-    const explanations = {
-      "nom = valeur": "En Python, on assigne une valeur à une variable avec '='.",
-      "print()": "La fonction print() permet d'afficher un message à l'écran.",
-      "#": "Le symbole '#' permet d'écrire des commentaires.",
-      "int": "'int' est le type entier pour les nombres comme 42.",
-      "def": "Le mot-clé 'def' est utilisé pour définir une fonction.",
-      "==": "'==' teste l'égalité entre deux valeurs.",
-      "!=" : "'!=' teste si deux valeurs sont différentes.",
-      "else": "'else' permet de définir un cas par défaut.",
-      "for": "La boucle 'for' sert à parcourir une séquence.",
-      "break": "'break' interrompt la boucle immédiatement.",
-      "continue": "'continue' saute à l'itération suivante.",
-      "while": "La boucle 'while' continue tant que la condition est vraie.",
-      "append": "La méthode 'append()' ajoute un élément à la fin d'une liste.",
-      "list": "'list' est un type de séquence ordonnée et modifiable.",
-      "[0]": "'[0]' permet d'accéder au premier élément d'une liste.",
-      "import": "'import' sert à charger un module externe."
-    };
+        input.oninput = () => {
+          const q = input.value.toLowerCase();
+          results.innerHTML = '';
+          COMMANDS.filter(c => c.toLowerCase().includes(q)).forEach(c => {
+            const d = document.createElement('div');
+            d.textContent = c; d.style.padding='8px'; d.style.cursor='pointer';
+            d.onclick = () => { executeCommand(c); closePalette(); };
+            results.appendChild(d);
+          });
+        };
 
-    for (let i = 1; i <= 1000; i++) {
-      const qtype = i <= 250 ? 'Base' : i <= 500 ? 'Conditions' : i <= 750 ? 'Boucles' : 'Mixte';
-      const sets = {
-        Base: [
-          { q: "Comment déclare-t-on une variable en Python ?", a: "nom = valeur" },
-          { q: "Comment afficher un message ?", a: "print()" },
-          { q: "Quel symbole est utilisé pour les commentaires ?", a: "#" },
-          { q: "Quel type est '42' ?", a: "int" },
-          { q: "Quel mot-clé permet de définir une fonction ?", a: "def" }
-        ],
-        Conditions: [
-          { q: "Quelle structure utilise-t-on pour les conditions ?", a: "if...elif...else" },
-          { q: "Comment tester l'égalité ?", a: "==" },
-          { q: "Comment tester l'inégalité ?", a: "!=" },
-          { q: "Quel mot-clé est utilisé pour un bloc alternatif ?", a: "else" }
-        ],
-        Boucles: [
-          { q: "Quelle boucle est utilisée pour itérer sur une liste ?", a: "for" },
-          { q: "Quel mot-clé interrompt une boucle ?", a: "break" },
-          { q: "Quel mot-clé saute une itération ?", a: "continue" },
-          { q: "Quelle boucle s'utilise tant qu'une condition est vraie ?", a: "while" }
-        ],
-        Mixte: [
-          { q: "Comment ajouter un élément à une liste ?", a: "append" },
-          { q: "Quel type est [1,2,3] ?", a: "list" },
-          { q: "Comment accéder au 1er élément d'une liste ?", a: "[0]" },
-          { q: "Quel mot-clé pour importer un module ?", a: "import" }
-        ]
+        input.onkeydown = (ev) => {
+          if (ev.key === 'Enter') { const val = input.value.trim(); if (val) { executeCommand(val); closePalette(); } }
+          if (ev.key === 'Escape') { closePalette(); }
+        };
+      }
+
+      function closePalette() { document.getElementById('command-palette').style.display = 'none'; }
+
+      function executeCommand(cmd) {
+        const c = cmd.toLowerCase();
+        if (c.includes('run')) runPython();
+        else if (c.includes('clear')) clearOutput();
+        else if (c.includes('matplotlib')) loadMatplotlib();
+        else if (c.includes('download') || c.includes('save')) downloadCode();
+        else if (c.includes('cancel') || c.includes('kill')) cancelRun();
+      }
+
+      // Attempt to connect to a local LSP proxy (ws://localhost:3000)
+      async function connectLSP() {
+        const btn = document.getElementById('lsp-connect');
+        if (btn) btn.textContent = 'LSP: Connecting...';
+        try {
+          // Load monaco-languageclient and vscode-ws-jsonrpc if available via CDN
+          if (!window.monaco) { console.warn('Monaco not loaded yet'); if(btn) btn.textContent='LSP: Monaco missing'; return; }
+          // Create WebSocket
+          const url = 'ws://localhost:3000';
+          const ws = new WebSocket(url);
+          ws.onopen = () => { if(btn) btn.textContent='LSP: Connected'; console.log('LSP websocket open'); };
+          ws.onerror = (e) => { if(btn) btn.textContent='LSP: Error'; console.error(e); };
+          ws.onclose = () => { if(btn) btn.textContent='LSP: Closed'; };
+          // Note: full monaco-languageclient integration requires bundling monaco-languageclient and vscode-ws-jsonrpc
+          // This function just establishes a WebSocket to the local proxy as a first step. For full LSP features we need client glue (monaco-languageclient).
+        } catch (e) {
+          console.error(e); if(btn) btn.textContent='LSP: Failed';
+        }
+      }
+        const code = editor.getValue();
+        // Start execution timeout watchdog
+        // read timeout from UI
+        const t = Number(document.getElementById("timeout-input").value) || 8;
+        EXECUTION_TIMEOUT_MS = Math.max(1000, Math.floor(t * 1000));
+        startWatchdog();
+        pyWorker.postMessage({ type: "run", code });
+      }
+
+      function loadMatplotlib() {
+        if (!pyWorker) {
+          appendOutput("Pyodide non initialisé.", true);
+          return;
+        }
+        appendOutput("📥 Demande de chargement de matplotlib (lourd)...");
+        pyWorker.postMessage({ type: "load-package", pkg: "matplotlib" });
+      }
+
+      function insertSnippet(code) {
+        if (code) editor.setValue(code);
+        editor.focus();
+      }
+
+      function copyCode() {
+        const code = editor.getValue();
+        navigator.clipboard.writeText(code).then(() => {
+          appendOutput("Code copié dans le presse-papiers.");
+        });
+      }
+
+      function downloadCode() {
+        const blob = new Blob([editor.getValue()], { type: "text/x-python" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "script.py";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      window.addEventListener("load", function () {
+        // Initialize Monaco Editor via AMD loader
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+          const monacoEditor = monaco.editor.create(document.getElementById('code-editor'), {
+            value: "print(\"Bonjour, monde!\")\n",
+            language: 'python',
+            theme: 'vs-dark',
+            automaticLayout: true,
+            minimap: { enabled: true },
+            fontSize: 14,
+          });
+
+          editor = {
+            getValue: () => monacoEditor.getValue(),
+            setValue: (v) => monacoEditor.setValue(v),
+            on: (evt, cb) => {
+              if (evt === 'cursorActivity') {
+                monacoEditor.onDidChangeCursorPosition(cb);
+              }
+            },
+            getCursor: () => {
+              const pos = monacoEditor.getPosition(); return { line: pos.lineNumber-1, ch: pos.column-1 };
+            }
+          };
+
+          // Keybindings: Ctrl/Cmd+Enter to run, Ctrl/Cmd+S to save
+          monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => runPython());
+          monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => { formatAndSave().then(()=>{ saveFile(); }); });
+
+          const introMessage = `Bienvenue — votre compagnon pour apprendre le Python. Exécutez des snippets et expérimentez en toute sécurité dans votre navigateur.`;
+          const introUtterance = new SpeechSynthesisUtterance(introMessage);
+          introUtterance.lang = 'fr-FR'; introUtterance.rate = 0.8; introUtterance.pitch = 1.0;
+          const voices = speechSynthesis.getVoices();
+          introUtterance.voice = voices.find((v)=>v.lang.includes('fr')) || voices[0];
+          try { speechSynthesis.speak(introUtterance); } catch(e) {}
+
+          displayQuestion();
+          updateLoader('Préparation du sandbox...');
+          createPyodideWorker();
+          const sr = document.getElementById('status-ready'); if(sr) sr.textContent = 'Idle';
+          bindCursorStatus();
+          refreshFilesUI();
+          openFile(currentFile);
+        });
+      });
+
+      const pythonQuestions = [];
+      const explanations = {
+        "nom = valeur":
+          "En Python, on assigne une valeur à une variable avec '='.",
+        "print()":
+          "La fonction print() permet d'afficher un message à l'écran.",
+        "#": "Le symbole '#' permet d'écrire des commentaires.",
+        int: "'int' est le type entier pour les nombres comme 42.",
+        def: "Le mot-clé 'def' est utilisé pour définir une fonction.",
+        "==": "'==' teste l'égalité entre deux valeurs.",
+        "!=": "'!=' teste si deux valeurs sont différentes.",
+        else: "'else' permet de définir un cas par défaut.",
+        for: "La boucle 'for' sert à parcourir une séquence.",
+        break: "'break' interrompt la boucle immédiatement.",
+        continue: "'continue' saute à l'itération suivante.",
+        while: "La boucle 'while' continue tant que la condition est vraie.",
+        append: "La méthode 'append()' ajoute un élément à la fin d'une liste.",
+        list: "'list' est un type de séquence ordonnée et modifiable.",
+        "[0]": "'[0]' permet d'accéder au premier élément d'une liste.",
+        import: "'import' sert à charger un module externe.",
       };
-      const group = sets[qtype];
-      pythonQuestions.push({ q: `${qtype} : ${group[i % group.length].q} #${i}`, a: group[i % group.length].a });
-    }
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+      for (let i = 1; i <= 1000; i++) {
+        const qtype =
+          i <= 250
+            ? "Base"
+            : i <= 500
+            ? "Conditions"
+            : i <= 750
+            ? "Boucles"
+            : "Mixte";
+        const sets = {
+          Base: [
+            {
+              q: "Comment déclare-t-on une variable en Python ?",
+              a: "nom = valeur",
+            },
+            { q: "Comment afficher un message ?", a: "print()" },
+            { q: "Quel symbole est utilisé pour les commentaires ?", a: "#" },
+            { q: "Quel type est '42' ?", a: "int" },
+            { q: "Quel mot-clé permet de définir une fonction ?", a: "def" },
+          ],
+          Conditions: [
+            {
+              q: "Quelle structure utilise-t-on pour les conditions ?",
+              a: "if...elif...else",
+            },
+            { q: "Comment tester l'égalité ?", a: "==" },
+            { q: "Comment tester l'inégalité ?", a: "!=" },
+            {
+              q: "Quel mot-clé est utilisé pour un bloc alternatif ?",
+              a: "else",
+            },
+          ],
+          Boucles: [
+            {
+              q: "Quelle boucle est utilisée pour itérer sur une liste ?",
+              a: "for",
+            },
+            { q: "Quel mot-clé interrompt une boucle ?", a: "break" },
+            { q: "Quel mot-clé saute une itération ?", a: "continue" },
+            {
+              q: "Quelle boucle s'utilise tant qu'une condition est vraie ?",
+              a: "while",
+            },
+          ],
+          Mixte: [
+            { q: "Comment ajouter un élément à une liste ?", a: "append" },
+            { q: "Quel type est [1,2,3] ?", a: "list" },
+            { q: "Comment accéder au 1er élément d'une liste ?", a: "[0]" },
+            { q: "Quel mot-clé pour importer un module ?", a: "import" },
+          ],
+        };
+        const group = sets[qtype];
+        pythonQuestions.push({
+          q: `${qtype} : ${group[i % group.length].q} #${i}`,
+          a: group[i % group.length].a,
+        });
       }
-      return array;
-    }
 
-    shuffle(pythonQuestions);
-    let currentIndex = 0;
-    let score = 0;
-
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "fr-FR";
-      utterance.rate = 0.7;
-      utterance.pitch = 1;
-      utterance.voice = speechSynthesis.getVoices().find(v => v.lang.includes("fr") && v.name.toLowerCase().includes("f")) || speechSynthesis.getVoices()[0];
-      speechSynthesis.speak(utterance);
-    }
-
-    function displayQuestion() {
-      const current = pythonQuestions[currentIndex];
-      document.getElementById("question").innerText = current.q;
-      speak(current.q);
-      document.getElementById("answer").value = "";
-      document.getElementById("feedback").innerText = "";
-      document.getElementById("explanation").innerText = "";
-      document.getElementById("score").innerText = `Score : ${score}/${pythonQuestions.length}`;
-      document.getElementById("level").innerText = `Niveau : ${Math.floor((currentIndex + 124) / 125)}`;
-    }
-
-    function checkAnswer() {
-      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
-      const correct = pythonQuestions[currentIndex].a.toLowerCase();
-      if (userAnswer === correct) {
-        document.getElementById("feedback").innerText = "✅ Correct !";
-        score++;
-      } else {
-        document.getElementById("feedback").innerText = `❌ Incorrect ! Réponse correcte : ${pythonQuestions[currentIndex].a}`;
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
       }
-      const exp = explanations[pythonQuestions[currentIndex].a];
-      if (exp) document.getElementById("explanation").innerText = `💡 Explication : ${exp}`;
-      currentIndex++;
-      if (currentIndex < pythonQuestions.length) {
-        setTimeout(displayQuestion, 1500);
-      } else {
-        document.getElementById("question").innerText = "🎉 Vous avez terminé les 1000 questions !";
-        document.getElementById("score").innerText = `Score final : ${score}/1000`;
-        document.getElementById("level").innerText = "Niveaux terminés : 8";
-      }
-    }
 
-    function resetQuiz() {
       shuffle(pythonQuestions);
-      currentIndex = 0;
-      score = 0;
-      displayQuestion();
+      let currentIndex = 0;
+      let score = 0;
+
+      function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "fr-FR";
+        utterance.rate = 0.7;
+        utterance.pitch = 1;
+        utterance.voice =
+          speechSynthesis
+            .getVoices()
+            .find(
+              (v) => v.lang.includes("fr") && v.name.toLowerCase().includes("f")
+            ) || speechSynthesis.getVoices()[0];
+        speechSynthesis.speak(utterance);
+      }
+
+      function displayQuestion() {
+        const current = pythonQuestions[currentIndex];
+        document.getElementById("question").innerText = current.q;
+        speak(current.q);
+        document.getElementById("answer").value = "";
+        document.getElementById("feedback").innerText = "";
+        document.getElementById("explanation").innerText = "";
+        document.getElementById(
+          "score"
+        ).innerText = `Score : ${score}/${pythonQuestions.length}`;
+        document.getElementById("level").innerText = `Niveau : ${Math.floor(
+          (currentIndex + 124) / 125
+        )}`;
+      }
+
+      function checkAnswer() {
+        const userAnswer = document
+          .getElementById("answer")
+          .value.toLowerCase()
+          .trim();
+        const correct = pythonQuestions[currentIndex].a.toLowerCase();
+        if (userAnswer === correct) {
+          document.getElementById("feedback").innerText = "✅ Correct !";
+          score++;
+        } else {
+          document.getElementById(
+            "feedback"
+          ).innerText = `❌ Incorrect ! Réponse correcte : ${pythonQuestions[currentIndex].a}`;
+        }
+        const exp = explanations[pythonQuestions[currentIndex].a];
+        if (exp)
+          document.getElementById(
+            "explanation"
+          ).innerText = `💡 Explication : ${exp}`;
+        currentIndex++;
+        if (currentIndex < pythonQuestions.length) {
+          setTimeout(displayQuestion, 1500);
+        } else {
+          document.getElementById("question").innerText =
+            "🎉 Vous avez terminé les 1000 questions !";
+          document.getElementById(
+            "score"
+          ).innerText = `Score final : ${score}/1000`;
+          document.getElementById("level").innerText = "Niveaux terminés : 8";
+        }
+      }
+
+      function resetQuiz() {
+        shuffle(pythonQuestions);
+        currentIndex = 0;
+        score = 0;
+        displayQuestion();
+      }
+    </script>
+    <script>
+        importScripts("https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js");
+
+let pyodide = null;
+let packagesPreloaded = false;
+
+async function init() {
+  postMessage({ type: "status", msg: "starting" });
+  try {
+    self.pyodide = await loadPyodide({
+      indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/",
+    });
+    // Bridge stdout/stderr to main thread for streaming terminal output
+    try {
+      self.pyodide.setStdout({
+        batched: (s) => postMessage({ type: "stdout", chunk: String(s) }),
+      });
+      self.pyodide.setStderr({
+        batched: (s) => postMessage({ type: "stderr", chunk: String(s) }),
+      });
+    } catch (e) {
+      // ignore if not available
     }
-  </script>
-</body>
+    postMessage({ type: "status", msg: "loaded" });
+
+    // preload common packages
+    const packages = ["numpy", "pandas"];
+    for (let i = 0; i < packages.length; i++) {
+      const pkg = packages[i];
+      const estSize =
+        pkg === "numpy" ? "≈4MB" : pkg === "pandas" ? "≈3MB" : "≈1MB";
+      postMessage({
+        type: "progress",
+        pkg,
+        progress: Math.round(((i + 1) / packages.length) * 80),
+        estSize,
+      });
+      try {
+        await self.pyodide.loadPackage(pkg);
+      } catch (e) {
+        postMessage({
+          type: "error",
+          error: `Failed to load package ${pkg}: ${e}`,
+        });
+      }
+    }
+    postMessage({ type: "status", msg: "ready" });
+    packagesPreloaded = true;
+  } catch (e) {
+    postMessage({ type: "error", error: String(e) });
+  }
+}
+
+init();
+
+async function ensureMicropip() {
+  if (!self.pyodide.isPyProxy) {
+    // nothing
+  }
+  try {
+    await self.pyodide.loadPackage("micropip");
+  } catch (e) {
+    postMessage({ type: "error", error: "micropip load failed: " + String(e) });
+  }
+}
+
+self.onmessage = async (e) => {
+  const data = e.data;
+  if (!data) return;
+  try {
+    if (data.type === "run") {
+      const code = data.code || "";
+      try {
+        postMessage({ type: "run-start" });
+        const result = await self.pyodide.runPythonAsync(code);
+        postMessage({
+          type: "result",
+          result: typeof result === "undefined" ? null : String(result),
+        });
+        postMessage({ type: "run-exit", code: 0 });
+      } catch (err) {
+        postMessage({ type: "stderr", chunk: String(err) + "\n" });
+        postMessage({ type: "error", error: String(err) });
+        postMessage({ type: "run-exit", code: 1 });
+      }
+    } else if (data.type === "load-package") {
+      const pkg = data.pkg;
+      postMessage({
+        type: "progress",
+        pkg,
+        progress: 10,
+        estSize: "estimating",
+      });
+      try {
+        await self.pyodide.loadPackage(pkg);
+        postMessage({ type: "status", msg: "pkg-loaded", pkg });
+      } catch (e) {
+        postMessage({ type: "error", error: String(e) });
+      }
+    } else if (data.type === "format") {
+      // Format code using Black via micropip
+      const code = data.code || "";
+      try {
+        await ensureMicropip();
+        // install black if needed
+        try {
+          await self.pyodide.runPythonAsync("import black");
+        } catch (e) {
+          // install black
+          postMessage({ type: "status", msg: "installing-black" });
+          try {
+            await self.pyodide.runPythonAsync(
+              `import micropip\nawait micropip.install('black')`
+            );
+          } catch (ie) {
+            postMessage({
+              type: "error",
+              error: "Failed to install black: " + String(ie),
+            });
+            return;
+          }
+        }
+        // run black formatting
+        try {
+          const pyCode = `from black import format_str, Mode\nres = format_str(${JSON.stringify(
+            code
+          )}, mode=Mode())\nres`;
+          const formatted = await self.pyodide.runPythonAsync(pyCode);
+          postMessage({ type: "format-result", result: String(formatted) });
+        } catch (fe) {
+          postMessage({
+            type: "error",
+            error: "Formatting failed: " + String(fe),
+          });
+        }
+      } catch (err) {
+        postMessage({ type: "error", error: String(err) });
+      }
+    } else if (data.type === "lint") {
+      // Try to lint using pyflakes
+      const code = data.code || "";
+      try {
+        await ensureMicropip();
+        try {
+          await self.pyodide.runPythonAsync("import pyflakes.api");
+        } catch (e) {
+          postMessage({ type: "status", msg: "installing-pyflakes" });
+          try {
+            await self.pyodide.runPythonAsync(
+              `import micropip\nawait micropip.install('pyflakes')`
+            );
+          } catch (ie) {
+            postMessage({
+              type: "error",
+              error: "Failed to install pyflakes: " + String(ie),
+            });
+            return;
+          }
+        }
+        // Run pyflakes check
+        const pyCmd = `from pyflakes import api, reporter\nimport io\noutput = io.StringIO()\nrep = reporter.Reporter(output, output)\napi.check(${JSON.stringify(
+          code
+        )}, '<input>', rep)\noutput.getvalue()`;
+        const lintOut = await self.pyodide.runPythonAsync(pyCmd);
+        postMessage({ type: "lint-result", result: String(lintOut) });
+      } catch (err) {
+        postMessage({ type: "error", error: String(err) });
+      }
+    }
+  } catch (ex) {
+    postMessage({ type: "error", error: String(ex) });
+  }
+};
+
+    </script>
+
+
+
+  </body>
 </html>
-
-
