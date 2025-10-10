@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="icon" type="image/x-icon" href="images/MDai 1.ico" />
+    <link rel="icon" type="image/png" href="images/AI.png" />
+    <link rel="shortcut icon" type="image/png" href="images/AI.png" />
+    <link rel="apple-touch-icon" href="images/AI.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Course Payment | MDai</title>
+    <title>Course Payment | MDai AI Platform</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -110,6 +112,35 @@
         background-clip: text;
         position: relative;
         letter-spacing: -0.02em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .payment-container h2 img {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        filter: brightness(1.2) drop-shadow(0 3px 6px rgba(102, 126, 234, 0.3));
+        transition: all 0.3s ease;
+        animation: logoGlow 3s ease-in-out infinite alternate;
+      }
+
+      .payment-container h2 img:hover {
+        transform: scale(1.1) rotate(5deg);
+        filter: brightness(1.4) drop-shadow(0 4px 8px rgba(102, 126, 234, 0.4));
+      }
+
+      @keyframes logoGlow {
+        0% {
+          filter: brightness(1.2)
+            drop-shadow(0 3px 6px rgba(102, 126, 234, 0.3));
+        }
+        100% {
+          filter: brightness(1.3)
+            drop-shadow(0 4px 8px rgba(102, 126, 234, 0.4));
+        }
       }
       .payment-container h2::after {
         content: "";
@@ -1457,7 +1488,8 @@
     <div class="info-banner" id="infoBanner"></div>
     <div class="payment-container">
       <h2 id="paymentTitle">
-        <i class="fas fa-credit-card"></i> Paiement du cours
+        <img src="images/AI.png" alt="MDai AI Logo" />
+        <i class="fas fa-credit-card"></i> Paiement du cours - MDai AI Platform
       </h2>
 
       <!-- Payment Progress Indicator -->
@@ -1726,11 +1758,11 @@
       <div class="mpesa-box" id="mpesaBox">
         <div class="mpesa-content">
           <h3><i class="fas fa-mobile-alt"></i> M-PESA Payment</h3>
-          <p class="mpesa-number" onclick="copyMpesa()">+243815348721</p>
+          <p class="mpesa-number" onclick="copyMpesa()">+243812336721</p>
           <p class="mpesa-msg">
             Payez à ce numéro avant de remplir la section de paiement
           </p>
-          <p class="mpesa-msg">Nom: MWANASHIMA SALEH</p>
+          <p class="mpesa-msg">Nom: MADELEINE AMURI MARIAMO</p>
           <span id="copy-feedback" class="copied">Copié !</span>
           <button onclick="hideMpesa()" class="close-btn">
             <i class="fas fa-times"></i> Fermer
@@ -2215,7 +2247,7 @@
 
               // Show processing animation
               Swal.fire({
-                title: "🧠 MDai - Traitement Intelligent",
+                title: "� MDai AI - Traitement Intelligent Avancé",
                 html: `
                   <div style="padding: 20px;">
                     <div class="lds-spinner">
@@ -2326,7 +2358,7 @@
                 // Background image with fallback
                 try {
                   const bg = new Image();
-                  bg.src = "images/MDai.png";
+                  bg.src = "images/AI.png";
                   await new Promise((resolve, reject) => {
                     bg.onload = resolve;
                     bg.onerror = () => resolve(); // Continue without background
@@ -3303,7 +3335,7 @@
             // Additional Details
             currency: "FC",
             status: "Confirmé",
-            platform: "MDai Learning Platform",
+            platform: "MDai AI Learning Platform",
           };
 
           // Update hidden fields with generated data
@@ -3345,7 +3377,7 @@
             <div style="text-align: left; background: #f8f9fa; padding: 25px; border-radius: 12px; max-height: 500px; overflow-y: auto;">
               
               <div style="text-align: center; margin-bottom: 20px;">
-                <h3 style="color: #667eea; margin: 0;">🎓 MDai Learning Platform</h3>
+                <h3 style="color: #667eea; margin: 0;">🤖 MDai AI Learning Platform</h3>
                 <span style="background: #28a745; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: bold;">PAIEMENT CONFIRMÉ</span>
               </div>
 
@@ -4804,7 +4836,7 @@ Support: support@mdai.com
           doc.setFontSize(60);
           doc.setFont("helvetica", "bold");
           // Rotate and place watermark diagonally
-          doc.text("MDai", pageWidth / 2, pageHeight / 2, {
+          doc.text("AI", pageWidth / 2, pageHeight / 2, {
             align: "center",
             angle: -45,
           });
@@ -5015,8 +5047,8 @@ Support: support@mdai.com
               <div style="margin-bottom: 15px;">
                 <strong><i class="fas fa-phone" style="color: #16a34a;"></i> Numéro de paiement:</strong>
                 <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; margin: 10px 0; border: 2px dashed #16a34a;">
-                  <span style="font-size: 1.5em; font-weight: bold; color: #16a34a;">+243815348721</span>
-                  <br><small style="color: #166a34;">Nom: MWANASHIMA SALEH</small>
+                  <span style="font-size: 1.5em; font-weight: bold; color: #16a34a;">+243812336721</span>
+                  <br><small style="color: #166a34;">Nom: MADELEINE AMURI MARIAMO</small>
                 </div>
               </div>
 
@@ -5025,7 +5057,7 @@ Support: support@mdai.com
                 <ol style="margin: 10px 0; padding-left: 20px;">
                   <li>📱 Composez *151# ou ouvrez l'app M-PESA</li>
                   <li>💰 Sélectionnez "Envoyer de l'argent"</li>
-                  <li>📞 Entrez le numéro: +243815348721</li>
+                  <li>📞 Entrez le numéro: +243812336721</li>
                   <li>💵 Saisissez le montant exact</li>
                   <li>✅ Confirmez la transaction</li>
                 </ol>
